@@ -1,0 +1,9 @@
+package iegad.net;
+
+
+message tcp_msg {
+//TCPÏûÏ¢
+required int32 msg_type = 1;
+required int32 msg_flag = 2;
+required string msg_bdstr = 3;
+};

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="net">
+      <UniqueIdentifier>{48c8cc0e-0438-4a73-a36b-703ad98d41a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="proto">
+      <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sqlite">
+      <UniqueIdentifier>{4f5502aa-7051-4c63-8b04-5712fe431a42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbctl">
+      <UniqueIdentifier>{47283786-cc9c-4bbc-8c1d-7dda435388bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="string">
+      <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="msg_basic.pb.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_mt_server.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
+      <Filter>sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite_helper.cpp">
+      <Filter>dbctl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="msg_basic.pb.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_mt_server.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="service_basic.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3ext.h">
+      <Filter>sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite_helper.h">
+      <Filter>dbctl</Filter>
+    </ClInclude>
+    <ClInclude Include="job_queue.hpp">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="job_worker.hpp">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="iegad_log.hpp">
+      <Filter>tools</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="msg_basic.proto">
+      <Filter>proto</Filter>
+    </None>
+  </ItemGroup>
+</Project>
