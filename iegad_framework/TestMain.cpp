@@ -35,12 +35,12 @@ thread_proc() {
 int 
 main(int argc, char * argv[])
 {
-    //iegad::tools::log::init("2015-09-20.log");
+    iegad::tools::_LOG log(argv[0]);
     //iegad::net::tcp_mt_svr host("127.0.0.1", 6688);
     //// host.regist_svc(...)
     //host.run();
     //std::this_thread::sleep_for(std::chrono::seconds(3));
-    //host.stop();
+
 
     //std::cout << "done" << std::endl;
 
@@ -54,16 +54,11 @@ main(int argc, char * argv[])
     //t.join();
     //wkr.stop();
 
-    //std::cout << "done" << std::endl;
+    iWARN << "test warning\n" << std::endl;
+    iERR << "test 111\n" << std::endl;
+    iINFO << "test war222ning\n" << std::endl;     
 
-    iegad::tools::_LOG log(argv[0]);
-
-    iINFO << "TEST" << std::endl;
-    iWARN << "test" << std::endl;
-    iERR << "test" << std::endl;
-
-    std::cout << "done" << std::endl;
     std::cin.get();
-
+    //host.stop();
     exit(0);
 }

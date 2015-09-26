@@ -24,7 +24,9 @@ namespace net {
 
     class tcp_mt_svr {
     // 多线程并发服务
-    enum { BUF_SIZE = (1024 * 16) };
+    enum { 
+	BUF_SIZE = (1024 * 16) 
+    };
 
     public:
 	typedef std::vector<std::thread> thread_pool_t;

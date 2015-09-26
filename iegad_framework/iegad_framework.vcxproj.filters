@@ -7,9 +7,6 @@
     <Filter Include="proto">
       <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sqlite">
-      <UniqueIdentifier>{4f5502aa-7051-4c63-8b04-5712fe431a42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="dbctl">
       <UniqueIdentifier>{47283786-cc9c-4bbc-8c1d-7dda435388bd}</UniqueIdentifier>
     </Filter>
@@ -28,12 +25,6 @@
     <ClCompile Include="tcp_mt_server.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="sqlite3.c">
-      <Filter>sqlite</Filter>
-    </ClCompile>
-    <ClCompile Include="sqlite_helper.cpp">
-      <Filter>dbctl</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="msg_basic.pb.h">
@@ -44,15 +35,6 @@
     </ClInclude>
     <ClInclude Include="service_basic.h">
       <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlite3.h">
-      <Filter>sqlite</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlite3ext.h">
-      <Filter>sqlite</Filter>
-    </ClInclude>
-    <ClInclude Include="sqlite_helper.h">
-      <Filter>dbctl</Filter>
     </ClInclude>
     <ClInclude Include="job_queue.hpp">
       <Filter>tools</Filter>

@@ -16,15 +16,10 @@
     <ClInclude Include="job_worker.hpp" />
     <ClInclude Include="msg_basic.pb.h" />
     <ClInclude Include="service_basic.h" />
-    <ClInclude Include="sqlite3.h" />
-    <ClInclude Include="sqlite3ext.h" />
-    <ClInclude Include="sqlite_helper.h" />
     <ClInclude Include="tcp_mt_server.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="msg_basic.pb.cc" />
-    <ClCompile Include="sqlite3.c" />
-    <ClCompile Include="sqlite_helper.cpp" />
     <ClCompile Include="tcp_mt_server.cpp" />
     <ClCompile Include="TestMain.cpp" />
   </ItemGroup>
