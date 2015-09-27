@@ -15,6 +15,7 @@ namespace tools {
 
     template<typename T>
     class worker_t {
+    //工作者对象	
     public:
 	typedef std::function<int(T&)> wkr_thread_t;
 
@@ -48,7 +49,6 @@ namespace tools {
 		}
 		wkr_handler_(val);
 	    }
-
 	    return 0;
 	}
 
@@ -58,7 +58,7 @@ namespace tools {
 
 	worker_t(const worker_t &);
 	worker_t & operator=(const worker_t &);
-    };
+    }; // template<typename T> class worker_t;
 
 
 } // namespace tools;

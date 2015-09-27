@@ -29,11 +29,12 @@ iegad::net::tcp_mt_svr::_thread_proc()
     io_service ios;
     ip::tcp::socket clnt(ios);
     boost::system::error_code err_code;
-    std::string bdstr;
+    std::string msg_basic_str;
 
     for (;;) {
+	clnt.close();
 	// step 1 : check the stop_flag;
-	if (get_stop()) {	    
+	if (get_stop()) {
 	    break;
 	}
 	// step 2 : waiting for the connecting;
@@ -42,12 +43,13 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	}
 
 	// step 3 : get the msg_dbstr;
-	bdstr = this->_get_svcbd_str(clnt, err_code);
-	if (bdstr == "") {
+	;
+	if (msg_basic_str = this->_get_svcbd_str(clnt, err_code), 
+	    msg_basic_str == "") {
 	    continue;
 	}
 	// step 4 : call the service;
-	this->_call_svc(clnt, bdstr);
+	this->_call_svc(clnt, msg_basic_str);
     } // for (;;);
 }
 
@@ -55,7 +57,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 void 
 iegad::net::tcp_mt_svr::run(int n /*= 8*/)
 {// run the service
-    iINFO << "tcp_mt_svr::run called threads num : " << n << std::endl;
+    iINFO << "@@@ threads num : " << n << std::endl;
     for (int i = 0; i < n; i++) {
 	thread_pool_.push_back(
 	    std::thread(std::bind(&tcp_mt_svr::_thread_proc, this)));
@@ -76,7 +78,7 @@ iegad::net::tcp_mt_svr::stop()
     for (int i = 0, n = thread_pool_.size(); i < n; i++) {
 	thread_pool_[i].join();
     }
-    iINFO << "tcp_mt_svr::stopp called & @@@ service's stopped @@@" << std::endl;
+    iINFO << "@@@ service's stopped @@@" << std::endl;
 }
 
 
@@ -97,7 +99,7 @@ iegad::net::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_cod
     if (err_code) {
 	if (!stop_flag_) {
 	    // Q & A : 这里必需用两层判断, 不然线程在join的时候会出现错误!
-	    iERR << "tcp_mt_svr::_accept | " << err_code.message() << std::endl;
+	    iERR << err_code.message() << std::endl;
 	}
 	return -1;
     }
@@ -114,7 +116,7 @@ iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
 	svc_map_.insert(std::pair<int, svc_basic_ptr>(svc_obj->get_id(), svc_obj));
     }
     else {
-	iERR << "tcp_mt_svr::regist_svc | ### the service object already have ###" << std::endl;
+	iERR << "### the service object already have ###" << std::endl;
     }
 }
 
@@ -146,27 +148,27 @@ iegad::net::tcp_mt_svr::_get_svcbd_str(ip::tcp::socket & clnt, boost::system::er
 
 
 int 
-iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, std::string & bdstr)
+iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, std::string & msg_basic_str)
 {
     tcp_msg msg;
-    if (msg.ParseFromString(bdstr)) {
-
-	// step 1 : find the service;
+    if (msg.ParseFromString(msg_basic_str)) {
+	//msg builded sucess;
 	svc_t::iterator itor = svc_map_.find(msg.msg_type());
 
-	// step 2 : call the service's action;
 	if (itor != svc_map_.end()) {
+	    //msg_type mapping the msg_svc;
 	    itor->second->action(clnt, msg.msg_flag(), msg.msg_bdstr());
 	}
 	// if (itor != svc_map_.end())
 	else {
-	    iERR << "tcp_mt_svr::_thread_proc | ### no service mapping ###" << std::endl;
+	    //msg_type don't mapping the msg_svc;
+	    iERR << "### no service mapping ###" << std::endl;
 	    return -1;
 	}
-
     } // if (msg.ParseFromString(bdstr));
     else {
-	iERR << "tcp_mt_svr::_thread_proc | ### msg.ParseFromString(bdstr) failed ###" << std::endl;
+	//msg builed failed;
+	iERR << "### msg.ParseFromString(msg_basic_str) failed ###" << std::endl;
 	return -1;
     }
     clnt.close();
