@@ -37,7 +37,9 @@ namespace net {
 	    const std::string & host,
 	    unsigned short port);
 
-	~tcp_mt_svr() {};
+	~tcp_mt_svr() { 	    
+	    this->stop(); 
+	};
 
 	void run(int n = 8);
 
@@ -60,6 +62,8 @@ namespace net {
 
 	void _thread_proc();
 	int _accept(ip::tcp::socket & clnt, boost::system::error_code & err_code);
+	const std::string _get_svcbd_str(ip::tcp::socket & clnt, boost::system::error_code & err_code);
+	int _call_svc(ip::tcp::socket & clnt, std::string & bdstr);
 
 	tcp_mt_svr(const tcp_mt_svr &);
 	tcp_mt_svr & operator=(const tcp_mt_svr &);

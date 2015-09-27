@@ -10,7 +10,6 @@
 #define PROTOBUF_msg_5fbasic_2eproto__INCLUDED
 
 
-
 #pragma comment(lib, "libprotoc.lib")
 #pragma comment(lib, "libprotobuf.lib")
 

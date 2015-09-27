@@ -27,12 +27,9 @@ void
 iegad::net::tcp_mt_svr::_thread_proc()
 {// thread proc : master thread of server's service.    
     io_service ios;
-    int nbytes;
     ip::tcp::socket clnt(ios);
     boost::system::error_code err_code;
-    char read_buf[BUF_SIZE];
     std::string bdstr;
-    tcp_msg msg;
 
     for (;;) {
 	// step 1 : check the stop_flag;
@@ -44,45 +41,13 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	    continue;
 	}
 
-	clnt.set_option(ip::tcp::no_delay(true));
-	nbytes = 0;
-
-	do 
-	{
-	    // step 3 : read buffer from client;
-	    nbytes = clnt.read_some(buffer(read_buf), err_code);
-	    if (err_code) {
-		if (err_code != boost::asio::error::eof) {
-		    iERR << "clnt.read_some | " << err_code.message() << std::endl;
-		}
-		iINFO << "clnt.read_some | eof : " << err_code.message() << std::endl;
-		break;
-	    }
-	    else {
-		bdstr.append(read_buf, nbytes);
-	    }
-	} while (!err_code && nbytes > 0);
-
-	// step 4 : transfer the buffer to the msg;
-	if (msg.ParseFromString(bdstr)) {
-
-	    // step 5 : find the service;
-	    svc_t::iterator itor = svc_map_.find(msg.msg_type());
-	    
-	    // step 6 : call the service's action;
-	    if (itor != svc_map_.end()) {
-		itor->second->action(clnt, msg.msg_flag(), msg.msg_bdstr());
-	    } 
-	    // if (itor != svc_map_.end())
-	    else {
-		iERR << "tcp_mt_svr::_thread_proc | ### no service mapping ###" << std::endl;
-	    }
-
-	} // if (msg.ParseFromString(bdstr));
-	else {
-	    iERR << "tcp_mt_svr::_thread_proc | ### msg.ParseFromString(bdstr) failed ###" << std::endl;
+	// step 3 : get the msg_dbstr;
+	bdstr = this->_get_svcbd_str(clnt, err_code);
+	if (bdstr == "") {
+	    continue;
 	}
-	clnt.close();
+	// step 4 : call the service;
+	this->_call_svc(clnt, bdstr);
     } // for (;;);
 }
 
@@ -101,6 +66,9 @@ iegad::net::tcp_mt_svr::run(int n /*= 8*/)
 void 
 iegad::net::tcp_mt_svr::stop()
 {// stop the service
+    if (stop_flag_) {
+	return;
+    }
     mtx_lock_t locker(stop_mtx_);
     stop_flag_ = true;
     locker.unlock();
@@ -125,10 +93,15 @@ iegad::net::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_cod
 {
     mtx_lock_t locker(thread_mtx_);
     acptor_.accept(clnt, err_code);
+    locker.unlock();
     if (err_code) {
-	iERR << "tcp_mt_svr::_accept | " << err_code.message() << std::endl;
+	if (!stop_flag_) {
+	    // Q & A : 这里必需用两层判断, 不然线程在join的时候会出现错误!
+	    iERR << "tcp_mt_svr::_accept | " << err_code.message() << std::endl;
+	}
 	return -1;
     }
+    clnt.set_option(ip::tcp::no_delay(true));
     return 0;
 }
 
@@ -143,4 +116,59 @@ iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
     else {
 	iERR << "tcp_mt_svr::regist_svc | ### the service object already have ###" << std::endl;
     }
+}
+
+
+const std::string 
+iegad::net::tcp_mt_svr::_get_svcbd_str(ip::tcp::socket & clnt, boost::system::error_code & err_code)
+{
+    char read_buf[BUF_SIZE];
+    std::string rzt;
+    int nbytes = 0;
+    do
+    {
+	nbytes = clnt.read_some(buffer(read_buf), err_code);
+	if (err_code) {
+	    if (err_code != boost::asio::error::eof) {
+		iERR << "clnt.read_some | " << err_code.message() << std::endl;
+		rzt = "";
+		break;
+	    }
+	    iINFO << "clnt.read_some | eof : " << err_code.message() << std::endl;
+	    break;
+	}
+	else {
+	    rzt.append(read_buf, nbytes);
+	}
+    } while (!err_code && nbytes > 0);
+    return  rzt;
+}
+
+
+int 
+iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, std::string & bdstr)
+{
+    tcp_msg msg;
+    if (msg.ParseFromString(bdstr)) {
+
+	// step 1 : find the service;
+	svc_t::iterator itor = svc_map_.find(msg.msg_type());
+
+	// step 2 : call the service's action;
+	if (itor != svc_map_.end()) {
+	    itor->second->action(clnt, msg.msg_flag(), msg.msg_bdstr());
+	}
+	// if (itor != svc_map_.end())
+	else {
+	    iERR << "tcp_mt_svr::_thread_proc | ### no service mapping ###" << std::endl;
+	    return -1;
+	}
+
+    } // if (msg.ParseFromString(bdstr));
+    else {
+	iERR << "tcp_mt_svr::_thread_proc | ### msg.ParseFromString(bdstr) failed ###" << std::endl;
+	return -1;
+    }
+    clnt.close();
+    return 0;
 }
