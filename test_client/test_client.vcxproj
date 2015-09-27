@@ -79,10 +79,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="echo_msg.pb.cc" />
     <ClCompile Include="msg_basic.pb.cc" />
     <ClCompile Include="test_client_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="echo_msg.pb.h" />
     <ClInclude Include="msg_basic.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

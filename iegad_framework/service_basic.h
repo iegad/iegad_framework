@@ -4,6 +4,7 @@
 
 #include <string>
 #include <memory>
+#include <boost/asio.hpp>
 
 
 namespace iegad {
@@ -11,12 +12,13 @@ namespace net {
 
     class svc_basic {
     public:
-	svc_basic(int svc_id) 
-	    : svc_id_(svc_id_) {}
+	svc_basic(int svc_id)
+	    : svc_id_(svc_id)
+	{}
 
 	virtual ~svc_basic() {}
 
-	virtual int action(int msg_flag, const std::string & msg_bdstr) = 0;
+	virtual int action(boost::asio::ip::tcp::socket & clnt, int msg_flag, const std::string & msg_bdstr) = 0;
 
 	int get_id() { return svc_id_; }
 

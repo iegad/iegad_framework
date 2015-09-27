@@ -11,19 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="echo_svc.h" />
     <ClInclude Include="iegad_log.hpp" />
     <ClInclude Include="job_queue.hpp" />
     <ClInclude Include="job_worker.hpp" />
+    <ClInclude Include="Msg\echo_msg.pb.h" />
     <ClInclude Include="msg_basic.pb.h" />
     <ClInclude Include="service_basic.h" />
     <ClInclude Include="tcp_mt_server.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Msg\echo_msg.pb.cc" />
     <ClCompile Include="msg_basic.pb.cc" />
     <ClCompile Include="tcp_mt_server.cpp" />
     <ClCompile Include="TestMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="echo_msg.proto" />
     <None Include="msg_basic.proto" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

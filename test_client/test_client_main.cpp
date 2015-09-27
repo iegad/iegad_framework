@@ -3,6 +3,7 @@
 #include <iostream>
 #include <WinSock2.h>
 #include "msg_basic.pb.h"
+#include "echo_msg.pb.h"
 
 
 
@@ -12,7 +13,6 @@ main(int argc, char * argv[])
     WSADATA wd;
     int sockfd, n;
     sockaddr_in saddr;
-    char buffer[] = "www.iegad.com";
     iegad::net::tcp_msg msg;
     std::string msgstr;
 
@@ -35,19 +35,26 @@ main(int argc, char * argv[])
 	    goto exit_case;
 	}
 
-	//msg.set_msg_type(10);
-	//msg.set_msg_flag(1);
-	//msg.set_msg_bdstr(buffer);
 
-	//msg.SerializeToString(&msgstr);
-	//n = send(sockfd, msgstr.c_str(), msgstr.size(), 0);
-	for (int j = 0; j < 100; j++) {
-	    n = send(sockfd, buffer, sizeof(buffer) - 1, 0);
-	    if (n <= 0) {
-		std::cout << "miss connection...\n";
-		break;
-	    }
-	}
+	std::string echo_msg_str;
+
+	iegad::net::echo_msg echo_msg_;
+	echo_msg_.set_resp_str("Hello world : res");
+	echo_msg_.set_requ_str("Hello world : req");
+	echo_msg_.SerializeToString(&echo_msg_str);
+
+	msg.set_msg_type(10);
+	msg.set_msg_flag(10);
+	msg.set_msg_bdstr(echo_msg_str);
+
+
+	msg.SerializeToString(&msgstr);
+	n = send(sockfd, msgstr.c_str(), msgstr.size(), 0);
+	shutdown(sockfd, SD_SEND);
+	char recvbuf[1024];
+	n = recv(sockfd, recvbuf, 1024, 0);
+	recvbuf[n] = 0;
+	std::cout << recvbuf << std::endl;
 
 	closesocket(sockfd);
     }

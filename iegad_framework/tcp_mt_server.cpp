@@ -61,7 +61,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	    else {
 		bdstr.append(read_buf, nbytes);
 	    }
-	} while (err_code && nbytes > 0);
+	} while (!err_code && nbytes > 0);
 
 	// step 4 : transfer the buffer to the msg;
 	if (msg.ParseFromString(bdstr)) {
@@ -71,7 +71,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	    
 	    // step 6 : call the service's action;
 	    if (itor != svc_map_.end()) {
-		itor->second->action(msg.msg_flag(), msg.msg_bdstr());		
+		itor->second->action(clnt, msg.msg_flag(), msg.msg_bdstr());
 	    } 
 	    // if (itor != svc_map_.end())
 	    else {

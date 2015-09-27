@@ -56,7 +56,7 @@ namespace tools {
 	~_LOG() {
 	    google::ShutdownGoogleLogging();
 	}
-    };
+    }; // class _LOG;
 
 
 #ifdef iINFO 

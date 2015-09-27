@@ -16,6 +16,9 @@
     <Filter Include="string">
       <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{f46dadb6-2dde-4c16-80cc-886370c828c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestMain.cpp" />
@@ -24,6 +27,9 @@
     </ClCompile>
     <ClCompile Include="tcp_mt_server.cpp">
       <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="Msg\echo_msg.pb.cc">
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,10 +51,19 @@
     <ClInclude Include="iegad_log.hpp">
       <Filter>tools</Filter>
     </ClInclude>
+    <ClInclude Include="echo_svc.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="Msg\echo_msg.pb.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="msg_basic.proto">
       <Filter>proto</Filter>
+    </None>
+    <None Include="echo_msg.proto">
+      <Filter>test</Filter>
     </None>
   </ItemGroup>
 </Project>

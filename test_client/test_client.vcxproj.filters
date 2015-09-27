@@ -17,9 +17,15 @@
     <ClCompile Include="msg_basic.pb.cc">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="echo_msg.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="msg_basic.pb.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="echo_msg.pb.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
