@@ -1,6 +1,7 @@
 #include "iegad_string.h"
 #include <string.h>
 #include <sstream>
+#include <codecvt>
 
 
 const std::string
@@ -222,6 +223,22 @@ iegad::string::to_str(long double val)
     strm << val;
     strm >> res;
     return res;
+}
+
+
+const std::string 
+iegad::string::unicode_to_utf8(const std::wstring & val)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    return conv.to_bytes(val);
+}
+
+
+const std::wstring 
+iegad::string::utf8_to_unicode(const std::string & val)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    return conv.from_bytes(val);
 }
 
 

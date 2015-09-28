@@ -1,6 +1,7 @@
 #include "tcp_mt_server.h"
 #include "msg_basic.pb.h"
 #include "iegad_log.hpp"
+#include "iegad_io_msg.h"
 
 
 using namespace boost::asio;
@@ -29,7 +30,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
     io_service ios;
     ip::tcp::socket clnt(ios);
     boost::system::error_code err_code;
-    std::string msg_basic_str;
+    msg_basic msgbsc;
 
     for (;;) {
 	clnt.close();
@@ -43,13 +44,11 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	}
 
 	// step 3 : get the msg_dbstr;
-	;
-	if (msg_basic_str = this->_get_svcbd_str(clnt, err_code), 
-	    msg_basic_str == "") {
+	if (this->_get_msg_basic(clnt, msgbsc, err_code) != 0) {
 	    continue;
 	}
 	// step 4 : call the service;
-	this->_call_svc(clnt, msg_basic_str);
+	this->_call_svc(clnt, msgbsc);
     } // for (;;);
 }
 
@@ -121,54 +120,27 @@ iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
 }
 
 
-const std::string 
-iegad::net::tcp_mt_svr::_get_svcbd_str(ip::tcp::socket & clnt, boost::system::error_code & err_code)
+int
+iegad::net::tcp_mt_svr::_get_msg_basic(ip::tcp::socket & clnt, 
+							    iegad::net::msg_basic & msgbsc, 
+							    boost::system::error_code & err_code)
 {
-    char read_buf[BUF_SIZE];
-    std::string rzt;
-    int nbytes = 0;
-    do
-    {
-	nbytes = clnt.read_some(buffer(read_buf), err_code);
-	if (err_code) {
-	    if (err_code != boost::asio::error::eof) {
-		iERR << "clnt.read_some | " << err_code.message() << std::endl;
-		rzt = "";
-		break;
-	    }
-	    iINFO << "clnt.read_some | eof : " << err_code.message() << std::endl;
-	    break;
-	}
-	else {
-	    rzt.append(read_buf, nbytes);
-	}
-    } while (!err_code && nbytes > 0);
-    return  rzt;
+    return iegad::net::recv_msg_basic(clnt, msgbsc);
 }
 
 
 int 
-iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, std::string & msg_basic_str)
+iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, 
+						  iegad::net::msg_basic & msgbsc)
 {
-    tcp_msg msg;
-    if (msg.ParseFromString(msg_basic_str)) {
-	//msg builded sucess;
-	svc_t::iterator itor = svc_map_.find(msg.msg_type());
-
-	if (itor != svc_map_.end()) {
-	    //msg_type mapping the msg_svc;
-	    itor->second->action(clnt, msg.msg_flag(), msg.msg_bdstr());
-	}
-	// if (itor != svc_map_.end())
-	else {
-	    //msg_type don't mapping the msg_svc;
-	    iERR << "### no service mapping ###" << std::endl;
-	    return -1;
-	}
-    } // if (msg.ParseFromString(bdstr));
+    svc_t::iterator itor = svc_map_.find(msgbsc.msg_type());
+    if (itor != svc_map_.end()) {
+    //msg_type mapping the msg_svc;
+	itor->second->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
+    }  // if (itor != svc_map_.end())
     else {
-	//msg builed failed;
-	iERR << "### msg.ParseFromString(msg_basic_str) failed ###" << std::endl;
+    //msg_type don't mapping the msg_svc;
+	iERR << "### no service mapping ###" << std::endl;
 	return -1;
     }
     clnt.close();

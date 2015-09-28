@@ -35,9 +35,8 @@ void protobuf_AssignDesc_echo_5fmsg_2eproto() {
       "echo_msg.proto");
   GOOGLE_CHECK(file != NULL);
   echo_msg_descriptor_ = file->message_type(0);
-  static const int echo_msg_offsets_[2] = {
+  static const int echo_msg_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(echo_msg, requ_str_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(echo_msg, resp_str_),
   };
   echo_msg_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -80,8 +79,8 @@ void protobuf_AddDesc_echo_5fmsg_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\016echo_msg.proto\022\tiegad.net\".\n\010echo_msg\022"
-    "\020\n\010requ_str\030\001 \002(\t\022\020\n\010resp_str\030\002 \002(\t", 75);
+    "\n\016echo_msg.proto\022\tiegad.net\"\034\n\010echo_msg\022"
+    "\020\n\010requ_str\030\001 \002(\t", 57);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "echo_msg.proto", &protobuf_RegisterTypes);
   echo_msg::default_instance_ = new echo_msg();
@@ -100,7 +99,6 @@ struct StaticDescriptorInitializer_echo_5fmsg_2eproto {
 
 #ifndef _MSC_VER
 const int echo_msg::kRequStrFieldNumber;
-const int echo_msg::kRespStrFieldNumber;
 #endif  // !_MSC_VER
 
 echo_msg::echo_msg()
@@ -123,7 +121,6 @@ void echo_msg::SharedCtor() {
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   requ_str_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  resp_str_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -135,9 +132,6 @@ echo_msg::~echo_msg() {
 void echo_msg::SharedDtor() {
   if (requ_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete requ_str_;
-  }
-  if (resp_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete resp_str_;
   }
   if (this != default_instance_) {
   }
@@ -165,16 +159,9 @@ echo_msg* echo_msg::New() const {
 }
 
 void echo_msg::Clear() {
-  if (_has_bits_[0 / 32] & 3) {
-    if (has_requ_str()) {
-      if (requ_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        requ_str_->clear();
-      }
-    }
-    if (has_resp_str()) {
-      if (resp_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-        resp_str_->clear();
-      }
+  if (has_requ_str()) {
+    if (requ_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      requ_str_->clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -200,23 +187,6 @@ bool echo_msg::MergePartialFromCodedStream(
             this->requ_str().data(), this->requ_str().length(),
             ::google::protobuf::internal::WireFormat::PARSE,
             "requ_str");
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(18)) goto parse_resp_str;
-        break;
-      }
-
-      // required string resp_str = 2;
-      case 2: {
-        if (tag == 18) {
-         parse_resp_str:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_resp_str()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->resp_str().data(), this->resp_str().length(),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "resp_str");
         } else {
           goto handle_unusual;
         }
@@ -259,16 +229,6 @@ void echo_msg::SerializeWithCachedSizes(
       1, this->requ_str(), output);
   }
 
-  // required string resp_str = 2;
-  if (has_resp_str()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->resp_str().data(), this->resp_str().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "resp_str");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->resp_str(), output);
-  }
-
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -290,17 +250,6 @@ void echo_msg::SerializeWithCachedSizes(
         1, this->requ_str(), target);
   }
 
-  // required string resp_str = 2;
-  if (has_resp_str()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->resp_str().data(), this->resp_str().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "resp_str");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->resp_str(), target);
-  }
-
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -318,13 +267,6 @@ int echo_msg::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
           this->requ_str());
-    }
-
-    // required string resp_str = 2;
-    if (has_resp_str()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->resp_str());
     }
 
   }
@@ -357,9 +299,6 @@ void echo_msg::MergeFrom(const echo_msg& from) {
     if (from.has_requ_str()) {
       set_requ_str(from.requ_str());
     }
-    if (from.has_resp_str()) {
-      set_resp_str(from.resp_str());
-    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -377,7 +316,7 @@ void echo_msg::CopyFrom(const echo_msg& from) {
 }
 
 bool echo_msg::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
   return true;
 }
@@ -385,7 +324,6 @@ bool echo_msg::IsInitialized() const {
 void echo_msg::Swap(echo_msg* other) {
   if (other != this) {
     std::swap(requ_str_, other->requ_str_);
-    std::swap(resp_str_, other->resp_str_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

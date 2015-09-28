@@ -22,7 +22,7 @@ namespace net {
 		iERR << "echo_msg build failed" << std::endl;
 		return -1;
 	    }
-	    clnt.write_some(boost::asio::buffer(msgdata_.resp_str()));
+	    clnt.write_some(boost::asio::buffer(msgdata_.requ_str()));
 	    return 0;
 	}
 

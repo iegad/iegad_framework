@@ -22,9 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestMain.cpp" />
-    <ClCompile Include="msg_basic.pb.cc">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="tcp_mt_server.cpp">
       <Filter>net</Filter>
     </ClCompile>
@@ -34,11 +31,14 @@
     <ClCompile Include="iegad_string.cpp">
       <Filter>string</Filter>
     </ClCompile>
+    <ClCompile Include="iegad_io_msg.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="msg_basic.pb.cc">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="msg_basic.pb.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="tcp_mt_server.h">
       <Filter>net</Filter>
     </ClInclude>
@@ -62,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="iegad_string.h">
       <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="iegad_io_msg.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="msg_basic.pb.h">
+      <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

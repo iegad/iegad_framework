@@ -103,31 +103,16 @@ class echo_msg : public ::google::protobuf::Message {
   inline ::std::string* release_requ_str();
   inline void set_allocated_requ_str(::std::string* requ_str);
 
-  // required string resp_str = 2;
-  inline bool has_resp_str() const;
-  inline void clear_resp_str();
-  static const int kRespStrFieldNumber = 2;
-  inline const ::std::string& resp_str() const;
-  inline void set_resp_str(const ::std::string& value);
-  inline void set_resp_str(const char* value);
-  inline void set_resp_str(const char* value, size_t size);
-  inline ::std::string* mutable_resp_str();
-  inline ::std::string* release_resp_str();
-  inline void set_allocated_resp_str(::std::string* resp_str);
-
   // @@protoc_insertion_point(class_scope:iegad.net.echo_msg)
  private:
   inline void set_has_requ_str();
   inline void clear_has_requ_str();
-  inline void set_has_resp_str();
-  inline void clear_has_resp_str();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
   ::std::string* requ_str_;
-  ::std::string* resp_str_;
   friend void  protobuf_AddDesc_echo_5fmsg_2eproto();
   friend void protobuf_AssignDesc_echo_5fmsg_2eproto();
   friend void protobuf_ShutdownFile_echo_5fmsg_2eproto();
@@ -216,82 +201,6 @@ inline void echo_msg::set_allocated_requ_str(::std::string* requ_str) {
     requ_str_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
   // @@protoc_insertion_point(field_set_allocated:iegad.net.echo_msg.requ_str)
-}
-
-// required string resp_str = 2;
-inline bool echo_msg::has_resp_str() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void echo_msg::set_has_resp_str() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void echo_msg::clear_has_resp_str() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void echo_msg::clear_resp_str() {
-  if (resp_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    resp_str_->clear();
-  }
-  clear_has_resp_str();
-}
-inline const ::std::string& echo_msg::resp_str() const {
-  // @@protoc_insertion_point(field_get:iegad.net.echo_msg.resp_str)
-  return *resp_str_;
-}
-inline void echo_msg::set_resp_str(const ::std::string& value) {
-  set_has_resp_str();
-  if (resp_str_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    resp_str_ = new ::std::string;
-  }
-  resp_str_->assign(value);
-  // @@protoc_insertion_point(field_set:iegad.net.echo_msg.resp_str)
-}
-inline void echo_msg::set_resp_str(const char* value) {
-  set_has_resp_str();
-  if (resp_str_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    resp_str_ = new ::std::string;
-  }
-  resp_str_->assign(value);
-  // @@protoc_insertion_point(field_set_char:iegad.net.echo_msg.resp_str)
-}
-inline void echo_msg::set_resp_str(const char* value, size_t size) {
-  set_has_resp_str();
-  if (resp_str_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    resp_str_ = new ::std::string;
-  }
-  resp_str_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:iegad.net.echo_msg.resp_str)
-}
-inline ::std::string* echo_msg::mutable_resp_str() {
-  set_has_resp_str();
-  if (resp_str_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    resp_str_ = new ::std::string;
-  }
-  // @@protoc_insertion_point(field_mutable:iegad.net.echo_msg.resp_str)
-  return resp_str_;
-}
-inline ::std::string* echo_msg::release_resp_str() {
-  clear_has_resp_str();
-  if (resp_str_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    return NULL;
-  } else {
-    ::std::string* temp = resp_str_;
-    resp_str_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    return temp;
-  }
-}
-inline void echo_msg::set_allocated_resp_str(::std::string* resp_str) {
-  if (resp_str_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
-    delete resp_str_;
-  }
-  if (resp_str) {
-    set_has_resp_str();
-    resp_str_ = resp_str;
-  } else {
-    clear_has_resp_str();
-    resp_str_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_set_allocated:iegad.net.echo_msg.resp_str)
 }
 
 

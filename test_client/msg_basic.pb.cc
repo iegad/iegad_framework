@@ -21,9 +21,9 @@ namespace net {
 
 namespace {
 
-const ::google::protobuf::Descriptor* tcp_msg_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* msg_basic_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  tcp_msg_reflection_ = NULL;
+  msg_basic_reflection_ = NULL;
 
 }  // namespace
 
@@ -34,23 +34,23 @@ void protobuf_AssignDesc_msg_5fbasic_2eproto() {
     ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
       "msg_basic.proto");
   GOOGLE_CHECK(file != NULL);
-  tcp_msg_descriptor_ = file->message_type(0);
-  static const int tcp_msg_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(tcp_msg, msg_type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(tcp_msg, msg_flag_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(tcp_msg, msg_bdstr_),
+  msg_basic_descriptor_ = file->message_type(0);
+  static const int msg_basic_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(msg_basic, msg_type_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(msg_basic, msg_flag_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(msg_basic, msg_bdstr_),
   };
-  tcp_msg_reflection_ =
+  msg_basic_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
-      tcp_msg_descriptor_,
-      tcp_msg::default_instance_,
-      tcp_msg_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(tcp_msg, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(tcp_msg, _unknown_fields_),
+      msg_basic_descriptor_,
+      msg_basic::default_instance_,
+      msg_basic_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(msg_basic, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(msg_basic, _unknown_fields_),
       -1,
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(tcp_msg));
+      sizeof(msg_basic));
 }
 
 namespace {
@@ -64,14 +64,14 @@ inline void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    tcp_msg_descriptor_, &tcp_msg::default_instance());
+    msg_basic_descriptor_, &msg_basic::default_instance());
 }
 
 }  // namespace
 
 void protobuf_ShutdownFile_msg_5fbasic_2eproto() {
-  delete tcp_msg::default_instance_;
-  delete tcp_msg_reflection_;
+  delete msg_basic::default_instance_;
+  delete msg_basic_reflection_;
 }
 
 void protobuf_AddDesc_msg_5fbasic_2eproto() {
@@ -81,13 +81,13 @@ void protobuf_AddDesc_msg_5fbasic_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\017msg_basic.proto\022\tiegad.net\"@\n\007tcp_msg\022"
-    "\020\n\010msg_type\030\001 \002(\005\022\020\n\010msg_flag\030\002 \002(\005\022\021\n\tm"
-    "sg_bdstr\030\003 \002(\t", 94);
+    "\n\017msg_basic.proto\022\tiegad.net\"B\n\tmsg_basi"
+    "c\022\020\n\010msg_type\030\001 \002(\005\022\020\n\010msg_flag\030\002 \002(\005\022\021\n"
+    "\tmsg_bdstr\030\003 \002(\t", 96);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "msg_basic.proto", &protobuf_RegisterTypes);
-  tcp_msg::default_instance_ = new tcp_msg();
-  tcp_msg::default_instance_->InitAsDefaultInstance();
+  msg_basic::default_instance_ = new msg_basic();
+  msg_basic::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_msg_5fbasic_2eproto);
 }
 
@@ -101,28 +101,28 @@ struct StaticDescriptorInitializer_msg_5fbasic_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int tcp_msg::kMsgTypeFieldNumber;
-const int tcp_msg::kMsgFlagFieldNumber;
-const int tcp_msg::kMsgBdstrFieldNumber;
+const int msg_basic::kMsgTypeFieldNumber;
+const int msg_basic::kMsgFlagFieldNumber;
+const int msg_basic::kMsgBdstrFieldNumber;
 #endif  // !_MSC_VER
 
-tcp_msg::tcp_msg()
+msg_basic::msg_basic()
   : ::google::protobuf::Message() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(constructor:iegad.net.msg_basic)
 }
 
-void tcp_msg::InitAsDefaultInstance() {
+void msg_basic::InitAsDefaultInstance() {
 }
 
-tcp_msg::tcp_msg(const tcp_msg& from)
+msg_basic::msg_basic(const msg_basic& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(copy_constructor:iegad.net.msg_basic)
 }
 
-void tcp_msg::SharedCtor() {
+void msg_basic::SharedCtor() {
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   msg_type_ = 0;
@@ -131,12 +131,12 @@ void tcp_msg::SharedCtor() {
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-tcp_msg::~tcp_msg() {
-  // @@protoc_insertion_point(destructor:iegad.net.tcp_msg)
+msg_basic::~msg_basic() {
+  // @@protoc_insertion_point(destructor:iegad.net.msg_basic)
   SharedDtor();
 }
 
-void tcp_msg::SharedDtor() {
+void msg_basic::SharedDtor() {
   if (msg_bdstr_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     delete msg_bdstr_;
   }
@@ -144,30 +144,30 @@ void tcp_msg::SharedDtor() {
   }
 }
 
-void tcp_msg::SetCachedSize(int size) const {
+void msg_basic::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* tcp_msg::descriptor() {
+const ::google::protobuf::Descriptor* msg_basic::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return tcp_msg_descriptor_;
+  return msg_basic_descriptor_;
 }
 
-const tcp_msg& tcp_msg::default_instance() {
+const msg_basic& msg_basic::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_msg_5fbasic_2eproto();
   return *default_instance_;
 }
 
-tcp_msg* tcp_msg::default_instance_ = NULL;
+msg_basic* msg_basic::default_instance_ = NULL;
 
-tcp_msg* tcp_msg::New() const {
-  return new tcp_msg;
+msg_basic* msg_basic::New() const {
+  return new msg_basic;
 }
 
-void tcp_msg::Clear() {
+void msg_basic::Clear() {
 #define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
-  &reinterpret_cast<tcp_msg*>(16)->f) - \
+  &reinterpret_cast<msg_basic*>(16)->f) - \
    reinterpret_cast<char*>(16))
 
 #define ZR_(first, last) do {                              \
@@ -192,11 +192,11 @@ void tcp_msg::Clear() {
   mutable_unknown_fields()->Clear();
 }
 
-bool tcp_msg::MergePartialFromCodedStream(
+bool msg_basic::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(parse_start:iegad.net.msg_basic)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -262,17 +262,17 @@ bool tcp_msg::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(parse_success:iegad.net.msg_basic)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(parse_failure:iegad.net.msg_basic)
   return false;
 #undef DO_
 }
 
-void tcp_msg::SerializeWithCachedSizes(
+void msg_basic::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(serialize_start:iegad.net.msg_basic)
   // required int32 msg_type = 1;
   if (has_msg_type()) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->msg_type(), output);
@@ -297,12 +297,12 @@ void tcp_msg::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(serialize_end:iegad.net.msg_basic)
 }
 
-::google::protobuf::uint8* tcp_msg::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* msg_basic::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(serialize_to_array_start:iegad.net.msg_basic)
   // required int32 msg_type = 1;
   if (has_msg_type()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->msg_type(), target);
@@ -328,11 +328,11 @@ void tcp_msg::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:iegad.net.tcp_msg)
+  // @@protoc_insertion_point(serialize_to_array_end:iegad.net.msg_basic)
   return target;
 }
 
-int tcp_msg::ByteSize() const {
+int msg_basic::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -369,10 +369,10 @@ int tcp_msg::ByteSize() const {
   return total_size;
 }
 
-void tcp_msg::MergeFrom(const ::google::protobuf::Message& from) {
+void msg_basic::MergeFrom(const ::google::protobuf::Message& from) {
   GOOGLE_CHECK_NE(&from, this);
-  const tcp_msg* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const tcp_msg*>(
+  const msg_basic* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const msg_basic*>(
       &from);
   if (source == NULL) {
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
@@ -381,7 +381,7 @@ void tcp_msg::MergeFrom(const ::google::protobuf::Message& from) {
   }
 }
 
-void tcp_msg::MergeFrom(const tcp_msg& from) {
+void msg_basic::MergeFrom(const msg_basic& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_msg_type()) {
@@ -397,25 +397,25 @@ void tcp_msg::MergeFrom(const tcp_msg& from) {
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
-void tcp_msg::CopyFrom(const ::google::protobuf::Message& from) {
+void msg_basic::CopyFrom(const ::google::protobuf::Message& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void tcp_msg::CopyFrom(const tcp_msg& from) {
+void msg_basic::CopyFrom(const msg_basic& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool tcp_msg::IsInitialized() const {
+bool msg_basic::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
 
   return true;
 }
 
-void tcp_msg::Swap(tcp_msg* other) {
+void msg_basic::Swap(msg_basic* other) {
   if (other != this) {
     std::swap(msg_type_, other->msg_type_);
     std::swap(msg_flag_, other->msg_flag_);
@@ -426,11 +426,11 @@ void tcp_msg::Swap(tcp_msg* other) {
   }
 }
 
-::google::protobuf::Metadata tcp_msg::GetMetadata() const {
+::google::protobuf::Metadata msg_basic::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = tcp_msg_descriptor_;
-  metadata.reflection = tcp_msg_reflection_;
+  metadata.descriptor = msg_basic_descriptor_;
+  metadata.reflection = msg_basic_reflection_;
   return metadata;
 }
 

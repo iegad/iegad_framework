@@ -244,6 +244,27 @@ const std::string
 to_str(bool val);
 
 
+// ============================
+// @用途 : 将std::wstring转换为UTF-8编码格式
+// @val : 需要转换的unicode字符串
+// @返回值 : 转换后的utf-8字符串 ( 将会显示乱码 )
+// ============================
+const std::string
+unicode_to_utf8(const std::wstring & val);
+
+
+// ============================
+// @用途 : 将UTF-8格式字符串val转换为UNICODE编码格式的std::wstring
+// @val : 需要转换的utf-8字符串
+// @返回值 : 转换后的unicode字符串
+// @PS : 记得在显示该std::wstring 时,
+// 需要调用 std::locale::global(std::locale("Chinese-simplified")), 
+// 否则无法正确显示unicode字符串
+// ============================
+const std::wstring
+utf8_to_unicode(const std::string & val);
+
+
 } //end namespace string
 
 

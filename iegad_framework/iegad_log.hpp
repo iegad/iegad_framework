@@ -34,7 +34,6 @@ const char LOG_FATAL_DIR[] = "./FATAL_";
 #include <io.h>
 
 
-
 namespace iegad {
 namespace tools {
 
@@ -51,6 +50,8 @@ namespace tools {
 	    google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
 	    google::SetLogDestination(google::GLOG_FATAL, LOG_FATAL_FILE);
 	    FLAGS_max_log_size = 100;
+	    //³õÊ¼»¯×Ö·û¼¯
+	    std::locale::global(std::locale("chs"));
 	}
 
 	~_LOG() {

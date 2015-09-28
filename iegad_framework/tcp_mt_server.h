@@ -13,6 +13,7 @@
 
 
 #include "service_basic.h"
+#include "iegad_io_msg.h"
 
 
 namespace iegad {
@@ -64,10 +65,10 @@ namespace net {
 	void _thread_proc();
 	// accept client connection;
 	int _accept(ip::tcp::socket & clnt, boost::system::error_code & err_code);
-	// build string of the "class tcp_msg" from client's buffer;
-	const std::string _get_svc_bdstr(ip::tcp::socket & clnt, boost::system::error_code & err_code);
+	// build string of the "class msg_basic" from client's buffer;
+	int _get_msg_basic(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc, boost::system::error_code & err_code);
 	// call the right service handler;
-	int _call_svc(ip::tcp::socket & clnt, std::string & msg_basic_str);
+	int _call_svc(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc);
 
 	// disable @ cpy ctor @ & @ operator= @
 	tcp_mt_svr(const tcp_mt_svr &);

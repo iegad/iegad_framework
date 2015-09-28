@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="echo_svc.h" />
+    <ClInclude Include="iegad_io_msg.h" />
     <ClInclude Include="iegad_log.hpp" />
     <ClInclude Include="job_queue.hpp" />
     <ClInclude Include="job_worker.hpp" />
@@ -22,9 +23,10 @@
     <ClInclude Include="tcp_mt_server.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="iegad_io_msg.cpp" />
     <ClCompile Include="Msg\echo_msg.pb.cc" />
-    <ClCompile Include="msg_basic.pb.cc" />
     <ClCompile Include="iegad_string.cpp" />
+    <ClCompile Include="msg_basic.pb.cc" />
     <ClCompile Include="tcp_mt_server.cpp" />
     <ClCompile Include="TestMain.cpp" />
   </ItemGroup>

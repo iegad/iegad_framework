@@ -1,9 +1,14 @@
 #pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "libprotoc.lib")
+#pragma comment(lib, "libprotobuf.lib")
 
 #include <iostream>
 #include <WinSock2.h>
+#include <codecvt>
 #include "msg_basic.pb.h"
 #include "echo_msg.pb.h"
+#include <locale>
+
 
 
 
@@ -51,7 +56,7 @@ BEGIN_CASE:
 int 
 send_msg(int sockfd, int msg_type, const std::string & msg_bdstr)
 {
-    iegad::net::tcp_msg msg;
+    iegad::net::msg_basic msg;
     std::string msgstr;
     int n, nleft;
     const char * p;
@@ -72,7 +77,6 @@ send_msg(int sockfd, int msg_type, const std::string & msg_bdstr)
 	p += n;
     } while (n > 0);
     shutdown(sockfd, SD_SEND);
-    std::cout << "shutdown\n";
     return msgstr.size() - nleft;
 }
 
@@ -87,7 +91,6 @@ echo_svc_proc(const std::string & echo_str)
     std::string echo_msg_str;
     char buffer[1024];
     int n;
-    echo_msg_.set_resp_str(echo_str.c_str());
     echo_msg_.set_requ_str(echo_str.c_str());
     if (echo_msg_.SerializeToString(&echo_msg_str)) {
 	send_msg(sockfd, 10, echo_msg_str);
@@ -108,14 +111,20 @@ enum {
 int
 main(int argc, char * argv[])
 {
+    int nCount = 0;
     Init_Environment();
-
+    std::locale::global(std::locale("chs"));
 
     for (int i = 0; i < N_TIMES; i++) {
-	std::string resp = echo_svc_proc("肖琪是超级大天才；！！！！");
-	std::cout << resp << std::endl;
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	// 当发送长度为127时, 发送无警告, 否则, protocol buffer会发出警告
+	std::string resp = conv.to_bytes(L"肖琪是超级大天才 肖琪是超级大天才 肖琪是超级大天才 肖琪是超级大天才 肖琪是超级大天才!!!");
+	std::string rzt;
+	rzt = echo_svc_proc(resp);
+	std::wcout << conv.from_bytes(rzt) << std::endl;
+	nCount++;
     }
-
+    std::cout << nCount << " times done" << std::endl;
 exit_case:
     std::cin.get();
     WSACleanup();
