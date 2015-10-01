@@ -2,6 +2,28 @@
 #define __TCP_MT_SERVER__
 
 
+
+// ============ 说明 ============
+//
+// @创建日期 : 2015-10-02
+// @创建人 : iegad
+//
+// ============================
+// @用途 : 多线程并发服务器
+//	1. 将底层通信, 消息接收进行
+//	    封装, 达到 应用层 与 消息收发层 的分离.
+//	2. 使用 追随者-领导者 模型;
+// @PS : 在实现时应用层服务端进程时, 最后将该类
+//		作为基类;
+// ============================
+//
+// @修改记录:
+// =======================================
+//  日期                     修改人                                   修改说明
+// =======================================
+
+
+
 #include <boost/asio.hpp>
 
 
@@ -22,52 +44,138 @@ namespace net {
 
 
     class tcp_mt_svr {
-    // 多线程并发服务
+    // 多线程并发服务器
     enum { 
+	// 客户端接收缓冲区大小
 	BUF_SIZE = (1024 * 16) 
     };
 
     public:
+	// ============================
+	// @用途 : 线程池 类型声明
+	// ============================
 	typedef std::vector<std::thread> thread_pool_t;
+
+
+	// ============================
+	// @用途 : 线程互斥锁 类型声明
+	// ============================
 	typedef std::unique_lock<std::mutex> mtx_lock_t;	
+
+
+	// ============================
+	// @用途 : 基础服务类 智能指针 类型声明
+	// ============================
 	typedef iegad::net::svc_basic::svc_basic_ptr svc_basic_ptr;
+
+
+	// ============================
+	// @用途 : 服务对象 映射表 声明
+	// ============================
 	typedef iegad::net::svc_basic::svc_map_t svc_map_t;
 
-	explicit tcp_mt_svr(
-	    const std::string & host,
-	    unsigned short port);
 
-	~tcp_mt_svr();
+	// ============================
+	// @用途 : 构造函数
+	// @host : IP地址, 不能是计算机名
+	// @port : 端口号
+	// ============================
+	explicit tcp_mt_svr(const std::string & host, unsigned short port);
 
+
+	// ============================
+	// @用途 : 析构函数
+	// @PS : 因为可能被用作基类, 所以析构函数为虚函数
+	// ============================
+	virtual ~tcp_mt_svr();
+
+
+	// ============================
+	// @用途 : 开始 客户端消息接收线程
+	// @n : 线程数量.
+	// @返回值 : void
+	// ============================
 	void run(int n = 8);
 
+
+	// ============================
+	// @用途 : 停止 客户端消息接收线程.
+	// @返回值 : void
+	// ============================
 	void stop();
 	
+
+	// ============================
+	// @用途 : 注册 服务对象
+	// @svc_obj : 服务对象, 该对象必需派生自svc_basic, 
+	//		    也必需是智能指针类型
+	// @返回值 : void
+	// ============================
 	void regist_svc(svc_basic_ptr svc_obj);
 
     protected:
-	// check the server is running?
-	bool get_stop();
+
+	// ============================
+	// @用途 : 服务端是否停止
+	// @返回值 : 停止返回 true, 否则返回 false; 
+	// ============================
+	bool _is_stop();
 
     private:
+	// 停止标志
 	bool stop_flag_;
+	// 客户端消息接收线程锁
 	std::mutex thread_mtx_;
+	// 停止标志锁
 	std::mutex stop_mtx_;
+	// 监听对象的 boost::io_service
 	io_service ios_;
+	// 客户端消息接收线程 线程池
 	thread_pool_t thread_pool_;
+	// 服务映射表
 	svc_map_t svc_map_;
+	// 监听对象
 	ip::tcp::acceptor acptor_;
 
-	// for working func;
+
+	// ============================
+	// @用途 : 客户端消息接收线程
+	// @返回值 : 停止返回 true, 否则返回 false; 
+	// ============================
 	void _thread_proc();
-	// accept client connection;
+
+
+	// ============================
+	// @用途 : 等待客户端连接, 成功连接后, 将客户端会话保存在 clnt;
+	// @clnt : 待接收的客户端对象
+	// @err_code : 当发送错误时, 用来接收错误
+	// @返回值 : 客户端成功建立连接返回 0, 否则返回 -1; 
+	// ============================
 	int _accept(ip::tcp::socket & clnt, boost::system::error_code & err_code);
-	// build string of the "class msg_basic" from client's buffer;
-	int _get_msg_basic(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc, boost::system::error_code & err_code);
-	// call the right service handler;
+
+
+	// ============================
+	// @用途 : 等待客户端 clnt 发送消息, 消息接收后, 将消息写入 msgbsc;
+	// @clnt : 待接收的客户端
+	// @msgbsc : 用来保存客户端发送的消息.
+	// @err_code : 当发送错误时, 用来接收错误
+	// @返回值 : 接收到消息并成功构建 msg_basic 对象 返回 0, 否则返回 -1; 
+	// ============================
+	int _build_msg_basic(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc, boost::system::error_code & err_code);
+
+
+	// ============================
+	// @用途 : 服务调用.
+	// @clnt : 请求服务的客户端
+	// @msgbsc : 用来构建 应用服务对象 的msg_basic对象.
+	// @返回值 : 成功发送服务调用 返回 0, 否则返回 -1; 
+	// @PS : 这里应注意, 只要 服务被调用, 就会返回0, 
+	//	    返回0, 并不能说明 服务调用 是正确的结束的.
+	// ============================
 	int _call_svc(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc);
 
-	// disable @ cpy ctor @ & @ operator= @
+
+	// 禁用
 	tcp_mt_svr(const tcp_mt_svr &);
 	tcp_mt_svr & operator=(const tcp_mt_svr &);
     };

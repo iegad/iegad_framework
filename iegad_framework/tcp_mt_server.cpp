@@ -35,7 +35,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
     for (;;) {
 	clnt.close();
 	// step 1 : check the stop_flag;
-	if (get_stop()) {
+	if (_is_stop()) {
 	    break;
 	}
 	// step 2 : waiting for the connecting;
@@ -44,7 +44,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	}
 
 	// step 3 : get the msg_dbstr;
-	if (this->_get_msg_basic(clnt, msgbsc, err_code) != 0) {
+	if (this->_build_msg_basic(clnt, msgbsc, err_code) != 0) {
 	    continue;
 	}
 	// step 4 : call the service;
@@ -82,7 +82,7 @@ iegad::net::tcp_mt_svr::stop()
 
 
 bool 
-iegad::net::tcp_mt_svr::get_stop()
+iegad::net::tcp_mt_svr::_is_stop()
 {// test the stop_flag_
     mtx_lock_t locker(stop_mtx_);
     return stop_flag_;
@@ -117,7 +117,7 @@ iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
 
 
 int
-iegad::net::tcp_mt_svr::_get_msg_basic(ip::tcp::socket & clnt, 
+iegad::net::tcp_mt_svr::_build_msg_basic(ip::tcp::socket & clnt, 
 							    iegad::net::msg_basic & msgbsc, 
 							    boost::system::error_code & err_code)
 {
@@ -132,7 +132,9 @@ iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt,
     svc_basic_ptr p_svc = svc_basic::get_svc(msgbsc.msg_type(), svc_map_);
     if (p_svc.get() != nullptr) {
     //msg_type mapping the msg_svc;
-	p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
+	if (p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr())) {
+	    iWARN << p_svc->get_id() << "'s service called failed" << std::endl;
+	}
     }  // if (itor != svc_map_.end())
     else {
     //msg_type don't mapping the msg_svc;
