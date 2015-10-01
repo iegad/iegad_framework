@@ -13,14 +13,13 @@
 //
 // @修改记录:
 // =======================================
-//  日期                     修改人                                   目的
+//  日期                     修改人                                   修改说明
 // =======================================
 
 
 #include <string>
 #include <vector>
 #include <cctype>
-#include <sstream>
 
 
 namespace iegad {
@@ -39,7 +38,8 @@ split_vct(const std::string & src, const std::string chs);
 
 
 // ============================
-// @用途 : 切割字符串, 将src由pos开始的n个切割成一个新的字符串
+// @用途 : 切割字符串, 将src由pos开始的n个字符 
+//		切割成一个子字符串;
 // @src : 源字符串
 // @pos : 切割的开始位置
 // @n : 指定切割的长度

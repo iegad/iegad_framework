@@ -4,12 +4,12 @@
 #include <iostream>
 #include "tcp_mt_server.h"
 #include "job_worker.hpp"
-#include "iegad_log.hpp"
+#include "iegad_log.h"
 #include "echo_svc.h"
 
 
 
-using namespace iegad::tools;
+using namespace iegad::common;
 
 
 /* ===================================
@@ -30,7 +30,7 @@ using namespace iegad::tools;
 int 
 main(int argc, char * argv[])
 {
-    iegad::tools::_LOG log(argv[0]);
+    iegad::common::_LOG log(argv[0]);
     std::shared_ptr<iegad::net::echo_svc> echo_svc_(new iegad::net::echo_svc(10));
     std::cout << echo_svc_->get_id();
 

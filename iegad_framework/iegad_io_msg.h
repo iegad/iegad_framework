@@ -2,6 +2,24 @@
 #define __IEGAD_IO_MSG__
 
 
+
+// ============ 说明 ============
+//
+// @创建日期 : 2015-09-27
+// @创建人 : iegad
+//
+// ============================
+// @用途 : 1. 基于 boost::asio 的封装来提供一个 简单的IO操作.
+//		 2. 对 msg_basic 的操作封装.
+// ============================
+//
+// @修改记录:
+// =======================================
+//  日期                     修改人                                   修改说明
+// =======================================
+
+
+
 #ifdef WIN32
 
 #pragma comment(lib, "libprotoc.lib")
@@ -20,10 +38,22 @@ namespace iegad {
 namespace io {
      
 
+    // ============================
+    // @用途 : 从 客户端clnt 读数据直到eof为止;
+    // @clnt : tcp 客户端
+    // @返回值 : 返回读取的缓冲区数据
+    // ============================
     const std::string recv_end(boost::asio::ip::tcp::socket & clnt);
 
-    int send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size);
 
+    // ============================
+    // @用途 : 向 客户端clnt 发送 send_buf 直到发送buf_size长度为止;
+    // @clnt : tcp 客户端
+    // @send_buf : 待发送的数据
+    // @buf_size, 待发送数据的大小
+    // @返回值 : 返回发送的字节数
+    // ============================
+    int send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size);
 
 
 } // namespace net;
@@ -32,11 +62,34 @@ namespace io {
 namespace net {
 
 
+    // ============================
+    // @用途 : 从 客户端clnt 读取消息 msgbsc;
+    // @clnt : tcp 客户端
+    // @msgbsk : 需要填充的消息
+    // @返回值 : 接收成功返回 0 , 否则返回 -1;
+    // ============================
     int recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc);
 
+
+    // ============================
+    // @用途 : 向 客户端clnt 发送消息 msgbsc;
+    // @clnt : tcp 客户端
+    // @msgbsc : 需要发送的 msg_basic
+    // @返回值 : 成功发送返回 0 , 否则返回 -1;
+    // ============================
     int send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic & msgbsc);
 
-    int send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_str);
+
+    // ============================
+    // @用途 : 向 客户端clnt 发送消息 msg_basic,
+    //		    而msg_basic根据type, flag, msg_str来填充;
+    // @clnt : tcp 客户端
+    // @type : msg_basic.msg_type
+    // @flag : msg_basic.msg_flag
+    // @msg_bdstr : msg_basic.msg_bdstr
+    // @返回值 : 成功发送返回 0 , 否则返回 -1;
+    // ============================
+    int send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr);
 
 
 } // namespace net;

@@ -1,11 +1,11 @@
 #include "tcp_mt_server.h"
 #include "msg_basic.pb.h"
-#include "iegad_log.hpp"
+#include "iegad_log.h"
 #include "iegad_io_msg.h"
 
 
 using namespace boost::asio;
-using namespace iegad::tools;
+using namespace iegad::common;
 
 
 iegad::net::tcp_mt_svr::tcp_mt_svr(
@@ -110,11 +110,7 @@ iegad::net::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_cod
 void 
 iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
 {
-    svc_t::iterator itor = svc_map_.find(svc_obj->get_id());
-    if (itor == svc_map_.end()) {
-	svc_map_.insert(std::pair<int, svc_basic_ptr>(svc_obj->get_id(), svc_obj));
-    }
-    else {
+    if (iegad::net::svc_basic::regist_svc(svc_obj, svc_map_) != 0) {
 	iERR << "### the service object already have ###" << std::endl;
     }
 }
@@ -133,10 +129,10 @@ int
 iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, 
 						  iegad::net::msg_basic & msgbsc)
 {
-    svc_t::iterator itor = svc_map_.find(msgbsc.msg_type());
-    if (itor != svc_map_.end()) {
+    svc_basic_ptr p_svc = svc_basic::get_svc(msgbsc.msg_type(), svc_map_);
+    if (p_svc.get() != nullptr) {
     //msg_type mapping the msg_svc;
-	itor->second->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
+	p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
     }  // if (itor != svc_map_.end())
     else {
     //msg_type don't mapping the msg_svc;
@@ -145,4 +141,10 @@ iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt,
     }
     clnt.close();
     return 0;
+}
+
+
+iegad::net::tcp_mt_svr::~tcp_mt_svr()
+{
+    this->stop();
 }

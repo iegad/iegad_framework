@@ -4,14 +4,24 @@
 #include <codecvt>
 
 
-const std::string
-iegad::string::trim(const std::string &src)
+
+const std::vector<std::string>
+iegad::string::split_vct(const std::string &src, const std::string chs)
 {
-    int n = src.length() - 1;
-    while (isspace(src[n]))
-        n--;
-    std::string restr(src, 0, n + 1);
-    return restr;
+    int pos = 0, len = chs.length(), n = 0, index = 0;
+    std::vector<std::string> res;
+    while (true) {
+	index = src.find(chs, pos);
+	if (index == -1) {
+	    res.push_back(std::string(src, pos, src.length() - pos));
+	    break;
+	}
+	n = index - n;
+	res.push_back(std::string(src, pos, n));
+	pos = index + len;
+	n = pos;
+    }
+    return res;
 }
 
 
@@ -24,12 +34,25 @@ iegad::string::substr(const std::string &src, int pos, int n)
 
 
 const std::string
+iegad::string::trim(const std::string &src)
+{
+    int n = src.length() - 1;
+    while (isspace(src[n])) {
+	n--;
+    }
+    std::string restr(src, 0, n + 1);
+    return restr;
+}
+
+
+const std::string
 iegad::string::trim(const std::string &src, char chr)
 {
     std::string restr;
     for (int i = 0, n = src.length(); i < n; i++) {
-        if (src[i] == chr)
-            continue;
+	if (src[i] == chr) {
+	    continue;
+	}
         restr.push_back(src[i]);
     }
     return restr;
@@ -43,6 +66,23 @@ iegad::string::ltrim(const std::string &src)
     while (isspace(src[rpos]))
         rpos++;
     std::string restr(src, rpos, src.length() - rpos);
+    return restr;
+}
+
+
+const std::string
+iegad::string::replace(const std::string &src, const std::string oldstr, const std::string newstr)
+{
+    int pos = 0, len = oldstr.length();
+    std::string restr(src);
+    while (true) {
+	pos = restr.find(oldstr, pos);
+	if (pos == -1) {
+	    break;
+	}
+	restr.replace(pos, len, newstr);
+	pos++;
+    }
     return restr;
 }
 
@@ -66,42 +106,6 @@ iegad::string::lstchr(const std::string &src, char chr)
             return i;
     }
     return -1;
-}
-
-
-const std::vector<std::string>
-iegad::string::split_vct(const std::string &src, const std::string chs)
-{
-    int pos = 0, len = chs.length(), n = 0, i = 0;
-    std::vector<std::string> res;
-    while (true) {
-        i = src.find(chs, pos);
-        if (i == -1) {
-            res.push_back(std::string(src, pos, src.length() - pos));
-            break;
-        }
-        n = i - n;
-        res.push_back(std::string(src, pos, n));
-        pos = i + len;
-        n = pos;
-    }
-    return res;
-}
-
-
-const std::string
-iegad::string::replace(const std::string &src, const std::string oldstr, const std::string newstr)
-{
-    int pos = 0, len = oldstr.length();
-    std::string restr(src);
-    while (true) {
-        pos = restr.find(oldstr, pos);
-        if (pos == -1)
-            break;
-        restr.replace(pos, len, newstr);
-        pos++;
-    }
-    return restr;
 }
 
 

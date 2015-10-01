@@ -4,20 +4,20 @@
     <Filter Include="net">
       <UniqueIdentifier>{48c8cc0e-0438-4a73-a36b-703ad98d41a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="proto">
-      <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="dbctl">
       <UniqueIdentifier>{47283786-cc9c-4bbc-8c1d-7dda435388bd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tools">
-      <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
     </Filter>
     <Filter Include="string">
       <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
     </Filter>
     <Filter Include="_example">
       <UniqueIdentifier>{f46dadb6-2dde-4c16-80cc-886370c828c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net\proto">
+      <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +37,12 @@
     <ClCompile Include="msg_basic.pb.cc">
       <Filter>net</Filter>
     </ClCompile>
+    <ClCompile Include="iegad_log.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="service_basic.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tcp_mt_server.h">
@@ -46,13 +52,10 @@
       <Filter>net</Filter>
     </ClInclude>
     <ClInclude Include="job_queue.hpp">
-      <Filter>tools</Filter>
+      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="job_worker.hpp">
-      <Filter>tools</Filter>
-    </ClInclude>
-    <ClInclude Include="iegad_log.hpp">
-      <Filter>tools</Filter>
+      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="echo_svc.h">
       <Filter>_example</Filter>
@@ -69,10 +72,13 @@
     <ClInclude Include="msg_basic.pb.h">
       <Filter>net</Filter>
     </ClInclude>
+    <ClInclude Include="iegad_log.h">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="msg_basic.proto">
-      <Filter>proto</Filter>
+      <Filter>net\proto</Filter>
     </None>
     <None Include="echo_msg.proto">
       <Filter>_example</Filter>

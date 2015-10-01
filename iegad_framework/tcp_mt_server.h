@@ -8,12 +8,10 @@
 #include <mutex>
 #include <vector>
 #include <thread>
-#include <unordered_map>
 #include <functional>
 
 
 #include "service_basic.h"
-#include "iegad_io_msg.h"
 
 
 namespace iegad {
@@ -31,16 +29,15 @@ namespace net {
 
     public:
 	typedef std::vector<std::thread> thread_pool_t;
-	typedef std::unique_lock<std::mutex> mtx_lock_t;
-	typedef std::unordered_map<int, svc_basic_ptr> svc_t;
+	typedef std::unique_lock<std::mutex> mtx_lock_t;	
+	typedef iegad::net::svc_basic::svc_basic_ptr svc_basic_ptr;
+	typedef iegad::net::svc_basic::svc_map_t svc_map_t;
 
 	explicit tcp_mt_svr(
 	    const std::string & host,
 	    unsigned short port);
 
-	~tcp_mt_svr() { 	    
-	    this->stop(); 
-	};
+	~tcp_mt_svr();
 
 	void run(int n = 8);
 
@@ -58,7 +55,7 @@ namespace net {
 	std::mutex stop_mtx_;
 	io_service ios_;
 	thread_pool_t thread_pool_;
-	svc_t svc_map_;
+	svc_map_t svc_map_;
 	ip::tcp::acceptor acptor_;
 
 	// for working func;
