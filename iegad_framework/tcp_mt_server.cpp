@@ -33,7 +33,9 @@ iegad::net::tcp_mt_svr::_thread_proc()
     msg_basic msgbsc;
 
     for (;;) {
-	clnt.close();
+	if (clnt.is_open()) {
+	    clnt.close();
+	}
 	// step 1 : check the stop_flag;
 	if (_is_stop()) {
 	    break;
@@ -102,7 +104,15 @@ iegad::net::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_cod
 	}
 	return -1;
     }
+
+    // 设置超时
+    if (setsockopt(clnt.native(), SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout_, sizeof(int)) != 0) {
+	return -1;
+    }
+
+    // 关闭 NAGLE 算法
     clnt.set_option(ip::tcp::no_delay(true));
+    
     return 0;
 }
 
@@ -117,11 +127,16 @@ iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
 
 
 int
-iegad::net::tcp_mt_svr::_build_msg_basic(ip::tcp::socket & clnt, 
-							    iegad::net::msg_basic & msgbsc, 
-							    boost::system::error_code & err_code)
+iegad::net::tcp_mt_svr::_build_msg_basic(ip::tcp::socket & clnt,
+iegad::net::msg_basic & msgbsc,
+boost::system::error_code & err_code)
 {
-    return iegad::net::recv_msg_basic(clnt, msgbsc);
+    int rzt;
+    rzt = iegad::net::recv_msg_basic(clnt, msgbsc, err_code);
+    if (err_code == boost::asio::error::timed_out) {
+	iWARN << clnt.remote_endpoint().address().to_string() << " ### TIME OUT ###" << std::endl;
+    }
+    return rzt;
 }
 
 

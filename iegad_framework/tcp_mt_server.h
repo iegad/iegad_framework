@@ -21,7 +21,8 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-
+// -- 2015-10-02	    -- iegad		--1. 为客户端 数据接收 设定超时值, 已防止注入攻击
+//								--2. 接收 io 操作所产生的 err_code;
 
 
 #include <boost/asio.hpp>
@@ -45,10 +46,6 @@ namespace net {
 
     class tcp_mt_svr {
     // 多线程并发服务器
-    enum { 
-	// 客户端接收缓冲区大小
-	BUF_SIZE = (1024 * 16) 
-    };
 
     public:
 	// ============================
@@ -122,22 +119,6 @@ namespace net {
 	bool _is_stop();
 
     private:
-	// 停止标志
-	bool stop_flag_;
-	// 客户端消息接收线程锁
-	std::mutex thread_mtx_;
-	// 停止标志锁
-	std::mutex stop_mtx_;
-	// 监听对象的 boost::io_service
-	io_service ios_;
-	// 客户端消息接收线程 线程池
-	thread_pool_t thread_pool_;
-	// 服务映射表
-	svc_map_t svc_map_;
-	// 监听对象
-	ip::tcp::acceptor acptor_;
-
-
 	// ============================
 	// @用途 : 客户端消息接收线程
 	// @返回值 : 停止返回 true, 否则返回 false; 
@@ -173,6 +154,24 @@ namespace net {
 	//	    返回0, 并不能说明 服务调用 是正确的结束的.
 	// ============================
 	int _call_svc(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc);
+
+
+	// 停止标志
+	bool stop_flag_;
+	// 客户端消息接收线程锁
+	std::mutex thread_mtx_;
+	// 停止标志锁
+	std::mutex stop_mtx_;
+	// 监听对象的 boost::io_service
+	io_service ios_;
+	// 客户端消息接收线程 线程池
+	thread_pool_t thread_pool_;
+	// 服务映射表
+	svc_map_t svc_map_;
+	// 监听对象
+	ip::tcp::acceptor acptor_;
+	// 超时值 
+	const int timeout_ = 5000;
 
 
 	// 禁用

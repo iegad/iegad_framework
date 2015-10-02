@@ -35,5 +35,10 @@ iegad::net::svc_basic::get_id()
 int 
 iegad::net::svc_basic::_response(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size)
 {
-    return iegad::io::send_n(clnt, rzt, rzt_size);
+    boost::system::error_code errcode;
+    int n = iegad::io::send_n(clnt, rzt, rzt_size, errcode);
+    if (errcode) {
+	return -1;
+    }
+    return n;
 }

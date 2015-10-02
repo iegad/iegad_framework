@@ -97,7 +97,12 @@ echo_svc_proc(const std::string & echo_str)
     }
     
     n = recv(sockfd, buffer, 1024, 0);
-    buffer[n] = 0;
+    if (n > 0) {
+	buffer[n] = 0;
+    }
+    else {
+	_snprintf(buffer, 1024, "%s", "timeout");
+    }
     closesocket(sockfd);
     return buffer;
 }

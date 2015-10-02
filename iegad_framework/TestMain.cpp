@@ -32,15 +32,13 @@ main(int argc, char * argv[])
 {
     iegad::common::_LOG log(argv[0]);
     std::shared_ptr<iegad::net::echo_svc> echo_svc_(new iegad::net::echo_svc(10));
-    std::cout << echo_svc_->get_id();
-
 
     iegad::net::tcp_mt_svr host("127.0.0.1", 6688);
     host.regist_svc(echo_svc_);
     host.run(1);
 
-
-    std::cout << "done" << std::endl;
+    std::cout << "press <Enter> to exit..." << std::endl;
     std::cin.get();
+    host.stop();
     exit(0);
 }
