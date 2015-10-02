@@ -4,9 +4,6 @@
     <Filter Include="net">
       <UniqueIdentifier>{48c8cc0e-0438-4a73-a36b-703ad98d41a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dbctl">
-      <UniqueIdentifier>{47283786-cc9c-4bbc-8c1d-7dda435388bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="string">
       <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
     </Filter>
@@ -18,6 +15,9 @@
     </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mysql">
+      <UniqueIdentifier>{47283786-cc9c-4bbc-8c1d-7dda435388bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +42,12 @@
     </ClCompile>
     <ClCompile Include="service_basic.cpp">
       <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql_conn.cpp">
+      <Filter>mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysql_rzt.cpp">
+      <Filter>mysql</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="iegad_log.h">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql_conn.h">
+      <Filter>mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysql_rzt.h">
+      <Filter>mysql</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

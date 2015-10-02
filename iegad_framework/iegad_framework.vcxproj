@@ -18,6 +18,8 @@
     <ClInclude Include="job_worker.hpp" />
     <ClInclude Include="Msg\echo_msg.pb.h" />
     <ClInclude Include="msg_basic.pb.h" />
+    <ClInclude Include="mysql_conn.h" />
+    <ClInclude Include="mysql_rzt.h" />
     <ClInclude Include="service_basic.h" />
     <ClInclude Include="iegad_string.h" />
     <ClInclude Include="tcp_mt_server.h" />
@@ -28,6 +30,8 @@
     <ClCompile Include="Msg\echo_msg.pb.cc" />
     <ClCompile Include="iegad_string.cpp" />
     <ClCompile Include="msg_basic.pb.cc" />
+    <ClCompile Include="mysql_conn.cpp" />
+    <ClCompile Include="mysql_rzt.cpp" />
     <ClCompile Include="service_basic.cpp" />
     <ClCompile Include="tcp_mt_server.cpp" />
     <ClCompile Include="TestMain.cpp" />
@@ -79,12 +83,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;C:\Program Files\MySQL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\protobuf-2.6.1\vsprojects\Debug;F:\Tools\C++\boost_1_59_0\stage\lib;F:\Tools\C++\glog-0.3.3\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\lib;C:\protobuf-2.6.1\vsprojects\Debug;F:\Tools\C++\boost_1_59_0\stage\lib;F:\Tools\C++\glog-0.3.3\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <AdditionalDependencies>
