@@ -132,7 +132,8 @@ namespace net {
 	// @err_code : 当发送错误时, 用来接收错误
 	// @返回值 : 客户端成功建立连接返回 0, 否则返回 -1; 
 	// ============================
-	int _accept(ip::tcp::socket & clnt, boost::system::error_code & err_code);
+	int _accept(ip::tcp::socket & clnt, 
+	    boost::system::error_code & err_code);
 
 
 	// ============================
@@ -142,7 +143,8 @@ namespace net {
 	// @err_code : 当发送错误时, 用来接收错误
 	// @返回值 : 接收到消息并成功构建 msg_basic 对象 返回 0, 否则返回 -1; 
 	// ============================
-	int _build_msg_basic(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc, boost::system::error_code & err_code);
+	int _build_msg_basic(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc, 
+	    boost::system::error_code & err_code);
 
 
 	// ============================

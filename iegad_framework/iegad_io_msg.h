@@ -51,7 +51,8 @@ namespace io {
     // @err_code : 回传给调用者的 err_code
     // @返回值 : 返回读取的缓冲区数据
     // ============================
-    const std::string recv_end(boost::asio::ip::tcp::socket & clnt, boost::system::error_code & err_code);
+    const std::string recv_end(boost::asio::ip::tcp::socket & clnt, 
+	boost::system::error_code & err_code);
 
 
     // ============================
@@ -62,7 +63,8 @@ namespace io {
     // @err_code : 回传给调用者的 err_code
     // @返回值 : 返回发送的字节数
     // ============================
-    int send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size, boost::system::error_code & err_code);
+    int send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size, 
+	boost::system::error_code & err_code);
 
 
 } // namespace net;
@@ -80,7 +82,8 @@ namespace net {
     // @PS : 如明果 timeout 不为 0, 则会为clnt 设定接收超时, 
     //		 否则, 接收将永久阻塞.
     // ============================
-    int recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc, boost::system::error_code & err_code);
+    int recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc, 
+	boost::system::error_code & err_code);
 
 
     // ============================
@@ -90,7 +93,8 @@ namespace net {
     // @err_code : 回传给调用者的 err_code
     // @返回值 : 成功发送返回 0 , 否则返回 -1;
     // ============================
-    int send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic & msgbsc, boost::system::error_code & err_code);
+    int send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic & msgbsc, 
+	boost::system::error_code & err_code);
 
 
     // ============================
@@ -103,7 +107,8 @@ namespace net {
     // @err_code : 回传给调用者的 err_code
     // @返回值 : 成功发送返回 0 , 否则返回 -1;
     // ============================
-    int send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr, boost::system::error_code & err_code);
+    int send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr, 
+	boost::system::error_code & err_code);
 
 
 } // namespace net;

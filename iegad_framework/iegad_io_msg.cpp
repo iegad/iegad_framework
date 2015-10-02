@@ -2,7 +2,8 @@
 
 
 const std::string
-iegad::io::recv_end(boost::asio::ip::tcp::socket & clnt, boost::system::error_code & errcode)
+iegad::io::recv_end(boost::asio::ip::tcp::socket & clnt, 
+			     boost::system::error_code & errcode)
 {
     int n;
     char recv_buf[BUF_SIZE];
@@ -25,7 +26,8 @@ iegad::io::recv_end(boost::asio::ip::tcp::socket & clnt, boost::system::error_co
 
 
 int 
-iegad::io::send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size, boost::system::error_code & errcode)
+iegad::io::send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size, 
+			  boost::system::error_code & errcode)
 {
     int nleft = buf_size, n;
     const char * p = send_buf;
@@ -44,7 +46,8 @@ iegad::io::send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, in
 
 
 int 
-iegad::net::recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc, boost::system::error_code & errcode)
+iegad::net::recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc, 
+					 boost::system::error_code & errcode)
 {
     msgbsc.ParseFromString(iegad::io::recv_end(clnt, errcode));
     return msgbsc.IsInitialized() ? 0 : -1;
@@ -52,7 +55,8 @@ iegad::net::recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgb
 
 
 int 
-iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic & msgbsc, boost::system::error_code & errcode)
+iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic & msgbsc, 
+					  boost::system::error_code & errcode)
 {
     std::string msg_str;
     do {
@@ -81,7 +85,8 @@ iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic 
 
 
 int 
-iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr, boost::system::error_code & errcode)
+iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr, 
+					  boost::system::error_code & errcode)
 {
     msg_basic msgbsc;
     msgbsc.set_msg_type(type);
