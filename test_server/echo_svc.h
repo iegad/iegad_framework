@@ -36,6 +36,9 @@ namespace net {
     }; // class echo_svc;
 
 
+    typedef std::shared_ptr<echo_svc> echo_svc_ptr;
+
+
 } // namespace net;
 } // namespace iegad;
 

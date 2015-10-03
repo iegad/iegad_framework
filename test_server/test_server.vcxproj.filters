@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="msg">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="proto">
+      <UniqueIdentifier>{6e0d7c2f-e46b-4da5-b9eb-1ee368fc23b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="svc">
+      <UniqueIdentifier>{c022a8c1-b659-441a-8677-703c044c3b90}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Msg\echo_msg.pb.h">
+      <Filter>msg</Filter>
+    </ClInclude>
+    <ClInclude Include="echo_svc.h">
+      <Filter>svc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="Msg\echo_msg.pb.cc">
+      <Filter>msg</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proto\echo_msg.proto">
+      <Filter>proto</Filter>
+    </None>
+  </ItemGroup>
+</Project>

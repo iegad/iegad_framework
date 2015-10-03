@@ -2,6 +2,7 @@
 #include <string.h>
 #include <sstream>
 #include <codecvt>
+#include <iomanip>
 
 
 
@@ -243,6 +244,101 @@ iegad::string::utf8_to_unicode(const std::string & val)
 {
     std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
     return conv.from_bytes(val);
+}
+
+
+char 
+iegad::string::to_char(const std::string & str)
+{
+    return str[0];
+}
+
+
+short 
+iegad::string::to_int16(const std::string & str)
+{
+    std::stringstream ss;
+    short res;
+    ss.str(str);
+    ss >> res;  
+    return res;
+}
+
+
+unsigned short 
+iegad::string::to_uint16(const std::string & str)
+{
+    std::stringstream ss;
+    unsigned short res;
+    ss.str(str);
+    ss >> res;
+    return res;
+}
+
+
+int 
+iegad::string::to_int32(const std::string & str)
+{
+    std::stringstream ss;
+    int res;
+    ss.str(str);
+    ss >> res;
+    return res;
+}
+
+
+unsigned int 
+iegad::string::to_uint32(const std::string & str)
+{
+    std::stringstream ss;
+    unsigned int res;
+    ss.str(str);
+    ss >> res;
+    return res;
+}
+
+
+long long 
+iegad::string::to_int64(const std::string & str)
+{
+    std::stringstream ss;
+    long long res;
+    ss.str(str);
+    ss >> res;
+    return res;
+}
+
+
+unsigned long long 
+iegad::string::to_uint64(const std::string & str)
+{
+    std::stringstream ss;
+    unsigned long long res;
+    ss.str(str);
+    ss >> res;
+    return res;
+}
+
+
+float
+iegad::string::to_float(const std::string & str)
+{
+    std::stringstream ss;
+    float res;
+    ss.str(str);
+    ss >> res;
+    return res;
+}
+
+
+double 
+iegad::string::to_double(const std::string & str)
+{
+    std::stringstream ss;
+    double res;
+    ss.str(str);
+    ss >> res;
+    return res;
 }
 
 

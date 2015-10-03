@@ -10,31 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="iegad_io_msg.h" />
-    <ClInclude Include="iegad_log.h" />
-    <ClInclude Include="job_queue.hpp" />
-    <ClInclude Include="job_worker.hpp" />
-    <ClInclude Include="msg_basic.pb.h" />
-    <ClInclude Include="service_basic.h" />
-    <ClInclude Include="iegad_string.h" />
-    <ClInclude Include="tcp_mt_server.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="iegad_io_msg.cpp" />
-    <ClCompile Include="iegad_log.cpp" />
-    <ClCompile Include="iegad_string.cpp" />
-    <ClCompile Include="msg_basic.pb.cc" />
-    <ClCompile Include="service_basic.cpp" />
-    <ClCompile Include="tcp_mt_server.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="msg_basic.proto" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{21EE01C9-F420-4EE7-8036-8EF32473DF65}</ProjectGuid>
+    <ProjectGuid>{2F549A89-67E5-4B7D-9649-20D4EAAACA5B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>iegad_framework</RootNamespace>
+    <RootNamespace>iegad_mysql</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -45,7 +24,7 @@
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -61,30 +40,23 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\include;D:\iegad_framework\iegad_framework;F:\Tools\C++\glog-0.3.3\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\MySQL\lib;C:\protobuf-2.6.1\vsprojects\Debug;F:\Tools\C++\boost_1_59_0\stage\lib;F:\Tools\C++\glog-0.3.3\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -94,15 +66,26 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="iegad_mysql.h" />
+    <ClInclude Include="mysql_conn.h" />
+    <ClInclude Include="mysql_row.h" />
+    <ClInclude Include="mysql_rzt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mysql_conn.cpp" />
+    <ClCompile Include="mysql_row.cpp" />
+    <ClCompile Include="mysql_rzt.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

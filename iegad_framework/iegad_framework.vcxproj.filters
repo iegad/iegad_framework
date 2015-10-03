@@ -7,26 +7,16 @@
     <Filter Include="string">
       <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_example">
-      <UniqueIdentifier>{f46dadb6-2dde-4c16-80cc-886370c828c7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="net\proto">
       <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
     </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
     </Filter>
-    <Filter Include="mysql">
-      <UniqueIdentifier>{47283786-cc9c-4bbc-8c1d-7dda435388bd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestMain.cpp" />
     <ClCompile Include="tcp_mt_server.cpp">
       <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="Msg\echo_msg.pb.cc">
-      <Filter>_example</Filter>
     </ClCompile>
     <ClCompile Include="iegad_string.cpp">
       <Filter>string</Filter>
@@ -43,12 +33,6 @@
     <ClCompile Include="service_basic.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="mysql_conn.cpp">
-      <Filter>mysql</Filter>
-    </ClCompile>
-    <ClCompile Include="mysql_rzt.cpp">
-      <Filter>mysql</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tcp_mt_server.h">
@@ -63,12 +47,6 @@
     <ClInclude Include="job_worker.hpp">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="echo_svc.h">
-      <Filter>_example</Filter>
-    </ClInclude>
-    <ClInclude Include="Msg\echo_msg.pb.h">
-      <Filter>_example</Filter>
-    </ClInclude>
     <ClInclude Include="iegad_string.h">
       <Filter>string</Filter>
     </ClInclude>
@@ -81,19 +59,10 @@
     <ClInclude Include="iegad_log.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="mysql_conn.h">
-      <Filter>mysql</Filter>
-    </ClInclude>
-    <ClInclude Include="mysql_rzt.h">
-      <Filter>mysql</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="msg_basic.proto">
       <Filter>net\proto</Filter>
-    </None>
-    <None Include="echo_msg.proto">
-      <Filter>_example</Filter>
     </None>
   </ItemGroup>
 </Project>
