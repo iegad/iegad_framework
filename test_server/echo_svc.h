@@ -2,9 +2,9 @@
 #define __ECHO_SVC__
 
 
-#include "service_basic.h"
+#include "net/service_basic.h"
 #include "Msg/echo_msg.pb.h"
-#include "iegad_log.h"
+#include "common/iegad_log.h"
 
 
 namespace iegad {

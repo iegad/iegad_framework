@@ -1,16 +1,22 @@
 #include <boost/asio.hpp>
 
+// =========== 用于内存泄漏检测 ============
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+// =========== 用于内存泄漏检测 ============
+
 
 #pragma comment(lib, "iegad_framework.lib")
 
 
 #include <iostream>
-#include "tcp_mt_server.h"
-#include "job_worker.hpp"
-#include "iegad_log.h"
+#include "net/tcp_mt_server.h"
+#include "common/iegad_log.h"
 #include "echo_svc.h"
-#include "iegad_string.h"
-#include <iomanip>
+#include "mysql_helper.h"
 
 
 using namespace iegad::common;
@@ -36,45 +42,43 @@ main(int argc, char * argv[])
 {
     using namespace iegad::net;
     iegad::common::_LOG log(argv[0]);
-    echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    tcp_mt_svr host("127.0.0.1", 6688);
-    host.regist_svc(echo_svc_);
-    host.run(1);
 
-    std::cout << "press <Enter> to exit..." << std::endl;
+    // ======================== 服务端架构测试 ========================
+    //echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
+    //tcp_mt_svr host("127.0.0.1", 6688);
+    //host.regist_svc(echo_svc_);
+    //host.run(1);
+
+    //std::cout << "press <Enter> to exit..." << std::endl;
+    //std::cin.get();
+    //host.stop();
+    // ======================== 服务端架构测试 ========================
+
+
+    // ======================== MYSQL库测试 ========================
+    using namespace iegad::mysql;
+    using namespace iegad::db;
+
+    mysql_helper dbc;
+    if (dbc.open("Eniac", 3306, "iegad", "1111", "iegad_api_db") != 0) {
+	std::cout << "open failed" << std::endl;
+    }
+
+    dbtab_ptr tab(new db_tab);
+    if (dbc.query("select * from employee_t", tab) != 0) {
+	std::cout << "query failed" << std::endl;
+    }
+
+    for (int i = 0, n = tab->row_count(); i < n; i++) {
+	for (int j = 0, m = (*tab)[i]->col_count(); j < m; j++) {
+	    std::string val = (*(*tab)[i])[j];
+	    std::cout << val << "\t";
+	}
+	std::cout << std::endl;
+    }
+    // ======================== MYSQL库测试 ========================
+
+    _CrtDumpMemoryLeaks(); // 用于windows 下, 内存泄漏检测;
     std::cin.get();
-    host.stop();
-
- //   mysql_conn conn("Eniac", 3306, "iegad", "1111", "iegad_api_db");
- //   if (conn.failed()) {
-	//std::cout << "failed" << std::endl;
- //   }
-
- //   int n = conn.exec("insert into employee_t (E_NICK, E_NAME) values ('Xiaoqi', 'iegad')");
- //   if (n != 1) {
-	//std::cout << conn.err_msg() << std::endl;
- //   }
-
- //   std::queue<std::string> sqlque;
- //   for (int i = 0; i < 10; i++) {
-	//std::string str = "insert into employee_t (E_NICK, E_NAME) values ('" + iegad::string::to_str(i) + "', '" + iegad::string::to_str(i) + "')";
-	//sqlque.push(str);
- //   }
-
- //   n = conn.exec_trans(sqlque);
-
- //   mysql_rzt rzt(conn, conn.query("select * from employee_t"));
- //   if (conn.failed()) {
-	//std::cout << conn.err_code() << std::endl;
- //   }
-
- //   MYSQL_ROW row;
- //   while ((row = rzt.read_row())) {
-	//std::cout << row[0] << "\t\t" << row[1] << std::endl;
- //   }
- //   if (conn.failed()) {
-	//std::cout << conn.err_code() << std::endl;
- //   }
-
     exit(0);
 }

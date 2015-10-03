@@ -77,14 +77,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="iegad_mysql.h" />
-    <ClInclude Include="mysql_conn.h" />
-    <ClInclude Include="mysql_row.h" />
-    <ClInclude Include="mysql_rzt.h" />
+    <ClInclude Include="mysql_helper.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mysql_conn.cpp" />
-    <ClCompile Include="mysql_row.cpp" />
-    <ClCompile Include="mysql_rzt.cpp" />
+    <ClCompile Include="mysql_helper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,55 +13,70 @@
     <Filter Include="common">
       <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
     </Filter>
+    <Filter Include="db">
+      <UniqueIdentifier>{5292aa02-7575-4385-9831-4a4a2fbea250}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tcp_mt_server.cpp">
+    <ClCompile Include="common\iegad_log.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="db\iegad_dbrow.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\iegad_dbtab.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="net\iegad_io_msg.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="iegad_string.cpp">
+    <ClCompile Include="net\msg_basic.pb.cc">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\service_basic.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\tcp_mt_server.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="string\iegad_string.cpp">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="iegad_io_msg.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="msg_basic.pb.cc">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="iegad_log.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="service_basic.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tcp_mt_server.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="service_basic.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="job_queue.hpp">
+    <ClInclude Include="common\iegad_log.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="job_worker.hpp">
+    <ClInclude Include="common\job_queue.hpp">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="iegad_string.h">
+    <ClInclude Include="common\job_worker.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="db\iegad_dbrow.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\iegad_dbtab.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="net\iegad_io_msg.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\msg_basic.pb.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\service_basic.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\tcp_mt_server.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="string\iegad_string.h">
       <Filter>string</Filter>
     </ClInclude>
-    <ClInclude Include="iegad_io_msg.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="msg_basic.pb.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="iegad_log.h">
-      <Filter>common</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="msg_basic.proto">
+    <None Include="net\proto\msg_basic.proto">
       <Filter>net\proto</Filter>
     </None>
   </ItemGroup>

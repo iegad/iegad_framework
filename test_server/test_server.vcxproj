@@ -54,12 +54,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files\MySQL\include;F:\Tools\C++\glog-0.3.3\src\windows;F:\Tools\C++\boost_1_59_0;C:\protobuf-2.6.1\src;D:\iegad_framework\iegad_framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\include;F:\Tools\C++\glog-0.3.3\src\windows;F:\Tools\C++\boost_1_59_0;C:\protobuf-2.6.1\src;D:\iegad_framework\iegad_framework;D:\iegad_framework\iegad_mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>F:\Tools\C++\boost_1_59_0\stage\lib;C:\protobuf-2.6.1\vsprojects\Debug;F:\Tools\C++\glog-0.3.3\Debug;D:\iegad_framework\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\lib;F:\Tools\C++\boost_1_59_0\stage\lib;C:\protobuf-2.6.1\vsprojects\Debug;F:\Tools\C++\glog-0.3.3\Debug;D:\iegad_framework\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

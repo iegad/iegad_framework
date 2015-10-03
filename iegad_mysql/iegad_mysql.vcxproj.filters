@@ -7,24 +7,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="iegad_mysql.h" />
-    <ClInclude Include="mysql_conn.h">
-      <Filter>mysql</Filter>
-    </ClInclude>
-    <ClInclude Include="mysql_rzt.h">
-      <Filter>mysql</Filter>
-    </ClInclude>
-    <ClInclude Include="mysql_row.h">
+    <ClInclude Include="mysql_helper.h">
       <Filter>mysql</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mysql_conn.cpp">
-      <Filter>mysql</Filter>
-    </ClCompile>
-    <ClCompile Include="mysql_rzt.cpp">
-      <Filter>mysql</Filter>
-    </ClCompile>
-    <ClCompile Include="mysql_row.cpp">
+    <ClCompile Include="mysql_helper.cpp">
       <Filter>mysql</Filter>
     </ClCompile>
   </ItemGroup>

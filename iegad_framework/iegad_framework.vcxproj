@@ -11,25 +11,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="iegad_io_msg.h" />
-    <ClInclude Include="iegad_log.h" />
-    <ClInclude Include="job_queue.hpp" />
-    <ClInclude Include="job_worker.hpp" />
-    <ClInclude Include="msg_basic.pb.h" />
-    <ClInclude Include="service_basic.h" />
-    <ClInclude Include="iegad_string.h" />
-    <ClInclude Include="tcp_mt_server.h" />
+    <ClCompile Include="common\iegad_log.cpp" />
+    <ClCompile Include="db\iegad_dbrow.cpp" />
+    <ClCompile Include="db\iegad_dbtab.cpp" />
+    <ClCompile Include="net\iegad_io_msg.cpp" />
+    <ClCompile Include="net\msg_basic.pb.cc" />
+    <ClCompile Include="net\service_basic.cpp" />
+    <ClCompile Include="net\tcp_mt_server.cpp" />
+    <ClCompile Include="string\iegad_string.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="iegad_io_msg.cpp" />
-    <ClCompile Include="iegad_log.cpp" />
-    <ClCompile Include="iegad_string.cpp" />
-    <ClCompile Include="msg_basic.pb.cc" />
-    <ClCompile Include="service_basic.cpp" />
-    <ClCompile Include="tcp_mt_server.cpp" />
+    <ClInclude Include="common\iegad_log.h" />
+    <ClInclude Include="common\job_queue.hpp" />
+    <ClInclude Include="common\job_worker.hpp" />
+    <ClInclude Include="db\iegad_dbrow.h" />
+    <ClInclude Include="db\iegad_dbtab.h" />
+    <ClInclude Include="net\iegad_io_msg.h" />
+    <ClInclude Include="net\msg_basic.pb.h" />
+    <ClInclude Include="net\service_basic.h" />
+    <ClInclude Include="net\tcp_mt_server.h" />
+    <ClInclude Include="string\iegad_string.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="msg_basic.proto" />
+    <None Include="net\proto\msg_basic.proto" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{21EE01C9-F420-4EE7-8036-8EF32473DF65}</ProjectGuid>
@@ -74,7 +78,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
