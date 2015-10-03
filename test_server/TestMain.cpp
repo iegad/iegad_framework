@@ -16,7 +16,7 @@
 #include "net/tcp_mt_server.h"
 #include "common/iegad_log.h"
 #include "echo_svc.h"
-#include "mysql_helper.h"
+#include "iegad_mysql.h"
 
 
 using namespace iegad::common;

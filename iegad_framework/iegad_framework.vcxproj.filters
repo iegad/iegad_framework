@@ -74,6 +74,7 @@
     <ClInclude Include="string\iegad_string.h">
       <Filter>string</Filter>
     </ClInclude>
+    <ClInclude Include="iegad_framework.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="net\proto\msg_basic.proto">

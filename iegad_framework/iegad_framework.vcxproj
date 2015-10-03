@@ -26,6 +26,7 @@
     <ClInclude Include="common\job_worker.hpp" />
     <ClInclude Include="db\iegad_dbrow.h" />
     <ClInclude Include="db\iegad_dbtab.h" />
+    <ClInclude Include="iegad_framework.h" />
     <ClInclude Include="net\iegad_io_msg.h" />
     <ClInclude Include="net\msg_basic.pb.h" />
     <ClInclude Include="net\service_basic.h" />

@@ -35,7 +35,7 @@ namespace string {
 // @返回值 : 返回分组成功的字符串向量
 // ============================
 const std::vector<std::string>
-split_vct(const std::string & src, const std::string chs);
+split_vct(const std::string & src, const std::string & chs);
 
 
 // ============================
@@ -44,7 +44,7 @@ split_vct(const std::string & src, const std::string chs);
 // @src : 源字符串
 // @pos : 切割的开始位置
 // @n : 指定切割的长度
-// @返回值 : 切割后的字符串
+// @返回值 : 切割后的子字符串
 // ============================
 const std::string
 substr(const std::string & src, int pos, int n);

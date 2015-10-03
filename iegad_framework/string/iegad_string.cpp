@@ -7,7 +7,7 @@
 
 
 const std::vector<std::string>
-iegad::string::split_vct(const std::string &src, const std::string chs)
+iegad::string::split_vct(const std::string &src, const std::string & chs)
 {
     int pos = 0, len = chs.length(), n = 0, index = 0;
     std::vector<std::string> res;
