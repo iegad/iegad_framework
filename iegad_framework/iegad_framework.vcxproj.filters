@@ -39,9 +39,6 @@
     <ClCompile Include="string\iegad_string.cpp">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="tcp_client.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="net\service_basic.cpp">
       <Filter>net\svc</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>string</Filter>
     </ClInclude>
     <ClInclude Include="iegad_framework.h" />
-    <ClInclude Include="tcp_client.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="net\service_basic.h">
       <Filter>net\svc</Filter>
     </ClInclude>

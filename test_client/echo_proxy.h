@@ -3,7 +3,6 @@
 
 
 #include "iegad_framework.h"
-#include "tcp_client.h"
 #include "echo_msg.pb.h"
 #include "proxy_basic.hpp"
 
@@ -13,16 +12,18 @@ using namespace iegad::net;
 
 class echo_proxy : proxy_basic<std::string, std::string, echo_msg> {
 public:
-    explicit echo_proxy(iegad::net::tcp_clnt & clnt) 
-	: proxy_basic(clnt) {}
+    explicit echo_proxy(const std::string & host, const std::string & svc) 
+	: proxy_basic(host, svc) {}
 
-    const std::string operator()(const std::string & str) {
-	return _echo_svc_proc(str);
+    virtual const std::string 
+    operator()(const std::string & param) {
+	return this->_echo_svc_proc(param);
     }
 
 private:
+
     const std::string _echo_svc_proc(const std::string & echo_str) {
-	if (clnt_.init() != 0) {
+	if (this->_connect() != 0) {
 	    return "";
 	}
 
@@ -35,7 +36,7 @@ private:
 	}
 
 	res = this->_recv();
-	clnt_.get().close();
+	clnt_.close();
 	return res;
     }
 };

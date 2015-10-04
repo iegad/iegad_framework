@@ -19,7 +19,6 @@
     <ClCompile Include="net\service_basic.cpp" />
     <ClCompile Include="net\tcp_mt_server.cpp" />
     <ClCompile Include="string\iegad_string.cpp" />
-    <ClCompile Include="tcp_client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\iegad_log.h" />
@@ -34,7 +33,6 @@
     <ClInclude Include="net\tcp_mt_server.h" />
     <ClInclude Include="proxy_basic.hpp" />
     <ClInclude Include="string\iegad_string.h" />
-    <ClInclude Include="tcp_client.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="net\proto\msg_basic.proto" />
