@@ -16,6 +16,12 @@
     <Filter Include="db">
       <UniqueIdentifier>{5292aa02-7575-4385-9831-4a4a2fbea250}</UniqueIdentifier>
     </Filter>
+    <Filter Include="net\svc">
+      <UniqueIdentifier>{c97df8aa-f84a-4bfa-a72d-39515743faee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net\msg">
+      <UniqueIdentifier>{d5caddc4-a3c1-41f1-997c-a44ec36b4f71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\iegad_log.cpp">
@@ -27,20 +33,23 @@
     <ClCompile Include="db\iegad_dbtab.cpp">
       <Filter>db</Filter>
     </ClCompile>
-    <ClCompile Include="net\iegad_io_msg.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="net\msg_basic.pb.cc">
-      <Filter>net</Filter>
-    </ClCompile>
-    <ClCompile Include="net\service_basic.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="net\tcp_mt_server.cpp">
       <Filter>net</Filter>
     </ClCompile>
     <ClCompile Include="string\iegad_string.cpp">
       <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_client.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\service_basic.cpp">
+      <Filter>net\svc</Filter>
+    </ClCompile>
+    <ClCompile Include="net\iegad_io_msg.cpp">
+      <Filter>net\msg</Filter>
+    </ClCompile>
+    <ClCompile Include="net\msg_basic.pb.cc">
+      <Filter>net\msg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,15 +68,6 @@
     <ClInclude Include="db\iegad_dbtab.h">
       <Filter>db</Filter>
     </ClInclude>
-    <ClInclude Include="net\iegad_io_msg.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="net\msg_basic.pb.h">
-      <Filter>net</Filter>
-    </ClInclude>
-    <ClInclude Include="net\service_basic.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="net\tcp_mt_server.h">
       <Filter>net</Filter>
     </ClInclude>
@@ -75,6 +75,21 @@
       <Filter>string</Filter>
     </ClInclude>
     <ClInclude Include="iegad_framework.h" />
+    <ClInclude Include="tcp_client.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\service_basic.h">
+      <Filter>net\svc</Filter>
+    </ClInclude>
+    <ClInclude Include="net\iegad_io_msg.h">
+      <Filter>net\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="net\msg_basic.pb.h">
+      <Filter>net\msg</Filter>
+    </ClInclude>
+    <ClInclude Include="proxy_basic.hpp">
+      <Filter>net\svc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="net\proto\msg_basic.proto">

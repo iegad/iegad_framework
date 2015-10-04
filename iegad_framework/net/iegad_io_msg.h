@@ -79,8 +79,6 @@ namespace net {
     // @msgbsk : 需要填充的消息
     // @err_code : 回传给调用者的 err_code
     // @返回值 : 接收成功返回 0 , 否则返回 -1;
-    // @PS : 如明果 timeout 不为 0, 则会为clnt 设定接收超时, 
-    //		 否则, 接收将永久阻塞.
     // ============================
     int recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc, 
 	boost::system::error_code & err_code);
