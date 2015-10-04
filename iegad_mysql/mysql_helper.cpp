@@ -98,7 +98,8 @@ iegad::mysql::mysql_helper::query(const std::string & sqlstr, iegad::db::dbtab_p
 	return -1;
     }
 
-    if (mysql_query(conn_, sqlstr.c_str()) != 0) {
+    if (mysql_real_query(conn_, sqlstr.c_str(), sqlstr.size()) != 0) {
+	iWARN << mysql_errno(conn_) << "\t\t" << mysql_error(conn_) << std::endl;
 	return -1;
     }
 
@@ -115,7 +116,7 @@ iegad::mysql::mysql_helper::query(const std::string & sqlstr, iegad::db::dbtab_p
 			return 0;
 		    }
 		    else {
-			iWARN << mysql_error(conn_) << std::endl;
+			iWARN << mysql_errno(conn_) << "\t\t" << mysql_error(conn_) << std::endl;
 			return -1;
 		    }
 		}
@@ -133,6 +134,64 @@ iegad::mysql::mysql_helper::query(const std::string & sqlstr, iegad::db::dbtab_p
 
     return 0;
 }
+
+
+int
+iegad::mysql::mysql_helper::call_proc(const std::string & sqlstr)
+{
+    if (mysql_real_query(conn_, sqlstr.c_str(), sqlstr.size()) != 0) {
+	iWARN << mysql_errno(conn_) << "\t\t" << mysql_error(conn_) << std::endl;
+	return -1;
+    }
+    MYSQL_RES * res = mysql_store_result(conn_);
+    if (res == nullptr) {
+	return 0;
+    }
+    int n = mysql_field_count(conn_);
+    MYSQL_ROW row;
+    do {
+	row = mysql_fetch_row(res);
+    } while (mysql_next_result(conn_) == 0);
+    mysql_free_result(res);
+    return 0;
+}
+
+
+int
+iegad::mysql::mysql_helper::call_proc(const std::string & sqlstr, 
+    std::vector<std::string> & out_param)
+{
+    MYSQL_ROW row;
+    MYSQL_RES * res;
+
+    if (mysql_real_query(conn_, sqlstr.c_str(), sqlstr.size()) != 0) {
+	iWARN << mysql_errno(conn_) << "\t\t" << mysql_error(conn_) << std::endl;
+	return -1;
+    }
+
+    res = mysql_store_result(conn_);
+    if (res == nullptr) {
+	return 0;
+    }
+
+    int n = mysql_field_count(conn_);
+
+    do {
+	if (row = mysql_fetch_row(res), row == nullptr) {
+	    continue;
+	}
+
+	for (int i = 0; i < n; i++) {
+	    out_param.push_back(row[i]);
+	}
+
+    } while (mysql_next_result(conn_) == 0);
+    mysql_free_result(res);
+    return 0;
+}
+
+
+
 
 
 

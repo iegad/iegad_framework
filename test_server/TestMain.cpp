@@ -41,38 +41,52 @@ main(int argc, char * argv[])
     iegad::common::_LOG log(argv[0]);
 
     // ======================== ·þÎñ¶Ë¼Ü¹¹²âÊÔ ========================
-    echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    tcp_mt_svr host("127.0.0.1", 6688);
-    host.regist_svc(echo_svc_);
-    host.run(1);
+    //echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
+    //tcp_mt_svr host("127.0.0.1", 6688);
+    //host.regist_svc(echo_svc_);
+    //host.run(8);
 
-    std::cout << "press <Enter> to exit..." << std::endl;
-    std::cin.get();
-    host.stop();
+    //std::cout << "press <Enter> to exit..." << std::endl;
+    //std::cin.get();
+    //host.stop();
     // ======================== ·þÎñ¶Ë¼Ü¹¹²âÊÔ ========================
 
 
     // ======================== MYSQL¿â²âÊÔ ========================
- //   using namespace iegad::mysql;
- //   using namespace iegad::db;
+    using namespace iegad::mysql;
+    using namespace iegad::db;
 
- //   mysql_helper dbc;
- //   if (dbc.open("Eniac", 3306, "iegad", "1111", "iegad_api_db") != 0) {
-	//std::cout << "open failed" << std::endl;
- //   }
+    mysql_helper dbc;    
 
- //   dbtab_ptr tab(new db_tab);
- //   if (dbc.query("select * from employee_t", tab) != 0) {
-	//std::cout << "query failed" << std::endl;
- //   }
+    if (dbc.open("Eniac", 3306, "iegad", "1111", "iegad_api_db") != 0) {
+	std::cout << "open failed" << std::endl;
+    }
 
- //   for (int i = 0, n = tab->row_count(); i < n; i++) {
-	//for (int j = 0, m = (*tab)[i]->col_count(); j < m; j++) {
-	//    std::string val = (*(*tab)[i])[j];
-	//    std::cout << val << "\t";
-	//}
-	//std::cout << std::endl;
- //   }
+
+
+    dbtab_ptr tab(new db_tab);
+    if (dbc.query("select * from employee_t", tab) != 0) {
+	std::cout << "query failed" << std::endl;
+    }
+
+    for (int i = 0, n = tab->row_count(); i < n; i++) {
+	for (int j = 0, m = (*tab)[i]->col_count(); j < m; j++) {
+	    std::string val = (*(*tab)[i])[j];
+	    std::cout << val << "\t";
+	}
+	std::cout << std::endl;
+    }
+    tab->clear();
+
+    std::vector<std::string> out;
+    int n = dbc.call_proc("CALL CREATE_EMPLOYEE_P('iegad2', '123')", out);
+
+
+    for (int i = 0; i < out.size(); i++) {
+	std::cout << "out param : " << out[i] << std::endl;
+    }
+
+
     // ======================== MYSQL¿â²âÊÔ ========================
 
     _CrtDumpMemoryLeaks(); // ÓÃÓÚwindows ÏÂ, ÄÚ´æÐ¹Â©¼ì²â;

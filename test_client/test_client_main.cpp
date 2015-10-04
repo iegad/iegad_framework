@@ -6,27 +6,52 @@
 
 
 enum {
-    N_TIMES = 100
+    N_TIMES = 5000
 };
 
+
+void 
+test_proc()
+{
+    std::string outstr;
+    for (int i = 0; i < N_TIMES; i++) {
+	outstr = echo_proxy("127.0.0.1", "6688")("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	if (outstr == "") {
+	    std::cout << "failed" << std::endl;
+	}
+    }
+}
 
 
 int
 main(int argc, char * argv[])
 {
-    int nCount = 0;
-    std::locale::global(std::locale("chs"));
+   
+    std::string instr, outstr;
+    clock_t start, finished;
+    start = clock();
+    std::vector<std::thread> thread_pool;
+    std::cout << "Enter the str & 'exit' to exit..." << std::endl;
+    do {
 
-    for (int i = 0; i < N_TIMES; i++) {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-	// 当发送长度为127时, 发送无警告, 否则, protocol buffer会发出警告
-	std::string rzt;
-	rzt = echo_proxy("127.0.0.1", "6688")("肖琪是超级大天才 肖琪是超级大天才 肖琪是超级大天才 肖琪是超级大天才 肖琪是超级大天才!!!!");
-	std::cout << rzt << std::endl;
-	nCount++;
-    }
-    std::cout << nCount << " times done" << std::endl;
+	std::getline(std::cin, instr, '\n');
+	if ("exit" == iegad::string::to_lwr(instr)) {
+	    break;
+	}
+	std::cout << "echo :" << echo_proxy("127.0.0.1", "6688")(instr) << std::endl;
+    } while (true);
+
+ //   for (int i = 0; i < 10; i++) {
+	//thread_pool.push_back(std::thread(test_proc));
+ //   }
+
+ //   for (int i = 0; i < 10; i++) {
+	//thread_pool[i].join();
+ //   }
+
+
+    finished = clock();
+    std::cout << (finished - start) / CLOCKS_PER_SEC << std::endl;
 exit_case:
-    std::cin.get();
     exit(0);
 }

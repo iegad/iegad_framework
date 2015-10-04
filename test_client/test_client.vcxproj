@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="echo_msg.pb.cc" />
+    <ClCompile Include="echo_proxy.cpp" />
     <ClCompile Include="msg_basic.pb.cc" />
     <ClCompile Include="test_client_main.cpp" />
   </ItemGroup>

@@ -21,6 +21,9 @@
       <Filter>msg</Filter>
     </ClCompile>
     <ClCompile Include="test_client_main.cpp" />
+    <ClCompile Include="echo_proxy.cpp">
+      <Filter>svc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="msg_basic.pb.h">

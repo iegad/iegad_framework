@@ -84,6 +84,7 @@
     <ClInclude Include="Msg\echo_msg.pb.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="echo_svc.cpp" />
     <ClCompile Include="Msg\echo_msg.pb.cc" />
     <ClCompile Include="TestMain.cpp" />
   </ItemGroup>

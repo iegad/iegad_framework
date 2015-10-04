@@ -101,6 +101,26 @@ namespace mysql {
 	int query(const std::string & sqlstr, iegad::db::dbtab_ptr & tab);
 
 
+	// ============================
+	// @用途 : 执行存储过程
+	// @sqlstr : 存储过程调用语句
+	// @返回值 : 成功返回0, 否则返回-1;
+	// @PS : 这里返回成功只是说明 MySQL API 调用成功, 
+	//	    并不代表存储过程本身执行成功;
+	// ============================
+	int call_proc(const std::string & sqlstr);
+
+
+	// ============================
+	// @用途 : 执行存储过程
+	// @sqlstr : 存储过程调用语句
+	// @out_param : 用来接收输出参数
+	// @返回值 : 成功返回0, 否则返回-1;
+	// ============================
+	int call_proc(const std::string & sqlstr, std::vector<std::string> & out_param);
+	
+
+
     private:
 	// MYSQL 操作句柄
 	MYSQL * conn_;

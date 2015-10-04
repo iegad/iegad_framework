@@ -25,6 +25,9 @@
     <ClCompile Include="Msg\echo_msg.pb.cc">
       <Filter>msg</Filter>
     </ClCompile>
+    <ClCompile Include="echo_svc.cpp">
+      <Filter>svc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="proto\echo_msg.proto">
