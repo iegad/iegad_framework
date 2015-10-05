@@ -21,13 +21,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestMain.cpp" />
     <ClCompile Include="Msg\echo_msg.pb.cc">
       <Filter>msg</Filter>
     </ClCompile>
     <ClCompile Include="echo_svc.cpp">
       <Filter>svc</Filter>
     </ClCompile>
+    <ClCompile Include="TestServerMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="proto\echo_msg.proto">

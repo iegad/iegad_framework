@@ -41,19 +41,19 @@ main(int argc, char * argv[])
     iegad::common::_LOG log(argv[0]);
 
     // ======================== ·þÎñ¶Ë¼Ü¹¹²âÊÔ ========================
-    //echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    //tcp_mt_svr host("127.0.0.1", 6688);
-    //host.regist_svc(echo_svc_);
-    //host.run(8);
+    echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
+    tcp_mt_svr host("127.0.0.1", 6688);
+    host.regist_svc(echo_svc_);
+    host.run(8);
 
-    //std::cout << "press <Enter> to exit..." << std::endl;
-    //std::cin.get();
-    //host.stop();
+    std::cout << "press <Enter> to exit..." << std::endl;
+    std::cin.get();
+    host.stop();
     // ======================== ·þÎñ¶Ë¼Ü¹¹²âÊÔ ========================
 
 
     // ======================== MYSQL¿â²âÊÔ ========================
-    using namespace iegad::mysql;
+    /*using namespace iegad::mysql;
     using namespace iegad::db;
 
     mysql_helper dbc;    
@@ -84,7 +84,7 @@ main(int argc, char * argv[])
 
     for (int i = 0; i < out.size(); i++) {
 	std::cout << "out param : " << out[i] << std::endl;
-    }
+    }*/
 
 
     // ======================== MYSQL¿â²âÊÔ ========================

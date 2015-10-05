@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D2BF9775-B939-41A2-8B47-F38C3FD0D106}</ProjectGuid>
+    <ProjectGuid>{DBF87776-A0A2-4472-BF83-046042C850D2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>test_client</RootNamespace>
+    <RootNamespace>iegad_app_server</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -53,12 +53,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;D:\iegad_framework\iegad_framework;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\include;F:\Tools\C++\glog-0.3.3\src\windows;F:\Tools\C++\boost_1_59_0;C:\protobuf-2.6.1\src;D:\iegad_framework\iegad_framework;D:\iegad_framework\iegad_mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\protobuf-2.6.1\vsprojects\Debug;D:\iegad_framework\Debug;F:\Tools\C++\boost_1_59_0\stage\lib;F:\Tools\C++\glog-0.3.3\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\lib;F:\Tools\C++\boost_1_59_0\stage\lib;F:\Tools\C++\glog-0.3.3\Debug;C:\protobuf-2.6.1\vsprojects\Debug;D:\iegad_framework\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,19 +79,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="echo_msg.pb.cc" />
-    <ClCompile Include="echo_proxy.cpp" />
-    <ClCompile Include="iegad_app_svr_msg.pb.cc" />
-    <ClCompile Include="msg_basic.pb.cc" />
-    <ClCompile Include="setup_proxy.cpp" />
-    <ClCompile Include="TestClientMain.cpp" />
+    <ClCompile Include="iegad_app_svr.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="msg\iegad_app_svr_msg.pb.cc" />
+    <ClCompile Include="setup_svc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="echo_msg.pb.h" />
-    <ClInclude Include="echo_proxy.h" />
-    <ClInclude Include="iegad_app_svr_msg.pb.h" />
-    <ClInclude Include="msg_basic.pb.h" />
-    <ClInclude Include="setup_proxy.h" />
+    <ClInclude Include="iegad_app_svr.h" />
+    <ClInclude Include="msg\iegad_app_svr_msg.pb.h" />
+    <ClInclude Include="setup_svc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="iegad_app_svr_msg.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

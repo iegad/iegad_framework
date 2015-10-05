@@ -11,12 +11,14 @@
 #endif // WIN32
 
 
+
 #include "string/iegad_string.h"
 #include "db/iegad_dbtab.h"
 #include "net/tcp_mt_server.h"
 #include "common/iegad_log.h"
 #include "common/job_queue.hpp"
 #include "common/job_worker.hpp"
+#include "proxy_basic.hpp"
 
 
 #endif // __IEGAD_FRAMEWORK__

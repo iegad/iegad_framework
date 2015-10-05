@@ -86,7 +86,7 @@
   <ItemGroup>
     <ClCompile Include="echo_svc.cpp" />
     <ClCompile Include="Msg\echo_msg.pb.cc" />
-    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="TestServerMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="proto\echo_msg.proto" />

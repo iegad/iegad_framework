@@ -20,8 +20,14 @@
     <ClCompile Include="echo_msg.pb.cc">
       <Filter>msg</Filter>
     </ClCompile>
-    <ClCompile Include="test_client_main.cpp" />
     <ClCompile Include="echo_proxy.cpp">
+      <Filter>svc</Filter>
+    </ClCompile>
+    <ClCompile Include="TestClientMain.cpp" />
+    <ClCompile Include="iegad_app_svr_msg.pb.cc">
+      <Filter>msg</Filter>
+    </ClCompile>
+    <ClCompile Include="setup_proxy.cpp">
       <Filter>svc</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,6 +39,12 @@
       <Filter>msg</Filter>
     </ClInclude>
     <ClInclude Include="echo_proxy.h">
+      <Filter>svc</Filter>
+    </ClInclude>
+    <ClInclude Include="iegad_app_svr_msg.pb.h">
+      <Filter>msg</Filter>
+    </ClInclude>
+    <ClInclude Include="setup_proxy.h">
       <Filter>svc</Filter>
     </ClInclude>
   </ItemGroup>

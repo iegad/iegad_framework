@@ -1,0 +1,8 @@
+
+
+message setup_msg {
+// <注册>消息
+    required string log_id = 1;	//用户名
+    required string pwd = 2;	//密码(加密之后的)
+    required string email = 3;	//邮箱
+};
