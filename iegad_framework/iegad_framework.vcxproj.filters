@@ -22,6 +22,9 @@
     <Filter Include="net\msg">
       <UniqueIdentifier>{d5caddc4-a3c1-41f1-997c-a44ec36b4f71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="security">
+      <UniqueIdentifier>{216ae19b-7262-4aaa-97b4-eb84daad22db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\iegad_log.cpp">
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="net\msg_basic.pb.cc">
       <Filter>net\msg</Filter>
+    </ClCompile>
+    <ClCompile Include="security\iegad_md5.cpp">
+      <Filter>security</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="proxy_basic.hpp">
       <Filter>net\svc</Filter>
+    </ClInclude>
+    <ClInclude Include="security\iegad_md5.h">
+      <Filter>security</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

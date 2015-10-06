@@ -3,6 +3,13 @@
 #include <sstream>
 #include <codecvt>
 #include <iomanip>
+#include <boost/uuid/sha1.hpp>
+#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/binary_from_base64.hpp>
+#include <boost/archive/iterators/transform_width.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 
 
@@ -72,7 +79,7 @@ iegad::string::ltrim(const std::string &src)
 
 
 const std::string
-iegad::string::replace(const std::string &src, const std::string oldstr, const std::string newstr)
+iegad::string::replace(const std::string &src, const std::string & oldstr, const std::string & newstr)
 {
     int pos = 0, len = oldstr.length();
     std::string restr(src);
@@ -339,6 +346,66 @@ iegad::string::to_double(const std::string & str)
     ss.str(str);
     ss >> res;
     return res;
+}
+
+
+const std::string 
+iegad::string::md5(const std::string & src)
+{
+    iegad::security::MD5 m(src);
+    return m.hexdigest();
+}
+
+void 
+iegad::string::sha1(const std::string & src, std::vector<unsigned int> & digest)
+{
+    unsigned int temp[5];
+    digest.clear();
+    boost::uuids::detail::sha1 sha;
+    sha.process_bytes(src.c_str(), src.size());
+    sha.get_digest(temp);
+    for (int i = 0; i < 5; i++) {
+	digest.push_back(temp[i]);
+    }
+}
+
+
+const std::string 
+iegad::string::base64_en(const std::string & src)
+{
+    using boost::archive::iterators::base64_from_binary;
+    using boost::archive::iterators::transform_width;
+    typedef base64_from_binary<transform_width<std::string::const_iterator, 6, 8>> base64_en_itor;
+    std::stringstream result;
+    std::copy(base64_en_itor(src.begin()), 
+	base64_en_itor(src.end()), std::ostream_iterator<char>(result));
+    size_t equal_count = (3 - src.length() % 3) % 3;
+    for (size_t i = 0; i < equal_count; i++) {
+	result.put('=');
+    }
+    return result.str();
+}
+
+
+const std::string 
+iegad::string::base64_de(const std::string & src)
+{
+    using boost::archive::iterators::binary_from_base64;
+    using boost::archive::iterators::transform_width;
+    typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_de_itor;
+    std::stringstream result;
+    std::copy(base64_de_itor(src.begin()),
+	base64_de_itor(src.end() - 1), std::ostream_iterator<char>(result));
+    return result.str();
+}
+
+
+const std::string 
+iegad::string::guid()
+{
+    boost::uuids::random_generator rgen;
+    boost::uuids::uuid u(rgen());
+    return boost::uuids::to_string(u);
 }
 
 

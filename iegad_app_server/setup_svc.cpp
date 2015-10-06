@@ -19,9 +19,10 @@ setup_svc::action(boost::asio::ip::tcp::socket & clnt, int msg_flag, const std::
 	return -1;
     }
 
-    if (mh.open("Eniac", 3306, "iegad", "1111", "IOPC") != 0) {
+    if (mh.open(MH_HOST, MH_PORT, MH_USR, MH_PWD, MH_DB) != 0) {
 	return -1;
     }
+
     std::string sqlstr = "CALL SET_UP_P ('" + msg.log_id() + "', '" + msg.pwd() + "', '" + msg.email() + "')";
     std::vector<std::string> outpa;
     if (mh.call_proc(sqlstr, outpa) != 0) {

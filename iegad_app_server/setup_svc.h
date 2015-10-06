@@ -3,9 +3,7 @@
 
 
 #include "net/service_basic.h"
-
-
-#define SVC_SETUP 11
+#include "msg_type.h"
 
 
 class setup_svc : public iegad::net::svc_basic {

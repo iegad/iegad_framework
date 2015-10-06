@@ -1,5 +1,6 @@
 #include "iegad_app_svr.h"
 #include "setup_svc.h"
+#include "up_usrinfo_svc.h"
 
 
 app_svr::~app_svr()
@@ -19,5 +20,7 @@ void
 app_svr::_init()
 {
     setup_svc_ptr setup(new setup_svc);
+    up_usrinfo_svc_ptr up_usrinfo(new up_usrinfo_svc);
     this->regist_svc(setup);
+    this->regist_svc(up_usrinfo);
 }

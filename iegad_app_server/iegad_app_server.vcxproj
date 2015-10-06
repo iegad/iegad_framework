@@ -83,11 +83,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="msg\iegad_app_svr_msg.pb.cc" />
     <ClCompile Include="setup_svc.cpp" />
+    <ClCompile Include="up_usrinfo_svc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="iegad_app_svr.h" />
     <ClInclude Include="msg\iegad_app_svr_msg.pb.h" />
+    <ClInclude Include="msg_type.h" />
     <ClInclude Include="setup_svc.h" />
+    <ClInclude Include="up_usrinfo_svc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="iegad_app_svr_msg.proto" />

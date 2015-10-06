@@ -18,6 +18,7 @@
     <ClCompile Include="net\msg_basic.pb.cc" />
     <ClCompile Include="net\service_basic.cpp" />
     <ClCompile Include="net\tcp_mt_server.cpp" />
+    <ClCompile Include="security\iegad_md5.cpp" />
     <ClCompile Include="string\iegad_string.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -32,6 +33,7 @@
     <ClInclude Include="net\service_basic.h" />
     <ClInclude Include="net\tcp_mt_server.h" />
     <ClInclude Include="proxy_basic.hpp" />
+    <ClInclude Include="security\iegad_md5.h" />
     <ClInclude Include="string\iegad_string.h" />
   </ItemGroup>
   <ItemGroup>

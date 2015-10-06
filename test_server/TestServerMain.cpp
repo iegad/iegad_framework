@@ -41,14 +41,14 @@ main(int argc, char * argv[])
     iegad::common::_LOG log(argv[0]);
 
     // ======================== 服务端架构测试 ========================
-    echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    tcp_mt_svr host("127.0.0.1", 6688);
-    host.regist_svc(echo_svc_);
-    host.run(8);
+    //echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
+    //tcp_mt_svr host("127.0.0.1", 6688);
+    //host.regist_svc(echo_svc_);
+    //host.run(8);
 
-    std::cout << "press <Enter> to exit..." << std::endl;
-    std::cin.get();
-    host.stop();
+    //std::cout << "press <Enter> to exit..." << std::endl;
+    //std::cin.get();
+    //host.stop();
     // ======================== 服务端架构测试 ========================
 
 

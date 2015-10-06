@@ -21,6 +21,9 @@
     <ClCompile Include="msg\iegad_app_svr_msg.pb.cc">
       <Filter>msg</Filter>
     </ClCompile>
+    <ClCompile Include="up_usrinfo_svc.cpp">
+      <Filter>svc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="iegad_app_svr.h" />
@@ -28,6 +31,12 @@
       <Filter>svc</Filter>
     </ClInclude>
     <ClInclude Include="msg\iegad_app_svr_msg.pb.h">
+      <Filter>msg</Filter>
+    </ClInclude>
+    <ClInclude Include="up_usrinfo_svc.h">
+      <Filter>svc</Filter>
+    </ClInclude>
+    <ClInclude Include="msg_type.h">
       <Filter>msg</Filter>
     </ClInclude>
   </ItemGroup>

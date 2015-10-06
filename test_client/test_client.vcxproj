@@ -82,16 +82,16 @@
     <ClCompile Include="echo_msg.pb.cc" />
     <ClCompile Include="echo_proxy.cpp" />
     <ClCompile Include="iegad_app_svr_msg.pb.cc" />
-    <ClCompile Include="msg_basic.pb.cc" />
     <ClCompile Include="setup_proxy.cpp" />
     <ClCompile Include="TestClientMain.cpp" />
+    <ClCompile Include="up_usrinfo_proxy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="echo_msg.pb.h" />
     <ClInclude Include="echo_proxy.h" />
     <ClInclude Include="iegad_app_svr_msg.pb.h" />
-    <ClInclude Include="msg_basic.pb.h" />
     <ClInclude Include="setup_proxy.h" />
+    <ClInclude Include="up_usrinfo_proxy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <codecvt>
 #include "setup_proxy.h"
+#include "up_usrinfo_proxy.h"
 
 
 
@@ -30,13 +31,25 @@ main(int argc, char * argv[])
    
     std::string instr, outstr;
     clock_t start, finished;
+    std::cout << "Press <Enter> to start..." << std::endl;
+    std::cin.get();
     start = clock();
+    
     setup_t p;
     p.log_id = "iegad2011";
     p.pwd = "86343961xq";
     p.email = "iegad@vip.qq.com";
     int rzt = setup_proxy("127.0.0.1", "6688")(p);
     std::cout << rzt << std::endl;
+
+    up_usrinfo_t p1;
+    p1.nick_name = "Aizen";
+    p1.sex = "M";
+    p1.log_id = "iegad2011";
+    p1.job = 0;
+    rzt = up_usrinfo_proxy("127.0.0.1", "6688")(p1);
+    std::cout << rzt << std::endl;
+
 
     //std::vector<std::thread> thread_pool;
     //std::cout << "Enter the str & 'exit' to exit..." << std::endl;
@@ -60,7 +73,7 @@ main(int argc, char * argv[])
 
 
     finished = clock();
-    std::cout << (finished - start) / CLOCKS_PER_SEC << std::endl;
+    std::cout <<"use : "<< (finished - start) / CLOCKS_PER_SEC << std::endl;
 exit_case:
     std::cin.get();
     exit(0);

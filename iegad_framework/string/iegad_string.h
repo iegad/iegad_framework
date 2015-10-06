@@ -16,11 +16,15 @@
 //  日期                     修改人                                   修改说明
 // =======================================
 //  --2015-10-03	    --iegad		    添加 to_**(const std::string &) 这样的逆向转换函数
+//  --2015-10-06	    --iegad		    1, 添加md5, sha1 加密
+//							    2, 添加base64加密, 解密
+//							    3, 添加 guid 生成函数
 
 
 #include <string>
 #include <vector>
 #include <cctype>
+#include "security/iegad_md5.h"
 
 
 namespace iegad {
@@ -85,7 +89,7 @@ ltrim(const std::string & src);
 // @返回值 : 修改后的新字符串
 // ============================
 const std::string
-replace(const std::string & src, const std::string oldstr, const std::string newstr);
+replace(const std::string & src, const std::string & oldstr, const std::string & newstr);
 
 
 // ============================
@@ -354,6 +358,53 @@ unicode_to_utf8(const std::wstring & val);
 // ============================
 const std::wstring
 utf8_to_unicode(const std::string & val);
+
+
+// ============================
+// @用途 : 将字符串 src 进行md5加密
+// @src : 需要加密的字符串
+// @返回值 : md5加密之后的字符串
+// ============================
+const std::string
+md5(const std::string & src);
+
+
+// ============================
+// @用途 : 将字符串 src 进行sha1加密, 并将结果存放到 digest中
+// @src : 需要加密的字符串
+// @ser : 用来保存摘要的数组容器
+// @返回值 : void
+// ============================
+void
+sha1(const std::string & src, std::vector<unsigned int> & digest);
+
+
+// ============================
+// @用途 : 将字符串 src 进行base64加密
+// @src : 需要加密的字符串
+// @返回值 : 进行base64加密后的字符串
+// ============================
+const std::string
+base64_en(const std::string & src);
+
+
+// ============================
+// @用途 : 将字符串 src 进行base64解密
+// @src : 需要解密的字符串
+// @返回值 : 进行base64解密后的字符串
+// @PS : 如果src 是未进行base64加密的字符串, 
+//	    返回值是非预期的结果.
+// ============================
+const std::string
+base64_de(const std::string & src);
+
+
+// ============================
+// @用途 : 获取一个 36位 guid 字符串
+// @返回值 : 一个 36 位, 小写, 中间还代有 短横杠的 guid字符串
+// ============================
+const std::string
+guid();
 
 
 } //end namespace string
