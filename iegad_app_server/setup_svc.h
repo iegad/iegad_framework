@@ -2,7 +2,7 @@
 #define __SETUP_SVC__
 
 
-#include "net/service_basic.h"
+#include "svc/service_basic.h"
 #include "msg_type.h"
 
 

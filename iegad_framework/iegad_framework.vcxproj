@@ -16,10 +16,10 @@
     <ClCompile Include="db\iegad_dbtab.cpp" />
     <ClCompile Include="net\iegad_io_msg.cpp" />
     <ClCompile Include="net\msg_basic.pb.cc" />
-    <ClCompile Include="net\service_basic.cpp" />
     <ClCompile Include="net\tcp_mt_server.cpp" />
     <ClCompile Include="security\iegad_md5.cpp" />
     <ClCompile Include="string\iegad_string.cpp" />
+    <ClCompile Include="svc\service_basic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\iegad_log.h" />
@@ -30,11 +30,11 @@
     <ClInclude Include="iegad_framework.h" />
     <ClInclude Include="net\iegad_io_msg.h" />
     <ClInclude Include="net\msg_basic.pb.h" />
-    <ClInclude Include="net\service_basic.h" />
     <ClInclude Include="net\tcp_mt_server.h" />
-    <ClInclude Include="proxy_basic.hpp" />
     <ClInclude Include="security\iegad_md5.h" />
     <ClInclude Include="string\iegad_string.h" />
+    <ClInclude Include="svc\proxy_basic.hpp" />
+    <ClInclude Include="svc\service_basic.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="net\proto\msg_basic.proto" />

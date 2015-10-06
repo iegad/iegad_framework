@@ -4,7 +4,7 @@
 
 #include "iegad_framework.h"
 #include "echo_msg.pb.h"
-#include "proxy_basic.hpp"
+#include "svc/proxy_basic.hpp"
 
 
 using namespace iegad::net;

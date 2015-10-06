@@ -8,7 +8,7 @@ enum {
 };
 
 
-#define MH_HOST  "Eniac"
+#define MH_HOST  "127.0.0.1"
 #define MH_PORT  3306
 #define MH_USR  "iegad"
 #define MH_PWD  "1111"

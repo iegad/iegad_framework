@@ -1,13 +1,13 @@
 #include "iegad_dbtab.h"
 
 
-iegad::db::dbrow_ptr 
+iegad::db::db_row &
 iegad::db::db_tab::operator[](int rownum)
 {
-    if (rownum > tab_.size()) {
-	return nullptr;
+    if (rownum >= tab_.size()) {
+	rownum = tab_.size() - 1;
     }
-    return tab_[rownum];
+    return *tab_[rownum];
 }
 
 

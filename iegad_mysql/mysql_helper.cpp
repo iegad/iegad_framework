@@ -68,7 +68,7 @@ iegad::mysql::mysql_helper::open(const std::string & host, unsigned int port,
     if (mysql_real_connect(conn_, host.c_str(),
 	usr.c_str(), pwd.c_str(),
 	db.c_str(), port, nullptr, 0) == nullptr) {
-	iSYSERR << "### mysql_real_connect failed ###" << std::endl;
+	iSYSERR << mysql_error(conn_) << std::endl;
 	this->_close();
 	return -1;
     }
@@ -91,7 +91,7 @@ iegad::mysql::mysql_helper::_close()
 
 
 int
-iegad::mysql::mysql_helper::query(const std::string & sqlstr, iegad::db::dbtab_ptr & tab)
+iegad::mysql::mysql_helper::query(const std::string & sqlstr, iegad::db::db_tab & tab)
 {
     lock_t locker(mtx_);
     if (conn_ == nullptr) {
@@ -125,7 +125,7 @@ iegad::mysql::mysql_helper::query(const std::string & sqlstr, iegad::db::dbtab_p
 		for (int i = 0; i < n; i++) {
 		    dbrow->add_col(i, row[i] != nullptr ? row[i] : "");
 		}
-		tab->add_row(dbrow_ptr(dbrow));
+		tab.add_row(dbrow_ptr(dbrow));
 	    } // while (row = mysql_fetch_row(res), row != nullptr);
 	} // if (res = mysql_use_result(conn_), res != nullptr);
     } while (n = mysql_next_result(conn_), n == 0);

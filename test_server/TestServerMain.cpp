@@ -53,38 +53,29 @@ main(int argc, char * argv[])
 
 
     // ======================== MYSQLø‚≤‚ ‘ ========================
-    /*using namespace iegad::mysql;
+    using namespace iegad::mysql;
     using namespace iegad::db;
 
-    mysql_helper dbc;    
+    mysql_helper dbc;
 
-    if (dbc.open("Eniac", 3306, "iegad", "1111", "iegad_api_db") != 0) {
+    if (dbc.open("127.0.0.1", 3306, "iegad", "1111", "IOPC") != 0) {
 	std::cout << "open failed" << std::endl;
     }
 
 
 
-    dbtab_ptr tab(new db_tab);
-    if (dbc.query("select * from employee_t", tab) != 0) {
+    db_tab tab;
+    if (dbc.query("select * from usr_log_info_t", tab) != 0) {
 	std::cout << "query failed" << std::endl;
     }
 
-    for (int i = 0, n = tab->row_count(); i < n; i++) {
-	for (int j = 0, m = (*tab)[i]->col_count(); j < m; j++) {
-	    std::string val = (*(*tab)[i])[j];
-	    std::cout << val << "\t";
+    for (int i = 0, n = tab.row_count(); i < n; i++) {
+	for (int j = 0, m = tab[i].col_count(); j < m; j++) {
+	    std::cout << tab[i][j] << "\t";
 	}
 	std::cout << std::endl;
     }
-    tab->clear();
-
-    std::vector<std::string> out;
-    int n = dbc.call_proc("CALL CREATE_EMPLOYEE_P('iegad2', '123')", out);
-
-
-    for (int i = 0; i < out.size(); i++) {
-	std::cout << "out param : " << out[i] << std::endl;
-    }*/
+    tab.clear();
 
 
     // ======================== MYSQLø‚≤‚ ‘ ========================

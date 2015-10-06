@@ -98,7 +98,7 @@ namespace mysql {
 	// @tab : 用来保存数据的 数据表智能指针
 	// @返回值 : 成功返回0, 否则返回-1;
 	// ============================
-	int query(const std::string & sqlstr, iegad::db::dbtab_ptr & tab);
+	int query(const std::string & sqlstr, iegad::db::db_tab & tab);
 
 
 	// ============================

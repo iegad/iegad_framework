@@ -16,14 +16,14 @@
     <Filter Include="db">
       <UniqueIdentifier>{5292aa02-7575-4385-9831-4a4a2fbea250}</UniqueIdentifier>
     </Filter>
-    <Filter Include="net\svc">
-      <UniqueIdentifier>{c97df8aa-f84a-4bfa-a72d-39515743faee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="net\msg">
       <UniqueIdentifier>{d5caddc4-a3c1-41f1-997c-a44ec36b4f71}</UniqueIdentifier>
     </Filter>
     <Filter Include="security">
       <UniqueIdentifier>{216ae19b-7262-4aaa-97b4-eb84daad22db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="svc">
+      <UniqueIdentifier>{c97df8aa-f84a-4bfa-a72d-39515743faee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +42,6 @@
     <ClCompile Include="string\iegad_string.cpp">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="net\service_basic.cpp">
-      <Filter>net\svc</Filter>
-    </ClCompile>
     <ClCompile Include="net\iegad_io_msg.cpp">
       <Filter>net\msg</Filter>
     </ClCompile>
@@ -53,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="security\iegad_md5.cpp">
       <Filter>security</Filter>
+    </ClCompile>
+    <ClCompile Include="svc\service_basic.cpp">
+      <Filter>svc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,20 +78,20 @@
       <Filter>string</Filter>
     </ClInclude>
     <ClInclude Include="iegad_framework.h" />
-    <ClInclude Include="net\service_basic.h">
-      <Filter>net\svc</Filter>
-    </ClInclude>
     <ClInclude Include="net\iegad_io_msg.h">
       <Filter>net\msg</Filter>
     </ClInclude>
     <ClInclude Include="net\msg_basic.pb.h">
       <Filter>net\msg</Filter>
     </ClInclude>
-    <ClInclude Include="proxy_basic.hpp">
-      <Filter>net\svc</Filter>
-    </ClInclude>
     <ClInclude Include="security\iegad_md5.h">
       <Filter>security</Filter>
+    </ClInclude>
+    <ClInclude Include="svc\proxy_basic.hpp">
+      <Filter>svc</Filter>
+    </ClInclude>
+    <ClInclude Include="svc\service_basic.h">
+      <Filter>svc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

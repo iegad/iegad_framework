@@ -25,7 +25,7 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
-#include "iegad_io_msg.h"
+#include "net/iegad_io_msg.h"
 
 
 namespace iegad {
