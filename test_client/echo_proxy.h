@@ -3,14 +3,13 @@
 
 
 #include "iegad_framework.h"
-#include "echo_msg.pb.h"
 #include "svc/proxy_basic.hpp"
 
 
 using namespace iegad::net;
 
 
-class echo_proxy : public proxy_basic<std::string, std::string, echo_msg> {
+class echo_proxy : public proxy_basic<std::string, std::string> {
 public:
 
     explicit echo_proxy(const std::string & host, const std::string & svc);

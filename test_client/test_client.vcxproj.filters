@@ -1,46 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="msg">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="svc">
       <UniqueIdentifier>{5107fe5d-992a-41bc-9233-0901df87dd8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="echo_msg.pb.cc">
-      <Filter>msg</Filter>
-    </ClCompile>
     <ClCompile Include="echo_proxy.cpp">
       <Filter>svc</Filter>
     </ClCompile>
     <ClCompile Include="TestClientMain.cpp" />
-    <ClCompile Include="iegad_app_svr_msg.pb.cc">
-      <Filter>msg</Filter>
-    </ClCompile>
-    <ClCompile Include="setup_proxy.cpp">
-      <Filter>svc</Filter>
-    </ClCompile>
-    <ClCompile Include="up_usrinfo_proxy.cpp">
-      <Filter>svc</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="echo_msg.pb.h">
-      <Filter>msg</Filter>
-    </ClInclude>
     <ClInclude Include="echo_proxy.h">
-      <Filter>svc</Filter>
-    </ClInclude>
-    <ClInclude Include="iegad_app_svr_msg.pb.h">
-      <Filter>msg</Filter>
-    </ClInclude>
-    <ClInclude Include="setup_proxy.h">
-      <Filter>svc</Filter>
-    </ClInclude>
-    <ClInclude Include="up_usrinfo_proxy.h">
       <Filter>svc</Filter>
     </ClInclude>
   </ItemGroup>

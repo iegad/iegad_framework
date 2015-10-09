@@ -20,10 +20,13 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
+// -- 2015-10-09	    --iegad				-- 为了提高性能, 发现 子pb消息类型 可以去除, 改用自定义的序列化对象方式,
+//									    去掉 子pb类型, 直接传递字符串, 这样提供了上层更多的控制, 是传递文本消息, 
+//									    还是传递一个对象的序列化. 同时也减少了一次序列化的过程.
 
 
 #include <boost/asio.hpp>
-#include "net/iegad_io_msg.h"
+#include "msg/iegad_io_msg.h"
 
 
 namespace iegad {
@@ -35,7 +38,7 @@ namespace net {
     // @__P : operator() 参数类型
     // @__MSG_T : pb所生成的消息类型
     // ============================
-    template <typename __R, typename __P, typename __MSG_T>
+    template <typename __R, typename __P>
     class proxy_basic {
     // 客户代理基类
     public:
@@ -70,16 +73,16 @@ namespace net {
 	// @param : 调用参数, 如果需要传递多个参数, 需要定义一个结构体来传参
 	// @返回值 : 成功发送返回0, 否则返回 -1.
 	// ============================
-	int _send_msg(int msg_type, int msg_flag);
+	int _send_msg(int msg_type, int msg_flag, const std::string & msg_dbstr);
 
 
 	// ============================
-	// @用途 : 接收响应的消息, 将填充一个 msg_basic 类型对象
-	// @msgbsc : 用来接收的msg_basic 对象
+	// @用途 : 接收响应的消息, 将填充一个 basic_msg 类型对象
+	// @msgbsc : 用来接收的basic_msg 对象
 	// @err_code : 发生错误时, 用来接收错误信息
 	// @返回值 : 成功返回0, 否则返回 -1.
 	// ============================
-	int _recv_msg(msg_basic & msgbsc, boost::system::error_code & err_code);
+	int _recv_msg(basic_msg & msgbsc, boost::system::error_code & err_code);
 
 
 	// ============================
@@ -101,8 +104,6 @@ namespace net {
 	boost::asio::io_service ios_;
 	// boost套接字对象
 	boost::asio::ip::tcp::socket clnt_;
-	// pb 消息类型
-	__MSG_T msg_;
 
     private:
 	// 服务端机器名, 或IP
@@ -122,8 +123,8 @@ namespace net {
 
 
 
-    template <typename __R, typename __P, typename __MSG_T>
-    iegad::net::proxy_basic<__R, __P, __MSG_T>::~proxy_basic()
+    template <typename __R, typename __P>
+    iegad::net::proxy_basic<__R, __P>::~proxy_basic()
     {
 	if (clnt_.is_open()) {
 	    clnt_.close();
@@ -131,15 +132,11 @@ namespace net {
     }
 
 
-    template <typename __R, typename __P, typename __MSG_T>
-    int iegad::net::proxy_basic<__R, __P, __MSG_T>::_send_msg(int msg_type, int msg_flag)
+    template <typename __R, typename __P>
+    int iegad::net::proxy_basic<__R, __P>::_send_msg(int msg_type, int msg_flag, const std::string & msg_bdstr)
     {
 	boost::system::error_code err_code;
-	std::string msg_bdstr;
-	if (!msg_.SerializeToString(&msg_bdstr)) {
-	    return -1;
-	}
-	int n = iegad::net::send_msg_basic(clnt_, msg_type, msg_flag, msg_bdstr, err_code);
+	int n = iegad::net::send_basic_msg(clnt_, msg_type, msg_flag, msg_bdstr, err_code);
 	if (n == 0) {
 	    clnt_.shutdown(boost::asio::socket_base::shutdown_send);
 	}
@@ -147,15 +144,15 @@ namespace net {
     }
 
 
-    template <typename __R, typename __P, typename __MSG_T>
-    int iegad::net::proxy_basic<__R, __P, __MSG_T>::_recv_msg(msg_basic & msgbsc, boost::system::error_code & err_code)
+    template <typename __R, typename __P>
+    int iegad::net::proxy_basic<__R, __P>::_recv_msg(basic_msg & msgbsc, boost::system::error_code & err_code)
     {
-	return iegad::net::recv_msg_basic(clnt_, msgbsc, err_code);
+	return iegad::net::recv_basic_msg(clnt_, msgbsc, err_code);
     }
 
 
-    template <typename __R, typename __P, typename __MSG_T>
-    const std::string iegad::net::proxy_basic<__R, __P, __MSG_T>::_recv()
+    template <typename __R, typename __P>
+    const std::string iegad::net::proxy_basic<__R, __P>::_recv()
     {
 	boost::system::error_code err_code;
 	char buff[iegad::io::BUF_SIZE];
@@ -181,8 +178,8 @@ namespace net {
     }
 
 
-    template <typename __R, typename __P, typename __MSG_T>
-    int iegad::net::proxy_basic<__R, __P, __MSG_T>::_connect()
+    template <typename __R, typename __P>
+    int iegad::net::proxy_basic<__R, __P>::_connect()
     {
 	boost::asio::ip::tcp::resolver::iterator end;
 	boost::system::error_code errcode = boost::asio::error::host_not_found;
@@ -195,6 +192,7 @@ namespace net {
 	for (; errcode && iter != end; ++iter) {
 	    clnt_.close();
 	    if (clnt_.connect(*iter, errcode) == 0) {
+		clnt_.set_option(boost::asio::ip::tcp::no_delay(true));
 		return 0;
 	    }
 	} // for (; errcode && iter != end; ++iter);

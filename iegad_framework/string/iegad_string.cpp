@@ -409,6 +409,24 @@ iegad::string::guid()
 }
 
 
+const std::string 
+iegad::string::en_cust(const std::string & src, char key)
+{
+    std::string res;
+    for (int i = 0, n = src.size(); i < n; i++) {
+	res.push_back(src[i] ^ key);
+    }
+    return res;
+}
+
+
+const std::string 
+iegad::string::de_cust(const std::string & src, char key)
+{
+    return en_cust(src, key);
+}
+
+
 /******************************************************/
 
 

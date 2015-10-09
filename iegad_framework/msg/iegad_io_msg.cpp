@@ -25,28 +25,28 @@ iegad::io::recv_end(boost::asio::ip::tcp::socket & clnt,
 }
 
 
-int 
-iegad::io::send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size, 
-			  boost::system::error_code & errcode)
-{
-    int nleft = buf_size, n;
-    const char * p = send_buf;
-    while (nleft > 0) {
-	n = clnt.write_some(boost::asio::buffer(send_buf, buf_size), errcode);
-	if (errcode) {
-	    if (errcode == boost::asio::error::interrupted) {
-		continue;
-	    } // if (errcode == boost::asio::error::interrupted) 
-	    break;
-	} // if (errcode);
-	nleft -= n;
-    } // while (nleft > 0);
-    return buf_size - nleft;
-}
+//int 
+//iegad::io::send_n(boost::asio::ip::tcp::socket & clnt, const char * send_buf, int buf_size, 
+//			  boost::system::error_code & errcode)
+//{
+//    int nleft = buf_size, n;
+//    const char * p = send_buf;
+//    while (nleft > 0) {
+//	n = clnt.write_some(boost::asio::buffer(send_buf, buf_size), errcode);
+//	if (errcode) {
+//	    if (errcode == boost::asio::error::interrupted) {
+//		continue;
+//	    } // if (errcode == boost::asio::error::interrupted) 
+//	    break;
+//	} // if (errcode);
+//	nleft -= n;
+//    } // while (nleft > 0);
+//    return buf_size - nleft;
+//}
 
 
 int 
-iegad::net::recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgbsc, 
+iegad::net::recv_basic_msg(boost::asio::ip::tcp::socket & clnt, basic_msg & msgbsc, 
 					 boost::system::error_code & errcode)
 {
     msgbsc.ParseFromString(iegad::io::recv_end(clnt, errcode));
@@ -55,7 +55,7 @@ iegad::net::recv_msg_basic(boost::asio::ip::tcp::socket & clnt, msg_basic & msgb
 
 
 int 
-iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic & msgbsc, 
+iegad::net::send_basic_msg(boost::asio::ip::tcp::socket & clnt, const basic_msg & msgbsc, 
 					  boost::system::error_code & errcode)
 {
     std::string msg_str;
@@ -74,7 +74,11 @@ iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic 
 	    break;
 	}
 
-	if (iegad::io::send_n(clnt, msg_str.c_str(), msg_str.size(), errcode) != msg_str.size()) {
+	//if (iegad::io::send_n(clnt, msg_str.c_str(), msg_str.size(), errcode) != msg_str.size()) {
+	//    break;
+	//}
+
+	if (clnt.send(boost::asio::buffer(msg_str), 0, errcode) != msg_str.size()) {
 	    break;
 	}
 
@@ -85,12 +89,12 @@ iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, const msg_basic 
 
 
 int 
-iegad::net::send_msg_basic(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr, 
+iegad::net::send_basic_msg(boost::asio::ip::tcp::socket & clnt, int type, int flag, const std::string & msg_bdstr, 
 					  boost::system::error_code & errcode)
 {
-    msg_basic msgbsc;
+    basic_msg msgbsc;
     msgbsc.set_msg_type(type);
     msgbsc.set_msg_flag(flag);
     msgbsc.set_msg_bdstr(msg_bdstr);
-    return iegad::net::send_msg_basic(clnt, msgbsc, errcode);
+    return iegad::net::send_basic_msg(clnt, msgbsc, errcode);
 }

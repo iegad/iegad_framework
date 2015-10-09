@@ -1,9 +1,19 @@
 #include "echo_proxy.h"
 #include <iostream>
 #include <codecvt>
-#include "setup_proxy.h"
-#include "up_usrinfo_proxy.h"
 
+
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
 
 
 
@@ -17,7 +27,7 @@ test_proc()
 {
     std::string outstr;
     for (int i = 0; i < N_TIMES; i++) {
-	outstr = echo_proxy("127.0.0.1", "6688")("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	outstr = echo_proxy("127.0.0.1", "6688")("Hello");
 	if (outstr == "") {
 	    std::cout << "failed" << std::endl;
 	}
@@ -31,37 +41,15 @@ main(int argc, char * argv[])
    
     std::string instr, outstr;
     clock_t start, finished;
-    std::cout << "Press <Enter> to start..." << std::endl;
-    std::cin.get();
-    start = clock();
-    
-    setup_t p;
-    p.log_id = "iegad2011";
-    p.pwd = "86343961xq";
-    p.email = "iegad@vip.qq.com";
-    int rzt = setup_proxy("127.0.0.1", "6688")(p);
-    std::cout << rzt << std::endl;
-
-    up_usrinfo_t p1;
-    p1.nick_name = "Aizen";
-    p1.sex = "M";
-    p1.log_id = "iegad2011";
-    p1.job = 0;
-    rzt = up_usrinfo_proxy("127.0.0.1", "6688")(p1);
-    std::cout << rzt << std::endl;
+    // ================ 测试专用 ===================
+    //std::cout << "Press <Enter> to start..." << std::endl;
+    //std::cin.get();
+    //std::cout << "Starting ...\n";
+    //start = clock();
 
 
-    //std::vector<std::thread> thread_pool;
-    //std::cout << "Enter the str & 'exit' to exit..." << std::endl;
- //   do {
 
-	//std::getline(std::cin, instr, '\n');
-	//if ("exit" == iegad::string::to_lwr(instr)) {
-	//    break;
-	//}
-	//std::cout << "echo :" << echo_proxy("127.0.0.1", "6688")(instr) << std::endl;
- //   } while (true);
-
+ //   std::vector<std::thread> thread_pool;
  //   for (int i = 0; i < 10; i++) {
 	//thread_pool.push_back(std::thread(test_proc));
  //   }
@@ -69,12 +57,27 @@ main(int argc, char * argv[])
  //   for (int i = 0; i < 10; i++) {
 	//thread_pool[i].join();
  //   }
+    //finished = clock();
+    //std::cout << "use : " << (finished - start) / CLOCKS_PER_SEC << std::endl;
+
+    // ================ 测试专用 ===================
+
+
+    std::cout << "Enter the str & 'exit' to exit..." << std::endl;
+    do {
+
+	std::getline(std::cin, instr, '\n');
+	if ("exit" == iegad::string::to_lwr(instr)) {
+	    break;
+	}
+	std::cout << "echo :" << echo_proxy("127.0.0.1", "6688")(instr) << std::endl;
+    } while (true);
 
 
 
-    finished = clock();
-    std::cout <<"use : "<< (finished - start) / CLOCKS_PER_SEC << std::endl;
+
+
 exit_case:
-    std::cin.get();
+    _CrtDumpMemoryLeaks();
     exit(0);
 }

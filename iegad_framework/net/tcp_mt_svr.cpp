@@ -1,7 +1,7 @@
-#include "tcp_mt_server.h"
-#include "msg_basic.pb.h"
+#include "tcp_mt_svr.h"
+#include "msg/basic_msg.pb.h"
 #include "common/iegad_log.h"
-#include "iegad_io_msg.h"
+#include "msg/iegad_io_msg.h"
 
 
 using namespace boost::asio;
@@ -30,7 +30,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
     io_service ios;
     ip::tcp::socket clnt(ios);
     boost::system::error_code err_code;
-    msg_basic msgbsc;
+    basic_msg msgbsc;
 
     for (;;) {
 	if (clnt.is_open()) {
@@ -46,7 +46,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 	}
 
 	// step 3 : get the msg_dbstr;
-	if (this->_build_msg_basic(clnt, msgbsc, err_code) != 0) {
+	if (this->_build_basic_msg(clnt, msgbsc, err_code) != 0) {
 	    continue;
 	}
 	// step 4 : call the service;
@@ -58,7 +58,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 void 
 iegad::net::tcp_mt_svr::run(int n /*= 8*/)
 {// run the service
-    iINFO << "@@@ threads num : " << n << std::endl;
+    iINFO << "@@@ threads num : " << n << " @@@"<<std::endl;
     for (int i = 0; i < n; i++) {
 	thread_pool_.push_back(
 	    std::thread(std::bind(&tcp_mt_svr::_thread_proc, this)));
@@ -118,21 +118,21 @@ iegad::net::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_cod
 
 
 void 
-iegad::net::tcp_mt_svr::regist_svc(svc_basic_ptr svc_obj)
+iegad::net::tcp_mt_svr::regist_svc(basic_svc_ptr svc_obj)
 {
-    if (iegad::net::svc_basic::regist_svc(svc_obj, svc_map_) != 0) {
+    if (iegad::net::basic_svc::regist_svc(svc_obj, svc_map_) != 0) {
 	iERR << "### the service object already have ###" << std::endl;
     }
 }
 
 
 int
-iegad::net::tcp_mt_svr::_build_msg_basic(ip::tcp::socket & clnt,
-iegad::net::msg_basic & msgbsc,
+iegad::net::tcp_mt_svr::_build_basic_msg(ip::tcp::socket & clnt,
+iegad::net::basic_msg & msgbsc,
 boost::system::error_code & err_code)
 {
     int rzt;
-    rzt = iegad::net::recv_msg_basic(clnt, msgbsc, err_code);
+    rzt = iegad::net::recv_basic_msg(clnt, msgbsc, err_code);
     if (err_code == boost::asio::error::timed_out) {
 	iWARN << clnt.remote_endpoint().address().to_string() << " ### TIME OUT ###" << std::endl;
     }
@@ -142,18 +142,15 @@ boost::system::error_code & err_code)
 
 int 
 iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, 
-						  iegad::net::msg_basic & msgbsc)
+						  iegad::net::basic_msg & msgbsc)
 {
-    svc_basic_ptr p_svc = svc_basic::get_svc(msgbsc.msg_type(), svc_map_);
+    basic_svc_ptr p_svc = basic_svc::get_svc(msgbsc.msg_type(), svc_map_);
     if (p_svc.get() != nullptr) {
-    //msg_type mapping the msg_svc;
-	if (p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr())) {
-	    iWARN << p_svc->get_id() << "'s service called failed" << std::endl;
-	}
-    }  // if (itor != svc_map_.end())
+	p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
+    } 
     else {
     //msg_type don't mapping the msg_svc;
-	iERR << "### no service mapping ###" << std::endl;
+	iWARN << "### no service mapping ###" << std::endl;
 	return -1;
     }
     clnt.close();

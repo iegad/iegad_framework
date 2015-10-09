@@ -2,8 +2,8 @@
 #define __ECHO_SVC__
 
 
-#include "svc/service_basic.h"
-#include "Msg/echo_msg.pb.h"
+#include "svc/basic_svc.h"
+#include "msg/echo_msg.pb.h"
 #include "common/iegad_log.h"
 
 
@@ -11,7 +11,7 @@ namespace iegad {
 namespace net {
 
 
-    class echo_svc : public iegad::net::svc_basic {
+    class echo_svc : public iegad::net::basic_svc {
   
     public:
 	explicit echo_svc(int svc_id);

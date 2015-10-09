@@ -14,7 +14,7 @@
 
 #include "string/iegad_string.h"
 #include "db/iegad_dbtab.h"
-#include "net/tcp_mt_server.h"
+#include "net/tcp_mt_svr.h"
 #include "common/iegad_log.h"
 #include "common/job_queue.hpp"
 #include "common/job_worker.hpp"

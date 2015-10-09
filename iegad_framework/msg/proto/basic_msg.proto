@@ -9,7 +9,7 @@
 package iegad.net;
 
 
-message msg_basic {
+message basic_msg {
 // the message of tcp transfer;
     required int32 msg_type = 1;	// sub_service id
     required int32 msg_flag = 2;		// forward extended

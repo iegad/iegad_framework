@@ -12,14 +12,14 @@ const std::string
 echo_proxy::_echo_svc_proc(const std::string & echo_str)
 {
     if (this->_connect() != 0) {
+	clnt_.close();
 	return "";
     }
 
-    int n;
     std::string res;
-    msg_.set_requ_str(echo_str.c_str());
 
-    if (this->_send_msg(10, 10) != 0) {
+    if (this->_send_msg(10, 10, echo_str) != 0) {
+	clnt_.close();
 	return "";
     }
 

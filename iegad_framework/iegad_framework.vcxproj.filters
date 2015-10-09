@@ -7,23 +7,23 @@
     <Filter Include="string">
       <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="net\proto">
-      <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
     </Filter>
     <Filter Include="db">
       <UniqueIdentifier>{5292aa02-7575-4385-9831-4a4a2fbea250}</UniqueIdentifier>
     </Filter>
-    <Filter Include="net\msg">
-      <UniqueIdentifier>{d5caddc4-a3c1-41f1-997c-a44ec36b4f71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="security">
       <UniqueIdentifier>{216ae19b-7262-4aaa-97b4-eb84daad22db}</UniqueIdentifier>
     </Filter>
     <Filter Include="svc">
       <UniqueIdentifier>{c97df8aa-f84a-4bfa-a72d-39515743faee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="msg">
+      <UniqueIdentifier>{d5caddc4-a3c1-41f1-997c-a44ec36b4f71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="msg\proto">
+      <UniqueIdentifier>{f1553162-9e70-48d2-a698-960fe18f973d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,23 +36,23 @@
     <ClCompile Include="db\iegad_dbtab.cpp">
       <Filter>db</Filter>
     </ClCompile>
-    <ClCompile Include="net\tcp_mt_server.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="string\iegad_string.cpp">
       <Filter>string</Filter>
-    </ClCompile>
-    <ClCompile Include="net\iegad_io_msg.cpp">
-      <Filter>net\msg</Filter>
-    </ClCompile>
-    <ClCompile Include="net\msg_basic.pb.cc">
-      <Filter>net\msg</Filter>
     </ClCompile>
     <ClCompile Include="security\iegad_md5.cpp">
       <Filter>security</Filter>
     </ClCompile>
-    <ClCompile Include="svc\service_basic.cpp">
+    <ClCompile Include="svc\basic_svc.cpp">
       <Filter>svc</Filter>
+    </ClCompile>
+    <ClCompile Include="net\tcp_mt_svr.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="msg\basic_msg.pb.cc">
+      <Filter>msg</Filter>
+    </ClCompile>
+    <ClCompile Include="msg\iegad_io_msg.cpp">
+      <Filter>msg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,32 +71,32 @@
     <ClInclude Include="db\iegad_dbtab.h">
       <Filter>db</Filter>
     </ClInclude>
-    <ClInclude Include="net\tcp_mt_server.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="string\iegad_string.h">
       <Filter>string</Filter>
     </ClInclude>
     <ClInclude Include="iegad_framework.h" />
-    <ClInclude Include="net\iegad_io_msg.h">
-      <Filter>net\msg</Filter>
-    </ClInclude>
-    <ClInclude Include="net\msg_basic.pb.h">
-      <Filter>net\msg</Filter>
-    </ClInclude>
     <ClInclude Include="security\iegad_md5.h">
       <Filter>security</Filter>
     </ClInclude>
     <ClInclude Include="svc\proxy_basic.hpp">
       <Filter>svc</Filter>
     </ClInclude>
-    <ClInclude Include="svc\service_basic.h">
+    <ClInclude Include="net\tcp_mt_svr.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="svc\basic_svc.h">
       <Filter>svc</Filter>
+    </ClInclude>
+    <ClInclude Include="msg\basic_msg.pb.h">
+      <Filter>msg</Filter>
+    </ClInclude>
+    <ClInclude Include="msg\iegad_io_msg.h">
+      <Filter>msg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="net\proto\msg_basic.proto">
-      <Filter>net\proto</Filter>
+    <None Include="msg\proto\basic_msg.proto">
+      <Filter>msg\proto</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
-#ifndef __TCP_MT_SERVER__
-#define __TCP_MT_SERVER__
+#ifndef __TCP_MT_SVR__
+#define __TCP_MT_SVR__
 
 
 
@@ -34,7 +34,7 @@
 #include <functional>
 
 
-#include "svc/service_basic.h"
+#include "svc/basic_svc.h"
 
 
 namespace iegad {
@@ -63,13 +63,14 @@ namespace net {
 	// ============================
 	// @用途 : 基础服务类 智能指针 类型声明
 	// ============================
-	typedef iegad::net::svc_basic::svc_basic_ptr svc_basic_ptr;
+	typedef iegad::net::basic_svc::basic_svc_ptr basic_svc_ptr;
 
 
 	// ============================
 	// @用途 : 服务对象 映射表 声明
 	// ============================
-	typedef iegad::net::svc_basic::svc_map_t svc_map_t;
+	typedef iegad::net::basic_svc::svc_map_t svc_map_t;
+
 
 
 	// ============================
@@ -104,11 +105,11 @@ namespace net {
 
 	// ============================
 	// @用途 : 注册 服务对象
-	// @svc_obj : 服务对象, 该对象必需派生自svc_basic, 
+	// @svc_obj : 服务对象, 该对象必需派生自basic_svc, 
 	//		    也必需是智能指针类型
 	// @返回值 : void
 	// ============================
-	void regist_svc(svc_basic_ptr svc_obj);
+	void regist_svc(basic_svc_ptr svc_obj);
 
     protected:
 
@@ -141,21 +142,21 @@ namespace net {
 	// @clnt : 待接收的客户端
 	// @msgbsc : 用来保存客户端发送的消息.
 	// @err_code : 当发送错误时, 用来接收错误
-	// @返回值 : 接收到消息并成功构建 msg_basic 对象 返回 0, 否则返回 -1; 
+	// @返回值 : 接收到消息并成功构建 basic_msg 对象 返回 0, 否则返回 -1; 
 	// ============================
-	int _build_msg_basic(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc, 
+	int _build_basic_msg(ip::tcp::socket & clnt, iegad::net::basic_msg & msgbsc, 
 	    boost::system::error_code & err_code);
 
 
 	// ============================
 	// @用途 : 服务调用.
 	// @clnt : 请求服务的客户端
-	// @msgbsc : 用来构建 应用服务对象 的msg_basic对象.
+	// @msgbsc : 用来构建 应用服务对象 的basic_msg对象.
 	// @返回值 : 成功发送服务调用 返回 0, 否则返回 -1; 
 	// @PS : 这里应注意, 只要 服务被调用, 就会返回0, 
 	//	    返回0, 并不能说明 服务调用 是正确的结束的.
 	// ============================
-	int _call_svc(ip::tcp::socket & clnt, iegad::net::msg_basic & msgbsc);
+	int _call_svc(ip::tcp::socket & clnt, iegad::net::basic_msg & msgbsc);
 
 
 	// 停止标志
@@ -185,4 +186,4 @@ namespace net {
 } // namespace iegad
 
 
-#endif // __TCP_MT_SERVER__
+#endif // __TCP_MT_SVR__

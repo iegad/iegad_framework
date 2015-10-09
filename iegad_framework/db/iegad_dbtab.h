@@ -47,9 +47,7 @@ namespace db {
 	// @用途 : 构造函数
 	// @PS : 在对象释放时, 会清除所有的行.
 	// ============================
-	~db_tab() {
-	    this->clear();
-	}
+	~db_tab();
 
 
 	// ============================
@@ -90,10 +88,6 @@ namespace db {
 	db_tab(db_tab &);
 	db_tab & operator=(db_tab &);
     }; // class db_tab;
-
-
-    // db_tab 的智能指针类型
-    typedef std::shared_ptr<db_tab> dbtab_ptr;
 
 
 } // namespace db;

@@ -19,6 +19,7 @@
 //  --2015-10-06	    --iegad		    1, 添加md5, sha1 加密
 //							    2, 添加base64加密, 解密
 //							    3, 添加 guid 生成函数
+//  --2015-10-09	    --iegad		    添加 自定义加密 en_cust 函数, 解密 de_cust 函数 
 
 
 #include <string>
@@ -405,6 +406,27 @@ base64_de(const std::string & src);
 // ============================
 const std::string
 guid();
+
+
+// ============================
+// @用途 : 将字符串 src 进行 自定义 加密
+// @src : 需要加密的字符串
+// @key : 密钥
+// @返回值 : 加密后的字符串
+// ============================
+const std::string
+en_cust(const std::string & src, char key);
+
+
+// ============================
+// @用途 : 将字符串 src 进行 自定义 解密
+// @src : 需要解密的字符串
+// @key : 密钥
+// @返回值 : 解密后的字符串
+// ============================
+const std::string
+de_cust(const std::string & src, char key);
+
 
 
 } //end namespace string

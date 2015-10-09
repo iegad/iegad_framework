@@ -25,26 +25,26 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
-#include "net/iegad_io_msg.h"
+#include "msg/iegad_io_msg.h"
 
 
 namespace iegad {
 namespace net {
 
     
-    class svc_basic {
+    class basic_svc {
     // 服务对象基础类, 抽象类;
     public:
 	// ============================
 	// @用途 : 类本身的智能指针 类型声明
 	// ============================
-	typedef std::shared_ptr<svc_basic> svc_basic_ptr;
+	typedef std::shared_ptr<basic_svc> basic_svc_ptr;
 
 
 	// ============================
 	// @用途 : "服务ID 与服务对象 映射表" 类型声明
 	// ============================
-	typedef std::unordered_map<int, svc_basic_ptr> svc_map_t;
+	typedef std::unordered_map<int, basic_svc_ptr> svc_map_t;
 	
 
 	// ============================
@@ -53,7 +53,7 @@ namespace net {
 	// @svc_map : 映射表
 	// @返回值 : 成功返回 svc对象智能指针, 否则, 返回一个nullptr的智能指针
 	// ============================
-	static svc_basic_ptr get_svc(int svc_id, svc_map_t & svc_map);
+	static basic_svc_ptr get_svc(int svc_id, svc_map_t & svc_map);
 
 
 	// ============================
@@ -63,7 +63,7 @@ namespace net {
 	// @返回值 : 成功返回 0, 否则返回 -1; 
 	// @PS : 错误的情况只会是 两个服务对象 具有相同的服务ID;
 	// ============================
-	static int regist_svc(const svc_basic_ptr & svc_obj, svc_map_t & svc_map);
+	static int regist_svc(const basic_svc_ptr & svc_obj, svc_map_t & svc_map);
 
 
 	// ============================
@@ -88,13 +88,13 @@ namespace net {
 	// @用途 : 构造函数
 	// @svc_id : 服务ID
 	// ============================
-	explicit svc_basic(int svc_id);
+	explicit basic_svc(int svc_id);
 
 
 	// ============================
 	// @用途 : 析构函数
 	// ============================
-	virtual ~svc_basic() {}
+	virtual ~basic_svc() {}
 
 
 	// ============================
@@ -112,7 +112,7 @@ namespace net {
 	// ============================
 	// @用途 : 向tcp客户端 clnt 发送 消息 msg;
 	// @clnt : tcp 客户端
-	// @flag : 消息标志, msg_basic::msg_flag
+	// @flag : 消息标志, basic_msg::msg_flag
 	// @msg : 子消息类型;
 	// @返回值, 发送成功返回0, 否则, 返回-1;
 	// @PS : 模板参数 __MSG_T 一定要是由google protocol buffer
@@ -129,14 +129,14 @@ namespace net {
 	// @rzt_size : 应答数据的长度
 	// @返回值, 发送成功发送的字节数
 	// @PS : 为了提高通信从而添加该函数, 这样便可以
-	//		每次应答时, 都构建一个msg_basic对象;
+	//		每次应答时, 都构建一个basic_msg对象;
 	// ============================
 	int _response(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size);
 
     private:
 	// 服务ID
 	int svc_id_;
-    }; // class svc_basic
+    }; // class basic_svc
 
 
 
@@ -144,7 +144,7 @@ namespace net {
 
 
     template <class __MSG_T>
-    int iegad::net::svc_basic::_build_svc(const std::string & msgbdstr, __MSG_T & msg)
+    int iegad::net::basic_svc::_build_svc(const std::string & msgbdstr, __MSG_T & msg)
     {
 	msg.Clear();
 	return msg.ParseFromString(msgbdstr) ? 0 : -1;
@@ -152,7 +152,7 @@ namespace net {
 
 
     template <class __MSG_T>
-    int iegad::net::svc_basic::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg)
+    int iegad::net::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg)
     {
 	std::string msg_str;
 
@@ -160,11 +160,11 @@ namespace net {
 	    return -1;
 	}
 
-	msg_basic msgbsc;
+	basic_msg msgbsc;
 	msgbsc.set_msg_type(this->svc_id_);
 	msgbsc.set_msg_flag(flag);
 	msgbsc.set_msg_bdstr(msg_str);
-	return iegad::net::send_msg_basic(clnt, msgbsc);
+	return iegad::net::send_basic_msg(clnt, msgbsc);
     }
 
 

@@ -1,19 +1,25 @@
 #include <boost/asio.hpp>
-
-// =========== 用于内存泄漏检测 ============
-
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
-// =========== 用于内存泄漏检测 ============
-
-
-
 #include <iostream>
 #include "iegad_framework.h"
 #include "iegad_mysql.h"
 #include "echo_svc.h"
+
+
+// =========== 用于内存泄漏检测 ============
+
+#ifdef _DEBUG
+#define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
+#else
+#define DEBUG_CLIENTBLOCK
+#endif
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define new DEBUG_CLIENTBLOCK
+#endif
+
+// =========== 用于内存泄漏检测 ============
+
 
 
 using namespace iegad::common;
@@ -41,23 +47,23 @@ main(int argc, char * argv[])
     iegad::common::_LOG log(argv[0]);
 
     // ======================== 服务端架构测试 ========================
-    //echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    //tcp_mt_svr host("127.0.0.1", 6688);
-    //host.regist_svc(echo_svc_);
-    //host.run(8);
+    echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
+    tcp_mt_svr host("127.0.0.1", 6688);
+    host.regist_svc(echo_svc_);
+    host.run(4);
 
-    //std::cout << "press <Enter> to exit..." << std::endl;
-    //std::cin.get();
-    //host.stop();
+    std::cout << "press <Enter> to exit..." << std::endl;
+    std::cin.get();
+    host.stop();
     // ======================== 服务端架构测试 ========================
 
 
     // ======================== MYSQL库测试 ========================
-    using namespace iegad::mysql;
+    /*using namespace iegad::mysql;
     using namespace iegad::db;
 
     mysql_helper dbc;
-
+    _CrtSetBreakAlloc(85);
     if (dbc.open("127.0.0.1", 3306, "iegad", "1111", "IOPC") != 0) {
 	std::cout << "open failed" << std::endl;
     }
@@ -75,12 +81,12 @@ main(int argc, char * argv[])
 	}
 	std::cout << std::endl;
     }
-    tab.clear();
-
+    tab.clear();*/
 
     // ======================== MYSQL库测试 ========================
 
     _CrtDumpMemoryLeaks(); // 用于windows 下, 内存泄漏检测;
+
     std::cin.get();
     exit(0);
 }

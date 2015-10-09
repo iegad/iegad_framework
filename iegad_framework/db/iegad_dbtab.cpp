@@ -30,3 +30,8 @@ iegad::db::db_tab::row_count() const
 {
     return tab_.size();
 }
+
+iegad::db::db_tab::~db_tab()
+{
+    this->clear();
+}
