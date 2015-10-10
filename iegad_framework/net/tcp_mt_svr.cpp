@@ -2,6 +2,7 @@
 #include "msg/basic_msg.pb.h"
 #include "common/iegad_log.h"
 #include "msg/iegad_io_msg.h"
+#include "string/iegad_string.h"
 
 
 using namespace boost::asio;
@@ -17,6 +18,36 @@ iegad::net::tcp_mt_svr::tcp_mt_svr(
 {//ctor
     // set TCP_NAGLE off
     acptor_.set_option(ip::tcp::no_delay(true));
+}
+
+
+iegad::net::tcp_mt_svr::tcp_mt_svr(
+    const std::string & host, 
+    const std::string & svc)
+    :
+    stop_flag_(false),
+    ios_(),
+    acptor_(ios_)
+{
+    bool binded = false;
+    acptor_.open(boost::asio::ip::tcp::v4());
+
+    boost::asio::ip::tcp::resolver::iterator end;
+    boost::system::error_code errcode = boost::asio::error::bad_descriptor;
+
+    boost::asio::ip::tcp::resolver rlv(acptor_.get_io_service());
+    boost::asio::ip::tcp::resolver::query qry(host, svc);
+
+    boost::asio::ip::tcp::resolver::iterator iter = rlv.resolve(qry);
+    for (; errcode && iter != end; ++iter) {
+	if (acptor_.bind(*iter, errcode) == 0) {
+	    binded = true;
+	    break;
+	}
+    } // for (; errcode && iter != end; ++iter);
+    assert(binded);
+    acptor_.set_option(ip::tcp::socket::reuse_address(true), errcode);
+    acptor_.listen();
 }
 
 
@@ -158,4 +189,11 @@ iegad::net::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt,
 iegad::net::tcp_mt_svr::~tcp_mt_svr()
 {
     this->stop();
+}
+
+
+const std::string 
+iegad::net::tcp_mt_svr::host_endpoint()
+{
+    return acptor_.local_endpoint().address().to_string() + ":" + iegad::string::to_str(acptor_.local_endpoint().port());
 }

@@ -25,6 +25,8 @@
 //								--2. 接收 io 操作所产生的 err_code;
 //  --2015-10-10	    -- iegad		--  修改构造函数, 去掉host 参数, 
 //								    使用 0.0.0.0 的方式来绑定监听套接字
+//  --2015-10-10	    -- iegad		--  添加 tcp_mt_svr (const std::string &, const std::string &)
+//								    构造函数, 以提供 计算机名 和服务名 方式绑定
 
 
 #include <boost/asio.hpp>
@@ -77,10 +79,17 @@ namespace net {
 
 	// ============================
 	// @用途 : 构造函数
-	// @host : IP地址, 不能是计算机名
 	// @port : 端口号
 	// ============================
 	explicit tcp_mt_svr(unsigned short port);
+
+
+	// ============================
+	// @用途 : 构造函数
+	// @host : 机器名或IP地址
+	// @svc : 端口号或服务名
+	// ============================
+	tcp_mt_svr(const std::string & host, const std::string & svc);
 
 
 	// ============================
@@ -112,6 +121,13 @@ namespace net {
 	// @返回值 : void
 	// ============================
 	void regist_svc(basic_svc_ptr svc_obj);
+
+
+	// ============================
+	// @用途 : 返回监听套接字, 所绑定的地址
+	// @返回值 : 服务端 IP 地址
+	// ============================
+	const std::string host_endpoint();
 
     protected:
 

@@ -70,7 +70,7 @@ main(int argc, char * argv[])
 	if ("exit" == iegad::string::to_lwr(instr)) {
 	    break;
 	}
-	std::cout << "echo :" << echo_proxy("192.168.136.1", "6688")(instr) << std::endl;
+	std::cout << "echo :" << echo_proxy("192.168.1.104", "6688")(instr) << std::endl;
     } while (true);
 
 

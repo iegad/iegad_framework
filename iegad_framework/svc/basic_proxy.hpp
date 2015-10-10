@@ -112,8 +112,6 @@ namespace net {
 	std::string host_;
 	// 服务名或端口
 	std::string svc_;
-	// 通信地址
-	boost::asio::ip::tcp::endpoint addr_;
 
 
 	// 禁用
@@ -197,7 +195,6 @@ namespace net {
 	for (; errcode && iter != end; ++iter) {
 	    clnt_.close();
 	    if (clnt_.connect(*iter, errcode) == 0) {
-		addr_ = *iter;
 		clnt_.set_option(boost::asio::ip::tcp::no_delay(true));
 		return 0;
 	    }
