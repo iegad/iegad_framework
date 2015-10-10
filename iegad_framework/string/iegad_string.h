@@ -428,7 +428,6 @@ const std::string
 de_cust(const std::string & src, char key);
 
 
-
 } //end namespace string
 
 

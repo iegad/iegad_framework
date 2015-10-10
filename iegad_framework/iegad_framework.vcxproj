@@ -33,7 +33,7 @@
     <ClInclude Include="net\tcp_mt_svr.h" />
     <ClInclude Include="security\iegad_md5.h" />
     <ClInclude Include="string\iegad_string.h" />
-    <ClInclude Include="svc\proxy_basic.hpp" />
+    <ClInclude Include="svc\basic_proxy.hpp" />
     <ClInclude Include="svc\basic_svc.h" />
   </ItemGroup>
   <ItemGroup>

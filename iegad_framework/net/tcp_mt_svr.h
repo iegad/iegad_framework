@@ -23,6 +23,8 @@
 // =======================================
 // -- 2015-10-02	    -- iegad		--1. 为客户端 数据接收 设定超时值, 已防止注入攻击
 //								--2. 接收 io 操作所产生的 err_code;
+//  --2015-10-10	    -- iegad		--  修改构造函数, 去掉host 参数, 
+//								    使用 0.0.0.0 的方式来绑定监听套接字
 
 
 #include <boost/asio.hpp>
@@ -78,7 +80,7 @@ namespace net {
 	// @host : IP地址, 不能是计算机名
 	// @port : 端口号
 	// ============================
-	explicit tcp_mt_svr(const std::string & host, unsigned short port);
+	explicit tcp_mt_svr(unsigned short port);
 
 
 	// ============================

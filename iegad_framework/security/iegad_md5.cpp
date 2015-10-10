@@ -1,6 +1,11 @@
 /* interface header */
 #include "iegad_md5.h"
 
+
+#ifdef WIN32
+#define snprintf _snprintf
+#endif // WIN32
+
 /* system implementation headers */
 #include <stdio.h>
 
@@ -331,7 +336,7 @@ std::string MD5::hexdigest() const
 	return "";
     char buf[33];
     for (int i = 0; i < 16; i++)
-	sprintf(buf + i * 2, "%02x", digest[i]);
+	snprintf(buf + i * 2, 33, "%02x", digest[i]);
     buf[32] = 0;
     return std::string(buf);
 }

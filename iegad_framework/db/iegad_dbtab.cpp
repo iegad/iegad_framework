@@ -4,7 +4,7 @@
 iegad::db::db_row &
 iegad::db::db_tab::operator[](int rownum)
 {
-    if (rownum >= tab_.size()) {
+    if (static_cast<size_t>(rownum) >= tab_.size()) {
 	rownum = tab_.size() - 1;
     }
     return *tab_[rownum];

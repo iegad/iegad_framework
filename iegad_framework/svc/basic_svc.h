@@ -1,5 +1,5 @@
-#ifndef __SERVICE_BASIC__
-#define __SERVICE_BASIC__
+#ifndef __BASIC_SERVICE__
+#define __BASIC_SERVICE__
 
 
 
@@ -18,7 +18,7 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-
+//  -- 2015-10-10	--iegad			1. 为_response 加入加密功能
 
 
 
@@ -172,4 +172,4 @@ namespace net {
 } // namespace iegad;
 
 
-#endif // __SERVICE_BASIC__
+#endif // __BASIC_SERVICE__

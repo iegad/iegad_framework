@@ -40,9 +40,12 @@ namespace iegad {
 namespace io {
 
 
-    // 客户端接收缓冲大小
+    
     enum {
-	BUF_SIZE = 1024 * 4
+	// 客户端接收缓冲大小
+	BUF_SIZE = 1024,
+	// 用于加密, 解密的 密钥
+	MSG_KEY = 0x15
     };
      
 

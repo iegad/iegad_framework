@@ -31,4 +31,4 @@ echo_proxy::_echo_svc_proc(const std::string & echo_str)
 
 echo_proxy::echo_proxy(const std::string & host, const std::string & svc)
     : 
-    proxy_basic(host, svc) {}
+    basic_proxy(host, svc) {}

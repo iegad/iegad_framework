@@ -1,4 +1,6 @@
 #include "svc/basic_svc.h"
+#include "string/iegad_string.h"
+
 
 
 iegad::net::basic_svc::basic_svc_ptr 
@@ -37,7 +39,11 @@ iegad::net::basic_svc::_response(boost::asio::ip::tcp::socket & clnt, const char
 {
     boost::system::error_code errcode;
     //int n = iegad::io::send_n(clnt, rzt, rzt_size, errcode);
-    int n = clnt.send(boost::asio::buffer(rzt, rzt_size), 0, errcode);
+    std::string sendstr(rzt, rzt_size);
+
+    int n = clnt.send(
+	boost::asio::buffer(iegad::string::en_cust(sendstr, iegad::io::MSG_KEY)), 0, 
+	errcode);
     if (errcode || n != rzt_size) {
 	return -1;
     }

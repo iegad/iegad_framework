@@ -78,9 +78,6 @@
     <ClInclude Include="security\iegad_md5.h">
       <Filter>security</Filter>
     </ClInclude>
-    <ClInclude Include="svc\proxy_basic.hpp">
-      <Filter>svc</Filter>
-    </ClInclude>
     <ClInclude Include="net\tcp_mt_svr.h">
       <Filter>net</Filter>
     </ClInclude>
@@ -92,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="msg\iegad_io_msg.h">
       <Filter>msg</Filter>
+    </ClInclude>
+    <ClInclude Include="svc\basic_proxy.hpp">
+      <Filter>svc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

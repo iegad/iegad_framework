@@ -48,7 +48,7 @@ main(int argc, char * argv[])
 
     // ======================== ·þÎñ¶Ë¼Ü¹¹²âÊÔ ========================
     echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    tcp_mt_svr host("127.0.0.1", 6688);
+    tcp_mt_svr host(6688);
     host.regist_svc(echo_svc_);
     host.run(4);
 

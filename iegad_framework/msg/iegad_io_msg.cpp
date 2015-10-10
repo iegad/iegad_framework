@@ -1,4 +1,5 @@
 #include "iegad_io_msg.h"
+#include "string/iegad_string.h"
 
 
 const std::string
@@ -49,7 +50,7 @@ int
 iegad::net::recv_basic_msg(boost::asio::ip::tcp::socket & clnt, basic_msg & msgbsc, 
 					 boost::system::error_code & errcode)
 {
-    msgbsc.ParseFromString(iegad::io::recv_end(clnt, errcode));
+    msgbsc.ParseFromString(iegad::string::de_cust(iegad::io::recv_end(clnt, errcode), iegad::io::MSG_KEY));
     return msgbsc.IsInitialized() ? 0 : -1;
 }
 
@@ -78,7 +79,8 @@ iegad::net::send_basic_msg(boost::asio::ip::tcp::socket & clnt, const basic_msg 
 	//    break;
 	//}
 
-	if (clnt.send(boost::asio::buffer(msg_str), 0, errcode) != msg_str.size()) {
+	if (clnt.send(boost::asio::buffer(iegad::string::en_cust(msg_str, iegad::io::MSG_KEY)), 0, errcode)
+	    != msg_str.size()) {
 	    break;
 	}
 

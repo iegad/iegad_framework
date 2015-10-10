@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="msg">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="proto">
       <UniqueIdentifier>{6e0d7c2f-e46b-4da5-b9eb-1ee368fc23b1}</UniqueIdentifier>
     </Filter>
@@ -13,17 +9,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Msg\echo_msg.pb.h">
-      <Filter>msg</Filter>
-    </ClInclude>
     <ClInclude Include="echo_svc.h">
       <Filter>svc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Msg\echo_msg.pb.cc">
-      <Filter>msg</Filter>
-    </ClCompile>
     <ClCompile Include="echo_svc.cpp">
       <Filter>svc</Filter>
     </ClCompile>

@@ -1,5 +1,5 @@
-#ifndef __PROXY_BASIC__
-#define __PROXY_BASIC__
+#ifndef __BASIC_PROXY__
+#define __BASIC_PROXY__
 
 
 // ============ 说明 ============
@@ -39,7 +39,7 @@ namespace net {
     // @__MSG_T : pb所生成的消息类型
     // ============================
     template <typename __R, typename __P>
-    class proxy_basic {
+    class basic_proxy {
     // 客户代理基类
     public:
 
@@ -48,8 +48,10 @@ namespace net {
 	// @用途 : 构造函数
 	// @host : 服务端机器名或IP地址
 	// @svc : 服务名或端口号
+	// @PS : 经过测试, 如果host 传递为计算机名, 解析时, 会占用比较长的时间
+	//		所以, host 参数尽可能的使用 ip 地址.
 	// ============================
-	explicit proxy_basic(const std::string & host, const std::string & svc)
+	explicit basic_proxy(const std::string & host, const std::string & svc)
 	    : ios_(), clnt_(ios_), host_(host), svc_(svc) {}
 
 
@@ -57,7 +59,7 @@ namespace net {
 	// @用途 : 析构函数
 	// @PS : 该函数为关闭 clnt_ 的套接字对象
 	// ============================
-	virtual ~proxy_basic();
+	virtual ~basic_proxy();
 
 
 	// ============================
@@ -110,12 +112,15 @@ namespace net {
 	std::string host_;
 	// 服务名或端口
 	std::string svc_;
+	// 通信地址
+	boost::asio::ip::tcp::endpoint addr_;
+
 
 	// 禁用
-	proxy_basic(const proxy_basic &);
-	proxy_basic & operator=(const proxy_basic &);
+	basic_proxy(const basic_proxy &);
+	basic_proxy & operator=(const basic_proxy &);
 
-    }; // class proxy_basic<__R, __P, __MSG_T>;
+    }; // class basic_proxy<__R, __P, __MSG_T>;
 
 
 
@@ -124,7 +129,7 @@ namespace net {
 
 
     template <typename __R, typename __P>
-    iegad::net::proxy_basic<__R, __P>::~proxy_basic()
+    iegad::net::basic_proxy<__R, __P>::~basic_proxy()
     {
 	if (clnt_.is_open()) {
 	    clnt_.close();
@@ -133,7 +138,7 @@ namespace net {
 
 
     template <typename __R, typename __P>
-    int iegad::net::proxy_basic<__R, __P>::_send_msg(int msg_type, int msg_flag, const std::string & msg_bdstr)
+    int iegad::net::basic_proxy<__R, __P>::_send_msg(int msg_type, int msg_flag, const std::string & msg_bdstr)
     {
 	boost::system::error_code err_code;
 	int n = iegad::net::send_basic_msg(clnt_, msg_type, msg_flag, msg_bdstr, err_code);
@@ -145,14 +150,14 @@ namespace net {
 
 
     template <typename __R, typename __P>
-    int iegad::net::proxy_basic<__R, __P>::_recv_msg(basic_msg & msgbsc, boost::system::error_code & err_code)
+    int iegad::net::basic_proxy<__R, __P>::_recv_msg(basic_msg & msgbsc, boost::system::error_code & err_code)
     {
 	return iegad::net::recv_basic_msg(clnt_, msgbsc, err_code);
     }
 
 
     template <typename __R, typename __P>
-    const std::string iegad::net::proxy_basic<__R, __P>::_recv()
+    const std::string iegad::net::basic_proxy<__R, __P>::_recv()
     {
 	boost::system::error_code err_code;
 	char buff[iegad::io::BUF_SIZE];
@@ -174,12 +179,12 @@ namespace net {
 	    }
 	    res.append(buff, n);
 	} while (true);
-	return res;
+	return iegad::string::de_cust(res, iegad::io::MSG_KEY);
     }
 
 
     template <typename __R, typename __P>
-    int iegad::net::proxy_basic<__R, __P>::_connect()
+    int iegad::net::basic_proxy<__R, __P>::_connect()
     {
 	boost::asio::ip::tcp::resolver::iterator end;
 	boost::system::error_code errcode = boost::asio::error::host_not_found;
@@ -192,6 +197,7 @@ namespace net {
 	for (; errcode && iter != end; ++iter) {
 	    clnt_.close();
 	    if (clnt_.connect(*iter, errcode) == 0) {
+		addr_ = *iter;
 		clnt_.set_option(boost::asio::ip::tcp::no_delay(true));
 		return 0;
 	    }
@@ -205,11 +211,9 @@ namespace net {
 
 
 
-
-
 } // namespace net;
 } // namespace iegad;
 
 
 
-#endif // __PROXY_BASIC__
+#endif // __BASIC_PROXY__

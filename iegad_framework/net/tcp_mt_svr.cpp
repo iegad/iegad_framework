@@ -9,16 +9,12 @@ using namespace iegad::common;
 
 
 iegad::net::tcp_mt_svr::tcp_mt_svr(
-    const std::string & host, 
     unsigned short port)
     :
     stop_flag_(false),
     ios_(),
-    acptor_(ios_, 
-    ip::tcp::endpoint(ip::address::from_string(host), port)) 
+    acptor_(ios_, ip::tcp::endpoint(ip::tcp::v4(), port), true)
 {//ctor
-    // set SO_REUSEADDR on
-    acptor_.set_option(ip::tcp::acceptor::reuse_address(true));
     // set TCP_NAGLE off
     acptor_.set_option(ip::tcp::no_delay(true));
 }
@@ -58,6 +54,7 @@ iegad::net::tcp_mt_svr::_thread_proc()
 void 
 iegad::net::tcp_mt_svr::run(int n /*= 8*/)
 {// run the service
+    assert(n > 0);
     iINFO << "@@@ threads num : " << n << " @@@"<<std::endl;
     for (int i = 0; i < n; i++) {
 	thread_pool_.push_back(

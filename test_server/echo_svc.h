@@ -3,7 +3,6 @@
 
 
 #include "svc/basic_svc.h"
-#include "msg/echo_msg.pb.h"
 #include "common/iegad_log.h"
 
 

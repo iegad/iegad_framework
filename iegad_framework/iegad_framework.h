@@ -18,7 +18,7 @@
 #include "common/iegad_log.h"
 #include "common/job_queue.hpp"
 #include "common/job_worker.hpp"
-#include "svc/proxy_basic.hpp"
+#include "svc/basic_proxy.hpp"
 
 
 #endif // __IEGAD_FRAMEWORK__

@@ -18,7 +18,7 @@
 
 
 enum {
-    N_TIMES = 5000
+    N_TIMES = 1000
 };
 
 
@@ -42,10 +42,10 @@ main(int argc, char * argv[])
     std::string instr, outstr;
     clock_t start, finished;
     // ================ 测试专用 ===================
-    //std::cout << "Press <Enter> to start..." << std::endl;
-    //std::cin.get();
-    //std::cout << "Starting ...\n";
-    //start = clock();
+ //   std::cout << "Press <Enter> to start..." << std::endl;
+ //   std::cin.get();
+ //   std::cout << "Starting ...\n";
+ //   start = clock();
 
 
 
@@ -57,8 +57,8 @@ main(int argc, char * argv[])
  //   for (int i = 0; i < 10; i++) {
 	//thread_pool[i].join();
  //   }
-    //finished = clock();
-    //std::cout << "use : " << (finished - start) / CLOCKS_PER_SEC << std::endl;
+ //   finished = clock();
+ //   std::cout << "use : " << (finished - start) / CLOCKS_PER_SEC << std::endl;
 
     // ================ 测试专用 ===================
 
@@ -70,7 +70,7 @@ main(int argc, char * argv[])
 	if ("exit" == iegad::string::to_lwr(instr)) {
 	    break;
 	}
-	std::cout << "echo :" << echo_proxy("127.0.0.1", "6688")(instr) << std::endl;
+	std::cout << "echo :" << echo_proxy("192.168.136.1", "6688")(instr) << std::endl;
     } while (true);
 
 
@@ -79,5 +79,6 @@ main(int argc, char * argv[])
 
 exit_case:
     _CrtDumpMemoryLeaks();
+    std::cin.get();
     exit(0);
 }

@@ -4,7 +4,7 @@
 
 iegad::common::_LOG::_LOG(char * argv0)
 {
-    if (access("LOG", 0) != 0) {
+    if (_access("LOG", 0) != 0) {
 	system(MKDIR);
     }
     google::InitGoogleLogging(argv0);
