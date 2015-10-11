@@ -20,6 +20,8 @@
     <ClCompile Include="security\iegad_md5.cpp" />
     <ClCompile Include="string\iegad_string.cpp" />
     <ClCompile Include="svc\basic_svc.cpp" />
+    <ClCompile Include="udp_pusher.cpp" />
+    <ClCompile Include="udp_waiter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\iegad_log.h" />
@@ -35,6 +37,8 @@
     <ClInclude Include="string\iegad_string.h" />
     <ClInclude Include="svc\basic_proxy.hpp" />
     <ClInclude Include="svc\basic_svc.h" />
+    <ClInclude Include="udp_waiter.h" />
+    <ClInclude Include="udp_pusher.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="msg\proto\basic_msg.proto" />

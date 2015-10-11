@@ -54,6 +54,12 @@
     <ClCompile Include="msg\iegad_io_msg.cpp">
       <Filter>msg</Filter>
     </ClCompile>
+    <ClCompile Include="udp_pusher.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="udp_waiter.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\iegad_log.h">
@@ -92,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="svc\basic_proxy.hpp">
       <Filter>svc</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_waiter.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="udp_pusher.h">
+      <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

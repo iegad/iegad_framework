@@ -3,6 +3,7 @@
 #include "iegad_framework.h"
 #include "iegad_mysql.h"
 #include "echo_svc.h"
+#include "udp_pusher.h"
 
 
 // =========== 用于内存泄漏检测 ============
@@ -47,15 +48,15 @@ main(int argc, char * argv[])
     iegad::common::_LOG log(argv[0]);
 
     // ======================== 服务端架构测试 ========================
-    echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
-    tcp_mt_svr host("Eniac", "6688");
-    std::cout << host.host_endpoint() << std::endl;
-    host.regist_svc(echo_svc_);
-    host.run(4);
+    //echo_svc_ptr echo_svc_(new iegad::net::echo_svc(10));
+    //tcp_mt_svr host("Eniac", "6688");
+    //std::cout << host.host_endpoint() << std::endl;
+    //host.regist_svc(echo_svc_);
+    //host.run(4);
 
-    std::cout << "press <Enter> to exit..." << std::endl;
-    std::cin.get();
-    host.stop();
+    //std::cout << "press <Enter> to exit..." << std::endl;
+    //std::cin.get();
+    //host.stop();
     // ======================== 服务端架构测试 ========================
 
 
@@ -86,8 +87,19 @@ main(int argc, char * argv[])
 
     // ======================== MYSQL库测试 ========================
 
-    _CrtDumpMemoryLeaks(); // 用于windows 下, 内存泄漏检测;
 
+
+    // ======================== UDP 测试 =========================
+
+    iegad::net::udp_svr host("127.0.0.1");
+    host.add_client("Eniac", iegad::net::udp_svr::rmt_addr_t("127.0.0.1", 12013));
+    char c = 'a';
+    host.send_one("Eniac", &c, 1);
+    host.send_all(&c, 1);
+
+    // ======================== UDP 测试 =========================
+
+    _CrtDumpMemoryLeaks(); // 用于windows 下, 内存泄漏检测;
     std::cin.get();
     exit(0);
 }

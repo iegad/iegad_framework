@@ -1,6 +1,7 @@
 #include "echo_proxy.h"
 #include <iostream>
 #include <codecvt>
+#include "udp_waiter.h"
 
 
 
@@ -18,7 +19,7 @@
 
 
 enum {
-    N_TIMES = 1000
+    N_TIMES = 10000
 };
 
 
@@ -32,6 +33,13 @@ test_proc()
 	    std::cout << "failed" << std::endl;
 	}
     }
+}
+
+
+void
+fun(char c)
+{
+    std::cout << c << std::endl;
 }
 
 
@@ -50,11 +58,11 @@ main(int argc, char * argv[])
 
 
  //   std::vector<std::thread> thread_pool;
- //   for (int i = 0; i < 10; i++) {
+ //   for (int i = 0; i < 1; i++) {
 	//thread_pool.push_back(std::thread(test_proc));
  //   }
 
- //   for (int i = 0; i < 10; i++) {
+ //   for (int i = 0; i < 1; i++) {
 	//thread_pool[i].join();
  //   }
  //   finished = clock();
@@ -63,18 +71,19 @@ main(int argc, char * argv[])
     // ================ ²âÊÔ×¨ÓÃ ===================
 
 
-    std::cout << "Enter the str & 'exit' to exit..." << std::endl;
-    do {
+ //   std::cout << "Enter the str & 'exit' to exit..." << std::endl;
+ //   do {
 
-	std::getline(std::cin, instr, '\n');
-	if ("exit" == iegad::string::to_lwr(instr)) {
-	    break;
-	}
-	std::cout << "echo :" << echo_proxy("192.168.1.104", "6688")(instr) << std::endl;
-    } while (true);
+	//std::getline(std::cin, instr, '\n');
+	//if ("exit" == iegad::string::to_lwr(instr)) {
+	//    break;
+	//}
+	//std::cout << "echo :" << echo_proxy("192.168.1.104", "6688")(instr) << std::endl;
+ //   } while (true);
 
 
-
+    iegad::net::udp_waiter wtr("127.0.0.1", 12013, fun);
+    wtr.start();
 
 
 exit_case:
