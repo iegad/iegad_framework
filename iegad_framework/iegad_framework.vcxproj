@@ -17,11 +17,11 @@
     <ClCompile Include="msg\basic_msg.pb.cc" />
     <ClCompile Include="msg\iegad_io_msg.cpp" />
     <ClCompile Include="net\tcp_mt_svr.cpp" />
+    <ClCompile Include="net\udp_pusher.cpp" />
+    <ClCompile Include="net\udp_waiter.cpp" />
     <ClCompile Include="security\iegad_md5.cpp" />
     <ClCompile Include="string\iegad_string.cpp" />
     <ClCompile Include="svc\basic_svc.cpp" />
-    <ClCompile Include="udp_pusher.cpp" />
-    <ClCompile Include="udp_waiter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\iegad_log.h" />
@@ -33,12 +33,12 @@
     <ClInclude Include="msg\basic_msg.pb.h" />
     <ClInclude Include="msg\iegad_io_msg.h" />
     <ClInclude Include="net\tcp_mt_svr.h" />
+    <ClInclude Include="net\udp_pusher.h" />
+    <ClInclude Include="net\udp_waiter.h" />
     <ClInclude Include="security\iegad_md5.h" />
     <ClInclude Include="string\iegad_string.h" />
     <ClInclude Include="svc\basic_proxy.hpp" />
     <ClInclude Include="svc\basic_svc.h" />
-    <ClInclude Include="udp_waiter.h" />
-    <ClInclude Include="udp_pusher.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="msg\proto\basic_msg.proto" />

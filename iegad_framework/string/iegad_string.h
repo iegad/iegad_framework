@@ -8,7 +8,10 @@
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 对部分字符串算法操作的封装
+// @用途 : 对部分字符串算法操作的封装, 
+//		此版本为v1.0, 以实现功能为主, 
+//		可能存在一些性能上的问题.
+//		关于性能上的优化, 会在下一版本中解决.
 // ============================
 //
 // @修改记录:
@@ -20,6 +23,8 @@
 //							    2, 添加base64加密, 解密
 //							    3, 添加 guid 生成函数
 //  --2015-10-09	    --iegad		    添加 自定义加密 en_cust 函数, 解密 de_cust 函数 
+//  --2015-10-13	    --iegad		    1, 添加format函数, 用于格式化字符串
+//							    2, 修改to_str(double/float)的精度问题
 
 
 #include <string>
@@ -217,28 +222,31 @@ to_str(unsigned long long val);
 // ============================
 // @用途 : 将类型 float 转换成字符串形式
 // @val : 需要转换的对象
+// @p : 有效数字, 默认为最合适的有效数字
 // @返回值 : 转换后的字符串
 // ============================
 const std::string
-to_str(float val);
+to_str(float val, int p = 6);
 
 
 // ============================
 // @用途 : 将类型 double 转换成字符串形式
 // @val : 需要转换的对象
+// @p : 有效数字, 默认为最合适的有效数字
 // @返回值 : 转换后的字符串
 // ============================
 const std::string
-to_str(double val);
+to_str(double val, int p = 15);
 
 
 // ============================
 // @用途 : 将类型 long double 转换成字符串形式
 // @val : 需要转换的对象
+// @p : 有效数字, 默认为最合适的有效数字
 // @返回值 : 转换后的字符串
 // ============================
 const std::string
-to_str(long double val);
+to_str(long double val, int p = 15);
 
 
 // ============================
@@ -426,6 +434,16 @@ en_cust(const std::string & src, char key);
 // ============================
 const std::string
 de_cust(const std::string & src, char key);
+
+
+// ============================
+// @用途 : 字符串格式化
+// @fmt : 格式串
+// @parms : 参数
+// @返回值 : 格式化后的字符串
+// ============================
+const std::string
+format(const std::string & fmt, std::vector<std::string> & parms);
 
 
 } //end namespace string

@@ -192,11 +192,11 @@ iegad::string::to_str(unsigned long long val)
 
 
 const std::string 
-iegad::string::to_str(float val)
+iegad::string::to_str(float val, int p /* = 6*/)
 {
     std::string res;
     std::stringstream strm;
-    strm.precision(8);
+    strm.precision(p);
     strm << val;
     strm >> res;
     return res;
@@ -204,11 +204,11 @@ iegad::string::to_str(float val)
 
 
 const std::string
-iegad::string::to_str(double val)
+iegad::string::to_str(double val, int p /* = 15*/)
 {
     std::string res;
     std::stringstream strm;
-    strm.precision(11);
+    strm.precision(p);
     strm << val;
     strm >> res;
     return res;
@@ -223,7 +223,7 @@ iegad::string::to_str(bool val)
 
 
 const std::string 
-iegad::string::to_str(long double val)
+iegad::string::to_str(long double val, int p /* = 15*/)
 {
     std::string res;
     std::stringstream strm;
@@ -424,6 +424,17 @@ const std::string
 iegad::string::de_cust(const std::string & src, char key)
 {
     return en_cust(src, key);
+}
+
+
+const std::string 
+iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
+{
+    std::string res = fmt;
+    for (int i = 0, n = parms.size(); i < n; i++) {
+	res = iegad::string::replace(res, "{" + iegad::string::to_str(i) + "}", parms[i]);
+    }
+    return res;
 }
 
 

@@ -3,7 +3,7 @@
 #include "iegad_framework.h"
 #include "iegad_mysql.h"
 #include "echo_svc.h"
-#include "udp_pusher.h"
+#include "net/udp_pusher.h"
 
 
 // =========== 用于内存泄漏检测 ============
@@ -39,6 +39,8 @@ using namespace iegad::common;
   在日志类的构造函数中, 会将当前字符集初始为 "chs(简体中文)";
 
  =================================== */
+
+
 
 
 int 
@@ -91,13 +93,18 @@ main(int argc, char * argv[])
 
     // ======================== UDP 测试 =========================
 
-    iegad::net::udp_svr host("127.0.0.1");
-    host.add_client("Eniac", iegad::net::udp_svr::rmt_addr_t("127.0.0.1", 12013));
-    char c = 'a';
-    host.send_one("Eniac", &c, 1);
-    host.send_all(&c, 1);
+    //iegad::net::udp_svr host("127.0.0.1");
+    //host.add_client("Eniac", iegad::net::udp_svr::rmt_addr_t("127.0.0.1", 12013));
+    //char c = 'a';
+    //host.send_one("Eniac", &c, 1);
+    //host.send_all(&c, 1);
 
     // ======================== UDP 测试 =========================
+
+    float f = 12.3456F, fr;
+    std::string str = iegad::string::to_str(f, 7);
+
+    fr = iegad::string::to_float(str);
 
     _CrtDumpMemoryLeaks(); // 用于windows 下, 内存泄漏检测;
     std::cin.get();
