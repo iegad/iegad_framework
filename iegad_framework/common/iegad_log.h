@@ -23,43 +23,6 @@
 
 
 
-
-
-#ifdef WIN32	// for windows
-#pragma comment(lib, "libglog.lib")
-
-
-// mkdir command;
-const char MKDIR[] = "mkdir LOG";
-
-// info log path;
-const char LOG_INF_FILE[] = ".\\LOG\\INFO_";
-// error log path;
-const char LOG_ERR_FILE[] = ".\\LOG\\ERROR_";
-// warning log path;
-const char LOG_WARN_FILE[] = ".\\LOG\\WARNING_";
-// fatal log path;
-const char LOG_FATAL_FILE[] = ".\\LOG\\FATAL_";
-
-
-#else	    // for linux
-
-
-// mkdir command;
-const char MKDIR[] = "mkdir -p ./LOG";
-
-// info log path;
-const char LOG_INF_DIR[] = "./LOG/INFO_";
-// error log path;
-const char LOG_ERR_DIR[] = "./LOG/ERROR_";
-// warning log path;
-const char LOG_WARN_DIR[] = "./LOG/WARNING_";
-// fatal log path;
-const char LOG_FATAL_DIR[] = "./LOG/FATAL_";
-
-
-#endif // #ifdef WIN32;
-
 // glog standard;
 #define GLOG_NO_ABBREVIATED_SEVERITIES
 
@@ -67,6 +30,7 @@ const char LOG_FATAL_DIR[] = "./LOG/FATAL_";
 #include <string>
 #include <glog/logging.h>
 #include <io.h>
+#include "iegad_define.h"
 
 
 #ifdef iINFO 

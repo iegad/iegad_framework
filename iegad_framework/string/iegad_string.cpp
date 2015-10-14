@@ -227,11 +227,7 @@ iegad::string::to_str(long double val, int p /* = 15*/)
 {
     std::string res;
     std::stringstream strm;
-#ifdef WIN32
-    strm.precision(11);
-#else
-    strm.precision(18);
-#endif // WIN32
+    strm.precision(p);
     strm << val;
     strm >> res;
     return res;

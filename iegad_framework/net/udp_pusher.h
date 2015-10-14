@@ -4,6 +4,7 @@
 
 #include <boost/asio.hpp>
 #include <unordered_map>
+#include "iegad_define.h"
 
 
 
@@ -13,9 +14,6 @@ namespace net {
 
     class udp_svr {
     public:
-	enum{
-	    UDP_SVR_PORT = 5222
-	};
 	typedef std::pair<std::string, unsigned short> rmt_addr_t;
 	typedef std::unordered_map<std::string, boost::asio::ip::udp::endpoint> remotes_t;
 	const int timeout_ = 5;

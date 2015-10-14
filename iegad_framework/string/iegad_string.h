@@ -31,6 +31,7 @@
 #include <vector>
 #include <cctype>
 #include "security/iegad_md5.h"
+#include "iegad_define.h"
 
 
 namespace iegad {
@@ -226,7 +227,7 @@ to_str(unsigned long long val);
 // @返回值 : 转换后的字符串
 // ============================
 const std::string
-to_str(float val, int p = 6);
+to_str(float val, int p = FLOAT_DEFAULT_PRECISION);
 
 
 // ============================
@@ -236,7 +237,7 @@ to_str(float val, int p = 6);
 // @返回值 : 转换后的字符串
 // ============================
 const std::string
-to_str(double val, int p = 15);
+to_str(double val, int p = DOUBLE_DEFAULT_PRECISION);
 
 
 // ============================
@@ -246,7 +247,7 @@ to_str(double val, int p = 15);
 // @返回值 : 转换后的字符串
 // ============================
 const std::string
-to_str(long double val, int p = 15);
+to_str(long double val, int p = DECIMAL_DEFAULT_PRECISION);
 
 
 // ============================

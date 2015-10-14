@@ -33,21 +33,13 @@
 #include <boost/asio.hpp>
 #include <string>
 #include "msg/basic_msg.pb.h"
+#include "iegad_define.h"
 
 
 
 namespace iegad {
 namespace io {
 
-
-    
-    enum {
-	// 客户端接收缓冲大小
-	BUF_SIZE = 1024,
-	// 用于加密, 解密的 密钥
-	MSG_KEY = 0x15
-    };
-     
 
     // ============================
     // @用途 : 从 客户端clnt 读数据直到eof为止;

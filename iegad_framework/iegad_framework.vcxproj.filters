@@ -105,6 +105,7 @@
     <ClInclude Include="net\udp_waiter.h">
       <Filter>net</Filter>
     </ClInclude>
+    <ClInclude Include="iegad_define.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="msg\proto\basic_msg.proto">

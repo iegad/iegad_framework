@@ -1,8 +1,6 @@
 #include "udp_waiter.h"
 #include <thread>
-
-
-#define WAIT_FOR_SINGLE true
+#include "iegad_define.h"
 
 
 iegad::net::udp_waiter::udp_waiter(const std::string & ipstr, unsigned short port, callback_t callback)

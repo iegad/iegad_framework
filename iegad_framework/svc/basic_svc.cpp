@@ -42,7 +42,7 @@ iegad::net::basic_svc::_response(boost::asio::ip::tcp::socket & clnt, const char
     std::string sendstr(rzt, rzt_size);
 
     int n = clnt.send(
-	boost::asio::buffer(iegad::string::en_cust(sendstr, iegad::io::MSG_KEY)), 0, 
+	boost::asio::buffer(iegad::string::en_cust(sendstr, MSG_KEY)), 0, 
 	errcode);
     if (errcode || n != rzt_size) {
 	return -1;
