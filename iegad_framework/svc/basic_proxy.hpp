@@ -158,7 +158,7 @@ namespace net {
     const std::string iegad::net::basic_proxy<__R, __P>::_recv()
     {
 	boost::system::error_code err_code;
-	char buff[iegad::io::BUF_SIZE];
+	char buff[BUF_SIZE];
 	std::string res;
 	int n;
 	do {
@@ -177,7 +177,7 @@ namespace net {
 	    }
 	    res.append(buff, n);
 	} while (true);
-	return iegad::string::de_cust(res, iegad::io::MSG_KEY);
+	return iegad::string::de_cust(res, MSG_KEY);
     }
 
 

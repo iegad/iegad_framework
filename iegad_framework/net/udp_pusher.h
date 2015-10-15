@@ -15,8 +15,7 @@ namespace net {
     class udp_svr {
     public:
 	typedef std::pair<std::string, unsigned short> rmt_addr_t;
-	typedef std::unordered_map<std::string, boost::asio::ip::udp::endpoint> remotes_t;
-	const int timeout_ = 5;
+	typedef std::unordered_map<std::string, boost::asio::ip::udp::endpoint> remotes_t;	
 
 	explicit udp_svr(const std::string & ipstr);
 	~udp_svr();

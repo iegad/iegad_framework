@@ -1,5 +1,7 @@
 #include "udp_pusher.h"
 #include <assert.h>
+#include <thread>
+#include "common/iegad_log.h"
 
 
 using namespace boost::asio;
@@ -38,12 +40,6 @@ iegad::net::udp_svr::_build_sock(boost::asio::ip::udp::socket & sock)
 {
     boost::system::error_code errcode;
     sock.open(udp::v4());
-    if (setsockopt(sock.native(), 
-	SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout_, 
-	sizeof(int))
-	!= 0) {
-	return -1;
-    }
     for (int i = UDP_SVR_PORT;; i++) {
 	sock.bind(udp::endpoint(address::from_string(ip_), i), errcode);
 	if (errcode.value() == 0) {
@@ -66,7 +62,7 @@ const std::string & rmt_id,
 const char * buff, int buff_size)
 {
     boost::system::error_code errcode;
-    int t = 3, n;
+    int n, timeout = 1;
 
     remotes_t::iterator itor = remotes_.find(rmt_id);
     if (itor == remotes_.end()) {
@@ -79,19 +75,23 @@ const char * buff, int buff_size)
 	return -1;
     }
 
-    while (t-- > 0) {
+    while (timeout < MAX_TIMEOUT_VALUE) {
+	n = setsockopt(sock.native(), SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(int));
 	n = sock.send(buffer(buff, buff_size), 0, errcode);
 	if (n == buff_size && errcode.value() == 0) {
 	    char c;
 	    n = sock.receive(buffer(&c, 1), 0, errcode);
-	    if (n == 1 && errcode.value() == 0) {
+	    if (n == 1 && errcode.value() == 0 && c == buff[0] + 1) {
 		return 0;
 	    } 
-	    else if (errcode == error::connection_reset) {
-		this->rm_client(rmt_id);
-		return -1;
-	    }
-	} // if (n == buff_size && errcode.value() == 0);
+	} 
+	if (errcode == error::connection_reset) {
+	    this->rm_client(rmt_id);
+	    return -1;
+	}
+	iWARN << errcode.message() << std::endl;
+	std::this_thread::sleep_for(std::chrono::seconds(timeout));
+	timeout *= 2;
     } // while (t-- > 0);
     return -1;
 }

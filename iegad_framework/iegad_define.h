@@ -34,11 +34,12 @@
 
 
 //错误字符串
-const std::string ERR_STRING = "??????";	
+const std::string ERR_STRING = "??????";
 //UDP 服务端 起始端口
 #define UDP_SVR_PORT		    5222
 // 一个WHILE循环中的等待标识
 #define WAIT_FOR_SINGLE	    true
+#define MAX_TIMEOUT_VALUE   16
 
 // 客户端接收缓冲大小     
 #define BUF_SIZE	1440

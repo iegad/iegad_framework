@@ -28,7 +28,7 @@ iegad::net::udp_waiter::start()
 int 
 iegad::net::udp_waiter::_start()
 {
-    char c, cback;
+    char c, cback = -1;
     int n, t = 3;
     boost::system::error_code errcode;
     boost::asio::ip::udp::endpoint rmt_ep;
@@ -36,6 +36,9 @@ iegad::net::udp_waiter::_start()
     while (WAIT_FOR_SINGLE) {
 	n = sock_.receive_from(boost::asio::buffer(&c, 1), rmt_ep, 0, errcode);
 	if (n == 1 && errcode.value() == 0) {
+	    if (c == cback - 1) {
+		continue;
+	    }
 	    cback = c + 1;
 	    while (t--) {		
 		n = sock_.send_to(boost::asio::buffer(&cback, 1), rmt_ep, 0, errcode);
@@ -43,7 +46,7 @@ iegad::net::udp_waiter::_start()
 		    break;
 		}
 	    } // while (t--);
-	    callback_(c);
+	    callback_(c);	    
 	} // if (n == 1 && errcode.value() == 0);
     } // while (WAIT_FOR_SINGLE);
 }

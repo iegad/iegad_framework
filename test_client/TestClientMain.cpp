@@ -1,7 +1,7 @@
 #include "echo_proxy.h"
 #include <iostream>
 #include <codecvt>
-#include "udp_waiter.h"
+#include "net/udp_waiter.h"
 
 
 
@@ -39,7 +39,8 @@ test_proc()
 void
 fun(char c)
 {
-    std::cout << c << std::endl;
+    static int i = 1;
+    std::cout << i++ << "\t\t" << c << std::endl;
 }
 
 

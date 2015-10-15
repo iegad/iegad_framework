@@ -93,18 +93,16 @@ main(int argc, char * argv[])
 
     // ======================== UDP ²âÊÔ =========================
 
-    //iegad::net::udp_svr host("127.0.0.1");
-    //host.add_client("Eniac", iegad::net::udp_svr::rmt_addr_t("127.0.0.1", 12013));
-    //char c = 'a';
-    //host.send_one("Eniac", &c, 1);
-    //host.send_all(&c, 1);
-
+    iegad::net::udp_svr host("127.0.0.1");
+    host.add_client("Eniac", iegad::net::udp_svr::rmt_addr_t("127.0.0.1", 12013));
+    char c = 'a';
+    for (int i = 0; i < 100; i++) {
+	//host.send_one("Eniac", &c, 1);
+	host.send_all(&c, 1);
+	c = ++c > 'z' ? 'a' : c;
+    }
     // ======================== UDP ²âÊÔ =========================
 
-    float f = 12.3456F, fr;
-    std::string str = iegad::string::to_str(f, 7);
-
-    fr = iegad::string::to_float(str);
 
     _CrtDumpMemoryLeaks(); // ÓÃÓÚwindows ÏÂ, ÄÚ´æĞ¹Â©¼ì²â;
     std::cin.get();
