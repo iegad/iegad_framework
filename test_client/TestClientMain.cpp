@@ -1,7 +1,7 @@
 #include "echo_proxy.h"
 #include <iostream>
 #include <codecvt>
-#include "net/udp_waiter.h"
+#include "net/udp_puller.h"
 
 
 
@@ -40,7 +40,7 @@ void
 fun(char c)
 {
     static int i = 1;
-    std::cout << i++ << "\t\t" << c << std::endl;
+    std::cout << i++ << "\t\t" << (int)c << std::endl;
 }
 
 
@@ -83,8 +83,9 @@ main(int argc, char * argv[])
  //   } while (true);
 
 
-    iegad::net::udp_waiter wtr("127.0.0.1", 12013, fun);
+    iegad::net::udp_puller wtr("127.0.0.1", 12013, fun);
     wtr.start();
+
 
 
 exit_case:

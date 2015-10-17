@@ -11,8 +11,9 @@ using namespace boost::asio::ip;
 
 
 
+
 int 
-iegad::net::udp_svr::send_all(const char * buff, int buff_size)
+iegad::net::udp_svr::notify_all(char buff)
 {
     int res = remotes_.size();
     remotes_t::iterator itor = remotes_.begin();
@@ -24,7 +25,7 @@ iegad::net::udp_svr::send_all(const char * buff, int buff_size)
 		break;
 	    }
 
-	    if (this->_send(sock, itor->first, buff, buff_size) != 0) {
+	    if (this->_send(sock, itor->first, buff) != 0) {
 		break;
 	    }
 	    continue;
@@ -57,9 +58,7 @@ iegad::net::udp_svr::udp_svr(const std::string & ipstr)
 
 
 int 
-iegad::net::udp_svr::_send(boost::asio::ip::udp::socket & sock, 
-const std::string & rmt_id, 
-const char * buff, int buff_size)
+iegad::net::udp_svr::_send(boost::asio::ip::udp::socket & sock, const std::string & rmt_id, char buff)
 {
     boost::system::error_code errcode;
     int n, timeout = 1;
@@ -77,19 +76,17 @@ const char * buff, int buff_size)
 
     while (timeout < MAX_TIMEOUT_VALUE) {
 	n = setsockopt(sock.native(), SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(int));
-	n = sock.send(buffer(buff, buff_size), 0, errcode);
-	if (n == buff_size && errcode.value() == 0) {
-	    char c;
-	    n = sock.receive(buffer(&c, 1), 0, errcode);
-	    if (n == 1 && errcode.value() == 0 && c == buff[0] + 1) {
+	n = sock.send(buffer(&buff, 1), 0, errcode);
+	if (n == 1 && errcode.value() == 0) {
+	    n = sock.receive(buffer(&buff, 1), 0, errcode);
+	    if (CHECK_UDP_FLAG(buff)) {
 		return 0;
 	    } 
 	} 
 	if (errcode == error::connection_reset) {
-	    this->rm_client(rmt_id);
 	    return -1;
 	}
-	iWARN << errcode.message() << std::endl;
+	iWARN << errcode.message() << " & timout = " << timeout << std::endl;
 	std::this_thread::sleep_for(std::chrono::seconds(timeout));
 	timeout *= 2;
     } // while (t-- > 0);
@@ -98,7 +95,7 @@ const char * buff, int buff_size)
 
 
 int 
-iegad::net::udp_svr::send_one(const std::string & rmt_id, const char * buff, int buff_size)
+iegad::net::udp_svr::notify_one(const std::string & rmt_id, char buff)
 {
     io_service ios;
     udp::socket sock(ios);
@@ -107,7 +104,7 @@ iegad::net::udp_svr::send_one(const std::string & rmt_id, const char * buff, int
 	return -1;
     }
 
-    return this->_send(sock, rmt_id, buff, buff_size);
+    return this->_send(sock, rmt_id, buff);
 }
 
 

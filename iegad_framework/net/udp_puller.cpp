@@ -1,9 +1,9 @@
-#include "udp_waiter.h"
+#include "udp_puller.h"
 #include <thread>
 #include "iegad_define.h"
 
 
-iegad::net::udp_waiter::udp_waiter(const std::string & ipstr, unsigned short port, callback_t callback)
+iegad::net::udp_puller::udp_puller(const std::string & ipstr, unsigned short port, callback_t callback)
     :
     callback_(callback),
     ios_(), 
@@ -17,18 +17,18 @@ iegad::net::udp_waiter::udp_waiter(const std::string & ipstr, unsigned short por
 
 
 int 
-iegad::net::udp_waiter::start()
+iegad::net::udp_puller::start()
 {
-    thread_proc_ = std::move(std::thread(std::bind(&iegad::net::udp_waiter::_start, this)));
+    thread_proc_ = std::move(std::thread(std::bind(&iegad::net::udp_puller::_start, this)));
     thread_proc_.detach();
     return 0;
 }
 
 
 int 
-iegad::net::udp_waiter::_start()
+iegad::net::udp_puller::_start()
 {
-    char c, cback = -1;
+    char c, rc = -1;
     int n, t = 3;
     boost::system::error_code errcode;
     boost::asio::ip::udp::endpoint rmt_ep;
@@ -36,12 +36,12 @@ iegad::net::udp_waiter::_start()
     while (WAIT_FOR_SINGLE) {
 	n = sock_.receive_from(boost::asio::buffer(&c, 1), rmt_ep, 0, errcode);
 	if (n == 1 && errcode.value() == 0) {
-	    if (c == cback - 1) {
+	    if (SET_UDP_FLAG(c) == rc) {
 		continue;
 	    }
-	    cback = c + 1;
+	    rc = SET_UDP_FLAG(c);
 	    while (t--) {		
-		n = sock_.send_to(boost::asio::buffer(&cback, 1), rmt_ep, 0, errcode);
+		n = sock_.send_to(boost::asio::buffer(&rc, 1), rmt_ep, 0, errcode);
 		if (n == 1 && errcode.value() == 0) {
 		    break;
 		}
@@ -52,7 +52,7 @@ iegad::net::udp_waiter::_start()
 }
 
 
-iegad::net::udp_waiter::~udp_waiter()
+iegad::net::udp_puller::~udp_puller()
 {
     sock_.close();
 }

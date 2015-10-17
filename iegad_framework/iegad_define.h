@@ -39,7 +39,12 @@ const std::string ERR_STRING = "??????";
 #define UDP_SVR_PORT		    5222
 // 一个WHILE循环中的等待标识
 #define WAIT_FOR_SINGLE	    true
+// UDP通信最大超时值
 #define MAX_TIMEOUT_VALUE   16
+// 检查UDP通信标识
+#define CHECK_UDP_FLAG(x) (~(x) & 0x0f)
+// 确认UDP通信标识
+#define SET_UDP_FLAG(x)	((x) & 0xf0) 
 
 // 客户端接收缓冲大小     
 #define BUF_SIZE	1440

@@ -25,6 +25,7 @@
 //  --2015-10-09	    --iegad		    添加 自定义加密 en_cust 函数, 解密 de_cust 函数 
 //  --2015-10-13	    --iegad		    1, 添加format函数, 用于格式化字符串
 //							    2, 修改to_str(double/float)的精度问题
+//  --2015-10-17	    --iegad		    修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
 
 
 #include <string>

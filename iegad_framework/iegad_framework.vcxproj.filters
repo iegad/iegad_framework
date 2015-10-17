@@ -57,7 +57,7 @@
     <ClCompile Include="net\udp_pusher.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="net\udp_waiter.cpp">
+    <ClCompile Include="net\udp_puller.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,10 +102,10 @@
     <ClInclude Include="net\udp_pusher.h">
       <Filter>net</Filter>
     </ClInclude>
-    <ClInclude Include="net\udp_waiter.h">
+    <ClInclude Include="iegad_define.h" />
+    <ClInclude Include="net\udp_puller.h">
       <Filter>net</Filter>
     </ClInclude>
-    <ClInclude Include="iegad_define.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="msg\proto\basic_msg.proto">

@@ -426,10 +426,21 @@ iegad::string::de_cust(const std::string & src, char key)
 const std::string 
 iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
 {
-    std::string res = fmt;
+    int index = 0, len = 0, pos = 0, i = 0;
+    std::string res;
+    std::string flagstr;
     for (int i = 0, n = parms.size(); i < n; i++) {
-	res = iegad::string::replace(res, "{" + iegad::string::to_str(i) + "}", parms[i]);
+	flagstr.clear();
+	flagstr = "{" + iegad::string::to_str(i) + "}";
+	index = fmt.find(flagstr);
+	if (index == -1) {
+	    return res;
+	}
+	res.append(fmt, pos, index - pos);
+	res.append(parms[i]);
+	pos = index + flagstr.size();
     }
+    res.append(fmt, pos, fmt.size() - pos);
     return res;
 }
 
