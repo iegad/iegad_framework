@@ -34,9 +34,10 @@ iegad::string::split_vct(const std::string &src, const std::string & chs)
 
 
 const std::string
-iegad::string::substr(const std::string &src, int pos, int n)
+iegad::string::substr(const std::string &src, unsigned int pos, int n /*=-1*/)
 {
-    std::string restr(src, pos, n);
+    int len = n < 0 ? src.size() - pos : n;
+    std::string restr(src, pos, len);
     return restr;
 }
 
@@ -442,6 +443,52 @@ iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
     }
     res.append(fmt, pos, fmt.size() - pos);
     return res;
+}
+
+
+int 
+iegad::string::find_str(const std::string & src, const std::string & substr, int ntime /*= 1*/)
+{
+    int pos = 0, n = 0, index = 0;
+    while (true) {
+	pos = src.find(substr, index);
+	if (pos == -1 || ++n == ntime) {
+	    break;
+	}
+	index = pos + 1;
+    }
+    return pos;
+}
+
+
+bool 
+iegad::string::start_with(const std::string & src, const std::string & substr)
+{
+    return src.find(substr, 0) == 0;
+}
+
+
+bool 
+iegad::string::end_with(const std::string & src, const std::string & substr)
+{
+    std::string str = src.substr(src.size() - substr.size(), substr.size());
+    return str == substr;
+}
+
+
+const std::string 
+iegad::string::remove(const std::string & src, unsigned int pos, int n /*= -1*/)
+{
+    std::string res = src;
+    int len = n < 0 ? src.size() : n;
+    return res.erase(pos, len);
+}
+
+
+const std::string 
+iegad::string::substr2(const std::string & src, unsigned int bgn, unsigned int end)
+{
+    return std::string(src.begin() + bgn, src.begin() + end);
 }
 
 

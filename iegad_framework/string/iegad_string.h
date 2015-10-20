@@ -26,6 +26,11 @@
 //  --2015-10-13	    --iegad		    1, 添加format函数, 用于格式化字符串
 //							    2, 修改to_str(double/float)的精度问题
 //  --2015-10-17	    --iegad		    修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
+//  --2015-10-20	    --iegad		    1, 添加find_str 函数.
+//							    2, 添加start_with, end_with 函数.
+//							    3, 添加 remove 函数
+//							    4, 将各个 int pos 参数类型改为 unsigned int
+//							    5, 添加 substr2 函数
 
 
 #include <string>
@@ -59,7 +64,20 @@ split_vct(const std::string & src, const std::string & chs);
 // @返回值 : 切割后的子字符串
 // ============================
 const std::string
-substr(const std::string & src, int pos, int n);
+substr(const std::string & src, unsigned int pos, int n = -1);
+
+
+// ============================
+// @用途 : 切割字符串, 将src以下标 bgn 为始, 下标 end为终
+//		切割成一个子字符串;
+// @src : 源字符串
+// @bgn : 开始下标
+// @end : 结束下标
+// @返回值 : 切割后的子字符串
+// @PS : 不同于substr的是 substr2 使用 下标方式来切割字符串
+// ============================
+const std::string
+substr2(const std::string & src, unsigned int bgn, unsigned int end);
 
 
 // ============================
@@ -101,9 +119,9 @@ replace(const std::string & src, const std::string & oldstr, const std::string &
 
 
 // ============================
-// @用途 : 再字符串src中找指定的字符chr, 并返回首次出现的下标
+// @用途 : 在字符串src中找指定的字符chr, 并返回首次出现的下标
 // @src : 源字符串
-// @chr : 需要查找的字符串.
+// @chr : 需要查找的字符串
 // @返回值 : 若找到返回字符chr首次出现的下标, 否则返回-1
 // ============================
 int
@@ -111,13 +129,54 @@ fstchr(const std::string & src, char chr);
 
 
 // ============================
-// @用途 : 再字符串src中找指定的字符chr, 并返回最后一次出现的下标
+// @用途 : 在字符串src中找指定的字符chr, 并返回最后一次出现的下标
 // @src : 源字符串
-// @chr : 需要查找的字符串
+// @chr : 需要查找的字符
 // @返回值 : 若找到返回字符chr最后一次出现的下标, 否则返回-1
 // ============================
 int
 lstchr(const std::string & src, char chr);
+
+
+// ============================
+// @用途 : 在字符串src中找指定的字符串substr第ntime次出现的位置, 并返回下标
+// @src : 源字符串
+// @substr : 需要查找的字符串
+// @ntime : 出现的索引值, 默认为第一次出现的位置
+// @返回值 : 若找到返回字符串substr 第ntime次 出现的下标, 否则返回-1
+// ============================   
+int
+find_str(const std::string & src, const std::string & substr, int ntime = 1);
+
+
+// ============================
+// @用途 : 判断字符串 src 是否以字符串 substr 起头
+// @src : 源字符串
+// @substr : 需要判断的字符串
+// @返回值 : 以substr 起头, 返回true, 否则返回 false
+// ============================  
+bool
+start_with(const std::string & src, const std::string & substr);
+
+
+// ============================
+// @用途 : 判断字符串 src 是否以字符串 substr 结尾
+// @src : 源字符串
+// @substr : 需要判断的字符串
+// @返回值 : 以substr 结尾, 返回true, 否则返回 false
+// ============================  
+bool
+end_with(const std::string & src, const std::string & substr);
+
+
+// ============================
+// @用途 : 判断字符串 src 是否以字符串 substr 结尾
+// @src : 源字符串
+// @substr : 需要判断的字符串
+// @返回值 : 以substr 结尾, 返回true, 否则返回 false
+// ============================  
+const std::string
+remove(const std::string & src, unsigned int pos, int n = -1);
 
 
 // ============================

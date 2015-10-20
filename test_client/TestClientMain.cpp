@@ -82,9 +82,11 @@ main(int argc, char * argv[])
 	//std::cout << "echo :" << echo_proxy("192.168.1.104", "6688")(instr) << std::endl;
  //   } while (true);
 
+    const std::string str = "abc_abc_abcd";
+    std::string tem(str.begin(), str.begin() + 5);
 
-    iegad::net::udp_puller wtr("127.0.0.1", 12013, fun);
-    wtr.start();
+    //iegad::net::udp_puller wtr("127.0.0.1", 12013, fun);
+    //wtr.start();
 
 
 

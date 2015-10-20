@@ -31,15 +31,16 @@ iegad::net::udp_puller::_start()
     char c, rc = -1;
     int n, t = 3;
     boost::system::error_code errcode;
-    boost::asio::ip::udp::endpoint rmt_ep;
+    boost::asio::ip::udp::endpoint rmt_ep, rcd_ep;
     
     while (WAIT_FOR_SINGLE) {
 	n = sock_.receive_from(boost::asio::buffer(&c, 1), rmt_ep, 0, errcode);
 	if (n == 1 && errcode.value() == 0) {
-	    if (SET_UDP_FLAG(c) == rc) {
+	    if (SET_UDP_FLAG(c) == rc && rcd_ep == rmt_ep) {
 		continue;
 	    }
 	    rc = SET_UDP_FLAG(c);
+	    rcd_ep = rmt_ep;
 	    while (t--) {		
 		n = sock_.send_to(boost::asio::buffer(&rc, 1), rmt_ep, 0, errcode);
 		if (n == 1 && errcode.value() == 0) {

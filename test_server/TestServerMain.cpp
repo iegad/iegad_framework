@@ -96,7 +96,7 @@ main(int argc, char * argv[])
     iegad::net::udp_svr host("127.0.0.1");
     host.add_client("Eniac", iegad::net::udp_svr::rmt_addr_t("127.0.0.1", 12013));
     char c = 0x1f;
-    for (int i = 0; i < 1000000; i++) {
+    for (int i = 0; i < 100; i++) {
 	//host.send_one("Eniac", &c, 1);
 	host.notify_all(c);
 	c = c == 0x1f ? 0x2f : 0x1f;
