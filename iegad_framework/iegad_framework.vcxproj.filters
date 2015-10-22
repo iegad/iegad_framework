@@ -4,9 +4,6 @@
     <Filter Include="net">
       <UniqueIdentifier>{48c8cc0e-0438-4a73-a36b-703ad98d41a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="string">
-      <UniqueIdentifier>{f97c1e2f-71b7-4912-9c18-a9131491fabb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{9123b910-4f5c-469c-abb6-ba83c9dc7502}</UniqueIdentifier>
     </Filter>
@@ -15,9 +12,6 @@
     </Filter>
     <Filter Include="security">
       <UniqueIdentifier>{216ae19b-7262-4aaa-97b4-eb84daad22db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="svc">
-      <UniqueIdentifier>{c97df8aa-f84a-4bfa-a72d-39515743faee}</UniqueIdentifier>
     </Filter>
     <Filter Include="msg">
       <UniqueIdentifier>{d5caddc4-a3c1-41f1-997c-a44ec36b4f71}</UniqueIdentifier>
@@ -36,14 +30,8 @@
     <ClCompile Include="db\iegad_dbtab.cpp">
       <Filter>db</Filter>
     </ClCompile>
-    <ClCompile Include="string\iegad_string.cpp">
-      <Filter>string</Filter>
-    </ClCompile>
     <ClCompile Include="security\iegad_md5.cpp">
       <Filter>security</Filter>
-    </ClCompile>
-    <ClCompile Include="svc\basic_svc.cpp">
-      <Filter>svc</Filter>
     </ClCompile>
     <ClCompile Include="net\tcp_mt_svr.cpp">
       <Filter>net</Filter>
@@ -58,6 +46,15 @@
       <Filter>net</Filter>
     </ClCompile>
     <ClCompile Include="net\udp_puller.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="common\iegad_string.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="net\basic_proxy.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="net\basic_svc.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,9 +74,6 @@
     <ClInclude Include="db\iegad_dbtab.h">
       <Filter>db</Filter>
     </ClInclude>
-    <ClInclude Include="string\iegad_string.h">
-      <Filter>string</Filter>
-    </ClInclude>
     <ClInclude Include="iegad_framework.h" />
     <ClInclude Include="security\iegad_md5.h">
       <Filter>security</Filter>
@@ -87,23 +81,26 @@
     <ClInclude Include="net\tcp_mt_svr.h">
       <Filter>net</Filter>
     </ClInclude>
-    <ClInclude Include="svc\basic_svc.h">
-      <Filter>svc</Filter>
-    </ClInclude>
     <ClInclude Include="msg\basic_msg.pb.h">
       <Filter>msg</Filter>
     </ClInclude>
     <ClInclude Include="msg\iegad_io_msg.h">
       <Filter>msg</Filter>
     </ClInclude>
-    <ClInclude Include="svc\basic_proxy.hpp">
-      <Filter>svc</Filter>
-    </ClInclude>
     <ClInclude Include="net\udp_pusher.h">
       <Filter>net</Filter>
     </ClInclude>
     <ClInclude Include="iegad_define.h" />
     <ClInclude Include="net\udp_puller.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="common\iegad_string.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="net\basic_proxy.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="net\basic_svc.h">
       <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>

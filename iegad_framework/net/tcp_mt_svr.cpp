@@ -2,7 +2,7 @@
 #include "msg/basic_msg.pb.h"
 #include "common/iegad_log.h"
 #include "msg/iegad_io_msg.h"
-#include "string/iegad_string.h"
+#include "common/iegad_string.h"
 
 
 using namespace boost::asio;

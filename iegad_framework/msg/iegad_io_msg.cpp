@@ -1,5 +1,5 @@
 #include "iegad_io_msg.h"
-#include "string/iegad_string.h"
+#include "common/iegad_string.h"
 
 
 const std::string

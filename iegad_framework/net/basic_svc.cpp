@@ -1,5 +1,5 @@
-#include "svc/basic_svc.h"
-#include "string/iegad_string.h"
+#include "net/basic_svc.h"
+#include "common/iegad_string.h"
 
 
 
@@ -35,7 +35,7 @@ iegad::net::basic_svc::get_id()
 
 
 int 
-iegad::net::basic_svc::_response(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size)
+iegad::net::basic_svc::_return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size)
 {
     boost::system::error_code errcode;
     //int n = iegad::io::send_n(clnt, rzt, rzt_size, errcode);

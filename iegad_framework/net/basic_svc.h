@@ -19,6 +19,7 @@
 //  日期                     修改人                                   修改说明
 // =======================================
 //  -- 2015-10-10	--iegad			1. 为_response 加入加密功能
+//  -- 2015-10-22    --iegad			1. 将 _response 命名 为 _return
 
 
 
@@ -131,7 +132,7 @@ namespace net {
 	// @PS : 为了提高通信从而添加该函数, 这样便可以
 	//		每次应答时, 都构建一个basic_msg对象;
 	// ============================
-	int _response(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size);
+	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size);
 
     private:
 	// 服务ID

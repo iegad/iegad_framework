@@ -12,19 +12,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\iegad_log.cpp" />
+    <ClCompile Include="common\iegad_string.cpp" />
     <ClCompile Include="db\iegad_dbrow.cpp" />
     <ClCompile Include="db\iegad_dbtab.cpp" />
     <ClCompile Include="msg\basic_msg.pb.cc" />
     <ClCompile Include="msg\iegad_io_msg.cpp" />
+    <ClCompile Include="net\basic_proxy.cpp" />
+    <ClCompile Include="net\basic_svc.cpp" />
     <ClCompile Include="net\tcp_mt_svr.cpp" />
     <ClCompile Include="net\udp_pusher.cpp" />
     <ClCompile Include="net\udp_puller.cpp" />
     <ClCompile Include="security\iegad_md5.cpp" />
-    <ClCompile Include="string\iegad_string.cpp" />
-    <ClCompile Include="svc\basic_svc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\iegad_log.h" />
+    <ClInclude Include="common\iegad_string.h" />
     <ClInclude Include="common\job_queue.hpp" />
     <ClInclude Include="common\job_worker.hpp" />
     <ClInclude Include="db\iegad_dbrow.h" />
@@ -33,13 +35,12 @@
     <ClInclude Include="iegad_framework.h" />
     <ClInclude Include="msg\basic_msg.pb.h" />
     <ClInclude Include="msg\iegad_io_msg.h" />
+    <ClInclude Include="net\basic_proxy.h" />
+    <ClInclude Include="net\basic_svc.h" />
     <ClInclude Include="net\tcp_mt_svr.h" />
     <ClInclude Include="net\udp_pusher.h" />
     <ClInclude Include="net\udp_puller.h" />
     <ClInclude Include="security\iegad_md5.h" />
-    <ClInclude Include="string\iegad_string.h" />
-    <ClInclude Include="svc\basic_proxy.hpp" />
-    <ClInclude Include="svc\basic_svc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="msg\proto\basic_msg.proto" />
@@ -87,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\protobuf-2.6.1\src;F:\Tools\C++\boost_1_59_0;F:\Tools\C++\glog-0.3.3\src\windows;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\library\include;E:\library\boost_1_59_0;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -98,6 +99,9 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>E:\library\boost_1_59_0\stage\lib;E:\library\lib\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

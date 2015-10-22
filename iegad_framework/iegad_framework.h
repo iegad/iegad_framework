@@ -12,13 +12,13 @@
 
 
 
-#include "string/iegad_string.h"
+#include "common/iegad_string.h"
 #include "db/iegad_dbtab.h"
 #include "net/tcp_mt_svr.h"
 #include "common/iegad_log.h"
 #include "common/job_queue.hpp"
 #include "common/job_worker.hpp"
-#include "svc/basic_proxy.hpp"
+#include "net/basic_proxy.h"
 
 
 #endif // __IEGAD_FRAMEWORK__
