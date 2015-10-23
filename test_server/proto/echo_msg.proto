@@ -1,7 +1,0 @@
-package iegad.net;
-
-
-message echo_msg {
-//TCPÏûÏ¢
-required string requ_str = 1;
-};
