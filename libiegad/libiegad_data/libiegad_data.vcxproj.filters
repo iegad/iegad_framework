@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\data\iegad_dbrow.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\data\iegad_dbtab.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\data\iegad_dbrow.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\data\iegad_dbtab.h">
+      <Filter>data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="data">
+      <UniqueIdentifier>{49397334-6073-4fc0-ad4d-49dd1e77ee8a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

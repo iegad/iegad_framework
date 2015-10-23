@@ -1,0 +1,32 @@
+﻿生成启动时间为 2015/10/23 22:10:38。
+     1>项目“D:\iegad_framework\libiegad\libiegad\libiegad.vcxproj”在节点 2 上(Rebuild 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\third_party\include /I..\src /IE:\library\boost_1_59_0 /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\common\iegad_log.cpp ..\src\common\iegad_md5.cpp ..\src\common\iegad_string.cpp
+         iegad_string.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2715): warning C4996: 'std::_Fill_n': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2701) : 参见“std::_Fill_n”的声明
+                 e:\library\boost_1_59_0\boost\random\detail\polynomial.hpp(114): 参见对正在编译的函数 模板 实例化“_OutIt std::fill_n<boost::random::detail::polynomial_ops::digit_t*,size_t,boost::random::detail::polynomial_ops::digit_t>(_OutIt,_Diff,const _Ty &)”的引用
+                 with
+                 [
+                     _OutIt=boost::random::detail::polynomial_ops::digit_t *
+         ,            _Diff=size_t
+         ,            _Ty=boost::random::detail::polynomial_ops::digit_t
+                 ]
+         iegad_md5.cpp
+     1>d:\iegad_framework\libiegad\src\common\iegad_md5.cpp(339): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(346) : 参见“_snprintf”的声明
+         iegad_log.cpp
+     1>d:\iegad_framework\libiegad\third_party\include\glog\logging.h(1158): warning C4251: “google::LogMessage::LogStream::streambuf_”: class“google::base_logging::LogStreamBuf”需要有 dll 接口由 class“google::LogMessage::LogStream”的客户端使用
+                 d:\iegad_framework\libiegad\third_party\include\glog\logging.h(1088) : 参见“google::base_logging::LogStreamBuf”的声明
+         正在生成代码...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1361,5): warning MSB8012: TargetPath(D:\iegad_framework\libiegad\Debug\libiegad_common.lib) does not match the Library's OutputFile property value (D:\iegad_framework\libiegad\lib\debug\libiegad_common.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\lib\debug\libiegad_common.lib" /NOLOGO Debug\iegad_log.obj
+         Debug\iegad_md5.obj
+         Debug\iegad_string.obj
+         libiegad.vcxproj -> D:\iegad_framework\libiegad\Debug\libiegad_common.lib
+     1>已完成生成项目“D:\iegad_framework\libiegad\libiegad\libiegad.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.53

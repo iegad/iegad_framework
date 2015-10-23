@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\msg\basic_msg.pb.cc">
+      <Filter>msg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\msg\iegad_io_msg.cpp">
+      <Filter>msg</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\msg\iegad_io_msg.h">
+      <Filter>msg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\msg\basic_msg.pb.h">
+      <Filter>msg</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="msg">
+      <UniqueIdentifier>{af041ee8-3a6e-445e-a22c-70b11a09b000}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

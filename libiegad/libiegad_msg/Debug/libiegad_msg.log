@@ -1,0 +1,72 @@
+﻿生成启动时间为 2015/10/23 20:31:34。
+     1>项目“D:\iegad_framework\libiegad\libiegad_msg\libiegad_msg.vcxproj”在节点 2 上(Rebuild 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\third_party\include /IE:\library\boost_1_59_0 /I..\src /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\msg\basic_msg.pb.cc ..\src\msg\iegad_io_msg.cpp
+         iegad_io_msg.cpp
+         Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+         - add -D_WIN32_WINNT=0x0501 to the compiler command line; or
+         - add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.
+         Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
+         basic_msg.pb.cc
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2132): warning C4996: 'std::_Copy_impl': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : 参见“std::_Copy_impl”的声明
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(842): 参见对正在编译的函数 模板 实例化“_OutIt std::copy<const Element[],Element[]>(_InIt,_InIt,_OutIt)”的引用
+                 with
+                 [
+                     _OutIt=google::protobuf::uint64 []
+         ,            Element=google::protobuf::uint64
+         ,            _InIt=const google::protobuf::uint64 []
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(841): 编译类 模板 成员函数“void google::protobuf::internal::ElementCopier<Element,false>::operator ()(Element [],const Element [],int)”时
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(834): 参见对正在编译的函数 模板 实例化“void google::protobuf::internal::ElementCopier<Element,false>::operator ()(Element [],const Element [],int)”的引用
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(834): 参见对正在编译的类 模板 实例化“google::protobuf::internal::ElementCopier<Element,false>”的引用
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(833): 编译类 模板 成员函数“void google::protobuf::RepeatedField<google::protobuf::uint64>::CopyArray(Element [],const Element [],int)”时
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(828): 参见对正在编译的函数 模板 实例化“void google::protobuf::RepeatedField<google::protobuf::uint64>::CopyArray(Element [],const Element [],int)”的引用
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(827): 编译类 模板 成员函数“void google::protobuf::RepeatedField<google::protobuf::uint64>::MoveArray(Element [],Element [],int)”时
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(814): 参见对正在编译的函数 模板 实例化“void google::protobuf::RepeatedField<google::protobuf::uint64>::MoveArray(Element [],Element [],int)”的引用
+                 with
+                 [
+                     Element=google::protobuf::uint64
+                 ]
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(806): 编译类 模板 成员函数“void google::protobuf::RepeatedField<google::protobuf::uint64>::Reserve(int)”时
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(685): 参见对正在编译的函数 模板 实例化“void google::protobuf::RepeatedField<google::protobuf::uint64>::Reserve(int)”的引用
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\repeated_field.h(631): 编译类 模板 成员函数“int google::protobuf::RepeatedField<google::protobuf::uint64>::size(void) const”时
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\wire_format_lite_inl.h(276): 参见对正在编译的函数 模板 实例化“int google::protobuf::RepeatedField<google::protobuf::uint64>::size(void) const”的引用
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\wire_format_lite_inl.h(256): 参见对正在编译的类 模板 实例化“google::protobuf::RepeatedField<google::protobuf::uint64>”的引用
+                 d:\iegad_framework\libiegad\third_party\include\google\protobuf\wire_format_lite_inl.h(309): 参见对正在编译的函数 模板 实例化“bool google::protobuf::internal::WireFormatLite::ReadRepeatedFixedSizePrimitive<google::protobuf::uint64,TYPE_FIXED64>(int,google::protobuf::uint32,google::protobuf::io::CodedInputStream *,google::protobuf::RepeatedField<google::protobuf::uint64> *)”的引用
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\xutility(2113) : 参见“std::_Copy_impl”的声明
+         正在生成代码...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1361,5): warning MSB8012: TargetPath(D:\iegad_framework\libiegad\Debug\libiegad_msg.lib) does not match the Library's OutputFile property value (D:\iegad_framework\libiegad\lib\debug\libiegad_msg.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\lib\debug\libiegad_msg.lib" /NOLOGO Debug\basic_msg.pb.obj
+         Debug\iegad_io_msg.obj
+         libiegad_msg.vcxproj -> D:\iegad_framework\libiegad\Debug\libiegad_msg.lib
+     1>已完成生成项目“D:\iegad_framework\libiegad\libiegad_msg\libiegad_msg.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.63

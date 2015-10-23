@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\nets\basic_proxy.cpp">
+      <Filter>clnt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nets\basic_svc.cpp">
+      <Filter>serv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nets\tcp_mt_svr.cpp">
+      <Filter>serv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nets\udp_puller.cpp">
+      <Filter>clnt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nets\udp_pusher.cpp">
+      <Filter>serv</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\nets\basic_proxy.h">
+      <Filter>clnt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nets\basic_svc.h">
+      <Filter>serv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nets\tcp_mt_svr.h">
+      <Filter>serv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nets\udp_puller.h">
+      <Filter>clnt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nets\udp_pusher.h">
+      <Filter>serv</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="serv">
+      <UniqueIdentifier>{56d52bf4-4d67-46ed-a079-c11f6e6edde8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="clnt">
+      <UniqueIdentifier>{193459e9-c9d5-4267-a4d7-a7c7cfe56219}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
