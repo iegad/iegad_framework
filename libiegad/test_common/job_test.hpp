@@ -9,7 +9,6 @@
 
 
 
-
 class job_test {
 public:
     static int get_string(const std::string & val) {
