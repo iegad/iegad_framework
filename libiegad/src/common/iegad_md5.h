@@ -1,5 +1,5 @@
-#ifndef __IEGAD_MD
-#define __IEGAD_MD
+#ifndef __IEGAD_MD5__
+#define __IEGAD_MD5__
 
 
 #include <iostream>
