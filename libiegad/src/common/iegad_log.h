@@ -29,7 +29,12 @@
 
 #include <string>
 #include <glog/logging.h>
+#ifdef WIN32
 #include <io.h>
+#else
+#include <unistd.h>
+#define _access access
+#endif // WIN32
 #include "iegad_define.h"
 
 

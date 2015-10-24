@@ -4,6 +4,8 @@
 
 #ifdef WIN32
 #define snprintf _snprintf
+#else
+#include <string.h>
 #endif // WIN32
 
 /* system implementation headers */

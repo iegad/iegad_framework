@@ -76,13 +76,13 @@ const char LOG_FATAL_FILE[] = ".\\LOG\\FATAL_";
 const char MKDIR[] = "mkdir -p ./LOG";
 
 // info 日志保存路径
-const char LOG_INF_DIR[] = "./LOG/INFO_";
+const char LOG_INF_FILE[] = "./LOG/INFO_";
 // error 日志保存路径
-const char LOG_ERR_DIR[] = "./LOG/ERROR_";
+const char LOG_ERR_FILE[] = "./LOG/ERROR_";
 // warning 日志保存路径
-const char LOG_WARN_DIR[] = "./LOG/WARNING_";
+const char LOG_WARN_FILE[] = "./LOG/WARNING_";
 // fatal 日志保存路径
-const char LOG_FATAL_DIR[] = "./LOG/FATAL_";
+const char LOG_FATAL_FILE[] = "./LOG/FATAL_";
 
 
 #endif // WIN32;

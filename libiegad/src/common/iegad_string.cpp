@@ -1,7 +1,7 @@
 #include "iegad_string.h"
 #include <string.h>
 #include <sstream>
-#include <codecvt>
+//#include <codecvt>
 #include <iomanip>
 #include <boost/uuid/sha1.hpp>
 #include <boost/archive/iterators/base64_from_binary.hpp>
@@ -249,6 +249,9 @@ iegad::string::to_str(long double val, int p /* = 15*/)
 }
 
 
+#ifdef WIN32
+
+
 const std::string 
 iegad::string::unicode_to_utf8(const std::wstring & val)
 {
@@ -263,6 +266,7 @@ iegad::string::utf8_to_unicode(const std::string & val)
     std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
     return conv.from_bytes(val);
 }
+#endif // WIN32
 
 
 char 
