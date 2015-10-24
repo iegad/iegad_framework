@@ -1,14 +1,9 @@
-#include "common/iegad_string.h"
-#include <iostream>
+#ifndef __STRING_TEST__
+#define __STRING_TEST__
+
+
 #include "gtest/gtest.h"
-
-
-#ifdef WIN32
-#pragma comment(lib, "gtestd.lib")
-#pragma comment(lib, "libglog.lib")
-#pragma comment(lib, "libiegad_common.lib")
-#endif // WIN32
-
+#include "common/iegad_string.h"
 
 
 
@@ -79,15 +74,55 @@ TEST(STR_UTEST_CASE, SPLIT_TEST)
     EXPECT_EQ("Xiaoqi", strVct[2]);
     EXPECT_EQ("", strVct[3]);
     EXPECT_EQ("XiaoQ", strVct[4]);
+    EXPECT_EQ("1 : , 2 : Aizen, 3 : XiaoQ", iegad::string::format("1 : {3}, 2 : {0}, 3 : {4}", strVct));
 }
 
 
-
-int 
-main(int argc, char *argv[])
+TEST(STR_UTEST_CAST, UPLOW_TEST)
 {
-    testing::InitGoogleTest(&argc, argv);
-    RUN_ALL_TESTS();
-    std::cin.get();
-    exit(0);
+    std::string srcString = "iegad, 1234567890, AAbbccDd, XIAOQi";
+    EXPECT_EQ("IEGAD, 1234567890, AABBCCDD, XIAOQI", iegad::string::to_upr(srcString));
+    EXPECT_EQ("iegad, 1234567890, aabbccdd, xiaoqi", iegad::string::to_lwr(srcString));
 }
+
+
+TEST(STR_UTEST_CAST, CONVERT_TEST)
+{
+    int si32 = 1345678911;
+    unsigned int ui32 = 2876543210;
+    short ss16 = -32567;
+    unsigned short us16 = -1;
+    long long sll64 = -987162.9;
+    unsigned long long ull64 = 111987162.9;
+    float r4 = 111.123456;
+    double r8 = 11123.123456789;
+    EXPECT_EQ("1345678911", iegad::string::to_str(si32));
+    EXPECT_EQ("2876543210", iegad::string::to_str(ui32));
+    EXPECT_EQ("-32567", iegad::string::to_str(ss16));
+    EXPECT_EQ("65535", iegad::string::to_str(us16));
+    EXPECT_EQ("-987162", iegad::string::to_str(sll64));
+    EXPECT_EQ("111987162", iegad::string::to_str(ull64));
+    EXPECT_EQ("111.1", iegad::string::to_str(r4, 4));
+    EXPECT_EQ("11123.123456789", iegad::string::to_str(r8));
+    EXPECT_EQ(-123456, iegad::string::to_int32("-123456"));
+    EXPECT_EQ(2123456, iegad::string::to_uint32("2123456"));
+    EXPECT_EQ(-12345, iegad::string::to_int16("-12345"));
+    EXPECT_EQ(65535, iegad::string::to_uint16("-1"));
+    EXPECT_EQ(-12341156, iegad::string::to_int64("-12341156"));
+    EXPECT_EQ(123456789012, iegad::string::to_uint64("123456789012"));
+    EXPECT_EQ(-123.456F, iegad::string::to_float("-123.456"));
+    EXPECT_EQ(-1.23456789012345, iegad::string::to_double("-1.23456789012345"));
+}
+
+
+TEST(STR_UTEST_CAST, ENCODE_TEST)
+{
+    std::string srcString = "Hello world";
+    int key = 0xaa;
+    std::string enStr = iegad::string::en_cust("Hello world", key);
+    EXPECT_EQ("Hello world", iegad::string::de_cust(enStr, key));
+}
+
+
+
+#endif // __STRING_TEST__

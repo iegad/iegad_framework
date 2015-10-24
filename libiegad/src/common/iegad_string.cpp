@@ -441,6 +441,8 @@ iegad::string::de_cust(const std::string & src, char key)
 const std::string 
 iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
 {
+    /* =========================
+    @ 这种算法灵活性太差
     int index = 0, len = 0, pos = 0, i = 0;
     std::string res;
     std::string flagstr;
@@ -456,6 +458,14 @@ iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
 	pos = index + flagstr.size();
     }
     res.append(fmt, pos, fmt.size() - pos);
+    return res;
+    ========================= */
+
+    std::string res = fmt, flag;
+    for (int i = 0, n = parms.size(); i < n; i++) {
+	flag = "{" + iegad::string::to_str(i) + "}";
+	res = iegad::string::replace(res, flag, parms[i]);
+    }
     return res;
 }
 

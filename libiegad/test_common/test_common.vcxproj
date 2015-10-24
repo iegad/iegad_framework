@@ -82,7 +82,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="test_unit_common_main.cpp" />
+    <ClCompile Include="test_common_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="job_test.hpp" />
+    <ClInclude Include="string_test.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
