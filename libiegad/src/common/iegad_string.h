@@ -438,6 +438,8 @@ double
 to_double(const std::string & str);
 
 
+#ifdef WIN32	//转换时 需要 #include <codecvt>, 但该头文件无法在LINUX使用
+
 // ============================
 // @用途 : 将std::wstring转换为UTF-8编码格式
 // @val : 需要转换的unicode字符串
@@ -457,6 +459,8 @@ unicode_to_utf8(const std::wstring & val);
 // ============================
 const std::wstring
 utf8_to_unicode(const std::string & val);
+
+#endif // WIN32
 
 
 // ============================

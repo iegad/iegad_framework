@@ -1,7 +1,9 @@
 #include "iegad_string.h"
 #include <string.h>
 #include <sstream>
-//#include <codecvt>
+#ifdef WIN32
+#include <codecvt>
+#endif // WIN32
 #include <iomanip>
 #include <boost/uuid/sha1.hpp>
 #include <boost/archive/iterators/base64_from_binary.hpp>
@@ -250,7 +252,8 @@ iegad::string::to_str(long double val, int p /* = 15*/)
 
 
 #ifdef WIN32
-
+// @ PS : std::wstring_convert<std::codecvt_utf8<wchar_t>> 和头文件 #include <codecvt>
+//	    无法在linux下使用(可能只是我不会而以), 所以, 该函数只在windows平台上实现
 
 const std::string 
 iegad::string::unicode_to_utf8(const std::wstring & val)
@@ -266,6 +269,8 @@ iegad::string::utf8_to_unicode(const std::string & val)
     std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
     return conv.from_bytes(val);
 }
+
+
 #endif // WIN32
 
 
