@@ -4,6 +4,7 @@
 
 #define STRING_TEST	1
 #define JOB_TEST		1
+#define LOG_TEST		1
 
 
 #ifdef WIN32
@@ -42,26 +43,33 @@ std::string TEST_STR[] = {
 #endif // #if (JOB_TEST == 1)
 
 
+#if (LOG_TEST == 1)
+#include "log_test.hpp"
+#endif
+
+
 
 int 
 main(int argc, char *argv[])
 {
-#if (STRING_TEST == 1)
-
+#if (STRING_TEST == 1) // 字符串算法测试
     testing::InitGoogleTest(&argc, argv);
     RUN_ALL_TESTS();
-
 #endif // #if (STRING_TEST == 1)
 
-#if (JOB_TEST == 1)
-
+#if (JOB_TEST == 1) // 任务队列-工作模型测试
     job_test jt(TEST_STR, 13);
     std::cout << "/* ************************************************ */" << std::endl;
     jt.run();
     std::cout << "/* ************************************************ */" << std::endl;
-
-
 #endif // #if (JOB_TEST == 1)
+
+#if (LOG_TEST == 1) // 日志测试
+    log_test test(argv[0]);
+    iWARN << "This is a Warnning message" << std::endl;
+    iERR << "This is a Error message" << std::endl;
+    iINFO << "This is a Info message" << std::endl;
+#endif
 
     std::cout << "test done...\npress<Enter> to exit.";
     std::cin.get();
