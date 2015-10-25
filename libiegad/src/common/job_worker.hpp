@@ -47,7 +47,7 @@ namespace tools {
 	// @wkr_func : 外部工作线程 的函数对象
 	// ============================
 	explicit worker_t(job_que_t<T> & que, wkr_handler_t wkr_func)
-	    : que_(que), wkr_handler_(wkr_func) {}
+        : wkr_handler_(wkr_func),que_(que) {}
 
 
 	// ============================

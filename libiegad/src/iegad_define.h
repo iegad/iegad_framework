@@ -29,14 +29,14 @@
 #ifdef WIN32	    
 // long double 的默认有效数字
 #define DECIMAL_DEFAULT_PRECISION	    15
-// 系统默认字符集
-#define CHARSET_DEFAULT			    "GBK"
 #else
 // long double 的默认有效数字
 #define DECIMAL_DEFAULT_PRECISION	    18
-// 系统默认字符集
-#define CHARSET_DEFAULT			    "zh_CN.UTF-8"
 #endif // WIN32
+
+
+// 系统默认字符集
+#define CHARSET_DEFAULT			    "GBK"
 
 
 //错误字符串

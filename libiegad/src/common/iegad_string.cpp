@@ -1,4 +1,4 @@
-#include "iegad_string.h"
+Ôªø#include "iegad_string.h"
 #include <string.h>
 #include <sstream>
 #ifdef WIN32
@@ -42,6 +42,13 @@ iegad::string::substr(const std::string &src, unsigned int pos, int n /*=-1*/)
     int len = n < 0 ? src.size() - pos : n;
     std::string restr(src, pos, len);
     return restr;
+}
+
+
+const std::string
+iegad::string::substr2(const std::string & src, unsigned int bgn, unsigned int end /*= -1*/)
+{
+    return std::string(src.begin() + bgn, src.begin() + (end == (unsigned int)(-1) ? src.size() : end + 1));
 }
 
 
@@ -428,26 +435,6 @@ iegad::string::de_cust(const std::string & src, char key)
 const std::string 
 iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
 {
-    /* =========================
-    @ ’‚÷÷À„∑®¡ÈªÓ–‘Ã´≤Ó
-    int index = 0, len = 0, pos = 0, i = 0;
-    std::string res;
-    std::string flagstr;
-    for (int i = 0, n = parms.size(); i < n; i++) {
-	flagstr.clear();
-	flagstr = "{" + iegad::string::to_str(i) + "}";
-	index = fmt.find(flagstr);
-	if (index == -1) {
-	    return res;
-	}
-	res.append(fmt, pos, index - pos);
-	res.append(parms[i]);
-	pos = index + flagstr.size();
-    }
-    res.append(fmt, pos, fmt.size() - pos);
-    return res;
-    ========================= */
-
     std::string res = fmt, flag;
     for (int i = 0, n = parms.size(); i < n; i++) {
 	flag = "{" + iegad::string::to_str(i) + "}";
@@ -497,17 +484,10 @@ iegad::string::remove(const std::string & src, unsigned int pos, int n /*= -1*/)
 
 
 const std::string 
-iegad::string::substr2(const std::string & src, unsigned int bgn, unsigned int end /*= -1*/)
-{
-    return std::string(src.begin() + bgn, src.begin() + (end == (unsigned int)(-1) ? src.size() : end + 1));
-}
-
-
-const std::string 
 iegad::string::remove2(const std::string & src, unsigned int bgn, unsigned int end /*= -1*/)
 {
     std::string res = src;
-    end = end == -1 ? res.size() : end;
+    end = static_cast<int>(end) == -1 ? res.size() : end;
     res.erase(res.begin() + bgn, res.begin() + end + 1);
     return res;
 }
@@ -545,3 +525,198 @@ iegad::string::from_utf8(const std::string & utf8str, const std::string & charse
 /******************************************************/
 
 
+
+const std::vector<std::wstring>
+iegad::string::split_vct(const std::wstring &src, const std::wstring &chs)
+{
+    int pos = 0, len = chs.length(), n = 0, index = 0;
+    std::vector<std::wstring> res;
+    while (true) {
+    index = src.find(chs, pos);
+    if (index == -1) {
+        res.push_back(std::wstring(src, pos, src.length() - pos));
+        break;
+    }
+    n = index - n;
+    res.push_back(std::wstring(src, pos, n));
+    pos = index + len;
+    n = pos;
+    }
+    return std::move(res);
+}
+
+
+const std::wstring
+iegad::string::substr(const std::wstring &src, unsigned int pos, int n)
+{
+    int len = n < 0 ? src.size() - pos : n;
+    std::wstring restr(src, pos, len);
+    return restr;
+}
+
+
+const std::wstring
+iegad::string::substr2(const std::wstring &src, unsigned int bgn, unsigned int end)
+{
+    return std::wstring(src.begin() + bgn,
+                        src.begin() + (end == (unsigned int)(-1) ? src.size() : end + 1));
+}
+
+
+const std::wstring
+iegad::string::rtrim(const std::wstring &src)
+{
+    int n = src.length() - 1;
+    while (std::iswspace(src[n])) {
+    n--;
+    }
+    std::wstring restr(src, 0, n + 1);
+    return restr;
+}
+
+
+const std::wstring
+iegad::string::trim(const std::wstring &src)
+{
+    std::wstring restr;
+    for (int i = 0, n = src.length(); i < n; i++) {
+    if (std::iswspace(src[i])) {
+        continue;
+    }
+    restr.push_back(src[i]);
+    }
+    return restr;
+}
+
+
+const std::wstring
+iegad::string::trim(const std::wstring &src, wchar_t chr)
+{
+    std::wstring restr;
+    for (int i = 0, n = src.length(); i < n; i++) {
+    if (src[i] == chr) {
+        continue;
+    }
+        restr.push_back(src[i]);
+    }
+    return restr;
+}
+
+
+const std::wstring
+iegad::string::ltrim(const std::wstring &src)
+{
+    int rpos = 0;
+    while (std::iswspace(src[rpos]))
+        rpos++;
+    std::wstring restr(src, rpos, src.length() - rpos);
+    return restr;
+}
+
+
+const std::wstring
+iegad::string::replace(const std::wstring &src, const std::wstring &oldstr, const std::wstring &newstr)
+{
+    int pos = 0, len = oldstr.length();
+    std::wstring restr(src);
+    while (true) {
+    pos = restr.find(oldstr, pos);
+    if (pos == -1) {
+        break;
+    }
+    restr.replace(pos, len, newstr);
+    pos++;
+    }
+    return restr;
+}
+
+
+int
+iegad::string::fstchr(const std::wstring &src, wchar_t chr)
+{
+    for (int i = 0, n = src.length(); i < n; i++) {
+        if (src[i] == chr)
+            return i;
+    }
+    return -1;
+}
+
+
+int
+iegad::string::lstchr(const std::wstring &src, wchar_t chr)
+{
+    for (int i = src.length() - 1; i >= 0; i--) {
+        if (src[i] == chr)
+            return i;
+    }
+    return -1;
+}
+
+
+int
+iegad::string::find_str(const std::wstring &src, const std::wstring &substr, int ntime)
+{
+    int pos = 0, n = 0, index = 0;
+    while (true) {
+    pos = src.find(substr, index);
+    if (pos == -1 || ++n == ntime) {
+        break;
+    }
+    index = pos + 1;
+    }
+    return pos;
+}
+
+
+bool
+iegad::string::start_with(const std::wstring &src, const std::wstring &substr)
+{
+    return src.find(substr, 0) == 0;
+}
+
+
+bool
+iegad::string::end_with(const std::wstring &src, const std::wstring &substr)
+{
+    std::wstring str = src.substr(src.size() - substr.size(), substr.size());
+    return str == substr;
+}
+
+
+const std::wstring
+iegad::string::remove(const std::wstring &src, unsigned int pos, int n)
+{
+    std::wstring res = src;
+    int len = n < 0 ? src.size() : n;
+    return res.erase(pos, len);
+}
+
+
+const std::wstring
+iegad::string::remove2(const std::wstring &src, unsigned int bgn, unsigned int end)
+{
+    std::wstring res = src;
+    end = static_cast<int>(end) == -1 ? res.size() : end;
+    res.erase(res.begin() + bgn, res.begin() + end + 1);
+    return res;
+}
+
+
+const std::wstring
+iegad::string::to_upr(const std::wstring &src)
+{
+    std::wstring restr(src);
+    for (int i = 0, n = restr.length(); i < n; i++)
+        restr[i] = std::towupper(restr[i]);
+    return restr;
+}
+
+
+const std::wstring
+iegad::string::to_lwr(const std::wstring &src)
+{
+    std::wstring restr(src);
+    for (int i = 0, n = restr.length(); i < n; i++)
+        restr[i] = std::towlower(restr[i]);
+    return restr;
+}

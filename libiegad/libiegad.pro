@@ -63,3 +63,29 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/gtest.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/gtest.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libgtest.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lboost_system-gcc48-mt-1_59
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lboost_system-gcc48-mt-1_59
+else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lboost_system-gcc48-mt-1_59
+
+INCLUDEPATH += $$PWD/../../../../usr/local/include/boost-1_59
+DEPENDPATH += $$PWD/../../../../usr/local/include/boost-1_59
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libboost_system-gcc48-mt-1_59.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libboost_system-gcc48-mt-1_59.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/boost_system-gcc48-mt-1_59.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/boost_system-gcc48-mt-1_59.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libboost_system-gcc48-mt-1_59.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lboost_locale-gcc48-mt-1_59
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lboost_locale-gcc48-mt-1_59
+else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lboost_locale-gcc48-mt-1_59
+
+INCLUDEPATH += $$PWD/../../../../usr/local/include/boost-1_59
+DEPENDPATH += $$PWD/../../../../usr/local/include/boost-1_59
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libboost_locale-gcc48-mt-1_59.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libboost_locale-gcc48-mt-1_59.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/boost_locale-gcc48-mt-1_59.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/boost_locale-gcc48-mt-1_59.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libboost_locale-gcc48-mt-1_59.a

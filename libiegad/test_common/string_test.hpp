@@ -14,6 +14,12 @@ TEST(STR_UTEST_CASE, SUBSTR_TEST)
     EXPECT_EQ("56789", iegad::string::substr(srcString, 5));
     EXPECT_EQ("456789", iegad::string::substr2(srcString, 4));
     EXPECT_EQ("4567", iegad::string::substr2(srcString, 4, 7));
+
+    std::wstring srcWString = L"0123456789";
+    EXPECT_EQ(L"345678", iegad::string::substr(srcWString, 3, 6));
+    EXPECT_EQ(L"56789", iegad::string::substr(srcWString, 5));
+    EXPECT_EQ(L"456789", iegad::string::substr2(srcWString, 4));
+    EXPECT_EQ(L"4567", iegad::string::substr2(srcWString, 4, 7));
 }
 
 
@@ -26,6 +32,14 @@ TEST(STR_UTEST_CASE, TRIM_TEST)
     EXPECT_EQ("0123456789\t\t", iegad::string::trim(srcString, ' '));
     EXPECT_EQ("0123456789", iegad::string::trim(iegad::string::trim(srcString, ' '), '\t'));
     EXPECT_EQ("12345678", iegad::string::trim(iegad::string::trim(srcString2), ','));
+
+    std::wstring srcWString = L"   01234   56789    \t\t";
+    std::wstring srcWString2 = L",,1, 2, 3, 4, 5, 6, 7, 8,,";
+    EXPECT_EQ(L"0123456789", iegad::string::trim(srcWString));
+    EXPECT_EQ(L"01234   56789", iegad::string::ltrim(iegad::string::rtrim(srcWString)));
+    EXPECT_EQ(L"0123456789\t\t", iegad::string::trim(srcWString, ' '));
+    EXPECT_EQ(L"0123456789", iegad::string::trim(iegad::string::trim(srcWString, ' '), '\t'));
+    EXPECT_EQ(L"12345678", iegad::string::trim(iegad::string::trim(srcWString2), ','));
 }
 
 
@@ -39,6 +53,15 @@ TEST(STR_UTEST_CASE, REPLACE_TEST)
     n = iegad::string::find_str(srcString, " is");
     int end = iegad::string::lstchr(srcString, 'd');
     EXPECT_EQ("iegad is very clever", iegad::string::remove2(srcString, n, end));
+
+    std::wstring srcWString = L"iegad is my name, iegad is very clever";
+    EXPECT_EQ(L"Xiaoqi is my name, Xiaoqi is very clever", iegad::string::replace(srcWString, L"iegad", L"Xiaoqi"));
+    EXPECT_EQ(L"Aizen is my name, Aizen is very clever", iegad::string::replace(srcWString, L"iegad ", L"Aizen "));
+    n = iegad::string::fstchr(srcWString, L',');
+    EXPECT_EQ(L"iegad is my name", iegad::string::remove(srcWString, n));
+    n = iegad::string::find_str(srcWString, L" is");
+    end = iegad::string::lstchr(srcWString, L'd');
+    EXPECT_EQ(L"iegad is very clever", iegad::string::remove2(srcWString, n, end));
 }
 
 
@@ -53,6 +76,16 @@ TEST(STR_UTEST_CASE, FIND_TEST)
     EXPECT_EQ(false, iegad::string::start_with(srcString, "iegadd"));
     EXPECT_EQ(false, iegad::string::end_with(srcString, "ever "));
     EXPECT_EQ(true, iegad::string::end_with(srcString, ", iegad is very clever"));
+
+    std::wstring srcWString = L"iegad is my name, iegad is very clever";
+    EXPECT_EQ(3, iegad::string::fstchr(srcWString, L'a'));
+    EXPECT_EQ(35, iegad::string::lstchr(srcWString, L'v'));
+    EXPECT_EQ(0, iegad::string::find_str(srcWString, L"iegad"));
+    EXPECT_EQ(18, iegad::string::find_str(srcWString, L"iegad", 2));
+    EXPECT_EQ(true, iegad::string::start_with(srcWString, L"iega"));
+    EXPECT_EQ(false, iegad::string::start_with(srcWString, L"iegadd"));
+    EXPECT_EQ(false, iegad::string::end_with(srcWString, L"ever "));
+    EXPECT_EQ(true, iegad::string::end_with(srcWString, L", iegad is very clever"));
 }
 
 
@@ -75,6 +108,15 @@ TEST(STR_UTEST_CASE, SPLIT_TEST)
     EXPECT_EQ("", strVct[3]);
     EXPECT_EQ("XiaoQ", strVct[4]);
     EXPECT_EQ("1 : , 2 : Aizen, 3 : XiaoQ", iegad::string::format("1 : {3}, 2 : {0}, 3 : {4}", strVct));
+
+    std::wstring srcWString = L"Aizen, iegad, Xiaoqi, , XiaoQ";
+    std::vector<std::wstring> wstrVct = iegad::string::split_vct(srcWString, L", ");
+    EXPECT_EQ(5, strVct.size());
+    EXPECT_EQ(L"Aizen", wstrVct[0]);
+    EXPECT_EQ(L"iegad", wstrVct[1]);
+    EXPECT_EQ(L"Xiaoqi", wstrVct[2]);
+    EXPECT_EQ(L"", wstrVct[3]);
+    EXPECT_EQ(L"XiaoQ", wstrVct[4]);
 }
 
 
@@ -83,6 +125,10 @@ TEST(STR_UTEST_CAST, UPLOW_TEST)
     std::string srcString = "iegad, 1234567890, AAbbccDd, XIAOQi";
     EXPECT_EQ("IEGAD, 1234567890, AABBCCDD, XIAOQI", iegad::string::to_upr(srcString));
     EXPECT_EQ("iegad, 1234567890, aabbccdd, xiaoqi", iegad::string::to_lwr(srcString));
+
+    std::wstring srcWString = L"iegad, 1234567890, AAbbccDd, XIAOQi";
+    EXPECT_EQ(L"IEGAD, 1234567890, AABBCCDD, XIAOQI", iegad::string::to_upr(srcWString));
+    EXPECT_EQ(L"iegad, 1234567890, aabbccdd, xiaoqi", iegad::string::to_lwr(srcWString));
 }
 
 
@@ -126,12 +172,12 @@ TEST(STR_UTEST_CAST, ENCODE_TEST)
 
 TEST(STR_UTEST_CAST, CONV_TEST)
 {
-    std::string srcString = "我是大天才";
-    std::string utf8str = iegad::string::to_utf8("真几吧心烦");
+    std::string srcString = "HELLO";
+    std::string utf8str = iegad::string::to_utf8("Fucking");
     std::string str1 = iegad::string::from_utf8(utf8str);
-    EXPECT_EQ(L"我是大天才", iegad::string::str_towstr(srcString));
-    EXPECT_EQ("真几吧心烦", iegad::string::wstr_tostr(L"真几吧心烦"));
-    EXPECT_EQ("真几吧心烦", str1);    
+    EXPECT_EQ(L"HELLO", iegad::string::str_towstr(srcString));
+    EXPECT_EQ("Fucking", iegad::string::wstr_tostr(L"Fucking"));
+    EXPECT_EQ("Fucking", str1);
 }
 
 

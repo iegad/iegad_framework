@@ -62,6 +62,12 @@ namespace string {
 const std::vector<std::string>
 split_vct(const std::string & src, const std::string & chs);
 
+// ============================
+// @ :
+// ============================
+const std::vector<std::wstring>
+split_vct(const std::wstring & src, const std::wstring & chs);
+
 
 // ============================
 // @用途 : 切割字符串, 将src由pos开始的n个字符 
@@ -73,6 +79,12 @@ split_vct(const std::string & src, const std::string & chs);
 // ============================
 const std::string
 substr(const std::string & src, unsigned int pos, int n = -1);
+
+// ============================
+// @ :
+// ============================
+const std::wstring
+substr(const std::wstring & src, unsigned int pos, int n = -1);
 
 
 // ============================
@@ -88,6 +100,12 @@ substr(const std::string & src, unsigned int pos, int n = -1);
 const std::string
 substr2(const std::string & src, unsigned int bgn, unsigned int end = -1);
 
+// ============================
+// @ :
+// ============================
+const std::wstring
+substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1);
+
 
 // ============================
 // @用途 : 去掉字符串src尾部的空白字符
@@ -98,6 +116,10 @@ const std::string
 rtrim(const std::string & src);
 
 
+const std::wstring
+rtrim(const std::wstring & src);
+
+
 // ============================
 // @用途 : 去掉字符串src中所有空白字符
 // @src : 源字符串
@@ -105,6 +127,10 @@ rtrim(const std::string & src);
 // ============================
 const std::string
 trim(const std::string & src);
+
+
+const std::wstring
+trim(const std::wstring & src);
 
 
 // ============================
@@ -117,6 +143,10 @@ const std::string
 trim(const std::string & src, char chr);
 
 
+const std::wstring
+trim(const std::wstring & src, wchar_t chr);
+
+
 // ============================
 // @用途 : 去掉字符串src的首部空白字符
 // @src : 源字符串
@@ -124,6 +154,10 @@ trim(const std::string & src, char chr);
 // ============================
 const std::string
 ltrim(const std::string & src);
+
+
+const std::wstring
+ltrim(const std::wstring & src);
 
 
 // ============================
@@ -137,6 +171,10 @@ const std::string
 replace(const std::string & src, const std::string & oldstr, const std::string & newstr);
 
 
+const std::wstring
+replace(const std::wstring & src, const std::wstring & oldstr, const std::wstring & newstr);
+
+
 // ============================
 // @用途 : 在字符串src中找指定的字符chr, 并返回首次出现的下标
 // @src : 源字符串
@@ -147,6 +185,10 @@ int
 fstchr(const std::string & src, char chr);
 
 
+int
+fstchr(const std::wstring & src, wchar_t chr);
+
+
 // ============================
 // @用途 : 在字符串src中找指定的字符chr, 并返回最后一次出现的下标
 // @src : 源字符串
@@ -155,6 +197,10 @@ fstchr(const std::string & src, char chr);
 // ============================
 int
 lstchr(const std::string & src, char chr);
+
+
+int
+lstchr(const std::wstring & src, wchar_t chr);
 
 
 // ============================
@@ -168,6 +214,10 @@ int
 find_str(const std::string & src, const std::string & substr, int ntime = 1);
 
 
+int
+find_str(const std::wstring & src, const std::wstring & substr, int ntime = 1);
+
+
 // ============================
 // @用途 : 判断字符串 src 是否以字符串 substr 起头
 // @src : 源字符串
@@ -178,6 +228,10 @@ bool
 start_with(const std::string & src, const std::string & substr);
 
 
+bool
+start_with(const std::wstring & src, const std::wstring & substr);
+
+
 // ============================
 // @用途 : 判断字符串 src 是否以字符串 substr 结尾
 // @src : 源字符串
@@ -186,6 +240,10 @@ start_with(const std::string & src, const std::string & substr);
 // ============================  
 bool
 end_with(const std::string & src, const std::string & substr);
+
+
+bool
+end_with(const std::wstring & src, const std::wstring & substr);
 
 
 // ============================
@@ -199,6 +257,10 @@ const std::string
 remove(const std::string & src, unsigned int pos, int n = -1);
 
 
+const std::wstring
+remove(const std::wstring & src, unsigned int pos, int n = -1);
+
+
 // ============================
 // @用途 : 将src 字符串 从 bgn下标 开始 到 end下标 的字符删除
 // @src : 源字符串
@@ -210,6 +272,10 @@ const std::string
 remove2(const std::string & src, unsigned int bgn, unsigned int end = -1);
 
 
+const std::wstring
+remove2(const std::wstring & src, unsigned int bgn, unsigned int end = -1);
+
+
 // ============================
 // @用途 : 将字符串src中所有的小写字母转成大写形式
 // @src : 源字符串
@@ -219,6 +285,10 @@ const std::string
 to_upr(const std::string & src);
 
 
+const std::wstring
+to_upr(const std::wstring & src);
+
+
 // ============================
 // @用途 : 将字符串src中所有的大写字母转成小写形式
 // @src : 源字符串
@@ -226,6 +296,10 @@ to_upr(const std::string & src);
 // ============================
 const std::string
 to_lwr(const std::string & src);
+
+
+const std::wstring
+to_lwr(const std::wstring & src);
 
 
 // ============================
