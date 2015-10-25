@@ -38,6 +38,7 @@
 //							    3, 添加remove2(...) 函数
 //  --2015-10-25	    --iegad		    1, 添加 std::string & std::wstring 间的相互转换
 //							    2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
+//							    3, 添加部分支持std::wstring 的字符串算法封装
 
 
 #include <string>
@@ -63,7 +64,7 @@ const std::vector<std::string>
 split_vct(const std::string & src, const std::string & chs);
 
 // ============================
-// @ :
+// @重载 : split_vct => std::wstring
 // ============================
 const std::vector<std::wstring>
 split_vct(const std::wstring & src, const std::wstring & chs);
@@ -81,7 +82,7 @@ const std::string
 substr(const std::string & src, unsigned int pos, int n = -1);
 
 // ============================
-// @ :
+// @重载 : substr => std::wstring
 // ============================
 const std::wstring
 substr(const std::wstring & src, unsigned int pos, int n = -1);
@@ -101,7 +102,7 @@ const std::string
 substr2(const std::string & src, unsigned int bgn, unsigned int end = -1);
 
 // ============================
-// @ :
+// @重载 : substr2 => std::wstring
 // ============================
 const std::wstring
 substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1);
@@ -115,7 +116,9 @@ substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1);
 const std::string
 rtrim(const std::string & src);
 
-
+// ============================
+// @重载 : rtrim => std::wstring
+// ============================
 const std::wstring
 rtrim(const std::wstring & src);
 
@@ -128,7 +131,9 @@ rtrim(const std::wstring & src);
 const std::string
 trim(const std::string & src);
 
-
+// ============================
+// @重载 : trim => std::wstring
+// ============================
 const std::wstring
 trim(const std::wstring & src);
 
@@ -142,7 +147,9 @@ trim(const std::wstring & src);
 const std::string
 trim(const std::string & src, char chr);
 
-
+// ============================
+// @重载 : trim => std::wstring
+// ============================
 const std::wstring
 trim(const std::wstring & src, wchar_t chr);
 
@@ -155,7 +162,9 @@ trim(const std::wstring & src, wchar_t chr);
 const std::string
 ltrim(const std::string & src);
 
-
+// ============================
+// @重载 : ltrim => std::wstring
+// ============================
 const std::wstring
 ltrim(const std::wstring & src);
 
@@ -170,7 +179,9 @@ ltrim(const std::wstring & src);
 const std::string
 replace(const std::string & src, const std::string & oldstr, const std::string & newstr);
 
-
+// ============================
+// @重载 : replace => std::wstring
+// ============================
 const std::wstring
 replace(const std::wstring & src, const std::wstring & oldstr, const std::wstring & newstr);
 
@@ -184,7 +195,9 @@ replace(const std::wstring & src, const std::wstring & oldstr, const std::wstrin
 int
 fstchr(const std::string & src, char chr);
 
-
+// ============================
+// @重载 : fstchr => std::wstring
+// ============================
 int
 fstchr(const std::wstring & src, wchar_t chr);
 
@@ -198,7 +211,9 @@ fstchr(const std::wstring & src, wchar_t chr);
 int
 lstchr(const std::string & src, char chr);
 
-
+// ============================
+// @重载 : lstchr => std::wstring
+// ============================
 int
 lstchr(const std::wstring & src, wchar_t chr);
 
@@ -213,7 +228,9 @@ lstchr(const std::wstring & src, wchar_t chr);
 int
 find_str(const std::string & src, const std::string & substr, int ntime = 1);
 
-
+// ============================
+// @重载 : find_str => std::wstring
+// ============================
 int
 find_str(const std::wstring & src, const std::wstring & substr, int ntime = 1);
 
@@ -227,7 +244,9 @@ find_str(const std::wstring & src, const std::wstring & substr, int ntime = 1);
 bool
 start_with(const std::string & src, const std::string & substr);
 
-
+// ============================
+// @重载 : start_with => std::wstring
+// ============================
 bool
 start_with(const std::wstring & src, const std::wstring & substr);
 
@@ -241,7 +260,9 @@ start_with(const std::wstring & src, const std::wstring & substr);
 bool
 end_with(const std::string & src, const std::string & substr);
 
-
+// ============================
+// @重载 : end_with => std::wstring
+// ============================
 bool
 end_with(const std::wstring & src, const std::wstring & substr);
 
@@ -256,7 +277,9 @@ end_with(const std::wstring & src, const std::wstring & substr);
 const std::string
 remove(const std::string & src, unsigned int pos, int n = -1);
 
-
+// ============================
+// @重载 : remove => std::wstring
+// ============================
 const std::wstring
 remove(const std::wstring & src, unsigned int pos, int n = -1);
 
@@ -271,7 +294,9 @@ remove(const std::wstring & src, unsigned int pos, int n = -1);
 const std::string
 remove2(const std::string & src, unsigned int bgn, unsigned int end = -1);
 
-
+// ============================
+// @重载 : remove2 => std::wstring
+// ============================
 const std::wstring
 remove2(const std::wstring & src, unsigned int bgn, unsigned int end = -1);
 
@@ -284,7 +309,9 @@ remove2(const std::wstring & src, unsigned int bgn, unsigned int end = -1);
 const std::string
 to_upr(const std::string & src);
 
-
+// ============================
+// @重载 : to_upr => std::wstring
+// ============================
 const std::wstring
 to_upr(const std::wstring & src);
 
@@ -297,7 +324,9 @@ to_upr(const std::wstring & src);
 const std::string
 to_lwr(const std::string & src);
 
-
+// ============================
+// @重载 : to_lwr => std::wstring
+// ============================
 const std::wstring
 to_lwr(const std::wstring & src);
 
