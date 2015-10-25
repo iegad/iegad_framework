@@ -1,4 +1,5 @@
 #include <iostream>
+#include <boost/locale.hpp>
 
 
 #define STRING_TEST	1
@@ -61,6 +62,7 @@ main(int argc, char *argv[])
 
 
 #endif // #if (JOB_TEST == 1)
+
     std::cout << "test done...\npress<Enter> to exit.";
     std::cin.get();
     exit(0);

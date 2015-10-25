@@ -21,6 +21,7 @@
     <ClInclude Include="..\src\common\iegad_string.h" />
     <ClInclude Include="..\src\common\job_queue.hpp" />
     <ClInclude Include="..\src\common\job_worker.hpp" />
+    <ClInclude Include="..\src\iegad_define.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{25F1C83F-737F-4A59-B1A0-4CC3B6C976BB}</ProjectGuid>

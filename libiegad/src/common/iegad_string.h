@@ -36,6 +36,8 @@
 //  --2015-10-23	    --iegad		    1, 修改 trim(const std::string &) 函数名 => rtrim(...);
 //							    2, 添加 新 trim(const std::string &)
 //							    3, 添加remove2(...) 函数
+//  --2015-10-25	    --iegad		    1, 添加 std::string & std::wstring 间的相互转换
+//							    2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
 
 
 #include <string>
@@ -438,31 +440,6 @@ double
 to_double(const std::string & str);
 
 
-#ifdef WIN32	//转换时 需要 #include <codecvt>, 但该头文件无法在LINUX使用
-
-// ============================
-// @用途 : 将std::wstring转换为UTF-8编码格式
-// @val : 需要转换的unicode字符串
-// @返回值 : 转换后的utf-8字符串 ( 将会显示乱码 )
-// ============================
-const std::string
-unicode_to_utf8(const std::wstring & val);
-
-
-// ============================
-// @用途 : 将UTF-8格式字符串val转换为UNICODE编码格式的std::wstring
-// @val : 需要转换的utf-8字符串
-// @返回值 : 转换后的unicode字符串
-// @PS : 记得在显示该std::wstring 时,
-// 需要调用 std::locale::global(std::locale("Chinese-simplified")), 
-// 否则无法正确显示unicode字符串
-// ============================
-const std::wstring
-utf8_to_unicode(const std::string & val);
-
-#endif // WIN32
-
-
 // ============================
 // @用途 : 将字符串 src 进行md5加密
 // @src : 需要加密的字符串
@@ -538,6 +515,49 @@ de_cust(const std::string & src, char key);
 // ============================
 const std::string
 format(const std::string & fmt, std::vector<std::string> & parms);
+
+
+// ============================
+// @用途 : std::string 转 std::wstring
+// @src : std::string 字符串
+// @charset : 当前字符集
+// @返回值 : 转换后的std::wstring
+// @PS : 不改变编码格式
+// ============================
+const std::wstring
+str_towstr(const std::string & src, const std::string & charset = CHARSET_DEFAULT);
+
+
+// ============================
+// @用途 : std::wstring 转 std::string
+// @src : std::wstring 字符串
+// @charset : 当前字符集
+// @返回值 : 转换后的std::string
+// @PS : 不改变编码格式
+// ============================
+const std::string
+wstr_tostr(const std::wstring & src, const std::string & charset = CHARSET_DEFAULT);
+
+
+// ============================
+// @用途 : 当前字符集 转成 UTF-8
+// @srcstr : 需要转换的字符串
+// @charset : 当前字符集
+// @返回值 : 成功返回 UTF-8字符串, 否则 错误字符格式
+// @PS : 转换后, 可能显示出乱码
+// ============================
+const std::string
+to_utf8(const std::string & srcstr, const std::string & charset = CHARSET_DEFAULT);
+
+
+// ============================
+// @用途 : UTF-8 转成 当前字符集 
+// @utf8str : UTF-8字符串
+// @charset : 当前字符集
+// @返回值 : 成功返回 当前字符集 字符串, 否则 错误字符格式
+// ============================
+const std::string
+from_utf8(const std::string & utf8str, const std::string & charset = CHARSET_DEFAULT);
 
 
 } //end namespace string

@@ -12,6 +12,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <boost/locale.hpp>
 
 
 
@@ -249,29 +250,6 @@ iegad::string::to_str(long double val, int p /* = 15*/)
     strm >> res;
     return res;
 }
-
-
-#ifdef WIN32
-// @ PS : std::wstring_convert<std::codecvt_utf8<wchar_t>> 和头文件 #include <codecvt>
-//	    无法在linux下使用(可能只是我不会而以), 所以, 该函数只在windows平台上实现
-
-const std::string 
-iegad::string::unicode_to_utf8(const std::wstring & val)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.to_bytes(val);
-}
-
-
-const std::wstring 
-iegad::string::utf8_to_unicode(const std::string & val)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    return conv.from_bytes(val);
-}
-
-
-#endif // WIN32
 
 
 char 
@@ -533,6 +511,35 @@ iegad::string::remove2(const std::string & src, unsigned int bgn, unsigned int e
     res.erase(res.begin() + bgn, res.begin() + end + 1);
     return res;
 }
+
+
+const std::wstring 
+iegad::string::str_towstr(const std::string & src, const std::string & charset /*= CHARSET_DEFAULT*/)
+{
+    return boost::locale::conv::to_utf<wchar_t>(src, charset);
+}
+
+
+const std::string 
+iegad::string::wstr_tostr(const std::wstring & src, const std::string & charset /*= CHARSET_DEFAULT*/)
+{
+    return boost::locale::conv::from_utf<wchar_t>(src, charset);
+}
+
+
+const std::string 
+iegad::string::to_utf8(const std::string & srcstr, const std::string & charset /*= CHARSET_DEFAULT*/)
+{
+    return boost::locale::conv::between(srcstr, "UTF-8", charset);
+}
+
+
+const std::string
+iegad::string::from_utf8(const std::string & utf8str, const std::string & charset /*= CHARSET_DEFAULT*/)
+{
+    return boost::locale::conv::between(utf8str, charset, "UTF-8");
+}
+
 
 
 /******************************************************/

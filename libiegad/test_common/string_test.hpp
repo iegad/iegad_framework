@@ -124,5 +124,16 @@ TEST(STR_UTEST_CAST, ENCODE_TEST)
 }
 
 
+TEST(STR_UTEST_CAST, CONV_TEST)
+{
+    std::string srcString = "我是大天才";
+    std::string utf8str = iegad::string::to_utf8("真几吧心烦");
+    std::string str1 = iegad::string::from_utf8(utf8str);
+    EXPECT_EQ(L"我是大天才", iegad::string::str_towstr(srcString));
+    EXPECT_EQ("真几吧心烦", iegad::string::wstr_tostr(L"真几吧心烦"));
+    EXPECT_EQ("真几吧心烦", str1);    
+}
+
+
 
 #endif // __STRING_TEST__

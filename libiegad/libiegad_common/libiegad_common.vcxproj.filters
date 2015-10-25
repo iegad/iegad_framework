@@ -41,5 +41,6 @@
     <ClInclude Include="..\src\common\iegad_md5.h">
       <Filter>security</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\iegad_define.h" />
   </ItemGroup>
 </Project>
