@@ -41,7 +41,7 @@ iegad::mysql::mysql_helper::exec_trans(std::queue<std::string> & sqlque)
     lock_t locker(mtx_);
     std::string sqlstr;
     int n = sqlque.size();   
-    if (n == 0 || conn_ == nullptr) {
+    if (conn_ == nullptr) {
 	return -1;
     }
 
