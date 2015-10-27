@@ -117,8 +117,13 @@ namespace mysql {
 	// @返回值 : 成功返回0, 否则返回-1;
 	// ============================
 	int call_proc(const std::string & sqlstr, std::vector<std::string> & out_param);
-	
 
+
+	// ============================
+	// @用途 : 关闭mysql连接
+	// @返回值 : void
+	// ============================
+	void close();
 
     private:
 	// MYSQL 操作句柄
@@ -126,11 +131,7 @@ namespace mysql {
 	// 操作锁
 	std::mutex mtx_;
 
-	// ============================
-	// @用途 : 关闭mysql连接
-	// @返回值 : void
-	// ============================
-	void _close();
+
 
 	// 禁用
 	mysql_helper(const mysql_helper &);

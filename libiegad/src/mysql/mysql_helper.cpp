@@ -69,13 +69,13 @@ iegad::mysql::mysql_helper::open(const std::string & host, unsigned int port,
 	usr.c_str(), pwd.c_str(),
 	db.c_str(), port, nullptr, 0) == nullptr) {
 	iSYSERR << mysql_error(conn_) << std::endl;
-	this->_close();
+	this->close();
 	return -1;
     }
 
     if (mysql_set_character_set(conn_, charset.c_str()) != 0) {
 	iSYSERR << "### mysql_set_character_set failed ###" << std::endl;
-	this->_close();
+	this->close();
 	return -1;
     }
     return 0;
@@ -83,7 +83,7 @@ iegad::mysql::mysql_helper::open(const std::string & host, unsigned int port,
 
 
 void 
-iegad::mysql::mysql_helper::_close()
+iegad::mysql::mysql_helper::close()
 {
     lock_t locker(mtx_);
     mysql_close(conn_);

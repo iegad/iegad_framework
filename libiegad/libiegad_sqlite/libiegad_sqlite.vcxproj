@@ -10,6 +10,17 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\sqlite\shell.c" />
+    <ClCompile Include="..\src\sqlite\sqlite3.c" />
+    <ClCompile Include="..\src\sqlite\sqlite_helper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\sqlite\iegad_sqlite.h" />
+    <ClInclude Include="..\src\sqlite\sqlite3.h" />
+    <ClInclude Include="..\src\sqlite\sqlite3ext.h" />
+    <ClInclude Include="..\src\sqlite\sqlite_helper.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{309BE92A-364A-491C-8791-E6B003534F97}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -49,6 +60,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>..\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
