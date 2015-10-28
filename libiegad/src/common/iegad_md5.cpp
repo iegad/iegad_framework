@@ -3,7 +3,8 @@
 
 
 #ifdef WIN32
-#define snprintf _snprintf
+#define snprintf(buff, n, fmt, ...) { \
+				_snprintf((buff), (n), (fmt), ##__VA_ARGS__); }
 #else
 #include <string.h>
 #endif // WIN32
