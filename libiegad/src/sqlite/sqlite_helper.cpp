@@ -1,4 +1,4 @@
-#include "sqlite_helper.h"
+﻿#include "sqlite_helper.h"
 
 
 iegad::sqlite::sqlite_helper::~sqlite_helper()
@@ -87,11 +87,11 @@ iegad::sqlite::sqlite_helper::query(const std::string & sqlstr, iegad::data::db_
 	    break;
 	} 
 	else if (rn == SQLITE_ROW) {
-	    iegad::data::db_row * row = new iegad::data::db_row;
+        iegad::data::dbrow_ptr row(new iegad::data::db_row);
 	    for (int i = 0; i < cn; i++) {
 		row->add_col(i, (const char *)sqlite3_column_text(stmt, i));
 	    }
-	    tab.add_row(iegad::data::dbrow_ptr(row));
+        tab.add_row(row);
 	}
 	else {
 	    sqlite3_finalize(stmt);

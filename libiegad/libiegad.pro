@@ -7,7 +7,13 @@ CONFIG += C++11
 SOURCES += src/common/iegad_log.cpp \
     src/common/iegad_md5.cpp \
     src/common/iegad_string.cpp \
-    test_common/test_common_main.cpp
+    #test_common/test_common_main.cpp \
+    src/sqlite/sqlite_helper.cpp \
+    src/sqlite/sqlite3.c \
+    test_unit_sqlite/test_sqlite_main.cpp \
+    src/data/iegad_dbrow.cpp \
+    src/data/iegad_dbtab.cpp \
+    src/sqlite/shell.c
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -20,9 +26,17 @@ HEADERS += \
     src/common/job_worker.hpp \
     test_common/job_test.hpp \
     test_common/string_test.hpp \
-    src/iegad_define.h
+    src/iegad_define.h \
+    test_common/log_test.hpp \
+    src/sqlite/iegad_sqlite.h \
+    src/sqlite/sqlite3.h \
+    src/sqlite/sqlite3ext.h \
+    src/sqlite/sqlite_helper.h \
+    src/data/iegad_dbrow.h \
+    src/data/iegad_dbtab.h
 
 INCLUDEPATH += ./src
+LIBS += -l dl
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lboost_system-gcc48-mt-1_59
@@ -89,3 +103,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/boost_locale-gcc48-mt-1_59.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/boost_locale-gcc48-mt-1_59.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libboost_locale-gcc48-mt-1_59.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lglog
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lglog
+else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lglog
+
+INCLUDEPATH += $$PWD/../../../../usr/local/include
+DEPENDPATH += $$PWD/../../../../usr/local/include
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libglog.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libglog.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/glog.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/glog.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libglog.a

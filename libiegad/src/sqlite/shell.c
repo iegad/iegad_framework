@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** 2001 September 15
 **
 ** The author disclaims copyright to this source code.  In place of
@@ -4458,357 +4458,360 @@ static char *cmdline_option_value(int argc, char **argv, int i){
   return argv[i];
 }
 
-int SQLITE_CDECL main(int argc, char **argv){
-  char *zErrMsg = 0;
-  ShellState data;
-  const char *zInitFile = 0;
-  int i;
-  int rc = 0;
-  int warnInmemoryDb = 0;
-  int readStdin = 1;
-  int nCmd = 0;
-  char **azCmd = 0;
 
-#if USE_SYSTEM_SQLITE+0!=1
-  if( strcmp(sqlite3_sourceid(),SQLITE_SOURCE_ID)!=0 ){
-    fprintf(stderr, "SQLite header and source version mismatch\n%s\n%s\n",
-            sqlite3_sourceid(), SQLITE_SOURCE_ID);
-    exit(1);
-  }
-#endif
-  setBinaryMode(stdin);
-  setvbuf(stderr, 0, _IONBF, 0); /* Make sure stderr is unbuffered */
-  Argv0 = argv[0];
-  main_init(&data);
-  stdin_is_interactive = isatty(0);
-
-  /* Make sure we have a valid signal handler early, before anything
-  ** else is done.
-  */
-#ifdef SIGINT
-  signal(SIGINT, interrupt_handler);
-#endif
-
-#ifdef SQLITE_SHELL_DBNAME_PROC
-  {
-    /* If the SQLITE_SHELL_DBNAME_PROC macro is defined, then it is the name
-    ** of a C-function that will provide the name of the database file.  Use
-    ** this compile-time option to embed this shell program in larger
-    ** applications. */
-    extern void SQLITE_SHELL_DBNAME_PROC(const char**);
-    SQLITE_SHELL_DBNAME_PROC(&data.zDbFilename);
-    warnInmemoryDb = 0;
-  }
-#endif
-
-  /* Do an initial pass through the command-line argument to locate
-  ** the name of the database file, the name of the initialization file,
-  ** the size of the alternative malloc heap,
-  ** and the first command to execute.
-  */
-  for(i=1; i<argc; i++){
-    char *z;
-    z = argv[i];
-    if( z[0]!='-' ){
-      if( data.zDbFilename==0 ){
-        data.zDbFilename = z;
-      }else{
-        /* Excesss arguments are interpreted as SQL (or dot-commands) and
-        ** mean that nothing is read from stdin */
-        readStdin = 0;
-        nCmd++;
-        azCmd = realloc(azCmd, sizeof(azCmd[0])*nCmd);
-        if( azCmd==0 ){
-          fprintf(stderr, "out of memory\n");
-          exit(1);
-        }
-        azCmd[nCmd-1] = z;
-      }
-    }
-    if( z[1]=='-' ) z++;
-    if( strcmp(z,"-separator")==0
-     || strcmp(z,"-nullvalue")==0
-     || strcmp(z,"-newline")==0
-     || strcmp(z,"-cmd")==0
-    ){
-      (void)cmdline_option_value(argc, argv, ++i);
-    }else if( strcmp(z,"-init")==0 ){
-      zInitFile = cmdline_option_value(argc, argv, ++i);
-    }else if( strcmp(z,"-batch")==0 ){
-      /* Need to check for batch mode here to so we can avoid printing
-      ** informational messages (like from process_sqliterc) before 
-      ** we do the actual processing of arguments later in a second pass.
-      */
-      stdin_is_interactive = 0;
-    }else if( strcmp(z,"-heap")==0 ){
-#if defined(SQLITE_ENABLE_MEMSYS3) || defined(SQLITE_ENABLE_MEMSYS5)
-      const char *zSize;
-      sqlite3_int64 szHeap;
-
-      zSize = cmdline_option_value(argc, argv, ++i);
-      szHeap = integerValue(zSize);
-      if( szHeap>0x7fff0000 ) szHeap = 0x7fff0000;
-      sqlite3_config(SQLITE_CONFIG_HEAP, malloc((int)szHeap), (int)szHeap, 64);
-#endif
-    }else if( strcmp(z,"-scratch")==0 ){
-      int n, sz;
-      sz = (int)integerValue(cmdline_option_value(argc,argv,++i));
-      if( sz>400000 ) sz = 400000;
-      if( sz<2500 ) sz = 2500;
-      n = (int)integerValue(cmdline_option_value(argc,argv,++i));
-      if( n>10 ) n = 10;
-      if( n<1 ) n = 1;
-      sqlite3_config(SQLITE_CONFIG_SCRATCH, malloc(n*sz+1), sz, n);
-      data.shellFlgs |= SHFLG_Scratch;
-    }else if( strcmp(z,"-pagecache")==0 ){
-      int n, sz;
-      sz = (int)integerValue(cmdline_option_value(argc,argv,++i));
-      if( sz>70000 ) sz = 70000;
-      if( sz<800 ) sz = 800;
-      n = (int)integerValue(cmdline_option_value(argc,argv,++i));
-      if( n<10 ) n = 10;
-      sqlite3_config(SQLITE_CONFIG_PAGECACHE, malloc(n*sz+1), sz, n);
-      data.shellFlgs |= SHFLG_Pagecache;
-    }else if( strcmp(z,"-lookaside")==0 ){
-      int n, sz;
-      sz = (int)integerValue(cmdline_option_value(argc,argv,++i));
-      if( sz<0 ) sz = 0;
-      n = (int)integerValue(cmdline_option_value(argc,argv,++i));
-      if( n<0 ) n = 0;
-      sqlite3_config(SQLITE_CONFIG_LOOKASIDE, sz, n);
-      if( sz*n==0 ) data.shellFlgs &= ~SHFLG_Lookaside;
-#ifdef SQLITE_ENABLE_VFSTRACE
-    }else if( strcmp(z,"-vfstrace")==0 ){
-      extern int vfstrace_register(
-         const char *zTraceName,
-         const char *zOldVfsName,
-         int (*xOut)(const char*,void*),
-         void *pOutArg,
-         int makeDefault
-      );
-      vfstrace_register("trace",0,(int(*)(const char*,void*))fputs,stderr,1);
-#endif
-#ifdef SQLITE_ENABLE_MULTIPLEX
-    }else if( strcmp(z,"-multiplex")==0 ){
-      extern int sqlite3_multiple_initialize(const char*,int);
-      sqlite3_multiplex_initialize(0, 1);
-#endif
-    }else if( strcmp(z,"-mmap")==0 ){
-      sqlite3_int64 sz = integerValue(cmdline_option_value(argc,argv,++i));
-      sqlite3_config(SQLITE_CONFIG_MMAP_SIZE, sz, sz);
-    }else if( strcmp(z,"-vfs")==0 ){
-      sqlite3_vfs *pVfs = sqlite3_vfs_find(cmdline_option_value(argc,argv,++i));
-      if( pVfs ){
-        sqlite3_vfs_register(pVfs, 1);
-      }else{
-        fprintf(stderr, "no such VFS: \"%s\"\n", argv[i]);
-        exit(1);
-      }
-    }
-  }
-  if( data.zDbFilename==0 ){
-#ifndef SQLITE_OMIT_MEMORYDB
-    data.zDbFilename = ":memory:";
-    warnInmemoryDb = argc==1;
-#else
-    fprintf(stderr,"%s: Error: no database filename specified\n", Argv0);
-    return 1;
-#endif
-  }
-  data.out = stdout;
-
-  /* Go ahead and open the database file if it already exists.  If the
-  ** file does not exist, delay opening it.  This prevents empty database
-  ** files from being created if a user mistypes the database name argument
-  ** to the sqlite command-line tool.
-  */
-  if( access(data.zDbFilename, 0)==0 ){
-    open_db(&data, 0);
-  }
-
-  /* Process the initialization file if there is one.  If no -init option
-  ** is given on the command line, look for a file named ~/.sqliterc and
-  ** try to process it.
-  */
-  process_sqliterc(&data,zInitFile);
-
-  /* Make a second pass through the command-line argument and set
-  ** options.  This second pass is delayed until after the initialization
-  ** file is processed so that the command-line arguments will override
-  ** settings in the initialization file.
-  */
-  for(i=1; i<argc; i++){
-    char *z = argv[i];
-    if( z[0]!='-' ) continue;
-    if( z[1]=='-' ){ z++; }
-    if( strcmp(z,"-init")==0 ){
-      i++;
-    }else if( strcmp(z,"-html")==0 ){
-      data.mode = MODE_Html;
-    }else if( strcmp(z,"-list")==0 ){
-      data.mode = MODE_List;
-    }else if( strcmp(z,"-line")==0 ){
-      data.mode = MODE_Line;
-    }else if( strcmp(z,"-column")==0 ){
-      data.mode = MODE_Column;
-    }else if( strcmp(z,"-csv")==0 ){
-      data.mode = MODE_Csv;
-      memcpy(data.colSeparator,",",2);
-    }else if( strcmp(z,"-ascii")==0 ){
-      data.mode = MODE_Ascii;
-      sqlite3_snprintf(sizeof(data.colSeparator), data.colSeparator,
-                       SEP_Unit);
-      sqlite3_snprintf(sizeof(data.rowSeparator), data.rowSeparator,
-                       SEP_Record);
-    }else if( strcmp(z,"-separator")==0 ){
-      sqlite3_snprintf(sizeof(data.colSeparator), data.colSeparator,
-                       "%s",cmdline_option_value(argc,argv,++i));
-    }else if( strcmp(z,"-newline")==0 ){
-      sqlite3_snprintf(sizeof(data.rowSeparator), data.rowSeparator,
-                       "%s",cmdline_option_value(argc,argv,++i));
-    }else if( strcmp(z,"-nullvalue")==0 ){
-      sqlite3_snprintf(sizeof(data.nullValue), data.nullValue,
-                       "%s",cmdline_option_value(argc,argv,++i));
-    }else if( strcmp(z,"-header")==0 ){
-      data.showHeader = 1;
-    }else if( strcmp(z,"-noheader")==0 ){
-      data.showHeader = 0;
-    }else if( strcmp(z,"-echo")==0 ){
-      data.echoOn = 1;
-    }else if( strcmp(z,"-eqp")==0 ){
-      data.autoEQP = 1;
-    }else if( strcmp(z,"-stats")==0 ){
-      data.statsOn = 1;
-    }else if( strcmp(z,"-scanstats")==0 ){
-      data.scanstatsOn = 1;
-    }else if( strcmp(z,"-backslash")==0 ){
-      /* Undocumented command-line option: -backslash
-      ** Causes C-style backslash escapes to be evaluated in SQL statements
-      ** prior to sending the SQL into SQLite.  Useful for injecting
-      ** crazy bytes in the middle of SQL statements for testing and debugging.
-      */
-      data.backslashOn = 1;
-    }else if( strcmp(z,"-bail")==0 ){
-      bail_on_error = 1;
-    }else if( strcmp(z,"-version")==0 ){
-      printf("%s %s\n", sqlite3_libversion(), sqlite3_sourceid());
-      return 0;
-    }else if( strcmp(z,"-interactive")==0 ){
-      stdin_is_interactive = 1;
-    }else if( strcmp(z,"-batch")==0 ){
-      stdin_is_interactive = 0;
-    }else if( strcmp(z,"-heap")==0 ){
-      i++;
-    }else if( strcmp(z,"-scratch")==0 ){
-      i+=2;
-    }else if( strcmp(z,"-pagecache")==0 ){
-      i+=2;
-    }else if( strcmp(z,"-lookaside")==0 ){
-      i+=2;
-    }else if( strcmp(z,"-mmap")==0 ){
-      i++;
-    }else if( strcmp(z,"-vfs")==0 ){
-      i++;
-#ifdef SQLITE_ENABLE_VFSTRACE
-    }else if( strcmp(z,"-vfstrace")==0 ){
-      i++;
-#endif
-#ifdef SQLITE_ENABLE_MULTIPLEX
-    }else if( strcmp(z,"-multiplex")==0 ){
-      i++;
-#endif
-    }else if( strcmp(z,"-help")==0 ){
-      usage(1);
-    }else if( strcmp(z,"-cmd")==0 ){
-      /* Run commands that follow -cmd first and separately from commands
-      ** that simply appear on the command-line.  This seems goofy.  It would
-      ** be better if all commands ran in the order that they appear.  But
-      ** we retain the goofy behavior for historical compatibility. */
-      if( i==argc-1 ) break;
-      z = cmdline_option_value(argc,argv,++i);
-      if( z[0]=='.' ){
-        rc = do_meta_command(z, &data);
-        if( rc && bail_on_error ) return rc==2 ? 0 : rc;
-      }else{
-        open_db(&data, 0);
-        rc = shell_exec(data.db, z, shell_callback, &data, &zErrMsg);
-        if( zErrMsg!=0 ){
-          fprintf(stderr,"Error: %s\n", zErrMsg);
-          if( bail_on_error ) return rc!=0 ? rc : 1;
-        }else if( rc!=0 ){
-          fprintf(stderr,"Error: unable to process SQL \"%s\"\n", z);
-          if( bail_on_error ) return rc;
-        }
-      }
-    }else{
-      fprintf(stderr,"%s: Error: unknown option: %s\n", Argv0, z);
-      fprintf(stderr,"Use -help for a list of options.\n");
-      return 1;
-    }
-  }
-
-  if( !readStdin ){
-    /* Run all arguments that do not begin with '-' as if they were separate
-    ** command-line inputs, except for the argToSkip argument which contains
-    ** the database filename.
-    */
-    for(i=0; i<nCmd; i++){
-      if( azCmd[i][0]=='.' ){
-        rc = do_meta_command(azCmd[i], &data);
-        if( rc ) return rc==2 ? 0 : rc;
-      }else{
-        open_db(&data, 0);
-        rc = shell_exec(data.db, azCmd[i], shell_callback, &data, &zErrMsg);
-        if( zErrMsg!=0 ){
-          fprintf(stderr,"Error: %s\n", zErrMsg);
-          return rc!=0 ? rc : 1;
-        }else if( rc!=0 ){
-          fprintf(stderr,"Error: unable to process SQL: %s\n", azCmd[i]);
-          return rc;
-        }
-      }
-    }
-    free(azCmd);
-  }else{
-    /* Run commands received from standard input
-    */
-    if( stdin_is_interactive ){
-      char *zHome;
-      char *zHistory = 0;
-      int nHistory;
-      printf(
-        "SQLite version %s %.19s\n" /*extra-version-info*/
-        "Enter \".help\" for usage hints.\n",
-        sqlite3_libversion(), sqlite3_sourceid()
-      );
-      if( warnInmemoryDb ){
-        printf("Connected to a ");
-        printBold("transient in-memory database");
-        printf(".\nUse \".open FILENAME\" to reopen on a "
-               "persistent database.\n");
-      }
-      zHome = find_home_dir();
-      if( zHome ){
-        nHistory = strlen30(zHome) + 20;
-        if( (zHistory = malloc(nHistory))!=0 ){
-          sqlite3_snprintf(nHistory, zHistory,"%s/.sqlite_history", zHome);
-        }
-      }
-      if( zHistory ){ shell_read_history(zHistory); }
-      rc = process_input(&data, 0);
-      if( zHistory ){
-        shell_stifle_history(100);
-        shell_write_history(zHistory);
-        free(zHistory);
-      }
-    }else{
-      rc = process_input(&data, stdin);
-    }
-  }
-  set_table_name(&data, 0);
-  if( data.db ){
-    sqlite3_close(data.db);
-  }
-  sqlite3_free(data.zFreeOnClose); 
-  return rc;
-}
+//int SQLITE_CDECL main(int argc, char **argv){
+//  char *zErrMsg = 0;
+//  ShellState data;
+//  const char *zInitFile = 0;
+//  int i;
+//  int rc = 0;
+//  int warnInmemoryDb = 0;
+//  int readStdin = 1;
+//  int nCmd = 0;
+//  char **azCmd = 0;
+//
+//#if USE_SYSTEM_SQLITE+0!=1
+//  if( strcmp(sqlite3_sourceid(),SQLITE_SOURCE_ID)!=0 ){
+//    fprintf(stderr, "SQLite header and source version mismatch\n%s\n%s\n",
+//            sqlite3_sourceid(), SQLITE_SOURCE_ID);
+//    exit(1);
+//  }
+//
+//#endif
+//  setBinaryMode(stdin);
+//  setvbuf(stderr, 0, _IONBF, 0); /* Make sure stderr is unbuffered */
+//  Argv0 = argv[0];
+//  main_init(&data);
+//  stdin_is_interactive = isatty(0);
+//
+//  /* Make sure we have a valid signal handler early, before anything
+//  ** else is done.
+//  */
+//#ifdef SIGINT
+//  signal(SIGINT, interrupt_handler);
+//#endif
+//
+//#ifdef SQLITE_SHELL_DBNAME_PROC
+//  {
+//    /* If the SQLITE_SHELL_DBNAME_PROC macro is defined, then it is the name
+//    ** of a C-function that will provide the name of the database file.  Use
+//    ** this compile-time option to embed this shell program in larger
+//    ** applications. */
+//    extern void SQLITE_SHELL_DBNAME_PROC(const char**);
+//    SQLITE_SHELL_DBNAME_PROC(&data.zDbFilename);
+//    warnInmemoryDb = 0;
+//  }
+//#endif
+//
+//  /* Do an initial pass through the command-line argument to locate
+//  ** the name of the database file, the name of the initialization file,
+//  ** the size of the alternative malloc heap,
+//  ** and the first command to execute.
+//  */
+//  for(i=1; i<argc; i++){
+//    char *z;
+//    z = argv[i];
+//    if( z[0]!='-' ){
+//      if( data.zDbFilename==0 ){
+//        data.zDbFilename = z;
+//      }else{
+//        /* Excesss arguments are interpreted as SQL (or dot-commands) and
+//        ** mean that nothing is read from stdin */
+//        readStdin = 0;
+//        nCmd++;
+//        azCmd = realloc(azCmd, sizeof(azCmd[0])*nCmd);
+//        if( azCmd==0 ){
+//          fprintf(stderr, "out of memory\n");
+//          exit(1);
+//        }
+//        azCmd[nCmd-1] = z;
+//      }
+//    }
+//    if( z[1]=='-' ) z++;
+//    if( strcmp(z,"-separator")==0
+//     || strcmp(z,"-nullvalue")==0
+//     || strcmp(z,"-newline")==0
+//     || strcmp(z,"-cmd")==0
+//    ){
+//      (void)cmdline_option_value(argc, argv, ++i);
+//    }else if( strcmp(z,"-init")==0 ){
+//      zInitFile = cmdline_option_value(argc, argv, ++i);
+//    }else if( strcmp(z,"-batch")==0 ){
+//      /* Need to check for batch mode here to so we can avoid printing
+//      ** informational messages (like from process_sqliterc) before
+//      ** we do the actual processing of arguments later in a second pass.
+//      */
+//      stdin_is_interactive = 0;
+//    }else if( strcmp(z,"-heap")==0 ){
+//#if defined(SQLITE_ENABLE_MEMSYS3) || defined(SQLITE_ENABLE_MEMSYS5)
+//      const char *zSize;
+//      sqlite3_int64 szHeap;
+//
+//      zSize = cmdline_option_value(argc, argv, ++i);
+//      szHeap = integerValue(zSize);
+//      if( szHeap>0x7fff0000 ) szHeap = 0x7fff0000;
+//      sqlite3_config(SQLITE_CONFIG_HEAP, malloc((int)szHeap), (int)szHeap, 64);
+//#endif
+//    }else if( strcmp(z,"-scratch")==0 ){
+//      int n, sz;
+//      sz = (int)integerValue(cmdline_option_value(argc,argv,++i));
+//      if( sz>400000 ) sz = 400000;
+//      if( sz<2500 ) sz = 2500;
+//      n = (int)integerValue(cmdline_option_value(argc,argv,++i));
+//      if( n>10 ) n = 10;
+//      if( n<1 ) n = 1;
+//      sqlite3_config(SQLITE_CONFIG_SCRATCH, malloc(n*sz+1), sz, n);
+//      data.shellFlgs |= SHFLG_Scratch;
+//    }else if( strcmp(z,"-pagecache")==0 ){
+//      int n, sz;
+//      sz = (int)integerValue(cmdline_option_value(argc,argv,++i));
+//      if( sz>70000 ) sz = 70000;
+//      if( sz<800 ) sz = 800;
+//      n = (int)integerValue(cmdline_option_value(argc,argv,++i));
+//      if( n<10 ) n = 10;
+//      sqlite3_config(SQLITE_CONFIG_PAGECACHE, malloc(n*sz+1), sz, n);
+//      data.shellFlgs |= SHFLG_Pagecache;
+//    }else if( strcmp(z,"-lookaside")==0 ){
+//      int n, sz;
+//      sz = (int)integerValue(cmdline_option_value(argc,argv,++i));
+//      if( sz<0 ) sz = 0;
+//      n = (int)integerValue(cmdline_option_value(argc,argv,++i));
+//      if( n<0 ) n = 0;
+//      sqlite3_config(SQLITE_CONFIG_LOOKASIDE, sz, n);
+//      if( sz*n==0 ) data.shellFlgs &= ~SHFLG_Lookaside;
+//#ifdef SQLITE_ENABLE_VFSTRACE
+//    }else if( strcmp(z,"-vfstrace")==0 ){
+//      extern int vfstrace_register(
+//         const char *zTraceName,
+//         const char *zOldVfsName,
+//         int (*xOut)(const char*,void*),
+//         void *pOutArg,
+//         int makeDefault
+//      );
+//      vfstrace_register("trace",0,(int(*)(const char*,void*))fputs,stderr,1);
+//#endif
+//#ifdef SQLITE_ENABLE_MULTIPLEX
+//    }else if( strcmp(z,"-multiplex")==0 ){
+//      extern int sqlite3_multiple_initialize(const char*,int);
+//      sqlite3_multiplex_initialize(0, 1);
+//#endif
+//    }else if( strcmp(z,"-mmap")==0 ){
+//      sqlite3_int64 sz = integerValue(cmdline_option_value(argc,argv,++i));
+//      sqlite3_config(SQLITE_CONFIG_MMAP_SIZE, sz, sz);
+//    }else if( strcmp(z,"-vfs")==0 ){
+//      sqlite3_vfs *pVfs = sqlite3_vfs_find(cmdline_option_value(argc,argv,++i));
+//      if( pVfs ){
+//        sqlite3_vfs_register(pVfs, 1);
+//      }else{
+//        fprintf(stderr, "no such VFS: \"%s\"\n", argv[i]);
+//        exit(1);
+//      }
+//    }
+//  }
+//  if( data.zDbFilename==0 ){
+//#ifndef SQLITE_OMIT_MEMORYDB
+//    data.zDbFilename = ":memory:";
+//    warnInmemoryDb = argc==1;
+//#else
+//    fprintf(stderr,"%s: Error: no database filename specified\n", Argv0);
+//    return 1;
+//#endif
+//  }
+//  data.out = stdout;
+//
+//  /* Go ahead and open the database file if it already exists.  If the
+//  ** file does not exist, delay opening it.  This prevents empty database
+//  ** files from being created if a user mistypes the database name argument
+//  ** to the sqlite command-line tool.
+//  */
+//  if( access(data.zDbFilename, 0)==0 ){
+//    open_db(&data, 0);
+//  }
+//
+//  /* Process the initialization file if there is one.  If no -init option
+//  ** is given on the command line, look for a file named ~/.sqliterc and
+//  ** try to process it.
+//  */
+//  process_sqliterc(&data,zInitFile);
+//
+//  /* Make a second pass through the command-line argument and set
+//  ** options.  This second pass is delayed until after the initialization
+//  ** file is processed so that the command-line arguments will override
+//  ** settings in the initialization file.
+//  */
+//  for(i=1; i<argc; i++){
+//    char *z = argv[i];
+//    if( z[0]!='-' ) continue;
+//    if( z[1]=='-' ){ z++; }
+//    if( strcmp(z,"-init")==0 ){
+//      i++;
+//    }else if( strcmp(z,"-html")==0 ){
+//      data.mode = MODE_Html;
+//    }else if( strcmp(z,"-list")==0 ){
+//      data.mode = MODE_List;
+//    }else if( strcmp(z,"-line")==0 ){
+//      data.mode = MODE_Line;
+//    }else if( strcmp(z,"-column")==0 ){
+//      data.mode = MODE_Column;
+//    }else if( strcmp(z,"-csv")==0 ){
+//      data.mode = MODE_Csv;
+//      memcpy(data.colSeparator,",",2);
+//    }else if( strcmp(z,"-ascii")==0 ){
+//      data.mode = MODE_Ascii;
+//      sqlite3_snprintf(sizeof(data.colSeparator), data.colSeparator,
+//                       SEP_Unit);
+//      sqlite3_snprintf(sizeof(data.rowSeparator), data.rowSeparator,
+//                       SEP_Record);
+//    }else if( strcmp(z,"-separator")==0 ){
+//      sqlite3_snprintf(sizeof(data.colSeparator), data.colSeparator,
+//                       "%s",cmdline_option_value(argc,argv,++i));
+//    }else if( strcmp(z,"-newline")==0 ){
+//      sqlite3_snprintf(sizeof(data.rowSeparator), data.rowSeparator,
+//                       "%s",cmdline_option_value(argc,argv,++i));
+//    }else if( strcmp(z,"-nullvalue")==0 ){
+//      sqlite3_snprintf(sizeof(data.nullValue), data.nullValue,
+//                       "%s",cmdline_option_value(argc,argv,++i));
+//    }else if( strcmp(z,"-header")==0 ){
+//      data.showHeader = 1;
+//    }else if( strcmp(z,"-noheader")==0 ){
+//      data.showHeader = 0;
+//    }else if( strcmp(z,"-echo")==0 ){
+//      data.echoOn = 1;
+//    }else if( strcmp(z,"-eqp")==0 ){
+//      data.autoEQP = 1;
+//    }else if( strcmp(z,"-stats")==0 ){
+//      data.statsOn = 1;
+//    }else if( strcmp(z,"-scanstats")==0 ){
+//      data.scanstatsOn = 1;
+//    }else if( strcmp(z,"-backslash")==0 ){
+//      /* Undocumented command-line option: -backslash
+//      ** Causes C-style backslash escapes to be evaluated in SQL statements
+//      ** prior to sending the SQL into SQLite.  Useful for injecting
+//      ** crazy bytes in the middle of SQL statements for testing and debugging.
+//      */
+//      data.backslashOn = 1;
+//    }else if( strcmp(z,"-bail")==0 ){
+//      bail_on_error = 1;
+//    }else if( strcmp(z,"-version")==0 ){
+//      printf("%s %s\n", sqlite3_libversion(), sqlite3_sourceid());
+//      return 0;
+//    }else if( strcmp(z,"-interactive")==0 ){
+//      stdin_is_interactive = 1;
+//    }else if( strcmp(z,"-batch")==0 ){
+//      stdin_is_interactive = 0;
+//    }else if( strcmp(z,"-heap")==0 ){
+//      i++;
+//    }else if( strcmp(z,"-scratch")==0 ){
+//      i+=2;
+//    }else if( strcmp(z,"-pagecache")==0 ){
+//      i+=2;
+//    }else if( strcmp(z,"-lookaside")==0 ){
+//      i+=2;
+//    }else if( strcmp(z,"-mmap")==0 ){
+//      i++;
+//    }else if( strcmp(z,"-vfs")==0 ){
+//      i++;
+//#ifdef SQLITE_ENABLE_VFSTRACE
+//    }else if( strcmp(z,"-vfstrace")==0 ){
+//      i++;
+//#endif
+//#ifdef SQLITE_ENABLE_MULTIPLEX
+//    }else if( strcmp(z,"-multiplex")==0 ){
+//      i++;
+//#endif
+//    }else if( strcmp(z,"-help")==0 ){
+//      usage(1);
+//    }else if( strcmp(z,"-cmd")==0 ){
+//      /* Run commands that follow -cmd first and separately from commands
+//      ** that simply appear on the command-line.  This seems goofy.  It would
+//      ** be better if all commands ran in the order that they appear.  But
+//      ** we retain the goofy behavior for historical compatibility. */
+//      if( i==argc-1 ) break;
+//      z = cmdline_option_value(argc,argv,++i);
+//      if( z[0]=='.' ){
+//        rc = do_meta_command(z, &data);
+//        if( rc && bail_on_error ) return rc==2 ? 0 : rc;
+//      }else{
+//        open_db(&data, 0);
+//        rc = shell_exec(data.db, z, shell_callback, &data, &zErrMsg);
+//        if( zErrMsg!=0 ){
+//          fprintf(stderr,"Error: %s\n", zErrMsg);
+//          if( bail_on_error ) return rc!=0 ? rc : 1;
+//        }else if( rc!=0 ){
+//          fprintf(stderr,"Error: unable to process SQL \"%s\"\n", z);
+//          if( bail_on_error ) return rc;
+//        }
+//      }
+//    }else{
+//      fprintf(stderr,"%s: Error: unknown option: %s\n", Argv0, z);
+//      fprintf(stderr,"Use -help for a list of options.\n");
+//      return 1;
+//    }
+//  }
+//
+//  if( !readStdin ){
+//    /* Run all arguments that do not begin with '-' as if they were separate
+//    ** command-line inputs, except for the argToSkip argument which contains
+//    ** the database filename.
+//    */
+//    for(i=0; i<nCmd; i++){
+//      if( azCmd[i][0]=='.' ){
+//        rc = do_meta_command(azCmd[i], &data);
+//        if( rc ) return rc==2 ? 0 : rc;
+//      }else{
+//        open_db(&data, 0);
+//        rc = shell_exec(data.db, azCmd[i], shell_callback, &data, &zErrMsg);
+//        if( zErrMsg!=0 ){
+//          fprintf(stderr,"Error: %s\n", zErrMsg);
+//          return rc!=0 ? rc : 1;
+//        }else if( rc!=0 ){
+//          fprintf(stderr,"Error: unable to process SQL: %s\n", azCmd[i]);
+//          return rc;
+//        }
+//      }
+//    }
+//    free(azCmd);
+//  }else{
+//    /* Run commands received from standard input
+//    */
+//    if( stdin_is_interactive ){
+//      char *zHome;
+//      char *zHistory = 0;
+//      int nHistory;
+//      printf(
+//        "SQLite version %s %.19s\n" /*extra-version-info*/
+//        "Enter \".help\" for usage hints.\n",
+//        sqlite3_libversion(), sqlite3_sourceid()
+//      );
+//      if( warnInmemoryDb ){
+//        printf("Connected to a ");
+//        printBold("transient in-memory database");
+//        printf(".\nUse \".open FILENAME\" to reopen on a "
+//               "persistent database.\n");
+//      }
+//      zHome = find_home_dir();
+//      if( zHome ){
+//        nHistory = strlen30(zHome) + 20;
+//        if( (zHistory = malloc(nHistory))!=0 ){
+//          sqlite3_snprintf(nHistory, zHistory,"%s/.sqlite_history", zHome);
+//        }
+//      }
+//      if( zHistory ){ shell_read_history(zHistory); }
+//      rc = process_input(&data, 0);
+//      if( zHistory ){
+//        shell_stifle_history(100);
+//        shell_write_history(zHistory);
+//        free(zHistory);
+//      }
+//    }else{
+//      rc = process_input(&data, stdin);
+//    }
+//  }
+//  set_table_name(&data, 0);
+//  if( data.db ){
+//    sqlite3_close(data.db);
+//  }
+//  sqlite3_free(data.zFreeOnClose);
+//  return rc;
+//}
+//

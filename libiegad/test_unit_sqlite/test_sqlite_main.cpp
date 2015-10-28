@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include "sqlite/iegad_sqlite.h"
 #include <string>
 
@@ -32,9 +32,9 @@ main(int argc, char * argv[])
 	    sqlvct.push_back(std::move(std::string("INSERT INTO TEST_TAB (T_ID, T_VAL) VALUES (" + std::to_string(i) + ", '" + std::to_string((char)c++) + "')")));
 	}
 
-	if (db_handler.exec_trans(sqlvct) < 0) {
-	    break;
-	}
+    //if (db_handler.exec_trans(sqlvct) < 0) {
+        //break;
+    //}
 
 	iegad::data::db_tab tab;
 	if (db_handler.query("SELECT * FROM TEST_TAB", tab) != 0) {
