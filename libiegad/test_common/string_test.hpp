@@ -120,7 +120,7 @@ TEST(STR_UTEST_CASE, SPLIT_TEST)
 }
 
 
-TEST(STR_UTEST_CAST, UPLOW_TEST)
+TEST(STR_UTEST_CASE, UPLOW_TEST)
 {
     std::string srcString = "iegad, 1234567890, AAbbccDd, XIAOQi";
     EXPECT_EQ("IEGAD, 1234567890, AABBCCDD, XIAOQI", iegad::string::to_upr(srcString));
@@ -132,7 +132,7 @@ TEST(STR_UTEST_CAST, UPLOW_TEST)
 }
 
 
-TEST(STR_UTEST_CAST, CONVERT_TEST)
+TEST(STR_UTEST_CASE, CONVERT_TEST)
 {
     int si32 = 1345678911;
     unsigned int ui32 = 2876543210;
@@ -161,16 +161,19 @@ TEST(STR_UTEST_CAST, CONVERT_TEST)
 }
 
 
-TEST(STR_UTEST_CAST, ENCODE_TEST)
+TEST(STR_UTEST_CASE, ENCODE_TEST)
 {
     std::string srcString = "Hello world";
     int key = 0xaa;
     std::string enStr = iegad::string::en_cust("Hello world", key);
     EXPECT_EQ("Hello world", iegad::string::de_cust(enStr, key));
+
+    EXPECT_EQ("Hello world", iegad::string::base64_de(iegad::string::base64_en(srcString)));
+    EXPECT_EQ("3e25960a79dbc69b674cd4ec67a72c62", iegad::string::md5(srcString));
 }
 
 
-TEST(STR_UTEST_CAST, CONV_TEST)
+TEST(STR_UTEST_CASE, CONV_TEST)
 {
     std::string srcString = "HELLO";
     std::string utf8str = iegad::string::to_utf8("Fucking");

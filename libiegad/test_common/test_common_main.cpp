@@ -3,8 +3,8 @@
 
 
 #define STRING_TEST	1
-#define JOB_TEST		1
-#define LOG_TEST		1
+#define JOB_TEST		0
+#define LOG_TEST		0
 
 
 #ifdef WIN32
