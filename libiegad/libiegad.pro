@@ -10,10 +10,17 @@ SOURCES += src/common/iegad_log.cpp \
     #test_common/test_common_main.cpp \
     src/sqlite/sqlite_helper.cpp \
     src/sqlite/sqlite3.c \
-    test_unit_sqlite/test_sqlite_main.cpp \
     src/data/iegad_dbrow.cpp \
     src/data/iegad_dbtab.cpp \
-    src/sqlite/shell.c
+    src/sqlite/shell.c \
+    src/nets/basic_proxy.cpp \
+    src/nets/basic_svc.cpp \
+    src/nets/tcp_mt_svr.cpp \
+    src/nets/udp_puller.cpp \
+    src/nets/udp_pusher.cpp \
+    src/test_server_main.cpp \
+    src/msg/basic_msg.pb.cc \
+    src/msg/iegad_io_msg.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -33,7 +40,14 @@ HEADERS += \
     src/sqlite/sqlite3ext.h \
     src/sqlite/sqlite_helper.h \
     src/data/iegad_dbrow.h \
-    src/data/iegad_dbtab.h
+    src/data/iegad_dbtab.h \
+    src/nets/basic_proxy.h \
+    src/nets/basic_svc.h \
+    src/nets/tcp_mt_svr.h \
+    src/nets/udp_puller.h \
+    src/nets/udp_pusher.h \
+    src/msg/basic_msg.pb.h \
+    src/msg/iegad_io_msg.h
 
 INCLUDEPATH += ./src
 LIBS += -l dl
@@ -116,3 +130,19 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/glog.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/glog.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libglog.a
+
+DISTFILES += \
+    src/msg/basic_msg.proto
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lprotobuf
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lprotobuf
+else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lprotobuf
+
+INCLUDEPATH += $$PWD/../../../../usr/local/include/google
+DEPENDPATH += $$PWD/../../../../usr/local/include/google
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libprotobuf.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libprotobuf.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/protobuf.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/protobuf.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libprotobuf.a

@@ -147,25 +147,26 @@ namespace nets {
     template <class __MSG_T>
     int iegad::nets::basic_svc::_build_svc(const std::string & msgbdstr, __MSG_T & msg)
     {
-	msg.Clear();
-	return msg.ParseFromString(msgbdstr) ? 0 : -1;
+        msg.Clear();
+        return msg.ParseFromString(msgbdstr) ? 0 : -1;
     }
 
 
     template <class __MSG_T>
     int iegad::nets::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg)
     {
-	std::string msg_str;
+        std::string msg_str;
+        boost::system::error_code errcode;
 
-	if (!msg.SerializeToString(&msg_str)) {
-	    return -1;
-	}
+        if (!msg.SerializeToString(&msg_str)) {
+            return -1;
+        }
 
-	basic_msg msgbsc;
-	msgbsc.set_msg_type(this->svc_id_);
-	msgbsc.set_msg_flag(flag);
-	msgbsc.set_msg_bdstr(msg_str);
-	return iegad::nets::send_basic_msg(clnt, msgbsc);
+        iegad::msg::basic_msg msgbsc;
+        msgbsc.set_msg_type(this->svc_id_);
+        msgbsc.set_msg_flag(flag);
+        msgbsc.set_msg_bdstr(msg_str);
+        return iegad::msg::send_basic_msg(clnt, msgbsc, errcode);
     }
 
 

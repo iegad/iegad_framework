@@ -1,4 +1,4 @@
-#include "iegad_io_msg.h"
+﻿#include "iegad_io_msg.h"
 #include "common/iegad_string.h"
 
 
@@ -47,7 +47,7 @@ iegad::io::recv_end(boost::asio::ip::tcp::socket & clnt,
 
 
 int 
-iegad::msg::recv_basic_msg(boost::asio::ip::tcp::socket & clnt, basic_msg & msgbsc, 
+iegad::msg::recv_basic_msg(boost::asio::ip::tcp::socket & clnt, iegad::msg::basic_msg & msgbsc,
 					 boost::system::error_code & errcode)
 {
     msgbsc.ParseFromString(iegad::string::de_cust(iegad::io::recv_end(clnt, errcode), MSG_KEY));
@@ -56,7 +56,7 @@ iegad::msg::recv_basic_msg(boost::asio::ip::tcp::socket & clnt, basic_msg & msgb
 
 
 int 
-iegad::msg::send_basic_msg(boost::asio::ip::tcp::socket & clnt, const basic_msg & msgbsc, 
+iegad::msg::send_basic_msg(boost::asio::ip::tcp::socket & clnt, const iegad::msg::basic_msg & msgbsc,
 					  boost::system::error_code & errcode)
 {
     std::string msg_str;
