@@ -62,6 +62,11 @@ namespace netc {
 	// ============================
 	virtual const  std::string call(const std::string & msgstr) = 0;
 
+
+    void close() {
+        this->clnt_.close();
+    }
+
     protected:
 	// ============================
 	// @用途 : 远程服务对象调用接口

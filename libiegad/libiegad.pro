@@ -12,15 +12,14 @@ SOURCES += src/common/iegad_log.cpp \
     src/sqlite/sqlite3.c \
     src/data/iegad_dbrow.cpp \
     src/data/iegad_dbtab.cpp \
-    src/sqlite/shell.c \
     src/nets/basic_proxy.cpp \
     src/nets/basic_svc.cpp \
     src/nets/tcp_mt_svr.cpp \
     src/nets/udp_puller.cpp \
     src/nets/udp_pusher.cpp \
-    src/test_server_main.cpp \
     src/msg/basic_msg.pb.cc \
-    src/msg/iegad_io_msg.cpp
+    src/msg/iegad_io_msg.cpp \
+    test_server/test_server_main.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -47,7 +46,8 @@ HEADERS += \
     src/nets/udp_puller.h \
     src/nets/udp_pusher.h \
     src/msg/basic_msg.pb.h \
-    src/msg/iegad_io_msg.h
+    src/msg/iegad_io_msg.h \
+    test_server/echo_svc.hpp
 
 INCLUDEPATH += ./src
 LIBS += -l dl

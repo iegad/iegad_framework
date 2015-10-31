@@ -9,7 +9,7 @@ iegad::io::recv_end(boost::asio::ip::tcp::socket & clnt,
     int n;
     char recv_buf[BUF_SIZE];
     std::string res;
-    char * p = recv_buf;
+    //char * p = recv_buf;
     do {
 	n = clnt.read_some(boost::asio::buffer(recv_buf), errcode);
 	if (errcode) {

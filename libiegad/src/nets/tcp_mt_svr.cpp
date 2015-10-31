@@ -130,12 +130,12 @@ iegad::nets::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_co
 	    // Q & A : 这里必需用两层判断, 不然线程在join的时候会出现错误!
 	    iERR << err_code.message() << std::endl;
 	}
-	return -1;
+        return -1;
     }
 
     // 设置超时
-    if (setsockopt(clnt.native(), SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout_, sizeof(int)) != 0) {
-	return -1;
+    if (setsockopt(clnt.native(), SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout_, sizeof(timeout_)) != 0) {
+        return -1;
     }
 
     // 关闭 NAGLE 算法

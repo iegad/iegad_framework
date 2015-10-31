@@ -192,7 +192,11 @@ namespace nets {
 	// 监听对象
 	ip::tcp::acceptor acptor_;
 	// 超时值 
+#ifdef WIN32
 	const int timeout_ = 5000;
+#else
+    const timeval timeout_ = {5, 0};
+#endif // WIN32
 
 
 	// 禁用
