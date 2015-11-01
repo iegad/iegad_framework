@@ -1,4 +1,4 @@
-#include "nets/basic_svc.h"
+﻿#include "nets/basic_svc.h"
 #include "common/iegad_string.h"
 
 
@@ -16,8 +16,8 @@ iegad::nets::basic_svc::regist_svc(const basic_svc_ptr & svc_obj, svc_map_t & sv
 {
     svc_map_t::iterator itor = svc_map.find(svc_obj->get_id());
     if (itor == svc_map.end()) {
-	svc_map[svc_obj->get_id()] = svc_obj;
-	return 0;
+        svc_map[svc_obj->get_id()] = svc_obj;
+        return 0;
     }
     return -1;
 }
@@ -45,7 +45,7 @@ iegad::nets::basic_svc::_return(boost::asio::ip::tcp::socket & clnt, const char 
 	boost::asio::buffer(iegad::string::en_cust(sendstr, MSG_KEY)), 0, 
 	errcode);
     if (errcode || n != rzt_size) {
-	return -1;
+        return -1;
     }
     return n;
 }

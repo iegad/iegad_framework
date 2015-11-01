@@ -42,7 +42,7 @@ void test_func()
 
 
 int
-main()
+main(int argc, char * argv[])
 {
     std::clock_t bgn, end;
     std::vector<std::thread> threads;

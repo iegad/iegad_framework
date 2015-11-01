@@ -19,7 +19,8 @@ SOURCES += src/common/iegad_log.cpp \
     src/nets/udp_pusher.cpp \
     src/msg/basic_msg.pb.cc \
     src/msg/iegad_io_msg.cpp \
-    test_server/test_server_main.cpp
+    test_server/test_server_main.cpp \
+    src/redis/iegad_redis.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
@@ -47,7 +48,8 @@ HEADERS += \
     src/nets/udp_pusher.h \
     src/msg/basic_msg.pb.h \
     src/msg/iegad_io_msg.h \
-    test_server/echo_svc.hpp
+    test_server/echo_svc.hpp \
+    src/redis/iegad_redis.h
 
 INCLUDEPATH += ./src
 LIBS += -l dl
@@ -146,3 +148,16 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../..
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/protobuf.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/protobuf.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libprotobuf.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/third_party/lib/release/release/ -lhiredis
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/third_party/lib/release/debug/ -lhiredis
+else:unix: LIBS += -L$$PWD/third_party/lib/release/ -lhiredis
+
+INCLUDEPATH += $$PWD/third_party/include/redis
+DEPENDPATH += $$PWD/third_party/include/redis
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/release/libhiredis.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/debug/libhiredis.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/release/hiredis.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/debug/hiredis.lib
+else:unix: PRE_TARGETDEPS += $$PWD/third_party/lib/release/libhiredis.a
