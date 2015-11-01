@@ -55,109 +55,45 @@ INCLUDEPATH += ./src
 LIBS += -l dl
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lboost_system-gcc48-mt-1_59
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lboost_system-gcc48-mt-1_59
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lboost_system-gcc48-mt-1_59
+LIBS += -L/usr/local/lib/ -lboost_system-gcc48-mt-1_59.a
 
-INCLUDEPATH += $$PWD/../../../../usr/local/include/boost-1_59
-DEPENDPATH += $$PWD/../../../../usr/local/include/boost-1_59
+INCLUDEPATH += /usr/local/include/boost-1_59
+DEPENDPATH += /usr/local/include/boost-1_59
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libboost_system-gcc48-mt-1_59.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libboost_system-gcc48-mt-1_59.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/boost_system-gcc48-mt-1_59.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/boost_system-gcc48-mt-1_59.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libboost_system-gcc48-mt-1_59.a
+PRE_TARGETDEPS += /usr/local/lib/libboost_system-gcc48-mt-1_59.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lglog
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lglog
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lglog
+LIBS += -L/usr/local/lib/ -lglog
 
-INCLUDEPATH += $$PWD/../../../../usr/local/include
-DEPENDPATH += $$PWD/../../../../usr/local/include
+INCLUDEPATH += /usr/local/include
+DEPENDPATH += /usr/local/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libglog.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libglog.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/glog.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/glog.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libglog.a
+PRE_TARGETDEPS += /usr/local/lib/libglog.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lgtest
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lgtest
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lgtest
+LIBS += -L/usr/local/lib/ -lgtest
 
-INCLUDEPATH += $$PWD/../../../../usr/local/include
-DEPENDPATH += $$PWD/../../../../usr/local/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libgtest.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libgtest.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/gtest.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/gtest.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libgtest.a
+PRE_TARGETDEPS += /usr/local/lib/libgtest.a
+PRE_TARGETDEPS += /usr/local/lib/libboost_locale-gcc48-mt-1_59.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lboost_system-gcc48-mt-1_59
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lboost_system-gcc48-mt-1_59
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lboost_system-gcc48-mt-1_59
 
-INCLUDEPATH += $$PWD/../../../../usr/local/include/boost-1_59
-DEPENDPATH += $$PWD/../../../../usr/local/include/boost-1_59
+LIBS += -L/usr/local/lib/ -lglog
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libboost_system-gcc48-mt-1_59.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libboost_system-gcc48-mt-1_59.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/boost_system-gcc48-mt-1_59.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/boost_system-gcc48-mt-1_59.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libboost_system-gcc48-mt-1_59.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lboost_locale-gcc48-mt-1_59
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lboost_locale-gcc48-mt-1_59
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lboost_locale-gcc48-mt-1_59
-
-INCLUDEPATH += $$PWD/../../../../usr/local/include/boost-1_59
-DEPENDPATH += $$PWD/../../../../usr/local/include/boost-1_59
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libboost_locale-gcc48-mt-1_59.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libboost_locale-gcc48-mt-1_59.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/boost_locale-gcc48-mt-1_59.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/boost_locale-gcc48-mt-1_59.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libboost_locale-gcc48-mt-1_59.a
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lglog
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lglog
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lglog
-
-INCLUDEPATH += $$PWD/../../../../usr/local/include
-DEPENDPATH += $$PWD/../../../../usr/local/include
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libglog.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libglog.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/glog.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/glog.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libglog.a
+PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libglog.a
 
 DISTFILES += \
     src/msg/basic_msg.proto
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/release/ -lprotobuf
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/local/lib/debug/ -lprotobuf
-else:unix: LIBS += -L$$PWD/../../../../usr/local/lib/ -lprotobuf
+LIBS += -L/usr/local/lib/ -lprotobuf
 
-INCLUDEPATH += $$PWD/../../../../usr/local/include/google
-DEPENDPATH += $$PWD/../../../../usr/local/include/google
+INCLUDEPATH += /usr/local/include/google
+DEPENDPATH += /usr/local/include/google
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/libprotobuf.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/libprotobuf.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/release/protobuf.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/debug/protobuf.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libprotobuf.a
+PRE_TARGETDEPS += /usr/local/lib/libprotobuf.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/third_party/lib/release/release/ -lhiredis
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/third_party/lib/release/debug/ -lhiredis
-else:unix: LIBS += -L$$PWD/third_party/lib/release/ -lhiredis
+LIBS += -L$$PWD/third_party/lib/release/ -lhiredis
 
 INCLUDEPATH += $$PWD/third_party/include/redis
 DEPENDPATH += $$PWD/third_party/include/redis
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/release/libhiredis.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/debug/libhiredis.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/release/hiredis.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/third_party/lib/release/debug/hiredis.lib
-else:unix: PRE_TARGETDEPS += $$PWD/third_party/lib/release/libhiredis.a
+PRE_TARGETDEPS += $$PWD/third_party/lib/release/libhiredis.a
