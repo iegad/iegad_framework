@@ -24,6 +24,9 @@
     <ClCompile Include="..\src\common\iegad_md5.cpp">
       <Filter>security</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\common\iegad_scheduler.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\iegad_log.h">
@@ -42,5 +45,14 @@
       <Filter>security</Filter>
     </ClInclude>
     <ClInclude Include="..\src\iegad_define.h" />
+    <ClInclude Include="..\src\common\iegad_singleton.hpp">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\iegad_map.hpp">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\iegad_scheduler.h">
+      <Filter>tools</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
