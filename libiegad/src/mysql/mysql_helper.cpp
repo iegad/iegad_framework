@@ -72,6 +72,10 @@ iegad::mysql::mysql_helper::open(const std::string & host, unsigned int port,
 {
     lock_t locker(mtx_);
 
+    if (open_flag_) {
+	return 0;
+    }
+
     if (mysql_real_connect(&conn_, host.c_str(),
 	usr.c_str(), pwd.c_str(),
 	db.c_str(), port, nullptr, 0) == nullptr) {

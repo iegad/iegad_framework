@@ -13,14 +13,13 @@
   <ItemGroup>
     <ClCompile Include="..\src\common\iegad_log.cpp" />
     <ClCompile Include="..\src\common\iegad_md5.cpp" />
-    <ClCompile Include="..\src\common\iegad_scheduler.cpp" />
     <ClCompile Include="..\src\common\iegad_string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\iegad_log.h" />
     <ClInclude Include="..\src\common\iegad_map.hpp" />
     <ClInclude Include="..\src\common\iegad_md5.h" />
-    <ClInclude Include="..\src\common\iegad_scheduler.h" />
+    <ClInclude Include="..\src\common\iegad_scheduler.hpp" />
     <ClInclude Include="..\src\common\iegad_singleton.hpp" />
     <ClInclude Include="..\src\common\iegad_string.h" />
     <ClInclude Include="..\src\common\job_queue.hpp" />
