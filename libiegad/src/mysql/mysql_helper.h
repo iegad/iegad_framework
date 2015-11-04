@@ -15,10 +15,12 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
+// --2015-11-04	--iegad		    1, 取消日志.
+//							    2, 将内置MYSQL指针, 换成对象.
+//							    3, 添加 error 信息
 
 
 #ifdef WIN32
-
 #include <windows.h>
 #endif // WIN32
 
@@ -68,7 +70,7 @@ namespace mysql {
 	// @pwd : 密码
 	// @db : 数据库名称
 	// @charset : 字符集
-	// @返回值 : 成功连接返回0, 否则返回 -1;
+	// @返回值 : 成功连接返回0, 否则返回 errno;
 	// ============================
 	int open(const std::string & host, unsigned int port,
 	    const std::string & usr, const std::string & pwd,
@@ -78,7 +80,7 @@ namespace mysql {
 	// ============================
 	// @用途 : 执行DML操作
 	// @sqlstr : DML语句
-	// @返回值 : 成功, 返回受影响的行数, 否则返回-1;
+	// @返回值 : 成功, 返回受影响的行数, 否则返回 errno;
 	// ============================
 	int exec(const std::string & sqlstr);
 
@@ -86,7 +88,7 @@ namespace mysql {
 	// ============================
 	// @用途 : 执行DML事务操作
 	// @sqlque : 需要执行的秘有DML语句
-	// @返回值 : 成功, 返回受影响的行数, 否则返回-1;
+	// @返回值 : 成功, 返回受影响的行数, 否则返回 errno;
 	// ============================
 	int exec_trans(std::queue<std::string> & sqlque);
 
@@ -95,7 +97,7 @@ namespace mysql {
 	// @用途 : 执行查询操作, 并填充 数据表tab
 	// @sqlstr : DQL语句
 	// @tab : 用来保存数据的 数据表智能指针
-	// @返回值 : 成功返回0, 否则返回-1;
+	// @返回值 : 成功返回0, 否则返回 errno;
 	// ============================
 	int query(const std::string & sqlstr, iegad::data::db_tab & tab);
 
@@ -103,7 +105,7 @@ namespace mysql {
 	// ============================
 	// @用途 : 执行存储过程
 	// @sqlstr : 存储过程调用语句
-	// @返回值 : 成功返回0, 否则返回-1;
+	// @返回值 : 成功返回0, 否则返回 errno;
 	// @PS : 这里返回成功只是说明 MySQL API 调用成功, 
 	//	    并不代表存储过程本身执行成功;
 	// ============================
@@ -114,23 +116,41 @@ namespace mysql {
 	// @用途 : 执行存储过程
 	// @sqlstr : 存储过程调用语句
 	// @out_param : 用来接收输出参数
-	// @返回值 : 成功返回0, 否则返回-1;
+	// @返回值 : 成功返回0, 否则返回 errno;
 	// ============================
 	int call_proc(const std::string & sqlstr, std::vector<std::string> & out_param);
 
 
 	// ============================
-	// @用途 : 关闭mysql连接
+	// @用途 : 关闭 mysql 连接
 	// @返回值 : void
 	// ============================
 	void close();
 
-    private:
-	// MYSQL 操作句柄
-	MYSQL * conn_;
-	// 操作锁
-	std::mutex mtx_;
+	// ============================
+	// @用途 : 返回最后一次出错的 errstr
+	// @返回值 : errstr
+	// ============================
+	const std::string & errmsg() const;
 
+
+    private:
+	// ============================
+	// @用途 : 记录 errstr 并返回错误码.
+	// @返回值 : 错误码.
+	// @PS : 为了区别 错误码 和 受影响的行数, 错误码统一为负数.
+	// ============================
+	int _error();
+
+
+	// 状态标志
+	bool open_flag_;
+	// 操作锁
+	mutable std::mutex mtx_;
+	// 最后错误信息
+	std::string errstr_;
+	// MYSQL 操作句柄
+	MYSQL conn_;
 
 
 	// 禁用

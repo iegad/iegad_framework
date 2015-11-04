@@ -1,9 +1,15 @@
 ﻿#include "sqlite_helper.h"
 
 
+iegad::sqlite::sqlite_helper::sqlite_helper()
+    : open_flag_(false), conn_(nullptr)
+{}
+
+
 iegad::sqlite::sqlite_helper::~sqlite_helper()
 {
-    if (opened_) {
+    lock_t lock(mtx_);
+    if (open_flag_) {
 	this->close();
     }
 }
@@ -12,9 +18,16 @@ iegad::sqlite::sqlite_helper::~sqlite_helper()
 int 
 iegad::sqlite::sqlite_helper::exec(const std::string & sqlstr)
 {
+    lock_t lock(mtx_);
+
+    if (!open_flag_) {
+	return -1;
+    }
+
     char * err;
     if (sqlite3_exec(conn_, sqlstr.c_str(), nullptr, nullptr, &err) != SQLITE_OK) {
 	errmsg_ = err;
+	return -sqlite3_errcode(conn_);
     }
     return 0;
 }
@@ -23,28 +36,38 @@ iegad::sqlite::sqlite_helper::exec(const std::string & sqlstr)
 int 
 iegad::sqlite::sqlite_helper::exec_trans(const std::vector<std::string> & sqlvct)
 {
-    char * err = nullptr;
-    if (sqlite3_exec(conn_, "BEGIN", nullptr, nullptr, &err) != SQLITE_OK) {
-	errmsg_ = err;
+    lock_t lock(mtx_);
+
+    if (!open_flag_) {
+	return -1;
     }
 
+    char * err = nullptr;
+    // step 1 : transaction begin;
+    if (sqlite3_exec(conn_, "BEGIN", nullptr, nullptr, &err) != SQLITE_OK) {
+	errmsg_ = err;
+	return -sqlite3_errcode(conn_);
+    }
+    // step 2 : execute the sqlcmds;
     for (int i = 0, n = sqlvct.size(); i < n; i++) {
 	if (sqlite3_exec(conn_, sqlvct[i].c_str(), nullptr, nullptr, &err) != SQLITE_OK) {
 	    errmsg_ = err;
 	    break;
 	}
     }
-
+    // step 3 : test err;
     if (err == nullptr) {
+	// no err commit;
 	if (sqlite3_exec(conn_, "COMMIT", nullptr, nullptr, &err) != SQLITE_OK) {
 	    errmsg_ = err;
-	    return -1;
+	    return -sqlite3_errcode(conn_);
 	}
 	return sqlvct.size();
     }
     else {
+	// err rollback;
 	sqlite3_exec(conn_, "ROLLBACK", nullptr, nullptr, &err);
-	return -1;
+	return -sqlite3_errcode(conn_);
     }
 }
 
@@ -52,19 +75,28 @@ iegad::sqlite::sqlite_helper::exec_trans(const std::vector<std::string> & sqlvct
 void 
 iegad::sqlite::sqlite_helper::close()
 {
-    sqlite3_close(conn_);
-    opened_ = false;
+    lock_t lock(mtx_);
+    if (open_flag_) {
+	sqlite3_close(conn_);
+	open_flag_ = false;
+    }
 }
 
 
 int 
 iegad::sqlite::sqlite_helper::open(const std::string &filename)
 {
-    if (sqlite3_open(filename.c_str(), &conn_) != SQLITE_OK) {
-	opened_ = false;
-	return -1;
+    lock_t lock(mtx_);
+
+    if (open_flag_) {
+	return 0;
     }
-    opened_ = true;
+
+    if (sqlite3_open(filename.c_str(), &conn_) != SQLITE_OK) {
+	open_flag_ = false;
+	return -sqlite3_errcode(conn_);
+    }
+    open_flag_ = true;
     return 0;
 }
 
@@ -72,11 +104,18 @@ iegad::sqlite::sqlite_helper::open(const std::string &filename)
 int 
 iegad::sqlite::sqlite_helper::query(const std::string & sqlstr, iegad::data::db_tab & tab)
 {
+    lock_t lock(mtx_);
+
+    if (!open_flag_) {
+	return -1;
+    }
+
     sqlite3_stmt * stmt = nullptr;
     int cn, rn;
+
     if (sqlite3_prepare(conn_, sqlstr.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
 	errmsg_ = sqlite3_errmsg(conn_);
-	return -1;
+	return -sqlite3_errcode(conn_);
     }
 
     cn = sqlite3_column_count(stmt);
@@ -96,13 +135,17 @@ iegad::sqlite::sqlite_helper::query(const std::string & sqlstr, iegad::data::db_
 	else {
 	    sqlite3_finalize(stmt);
 	    errmsg_ = sqlite3_errmsg(conn_);
-	    return -1;
+	    return -sqlite3_errcode(conn_);
 	}
     }
     return 0;
 }
 
-const std::string iegad::sqlite::sqlite_helper::last_errmsg()
+const std::string &
+iegad::sqlite::sqlite_helper::errmsg() const
 {
+    lock_t lock(mtx_);
     return errmsg_;
 }
+
+
