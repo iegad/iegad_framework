@@ -35,7 +35,7 @@
 #endif // WIN32
 
 
-// 系统默认字符集
+// 默认字符集
 #define CHARSET_DEFAULT			    "GBK"
 
 

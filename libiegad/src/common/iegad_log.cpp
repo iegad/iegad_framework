@@ -16,7 +16,13 @@ iegad::tools::_LOG::_LOG(char * argv0)
     // set log file max size 100M;
     FLAGS_max_log_size = 100;
     //init charset;
-    std::locale::global(std::locale("zh_CN.UTF-8"));
+
+#ifdef WIN32 // for win
+    const char * charset = "chs";
+#else // for centOS 7
+    const char * charset = "zh_CN.UTF-8";
+#endif // WIN32
+    std::locale::global(std::locale(charset));
 }
 
 

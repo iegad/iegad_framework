@@ -48,7 +48,7 @@
     <ClInclude Include="..\src\common\iegad_map.hpp">
       <Filter>tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\common\iegad_scheduler.hpp">
+    <ClInclude Include="..\src\common\iegad_timer.hpp">
       <Filter>tools</Filter>
     </ClInclude>
   </ItemGroup>

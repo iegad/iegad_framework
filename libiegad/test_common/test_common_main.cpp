@@ -2,9 +2,13 @@
 #include <boost/locale.hpp>
 
 
-#define STRING_TEST	1
-#define JOB_TEST		0
-#define LOG_TEST		0
+#define STRING_TEST		1
+#define JOB_TEST			1
+#define LOG_TEST			1
+#define SINGLETON_TEST	1
+#define TIMER_TEST			1
+#define SAFE_MAP_TEST		1
+
 
 
 #ifdef WIN32
@@ -48,6 +52,20 @@ std::string TEST_STR[] = {
 #endif
 
 
+#if (SINGLETON_TEST == 1)
+#include "singleton_test.hpp"
+#endif
+
+
+#if (TIMER_TEST == 1)
+#include "timer_test.hpp"
+#endif
+
+
+#if (SAFE_MAP_TEST == 1)
+#include "safe_map_test.hpp"
+#endif
+
 
 int 
 main(int argc, char *argv[])
@@ -57,6 +75,7 @@ main(int argc, char *argv[])
     RUN_ALL_TESTS();
 #endif // #if (STRING_TEST == 1)
 
+
 #if (JOB_TEST == 1) // 任务队列-工作模型测试
     job_test jt(TEST_STR, 13);
     std::cout << "/* ************************************************ */" << std::endl;
@@ -64,12 +83,23 @@ main(int argc, char *argv[])
     std::cout << "/* ************************************************ */" << std::endl;
 #endif // #if (JOB_TEST == 1)
 
+
 #if (LOG_TEST == 1) // 日志测试
     log_test test(argv[0]);
     iWARN << "This is a Warnning message" << std::endl;
     iERR << "This is a Error message" << std::endl;
     iINFO << "This is a Info message" << std::endl;
-#endif
+#endif // #if (LOG_TEST == 1) 
+
+
+#if (SINGLETON_TEST == 1) // 线程安全的单例测试
+    singleton_test();
+#endif // #if (SINGLETON_TEST == 1)
+
+
+#if (TIMER_TEST == 1) // 定时器测试
+    timer_test("2015-11-07 13:30:00");
+#endif // #if (SINGLETON_TEST == 1)
 
     std::cout << "test done...\npress<Enter> to exit.";
     std::cin.get();

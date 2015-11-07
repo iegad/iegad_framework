@@ -19,7 +19,7 @@
     <ClInclude Include="..\src\common\iegad_log.h" />
     <ClInclude Include="..\src\common\iegad_map.hpp" />
     <ClInclude Include="..\src\common\iegad_md5.h" />
-    <ClInclude Include="..\src\common\iegad_scheduler.hpp" />
+    <ClInclude Include="..\src\common\iegad_timer.hpp" />
     <ClInclude Include="..\src\common\iegad_singleton.hpp" />
     <ClInclude Include="..\src\common\iegad_string.h" />
     <ClInclude Include="..\src\common\job_queue.hpp" />

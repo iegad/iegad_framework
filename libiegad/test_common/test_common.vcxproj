@@ -87,7 +87,10 @@
   <ItemGroup>
     <ClInclude Include="job_test.hpp" />
     <ClInclude Include="log_test.hpp" />
+    <ClInclude Include="safe_map_test.hpp" />
+    <ClInclude Include="singleton_test.hpp" />
     <ClInclude Include="string_test.hpp" />
+    <ClInclude Include="timer_test.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
