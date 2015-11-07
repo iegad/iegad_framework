@@ -7,7 +7,7 @@ CONFIG += C++11
 SOURCES += src/common/iegad_log.cpp \
     src/common/iegad_md5.cpp \
     src/common/iegad_string.cpp \
-    #test_common/test_common_main.cpp \
+    test_common/test_common_main.cpp \
     src/sqlite/sqlite_helper.cpp \
     src/sqlite/sqlite3.c \
     src/data/iegad_dbrow.cpp \
@@ -19,7 +19,7 @@ SOURCES += src/common/iegad_log.cpp \
     src/nets/udp_pusher.cpp \
     src/msg/basic_msg.pb.cc \
     src/msg/iegad_io_msg.cpp \
-    test_server/test_server_main.cpp \
+    #test_server/test_server_main.cpp \
     src/redis/iegad_redis.cpp
 
 include(deployment.pri)
@@ -49,51 +49,65 @@ HEADERS += \
     src/msg/basic_msg.pb.h \
     src/msg/iegad_io_msg.h \
     test_server/echo_svc.hpp \
-    src/redis/iegad_redis.h
+    src/redis/iegad_redis.h \
+    src/common/iegad_map.hpp \
+    src/common/iegad_singleton.hpp \
+    src/common/iegad_timer.hpp
 
 INCLUDEPATH += ./src
+
+
 LIBS += -l dl
+LIBS += -L/usr/local/lib/ -lglog
+LIBS += -L/usr/local/lib/ -lgtest
+LIBS += -L/usr/local/lib/ -lprotobuf
+LIBS += -L/usr/local/lib/ -lboost_system-gcc48-mt-s-1_59
+LIBS += -L/usr/local/lib/ -lboost_locale-gcc48-mt-s-1_59
+LIBS += -L/usr/local/lib/ -lboost_thread-gcc48-mt-s-1_59
+LIBS += -L$$PWD/third_party/lib/release/ -lhiredis
 
-
-LIBS += -L/usr/local/lib/ -lboost_system-gcc48-mt-1_59.a
 
 INCLUDEPATH += /usr/local/include/boost-1_59
-DEPENDPATH += /usr/local/include/boost-1_59
-
-PRE_TARGETDEPS += /usr/local/lib/libboost_system-gcc48-mt-1_59.a
-
-LIBS += -L/usr/local/lib/ -lglog
-
 INCLUDEPATH += /usr/local/include
+INCLUDEPATH += $$PWD/third_party/include/redis
+INCLUDEPATH += /usr/local/include/google
+
+
+DEPENDPATH += /usr/local/include/boost-1_59
 DEPENDPATH += /usr/local/include
+DEPENDPATH += /usr/local/include/google
+DEPENDPATH += $$PWD/third_party/include/redis
 
+
+PRE_TARGETDEPS += /usr/local/lib/libboost_locale-gcc48-mt-s-1_59.a
+PRE_TARGETDEPS += /usr/local/lib/libboost_system-gcc48-mt-s-1_59.a
+PRE_TARGETDEPS += /usr/local/lib/libboost_thread-gcc48-mt-s-1_59.a
 PRE_TARGETDEPS += /usr/local/lib/libglog.a
-
-LIBS += -L/usr/local/lib/ -lgtest
-
-
 PRE_TARGETDEPS += /usr/local/lib/libgtest.a
-PRE_TARGETDEPS += /usr/local/lib/libboost_locale-gcc48-mt-1_59.a
+PRE_TARGETDEPS += /usr/local/lib/libprotobuf.a
+PRE_TARGETDEPS += $$PWD/third_party/lib/release/libhiredis.a
 
-
-LIBS += -L/usr/local/lib/ -lglog
-
-
-PRE_TARGETDEPS += $$PWD/../../../../usr/local/lib/libglog.a
 
 DISTFILES += \
     src/msg/basic_msg.proto
 
-LIBS += -L/usr/local/lib/ -lprotobuf
 
-INCLUDEPATH += /usr/local/include/google
-DEPENDPATH += /usr/local/include/google
 
-PRE_TARGETDEPS += /usr/local/lib/libprotobuf.a
 
-LIBS += -L$$PWD/third_party/lib/release/ -lhiredis
 
-INCLUDEPATH += $$PWD/third_party/include/redis
-DEPENDPATH += $$PWD/third_party/include/redis
 
-PRE_TARGETDEPS += $$PWD/third_party/lib/release/libhiredis.a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

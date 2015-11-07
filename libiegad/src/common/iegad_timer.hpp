@@ -129,7 +129,7 @@ namespace tools {
     template <typename T>
     void iegad::tools::timer<T>::stop()
     {
-	stop_flag_ = true;
+        stop_flag_ = true;
     }
 
 
@@ -137,27 +137,27 @@ namespace tools {
     void 
     iegad::tools::timer<T>::start(const std::string & timestr /*= ""*/)
     {
-	if (timestr != "") {
-	    auto tp = this->_mk_timepoint(timestr);
-	    std::this_thread::sleep_until(tp);
-	}
+        if (timestr != "") {
+            auto tp = this->_mk_timepoint(timestr);
+            std::this_thread::sleep_until(tp);
+        }
 
-	int i = 0;
-	while (true) {
-	    if ((n_ != -1 && i >= n_) || stop_flag_) {
-		break;
-	    }
+        int i = 0;
+        while (true) {
+            if ((n_ != -1 && i >= n_) || stop_flag_) {
+                break;
+            }
 
-	    if (is_ab_time_) {
-		std::this_thread::sleep_until(tp_);
-		tp_ += std::chrono::minutes(ms_);
-	    }
-	    else {
-		std::this_thread::sleep_for(std::chrono::milliseconds(ms_));
-	    }
-	    func_(param_);
-	    i++;
-	}
+            if (is_ab_time_) {
+                std::this_thread::sleep_until(tp_);
+                tp_ += std::chrono::minutes(ms_);
+            }
+            else {
+                std::this_thread::sleep_for(std::chrono::milliseconds(ms_));
+            }
+            func_(param_);
+            i++;
+        }
     }
 
 
@@ -171,7 +171,7 @@ namespace tools {
     iegad::tools::timer<T>::timer(func_t func, T & param, const std::string & timestr, int ms, int n /*= -1*/)
 	: stop_flag_(false), is_ab_time_(true), n_(n), ms_(ms), func_(func), param_(param)
     {
-	tp_ = this->_mk_timepoint(timestr);
+        tp_ = this->_mk_timepoint(timestr);
     }
 
 
@@ -179,18 +179,18 @@ namespace tools {
     std::chrono::time_point<std::chrono::system_clock>
     iegad::tools::timer<T>::_mk_timepoint(const std::string & timestr)
     {
-	std::tm abtm;
-	memset(&abtm, 0, sizeof(abtm));
-	int year, mon, day, hour, min, sec;
-	sscanf(timestr.c_str(), "%04d-%02d-%02d %02d:%02d:%02d", &year, &mon, &day, &hour, &min, &sec);
-	assert(this->_check_datetime(year, mon, day, hour, min, sec));
-	abtm.tm_year = year - 1900;
-	abtm.tm_mon = mon - 1;
-	abtm.tm_mday = day;
-	abtm.tm_hour = hour;
-	abtm.tm_min = min;
-	abtm.tm_sec = sec;
-	return std::chrono::system_clock::from_time_t(mktime(&abtm));;
+        std::tm abtm;
+        memset(&abtm, 0, sizeof(abtm));
+        int year, mon, day, hour, min, sec;
+        sscanf(timestr.c_str(), "%04d-%02d-%02d %02d:%02d:%02d", &year, &mon, &day, &hour, &min, &sec);
+        assert(this->_check_datetime(year, mon, day, hour, min, sec));
+        abtm.tm_year = year - 1900;
+        abtm.tm_mon = mon - 1;
+        abtm.tm_mday = day;
+        abtm.tm_hour = hour;
+        abtm.tm_min = min;
+        abtm.tm_sec = sec;
+        return std::chrono::system_clock::from_time_t(mktime(&abtm));;
     }
 
 
@@ -198,70 +198,72 @@ namespace tools {
     bool 
     iegad::tools::timer<T>::_check_datetime(int year, int mon, int day, int hour, int min, int sec)
     {
-	do 
-	{
-	    if (year < 1900 || year > 2400) {
-	    // 检查 年份
-		break;
-	    }
+        do
+        {
+            if (year < 1900 || year > 2400) {
+            // 检查 年份
+                break;
+            }
 
-	    if (mon < 1 || mon > 12) {
-	    // 检查 月份
-		break;
-	    }
+            if (mon < 1 || mon > 12) {
+            // 检查 月份
+                break;
+            }
 
-	    switch (mon) {
-	    // 检查 天
-	    case 1:
-	    case 3:
-	    case 5:
-	    case 7:
-	    case 8:
-	    case 10:
-	    case 12: // 大月 31天
-		if (day < 1 || day > 31) {
-		    return false;
-		} break;
-	    case 4:
-	    case 6:
-	    case 9:
-	    case 11: // 小月 30天
-		if (day < 1 || day > 30) {
-		    return false;
-		} break;
-	    case 2: // 2月
-		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-		// 闰年 29天
-		    if (day < 1 || day > 29) {
-			return false;
-		    }
-		}
-		else {
-		// 平年 28天
-		    if (day < 1 || day > 28) {
-			return false;
-		    }
-		} break;
-	    } // switch (mon);
+            switch (mon) {
+            // 检查 天
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12: // 大月 31天
+                if (day < 1 || day > 31) {
+                    return false;
+                } break;
 
-	    if (hour < 0 || hour > 23) {
-	    // 检查 时
-		break;
-	    }
+            case 4:
+            case 6:
+            case 9:
+            case 11: // 小月 30天
+                if (day < 1 || day > 30) {
+                    return false;
+                } break;
 
-	    if (min < 0 || min > 59) {
-	    // 检查 分
-		break;
-	    }
+            case 2: // 2月
+                if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                // 闰年 29天
+                    if (day < 1 || day > 29) {
+                        return false;
+                    }
+                }
+                else {
+                // 平年 28天
+                    if (day < 1 || day > 28) {
+                        return false;
+                    }
+                } break;
+            } // switch (mon);
 
-	    if (sec < 0 || sec > 59) {
-	    // 检查 秒
-		break;
-	    }
+            if (hour < 0 || hour > 23) {
+            // 检查 时
+                break;
+            }
 
-	    return true;
-	} while (false);
-	return false;
+            if (min < 0 || min > 59) {
+            // 检查 分
+                break;
+            }
+
+            if (sec < 0 || sec > 59) {
+            // 检查 秒
+                break;
+            }
+
+            return true;
+        } while (false);
+        return false;
     }
 
 

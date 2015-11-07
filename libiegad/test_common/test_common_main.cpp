@@ -98,7 +98,7 @@ main(int argc, char *argv[])
 
 
 #if (TIMER_TEST == 1) // ¶¨Ê±Æ÷²âÊÔ
-    timer_test("2015-11-07 13:30:00");
+    timer_test("2015-11-07 18:42:00");
 #endif // #if (SINGLETON_TEST == 1)
 
     std::cout << "test done...\npress<Enter> to exit.";

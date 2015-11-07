@@ -23,15 +23,15 @@ iegad::string::split_vct(const std::string &src, const std::string & chs)
     int pos = 0, len = chs.length(), n = 0, index = 0;
     std::vector<std::string> res;
     while (true) {
-	index = src.find(chs, pos);
-	if (index == -1) {
-	    res.push_back(std::string(src, pos, src.length() - pos));
-	    break;
-	}
-	n = index - n;
-	res.push_back(std::string(src, pos, n));
-	pos = index + len;
-	n = pos;
+        index = src.find(chs, pos);
+        if (index == -1) {
+            res.push_back(std::string(src, pos, src.length() - pos));
+            break;
+        }
+        n = index - n;
+        res.push_back(std::string(src, pos, n));
+        pos = index + len;
+        n = pos;
     }
     return res;
 }
@@ -58,7 +58,7 @@ iegad::string::rtrim(const std::string &src)
 {
     int n = src.length() - 1;
     while (std::isspace(src[n])) {
-	n--;
+        n--;
     }
     std::string restr(src, 0, n + 1);
     return restr;
@@ -70,9 +70,9 @@ iegad::string::trim(const std::string &src, char chr)
 {
     std::string restr;
     for (int i = 0, n = src.length(); i < n; i++) {
-	if (src[i] == chr) {
-	    continue;
-	}
+        if (src[i] == chr) {
+            continue;
+        }
         restr.push_back(src[i]);
     }
     return restr;
@@ -84,10 +84,10 @@ iegad::string::trim(const std::string & src)
 {
     std::string restr;
     for (int i = 0, n = src.length(); i < n; i++) {
-	if (std::isspace(src[i])) {
-	    continue;
-	}
-	restr.push_back(src[i]);
+        if (std::isspace(src[i])) {
+            continue;
+        }
+        restr.push_back(src[i]);
     }
     return restr;
 }
@@ -97,8 +97,9 @@ const std::string
 iegad::string::ltrim(const std::string &src)
 {
     int rpos = 0;
-    while (std::isspace(src[rpos]))
+    while (std::isspace(src[rpos])) {
         rpos++;
+    }
     std::string restr(src, rpos, src.length() - rpos);
     return restr;
 }
@@ -110,12 +111,12 @@ iegad::string::replace(const std::string &src, const std::string & oldstr, const
     int pos = 0, len = oldstr.length();
     std::string restr(src);
     while (true) {
-	pos = restr.find(oldstr, pos);
-	if (pos == -1) {
-	    break;
-	}
-	restr.replace(pos, len, newstr);
-	pos++;
+        pos = restr.find(oldstr, pos);
+        if (pos == -1) {
+            break;
+        }
+        restr.replace(pos, len, newstr);
+        pos++;
     }
     return restr;
 }
@@ -125,8 +126,9 @@ int
 iegad::string::fstchr(const std::string &src, char chr)
 {
     for (int i = 0, n = src.length(); i < n; i++) {
-        if (src[i] == chr)
+        if (src[i] == chr) {
             return i;
+        }
     }
     return -1;
 }
@@ -136,8 +138,9 @@ int
 iegad::string::lstchr(const std::string &src, char chr)
 {
     for (int i = src.length() - 1; i >= 0; i--) {
-        if (src[i] == chr)
+        if (src[i] == chr) {
             return i;
+        }
     }
     return -1;
 }
@@ -147,8 +150,9 @@ const std::string
 iegad::string::to_upr(const std::string &src)
 {
     std::string restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++)
+    for (int i = 0, n = restr.length(); i < n; i++) {
         restr[i] = toupper(restr[i]);
+    }
     return restr;
 }
 
@@ -157,8 +161,9 @@ const std::string
 iegad::string::to_lwr(const std::string &src)
 {
     std::string restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++)
+    for (int i = 0, n = restr.length(); i < n; i++) {
         restr[i] = tolower(restr[i]);
+    }
     return restr;
 }
 
@@ -371,7 +376,7 @@ iegad::string::sha1(const std::string & src, std::vector<unsigned int> & digest)
     sha.process_bytes(src.c_str(), src.size());
     sha.get_digest(temp);
     for (int i = 0; i < 5; i++) {
-	digest.push_back(temp[i]);
+        digest.push_back(temp[i]);
     }
 }
 
@@ -387,7 +392,7 @@ iegad::string::base64_en(const std::string & src)
 	base64_en_itor(src.end()), std::ostream_iterator<char>(result));
     size_t equal_count = (3 - src.length() % 3) % 3;
     for (size_t i = 0; i < equal_count; i++) {
-	result.put('=');
+        result.put('=');
     }
     return result.str();
 }
@@ -420,7 +425,7 @@ iegad::string::en_cust(const std::string & src, char key)
 {
     std::string res;
     for (int i = 0, n = src.size(); i < n; i++) {
-	res.push_back(src[i] ^ key);
+        res.push_back(src[i] ^ key);
     }
     return res;
 }
@@ -439,7 +444,7 @@ iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
     std::string res = fmt, flag;
     for (int i = 0, n = parms.size(); i < n; i++) {
 	flag = "{" + iegad::string::to_str(i) + "}";
-	res = iegad::string::replace(res, flag, parms[i]);
+        res = iegad::string::replace(res, flag, parms[i]);
     }
     return res;
 }
@@ -450,11 +455,11 @@ iegad::string::find_str(const std::string & src, const std::string & substr, int
 {
     int pos = 0, n = 0, index = 0;
     while (true) {
-	pos = src.find(substr, index);
-	if (pos == -1 || ++n == ntime) {
-	    break;
-	}
-	index = pos + 1;
+        pos = src.find(substr, index);
+        if (pos == -1 || ++n == ntime) {
+            break;
+        }
+        index = pos + 1;
     }
     return pos;
 }
@@ -533,15 +538,15 @@ iegad::string::split_vct(const std::wstring &src, const std::wstring &chs)
     int pos = 0, len = chs.length(), n = 0, index = 0;
     std::vector<std::wstring> res;
     while (true) {
-    index = src.find(chs, pos);
-    if (index == -1) {
-        res.push_back(std::wstring(src, pos, src.length() - pos));
-        break;
-    }
-    n = index - n;
-    res.push_back(std::wstring(src, pos, n));
-    pos = index + len;
-    n = pos;
+        index = src.find(chs, pos);
+        if (index == -1) {
+            res.push_back(std::wstring(src, pos, src.length() - pos));
+            break;
+        }
+        n = index - n;
+        res.push_back(std::wstring(src, pos, n));
+        pos = index + len;
+        n = pos;
     }
     return std::move(res);
 }
@@ -569,7 +574,7 @@ iegad::string::rtrim(const std::wstring &src)
 {
     int n = src.length() - 1;
     while (std::iswspace(src[n])) {
-    n--;
+        n--;
     }
     std::wstring restr(src, 0, n + 1);
     return restr;
@@ -581,10 +586,10 @@ iegad::string::trim(const std::wstring &src)
 {
     std::wstring restr;
     for (int i = 0, n = src.length(); i < n; i++) {
-    if (std::iswspace(src[i])) {
-        continue;
-    }
-    restr.push_back(src[i]);
+        if (std::iswspace(src[i])) {
+            continue;
+        }
+        restr.push_back(src[i]);
     }
     return restr;
 }
@@ -595,9 +600,9 @@ iegad::string::trim(const std::wstring &src, wchar_t chr)
 {
     std::wstring restr;
     for (int i = 0, n = src.length(); i < n; i++) {
-    if (src[i] == chr) {
-        continue;
-    }
+        if (src[i] == chr) {
+            continue;
+        }
         restr.push_back(src[i]);
     }
     return restr;
@@ -608,8 +613,9 @@ const std::wstring
 iegad::string::ltrim(const std::wstring &src)
 {
     int rpos = 0;
-    while (std::iswspace(src[rpos]))
+    while (std::iswspace(src[rpos])) {
         rpos++;
+    }
     std::wstring restr(src, rpos, src.length() - rpos);
     return restr;
 }
@@ -621,12 +627,12 @@ iegad::string::replace(const std::wstring &src, const std::wstring &oldstr, cons
     int pos = 0, len = oldstr.length();
     std::wstring restr(src);
     while (true) {
-    pos = restr.find(oldstr, pos);
-    if (pos == -1) {
-        break;
-    }
-    restr.replace(pos, len, newstr);
-    pos++;
+        pos = restr.find(oldstr, pos);
+        if (pos == -1) {
+            break;
+        }
+        restr.replace(pos, len, newstr);
+        pos++;
     }
     return restr;
 }
@@ -636,8 +642,9 @@ int
 iegad::string::fstchr(const std::wstring &src, wchar_t chr)
 {
     for (int i = 0, n = src.length(); i < n; i++) {
-        if (src[i] == chr)
+        if (src[i] == chr) {
             return i;
+        }
     }
     return -1;
 }
@@ -647,8 +654,9 @@ int
 iegad::string::lstchr(const std::wstring &src, wchar_t chr)
 {
     for (int i = src.length() - 1; i >= 0; i--) {
-        if (src[i] == chr)
+        if (src[i] == chr) {
             return i;
+        }
     }
     return -1;
 }
@@ -659,11 +667,11 @@ iegad::string::find_str(const std::wstring &src, const std::wstring &substr, int
 {
     int pos = 0, n = 0, index = 0;
     while (true) {
-    pos = src.find(substr, index);
-    if (pos == -1 || ++n == ntime) {
-        break;
-    }
-    index = pos + 1;
+        pos = src.find(substr, index);
+        if (pos == -1 || ++n == ntime) {
+            break;
+        }
+        index = pos + 1;
     }
     return pos;
 }
@@ -707,8 +715,9 @@ const std::wstring
 iegad::string::to_upr(const std::wstring &src)
 {
     std::wstring restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++)
+    for (int i = 0, n = restr.length(); i < n; i++) {
         restr[i] = std::towupper(restr[i]);
+    }
     return restr;
 }
 
@@ -717,7 +726,8 @@ const std::wstring
 iegad::string::to_lwr(const std::wstring &src)
 {
     std::wstring restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++)
+    for (int i = 0, n = restr.length(); i < n; i++) {
         restr[i] = std::towlower(restr[i]);
+    }
     return restr;
 }
