@@ -8,7 +8,8 @@
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 多线程并发 自定义rpc 服务
+// @用途 : 多线程并发 自定义rpc 服务, 
+//		基于 google protocol buffer.
 // @PS : 该服务 使用方式为注册 服务方法, 提供 这些服务方法的类似rpc的调用
 // ============================
 //
@@ -56,21 +57,32 @@ namespace nets {
 	// ============================
 	// @用途 : 注册服务
 	// @svc : 派生自 basic_svc 的服务 对象指针
-	// @返回值 : 成功返回 0, 否则返回 -1;
+	// @返回值 : 成功返回 true, 否则返回 false;
 	// ============================
-	int regist_svc(basic_svc::basic_svc_ptr svc);
+	bool regist_svc(basic_svc::basic_svc_ptr svc);
 
 
 	// ============================
-	// @用途 : 注册服务
+	// @用途 : 执行 交互动作
 	// @clnt : 客户端
 	// @msgstr : 客户端发送的 字符串消息
 	// @返回值 : 成功返回 0, 否则返回 -1;
 	// ============================
-	virtual int _action(ip::tcp::socket & clnt, const std::string & msgstr);
+	virtual int _action(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff) override;
 
 
     private:
+	// ============================
+	// @用途 : 获取字符串消息
+	// @clnt : 客户端
+	// @recvbuff : 客户端缓冲区
+	// @err_code : 错误消息
+	// @返回值 : 成功返回 0, 否则返回 -1;
+	// ============================
+	const std::string _get_msgstr(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
+		boost::system::error_code & err_code);
+
+
 	// 服务方法映射散列表
 	map_t map_;
     }; // class tcp_mt_svc;

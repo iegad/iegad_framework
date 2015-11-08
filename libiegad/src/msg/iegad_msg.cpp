@@ -11,7 +11,10 @@ iegad::msg::recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf
     if (err_code) {
 	return ERR_STRING;
     }
-    std::string res(boost::asio::buffer_cast<const char *>(recvbuff.data()), n - 1);
+    
+    std::string res( // n - 1 : 表示丢弃 '\0'
+	boost::asio::buffer_cast<const char *>(recvbuff.data()), n - 1);
+    // 清除 缓冲区内所使用的数据
     recvbuff.consume(n);
     return res;
 }
@@ -30,6 +33,7 @@ int
 iegad::msg::send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
     boost::system::error_code & err_code)
 {
+    // msgstr.size() + 1 : 连同 '\0' 一起发送
     int n = clnt.write_some(boost::asio::buffer(msgstr.c_str(), msgstr.size() + 1), err_code);
     return err_code ? -1 : n;
 }
@@ -39,8 +43,7 @@ int
 iegad::msg::send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
     boost::system::error_code & err_code, char msg_key)
 {
-    std::string sendstr = iegad::string::en_cust(msgstr, msg_key);
-    return send_str(clnt, sendstr, err_code);
+    return send_str(clnt, iegad::string::en_cust(msgstr, msg_key), err_code);
 }
 
 

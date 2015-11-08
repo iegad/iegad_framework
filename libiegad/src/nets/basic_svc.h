@@ -10,6 +10,7 @@
 //
 // ============================
 // @用途 : 该服务基类, 是所有服务类对象的基类, 
+//		基于 google protocol buffer
 //		1. 统一调用接口
 //		2. 提供一些公共的函数
 // ============================
@@ -91,13 +92,12 @@ namespace nets {
 	// @用途 : 向tcp客户端 clnt 发送 消息 msg;
 	// @clnt : tcp 客户端
 	// @flag : 消息标志, basic_msg::msg_flag
-	// @msg : 子消息类型;
+	// @msg_dbstr : 子消息类型, 由google protocol buffer 所生成的消息, 并以经序列化成字符串
 	// @返回值, 发送成功返回0, 否则, 返回-1;
-	// @PS : 模板参数 __MSG_T 一定要是由google protocol buffer
-	//		所生成的msg对象类型.
 	// ============================
-	template <class __MSG_T>
-	int _send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg);
+	int _send_msg(boost::asio::ip::tcp::socket & clnt, int flag, 
+		const std::string & msg_dbstr,
+		boost::system::error_code & err_code);
 
 
 	// ============================
@@ -110,12 +110,13 @@ namespace nets {
 	// @PS : 为了提高通信从而添加该函数, 这样便可以
 	//		每次应答时, 都构建一个basic_msg对象;
 	// ============================
-	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size, boost::system::error_code & err_code);
+	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size, 
+		boost::system::error_code & err_code);
 
 
     private:
 	// 服务ID
-	int svc_id_;
+	const int svc_id_;
     }; // class basic_svc
 
 
@@ -128,28 +129,6 @@ namespace nets {
     {
         msg.Clear();
         return msg.ParseFromString(msgbdstr) ? 0 : -1;
-    }
-
-
-    template <class __MSG_T>
-    int iegad::nets::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg)
-    {
-        std::string msg_str;
-        boost::system::error_code errcode;
-
-        if (!msg.SerializeToString(&msg_str)) {
-            return -1;
-        }
-
-        iegad::msg::basic_msg msgbsc;
-	std::string msgstr;
-        msgbsc.set_msg_type(this->svc_id_);
-        msgbsc.set_msg_flag(flag);
-        msgbsc.set_msg_bdstr(msg_str);
-	if (msgbsc.SerializeToString(&msgstr)) {
-	    return iegad::msg::send_str(clnt, msgstr, errcode) == msgstr.size() + 1 ? 0 : -1;
-	}
-	return -1;
     }
 
 

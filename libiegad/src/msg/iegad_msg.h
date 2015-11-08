@@ -9,8 +9,7 @@
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 1. 基于 boost::asio 的封装来提供一个 简单的IO操作.
-//		 2. 对 msg 的操作封装.
+// @用途 : 1. 基于 boost::asio 的封装 以提供对 "字符串" 和 "二进制" 消息 收发操作.
 // ============================
 //
 // @修改记录:
@@ -27,15 +26,6 @@
 //  --2015-11-08	--iegad		-- 添加 加密 发送/接收 函数
 
 
-
-#ifdef WIN32
-
-#pragma comment(lib, "libprotoc.lib")
-#pragma comment(lib, "libprotobuf.lib")
-
-#endif // WIN32
-
-
 #include <boost/asio.hpp>
 #include <string>
 #include "iegad_define.h"
@@ -49,14 +39,15 @@ namespace msg {
     // @用途 : 从 客户端clnt 读取 字符串消息;
     // @clnt : tcp 客户端
     // @recvbuff : boost::asio::streambuf 缓冲区
-    // @err_code : 回传给调用者的 err_code
-    // @返回值 : 接收成功返回 客户端传送的字符串消息 , 否则返回 ERR_STRING;
+    // @err_code : 错误息信
+    // @返回值 : 接收成功返回 字符串消息 , 否则返回 ERR_STRING, 并置err_code;
     // ============================
     const std::string recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
 	boost::system::error_code & err_code);
 
     // ============================
     // @用途 : recv_str => 加密版
+    // @msg_key : 密钥
     // ============================
     const std::string recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
 	boost::system::error_code & err_code, char msg_key);
@@ -65,8 +56,8 @@ namespace msg {
     // ============================
     // @用途 : 向 客户端clnt 发送 字符串消息;
     // @clnt : tcp 客户端
-    // @msgstr : 需要发送的 字符串消息;
-    // @err_code : 回传给调用者的 err_code
+    // @msgstr : 字符串消息;
+    // @err_code : 错误息信
     // @返回值 : 成功发送返回 字符串消息长度, 否则返回 -1 并将 设置err_code;
     // ============================
     int send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
@@ -74,27 +65,28 @@ namespace msg {
 
     // ============================
     // @用途 : send_str => 加密版
+    // @msg_key : 密钥
     // ============================
     int send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
 	boost::system::error_code & err_code, char msg_key);
 
 
     // ============================
-    // @用途 : 接收 客户端clnt 发送的 文件, 并写到 指定的 filename文件
-    // @clnt : tcp 客户端
+    // @用途 : 接收 上传文件, 另存为 filename文件
+    // @clnt : 客户端
     // @filename : 文件完整路径 + 文件名
-    // @err_code : 回传给调用者的 err_code
-    // @返回值 : 成功发送返回 接收的文件长度 , 否则返回 -1, 并置err_code;
+    // @err_code : 错误息信
+    // @返回值 : 成功接收文件返回 所接收文件大小 , 否则返回 -1, 并置err_code;
     // ============================
     int recv_file(boost::asio::ip::tcp::socket & clnt, const std::string & filename, boost::system::error_code & err_code);
 
 
     // ============================
-    // @用途 : 向 客户端clnt 发送的 文件
-    // @clnt : tcp 客户端
+    // @用途 : 向客户端发送的文件
+    // @clnt : 客户端
     // @filename : 文件完整路径 + 文件名
-    // @err_code : 回传给调用者的 err_code
-    // @返回值 : 成功发送返回 发送的文件长度 , 否则, 返回 -1, 并置err_code;
+    // @err_code : 错误息信
+    // @返回值 : 成功发送文件返回 所发送文件大小 , 否则, 返回 -1, 并置err_code;
     // @PS : 当发送完文件之后, 服务端会关闭 发送 通道
     // ============================
     int send_file(boost::asio::ip::tcp::socket & clnt, const std::string & filename, boost::system::error_code & err_code);

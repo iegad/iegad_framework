@@ -10,8 +10,7 @@
 // ============================
 // @用途 :  该类为虚基类, 
 //		  作用是提供客户端调用 服务对象 的代理, 实现在了一个统一调用的接口.
-//		  代理的实现, 使用 重载 operator() 运算符,
-//		  让它使用起来更像是一个函数对象, 该类用作 客户端代理基类
+//		  基于 google protocol buffer
 // @PS : 客户端在建立 客户端代理 与 服务对象 的通信时, 应基于该类
 //		创建出一个适合自己的服务对象所对应的代理类
 // ============================
@@ -38,6 +37,7 @@ namespace netc {
 
     class basic_proxy {
     // 客户代理基类
+
     public:
 	// ============================
 	// @用途 : 构造函数
@@ -46,8 +46,7 @@ namespace netc {
 	// @PS : 经过测试, 如果host 传递为计算机名, 解析时, 会占用比较长的时间
 	//		所以, host 参数尽可能的使用 ip 地址.
 	// ============================
-	explicit basic_proxy(const std::string & host, const std::string & svc)
-	    : ios_(), clnt_(ios_), conn_flag_(false), host_(host), svc_(svc) {}
+	basic_proxy(const std::string & host, const std::string & svc);
 
 
 	// ============================
@@ -74,11 +73,15 @@ namespace netc {
 
     protected:
 	// ============================
-	// @用途 : 远程服务对象调用接口
-	// @param : 调用参数, 如果需要传递多个参数, 需要定义一个结构体来传参
+	// @用途 : 向服务端发送 basic_msg
+	// @msg_type : 消息类型
+	// @msg_flag : 消息标志
+	// @msg_dbstr : 消息字符串
+	// @err_code : 错误信息
 	// @返回值 : 成功发送返回0, 否则返回 -1.
 	// ============================
-	int _send_basic_msg(int msg_type, int msg_flag, const std::string & msg_dbstr);
+	int _send_basic_msg(int msg_type, int msg_flag, const std::string & msg_dbstr, 
+	    boost::system::error_code & err_code);
 
 
 	// ============================
@@ -87,7 +90,8 @@ namespace netc {
 	// @err_code : 发生错误时, 用来接收错误信息
 	// @返回值 : 成功返回0, 否则返回 -1.
 	// ============================
-	int _recv_basic_msg(iegad::msg::basic_msg & msgbsc, boost::system::error_code & err_code);
+	int _recv_basic_msg(iegad::msg::basic_msg & msgbsc, 
+	    boost::system::error_code & err_code);
 
 
 	// ============================
@@ -112,7 +116,7 @@ namespace netc {
 	boost::asio::ip::tcp::socket clnt_;
 
     private:
-	// 连接标记
+	// 连接标记, 表示是否建立过连接
 	bool conn_flag_;
 	// 服务端机器名, 或IP
 	std::string host_;

@@ -14,9 +14,9 @@ iegad::netc::basic_proxy::~basic_proxy()
 
 
 int 
-iegad::netc::basic_proxy::_send_basic_msg(int msg_type, int msg_flag, const std::string & msg_bdstr)
-{// func : send the request to the host;
-    boost::system::error_code err_code;
+iegad::netc::basic_proxy::_send_basic_msg(int msg_type, int msg_flag, const std::string & msg_bdstr, 
+    boost::system::error_code & err_code)
+{// func : send the request to the host;    
     iegad::msg::basic_msg msgbsc;
     std::string msgstr;
     msgbsc.set_msg_bdstr(msg_bdstr);
@@ -96,3 +96,9 @@ iegad::netc::basic_proxy::close()
     boost::system::error_code err_code;
     this->clnt_.close(err_code);
 }
+
+iegad::netc::basic_proxy::basic_proxy(const std::string & host, const std::string & svc)
+    : 
+    ios_(), clnt_(ios_), conn_flag_(false), host_(host), svc_(svc) 
+{}
+

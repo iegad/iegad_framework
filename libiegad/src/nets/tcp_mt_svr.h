@@ -40,21 +40,19 @@
 #include <mutex>
 #include <vector>
 #include <thread>
-#include <functional>
-
-
-#include "nets/basic_svc.h"
 
 
 namespace iegad {
 namespace nets {
 
 
-    using namespace boost::asio;
-
-
     class tcp_mt_svr {
     // 多线程并发服务器
+
+	enum {
+	// 监听队列 大小 
+	    LISTENQ = 16
+	};
 
     public:
 	// ============================
@@ -123,12 +121,12 @@ namespace nets {
 
 	// ============================
 	// @用途 : 服务调用.
-	// @clnt : 请求服务的客户端
-	// @msgbsc : 用来构建 应用服务对象 的basic_msg对象.
+	// @clnt : 客户端
+	// @recvbuff : 客户端缓冲区
 	// @返回值 : 成功发送服务调用 返回 0, 否则返回 -1; 
 	// @PS : 纯虚函数, 由派生类重写
 	// ============================
-	virtual int _action(ip::tcp::socket & clnt, const std::string & msgstr) = 0;
+	virtual int _action(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff) = 0;
 
 
     private:
@@ -145,19 +143,7 @@ namespace nets {
 	// @err_code : 当发送错误时, 用来接收错误
 	// @返回值 : 客户端成功建立连接返回 0, 否则返回 -1; 
 	// ============================
-	int _accept(ip::tcp::socket & clnt, 
-	    boost::system::error_code & err_code);
-
-
-	// ============================
-	// @用途 : 接收客户端 clnt 发送 字符串消息
-	// @clnt : 客户端
-	// @recvbuff : boost::asio::streambuf 
-	// @err_code : 错误信息
-	// @返回值 : 接收成功 返回 客户端所发送的字符串, 否则返回 ERR_STRING; 
-	// @PS : 当客户端发送超时, 同样返回 ERR_STRING
-	// ============================
-	const std::string _get_msgstr(ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
+	int _accept(boost::asio::ip::tcp::socket & clnt, 
 	    boost::system::error_code & err_code);
 
 
@@ -168,11 +154,11 @@ namespace nets {
 	// 停止标志锁
 	std::mutex stop_mtx_;
 	// 监听对象的 boost::io_service
-	io_service ios_;
+	boost::asio::io_service ios_;
 	// 客户端消息接收线程 线程池
 	thread_pool_t thread_pool_;
 	// 监听对象
-	ip::tcp::acceptor acptor_;
+	boost::asio::ip::tcp::acceptor acptor_;
 	// 超时值 
 #ifdef WIN32 // for win
 	const int timeout_ = 10000;
