@@ -105,19 +105,19 @@ class basic_msg : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 msg_flag() const;
   inline void set_msg_flag(::google::protobuf::int32 value);
 
-  // required string msg_bdstr = 3;
+  // required bytes msg_bdstr = 3;
   inline bool has_msg_bdstr() const;
   inline void clear_msg_bdstr();
   static const int kMsgBdstrFieldNumber = 3;
   inline const ::std::string& msg_bdstr() const;
   inline void set_msg_bdstr(const ::std::string& value);
   inline void set_msg_bdstr(const char* value);
-  inline void set_msg_bdstr(const char* value, size_t size);
+  inline void set_msg_bdstr(const void* value, size_t size);
   inline ::std::string* mutable_msg_bdstr();
   inline ::std::string* release_msg_bdstr();
   inline void set_allocated_msg_bdstr(::std::string* msg_bdstr);
 
-  // @@protoc_insertion_point(class_scope:iegad.net.basic_msg)
+  // @@protoc_insertion_point(class_scope:iegad.msg.basic_msg)
  private:
   inline void set_has_msg_type();
   inline void clear_has_msg_type();
@@ -162,13 +162,13 @@ inline void basic_msg::clear_msg_type() {
   clear_has_msg_type();
 }
 inline ::google::protobuf::int32 basic_msg::msg_type() const {
-  // @@protoc_insertion_point(field_get:iegad.net.basic_msg.msg_type)
+  // @@protoc_insertion_point(field_get:iegad.msg.basic_msg.msg_type)
   return msg_type_;
 }
 inline void basic_msg::set_msg_type(::google::protobuf::int32 value) {
   set_has_msg_type();
   msg_type_ = value;
-  // @@protoc_insertion_point(field_set:iegad.net.basic_msg.msg_type)
+  // @@protoc_insertion_point(field_set:iegad.msg.basic_msg.msg_type)
 }
 
 // required int32 msg_flag = 2;
@@ -186,16 +186,16 @@ inline void basic_msg::clear_msg_flag() {
   clear_has_msg_flag();
 }
 inline ::google::protobuf::int32 basic_msg::msg_flag() const {
-  // @@protoc_insertion_point(field_get:iegad.net.basic_msg.msg_flag)
+  // @@protoc_insertion_point(field_get:iegad.msg.basic_msg.msg_flag)
   return msg_flag_;
 }
 inline void basic_msg::set_msg_flag(::google::protobuf::int32 value) {
   set_has_msg_flag();
   msg_flag_ = value;
-  // @@protoc_insertion_point(field_set:iegad.net.basic_msg.msg_flag)
+  // @@protoc_insertion_point(field_set:iegad.msg.basic_msg.msg_flag)
 }
 
-// required string msg_bdstr = 3;
+// required bytes msg_bdstr = 3;
 inline bool basic_msg::has_msg_bdstr() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -212,7 +212,7 @@ inline void basic_msg::clear_msg_bdstr() {
   clear_has_msg_bdstr();
 }
 inline const ::std::string& basic_msg::msg_bdstr() const {
-  // @@protoc_insertion_point(field_get:iegad.net.basic_msg.msg_bdstr)
+  // @@protoc_insertion_point(field_get:iegad.msg.basic_msg.msg_bdstr)
   return *msg_bdstr_;
 }
 inline void basic_msg::set_msg_bdstr(const ::std::string& value) {
@@ -221,7 +221,7 @@ inline void basic_msg::set_msg_bdstr(const ::std::string& value) {
     msg_bdstr_ = new ::std::string;
   }
   msg_bdstr_->assign(value);
-  // @@protoc_insertion_point(field_set:iegad.net.basic_msg.msg_bdstr)
+  // @@protoc_insertion_point(field_set:iegad.msg.basic_msg.msg_bdstr)
 }
 inline void basic_msg::set_msg_bdstr(const char* value) {
   set_has_msg_bdstr();
@@ -229,22 +229,22 @@ inline void basic_msg::set_msg_bdstr(const char* value) {
     msg_bdstr_ = new ::std::string;
   }
   msg_bdstr_->assign(value);
-  // @@protoc_insertion_point(field_set_char:iegad.net.basic_msg.msg_bdstr)
+  // @@protoc_insertion_point(field_set_char:iegad.msg.basic_msg.msg_bdstr)
 }
-inline void basic_msg::set_msg_bdstr(const char* value, size_t size) {
+inline void basic_msg::set_msg_bdstr(const void* value, size_t size) {
   set_has_msg_bdstr();
   if (msg_bdstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     msg_bdstr_ = new ::std::string;
   }
   msg_bdstr_->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:iegad.net.basic_msg.msg_bdstr)
+  // @@protoc_insertion_point(field_set_pointer:iegad.msg.basic_msg.msg_bdstr)
 }
 inline ::std::string* basic_msg::mutable_msg_bdstr() {
   set_has_msg_bdstr();
   if (msg_bdstr_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
     msg_bdstr_ = new ::std::string;
   }
-  // @@protoc_insertion_point(field_mutable:iegad.net.basic_msg.msg_bdstr)
+  // @@protoc_insertion_point(field_mutable:iegad.msg.basic_msg.msg_bdstr)
   return msg_bdstr_;
 }
 inline ::std::string* basic_msg::release_msg_bdstr() {
@@ -268,13 +268,13 @@ inline void basic_msg::set_allocated_msg_bdstr(::std::string* msg_bdstr) {
     clear_has_msg_bdstr();
     msg_bdstr_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  // @@protoc_insertion_point(field_set_allocated:iegad.net.basic_msg.msg_bdstr)
+  // @@protoc_insertion_point(field_set_allocated:iegad.msg.basic_msg.msg_bdstr)
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace net
+}  // namespace msg
 }  // namespace iegad
 
 #ifndef SWIG

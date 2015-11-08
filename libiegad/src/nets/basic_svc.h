@@ -20,13 +20,13 @@
 // =======================================
 //  -- 2015-10-10	--iegad			1. 为_response 加入加密功能
 //  -- 2015-10-22    --iegad			1. 将 _response 命名 为 _return
+//  -- 2015-11-08    --iegad			1, 替换 新版本 msg 接收和发送函数
 
 
 
 #include <string>
 #include <memory>
-#include <unordered_map>
-#include "msg/iegad_io_msg.h"
+#include "msg/iegad_msg.h"
 
 
 namespace iegad {
@@ -34,7 +34,8 @@ namespace nets {
 
     
     class basic_svc {
-    // 服务对象基础类, 抽象类;
+    // 服务对象基类, 抽象类;
+
     public:
 	// ============================
 	// @用途 : 类本身的智能指针 类型声明
@@ -43,28 +44,10 @@ namespace nets {
 
 
 	// ============================
-	// @用途 : "服务ID 与服务对象 映射表" 类型声明
+	// @用途 : 返回该对象的服务ID
+	// @返回值 : 返回服务ID
 	// ============================
-	typedef std::unordered_map<int, basic_svc_ptr> svc_map_t;
-	
-
-	// ============================
-	// @用途 : 从 映射表 svc_map 中找到 对应 svc_id 的服务对象指针
-	// @svc_id : 服务ID
-	// @svc_map : 映射表
-	// @返回值 : 成功返回 svc对象智能指针, 否则, 返回一个nullptr的智能指针
-	// ============================
-	static basic_svc_ptr get_svc(int svc_id, svc_map_t & svc_map);
-
-
-	// ============================
-	// @用途 : 把 服务对象 svc_obj 加到 映射表 svc_map 中;
-	// @svc_obj : 服务对象的智能指针
-	// @svc_map : 映射表
-	// @返回值 : 成功返回 0, 否则返回 -1; 
-	// @PS : 错误的情况只会是 两个服务对象 具有相同的服务ID;
-	// ============================
-	static int regist_svc(const basic_svc_ptr & svc_obj, svc_map_t & svc_map);
+	int get_id();
 
 
 	// ============================
@@ -75,14 +58,8 @@ namespace nets {
 	// @返回值 : 调用成功返回 0, 否则返回 -1; 
 	// @PS : 服务对象的调用接口, 该函数为纯虚函数, 由实际的服务对象(派生类)实现;
 	// ============================
-	virtual int action(boost::asio::ip::tcp::socket & clnt, int msg_flag, const std::string & msg_bdstr) = 0;
+	virtual int invoke(boost::asio::ip::tcp::socket & clnt, int msg_flag, const std::string & msg_bdstr) = 0;
 
-
-	// ============================
-	// @用途 : 返回该对象的服务ID
-	// @返回值 : 返回服务ID
-	// ============================
-	int get_id();
 
     protected:
 	// ============================
@@ -128,11 +105,13 @@ namespace nets {
 	// @clnt : tcp 客户端
 	// @rzt : 应答的结果, 规则由自己定义
 	// @rzt_size : 应答数据的长度
+	// @err_code : 错误信息
 	// @返回值, 发送成功发送的字节数
 	// @PS : 为了提高通信从而添加该函数, 这样便可以
 	//		每次应答时, 都构建一个basic_msg对象;
 	// ============================
-	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size);
+	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size, boost::system::error_code & err_code);
+
 
     private:
 	// 服务ID
@@ -163,10 +142,14 @@ namespace nets {
         }
 
         iegad::msg::basic_msg msgbsc;
+	std::string msgstr;
         msgbsc.set_msg_type(this->svc_id_);
         msgbsc.set_msg_flag(flag);
         msgbsc.set_msg_bdstr(msg_str);
-        return iegad::msg::send_basic_msg(clnt, msgbsc, errcode);
+	if (msgbsc.SerializeToString(&msgstr)) {
+	    return iegad::msg::send_str(clnt, msgstr, errcode) == msgstr.size() + 1 ? 0 : -1;
+	}
+	return -1;
     }
 
 

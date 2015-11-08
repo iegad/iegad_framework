@@ -28,6 +28,7 @@ namespace tools {
 
     template <typename __TKey, typename __TValue>
     class safe_map {
+    // 线程安全 散列表
     public:
 	// ============================
 	// @用途 : 内置 散列表 类型声明

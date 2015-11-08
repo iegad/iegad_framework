@@ -27,6 +27,11 @@
 //								    使用 0.0.0.0 的方式来绑定监听套接字
 //  --2015-10-10	    -- iegad		--  添加 tcp_mt_svr (const std::string &, const std::string &)
 //								    构造函数, 以提供 计算机名 和服务名 方式绑定
+//  --2015-11-08	    -- iegad		--1, 去掉对 protocbuff 的依赖.
+//								    2, 将 _call_svc 改为 _action 并设定为 纯虚函数.
+//								    3, 将 service 调用与 server本身分离, 去掉 regist_svc
+//								    4, 超时时间改为 10 秒
+//								    5, 将 msg 的 收/发函数 替换为新版本
 
 
 #include <boost/asio.hpp>
@@ -65,19 +70,6 @@ namespace nets {
 
 
 	// ============================
-	// @用途 : 基础服务类 智能指针 类型声明
-	// ============================
-	typedef iegad::nets::basic_svc::basic_svc_ptr basic_svc_ptr;
-
-
-	// ============================
-	// @用途 : 服务对象 映射表 声明
-	// ============================
-	typedef iegad::nets::basic_svc::svc_map_t svc_map_t;
-
-
-
-	// ============================
 	// @用途 : 构造函数
 	// @port : 端口号
 	// ============================
@@ -112,15 +104,6 @@ namespace nets {
 	// @返回值 : void
 	// ============================
 	void stop();
-	
-
-	// ============================
-	// @用途 : 注册 服务对象
-	// @svc_obj : 服务对象, 该对象必需派生自basic_svc, 
-	//		    也必需是智能指针类型
-	// @返回值 : void
-	// ============================
-	void regist_svc(basic_svc_ptr svc_obj);
 
 
 	// ============================
@@ -129,13 +112,24 @@ namespace nets {
 	// ============================
 	const std::string host_endpoint();
 
-    protected:
 
+    protected:
 	// ============================
 	// @用途 : 服务端是否停止
 	// @返回值 : 停止返回 true, 否则返回 false; 
 	// ============================
 	bool _is_stop();
+
+
+	// ============================
+	// @用途 : 服务调用.
+	// @clnt : 请求服务的客户端
+	// @msgbsc : 用来构建 应用服务对象 的basic_msg对象.
+	// @返回值 : 成功发送服务调用 返回 0, 否则返回 -1; 
+	// @PS : 纯虚函数, 由派生类重写
+	// ============================
+	virtual int _action(ip::tcp::socket & clnt, const std::string & msgstr) = 0;
+
 
     private:
 	// ============================
@@ -156,25 +150,15 @@ namespace nets {
 
 
 	// ============================
-	// @用途 : 等待客户端 clnt 发送消息, 消息接收后, 将消息写入 msgbsc;
-	// @clnt : 待接收的客户端
-	// @msgbsc : 用来保存客户端发送的消息.
-	// @err_code : 当发送错误时, 用来接收错误
-	// @返回值 : 接收到消息并成功构建 basic_msg 对象 返回 0, 否则返回 -1; 
+	// @用途 : 接收客户端 clnt 发送 字符串消息
+	// @clnt : 客户端
+	// @recvbuff : boost::asio::streambuf 
+	// @err_code : 错误信息
+	// @返回值 : 接收成功 返回 客户端所发送的字符串, 否则返回 ERR_STRING; 
+	// @PS : 当客户端发送超时, 同样返回 ERR_STRING
 	// ============================
-	int _build_basic_msg(ip::tcp::socket & clnt, iegad::msg::basic_msg & msgbsc, 
+	const std::string _get_msgstr(ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
 	    boost::system::error_code & err_code);
-
-
-	// ============================
-	// @用途 : 服务调用.
-	// @clnt : 请求服务的客户端
-	// @msgbsc : 用来构建 应用服务对象 的basic_msg对象.
-	// @返回值 : 成功发送服务调用 返回 0, 否则返回 -1; 
-	// @PS : 这里应注意, 只要 服务被调用, 就会返回0, 
-	//	    返回0, 并不能说明 服务调用 是正确的结束的.
-	// ============================
-	int _call_svc(ip::tcp::socket & clnt, iegad::msg::basic_msg & msgbsc);
 
 
 	// 停止标志
@@ -187,15 +171,13 @@ namespace nets {
 	io_service ios_;
 	// 客户端消息接收线程 线程池
 	thread_pool_t thread_pool_;
-	// 服务映射表
-	svc_map_t svc_map_;
 	// 监听对象
 	ip::tcp::acceptor acptor_;
 	// 超时值 
-#ifdef WIN32
-	const int timeout_ = 5000;
-#else
-    const timeval timeout_ = {5, 0};
+#ifdef WIN32 // for win
+	const int timeout_ = 10000;
+#else // for unix
+    const timeval timeout_ = {10, 0};
 #endif // WIN32
 
 

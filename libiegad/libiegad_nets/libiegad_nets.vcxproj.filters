@@ -1,45 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="serv">
-      <UniqueIdentifier>{a4a75a67-3ace-41a0-a167-2d8a2f909212}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="clnt">
+    <Filter Include="server">
       <UniqueIdentifier>{fd674335-d39e-4243-9bc3-24483894239b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client">
+      <UniqueIdentifier>{a4a75a67-3ace-41a0-a167-2d8a2f909212}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\nets\basic_svc.cpp">
-      <Filter>clnt</Filter>
+      <Filter>server</Filter>
     </ClCompile>
     <ClCompile Include="..\src\nets\tcp_mt_svr.cpp">
-      <Filter>clnt</Filter>
+      <Filter>server</Filter>
     </ClCompile>
     <ClCompile Include="..\src\nets\udp_pusher.cpp">
-      <Filter>clnt</Filter>
+      <Filter>server</Filter>
     </ClCompile>
     <ClCompile Include="..\src\nets\basic_proxy.cpp">
-      <Filter>serv</Filter>
+      <Filter>client</Filter>
     </ClCompile>
     <ClCompile Include="..\src\nets\udp_puller.cpp">
-      <Filter>serv</Filter>
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nets\tcp_mt_svc.cpp">
+      <Filter>server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\nets\basic_svc.h">
-      <Filter>clnt</Filter>
+      <Filter>server</Filter>
     </ClInclude>
     <ClInclude Include="..\src\nets\tcp_mt_svr.h">
-      <Filter>clnt</Filter>
+      <Filter>server</Filter>
     </ClInclude>
     <ClInclude Include="..\src\nets\udp_pusher.h">
-      <Filter>clnt</Filter>
+      <Filter>server</Filter>
     </ClInclude>
     <ClInclude Include="..\src\nets\basic_proxy.h">
-      <Filter>serv</Filter>
+      <Filter>client</Filter>
     </ClInclude>
     <ClInclude Include="..\src\nets\udp_puller.h">
-      <Filter>serv</Filter>
+      <Filter>client</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nets\tcp_mt_svc.h">
+      <Filter>server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

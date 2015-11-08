@@ -91,7 +91,7 @@ namespace tools {
     private:
 	// ½ûÓÃ
 	_LOG(const _LOG &);
-	_LOG operator=(const _LOG &);
+	_LOG & operator=(const _LOG &);
     }; // class _LOG;
 
 

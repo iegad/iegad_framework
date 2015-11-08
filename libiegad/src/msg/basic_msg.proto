@@ -6,12 +6,12 @@
  ============================ */
 
 
-package iegad.net;
+package iegad.msg;
 
 
 message basic_msg {
 // the message of tcp transfer;
-    required int32 msg_type = 1;	// sub_service id
-    required int32 msg_flag = 2;		// forward extended
-    required string msg_bdstr = 3;	// sub_service builder
+    required int32  msg_type = 1;	// sub_service id
+    required int32  msg_flag = 2;	// forward extended
+    required bytes  msg_bdstr = 3;	// sub_service builder
 };

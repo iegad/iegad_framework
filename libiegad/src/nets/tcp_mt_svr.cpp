@@ -1,7 +1,7 @@
 #include "tcp_mt_svr.h"
 #include "msg/basic_msg.pb.h"
 #include "common/iegad_log.h"
-#include "msg/iegad_io_msg.h"
+#include "msg/iegad_msg.h"
 #include "common/iegad_string.h"
 
 
@@ -57,7 +57,8 @@ iegad::nets::tcp_mt_svr::_thread_proc()
     io_service ios;
     ip::tcp::socket clnt(ios);
     boost::system::error_code err_code;
-    iegad::msg::basic_msg msgbsc;
+    boost::asio::streambuf recvbuff;
+    std::string msgstr;
 
     for (;;) {
 	if (clnt.is_open()) {
@@ -73,11 +74,12 @@ iegad::nets::tcp_mt_svr::_thread_proc()
 	}
 
 	// step 3 : get the msg_dbstr;
-	if (this->_build_basic_msg(clnt, msgbsc, err_code) != 0) {
+	if (msgstr = this->_get_msgstr(clnt, recvbuff, err_code), 
+	    msgstr == ERR_STRING) {
 	    continue;
 	}
 	// step 4 : call the service;
-	this->_call_svc(clnt, msgbsc);
+	this->_action(clnt, msgstr);
     } // for (;;);
 }
 
@@ -145,44 +147,17 @@ iegad::nets::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_co
 }
 
 
-void 
-iegad::nets::tcp_mt_svr::regist_svc(basic_svc_ptr svc_obj)
-{
-    if (iegad::nets::basic_svc::regist_svc(svc_obj, svc_map_) != 0) {
-	iERR << "### the service object already have ###" << std::endl;
-    }
-}
-
-
-int
-iegad::nets::tcp_mt_svr::_build_basic_msg(ip::tcp::socket & clnt,
-iegad::msg::basic_msg & msgbsc,
+const std::string
+iegad::nets::tcp_mt_svr::_get_msgstr(ip::tcp::socket & clnt,
+boost::asio::streambuf & recvbuff,
 boost::system::error_code & err_code)
 {
-    int rzt;
-    rzt = iegad::msg::recv_basic_msg(clnt, msgbsc, err_code);
+    std::string res(ERR_STRING);
+    res = iegad::msg::recv_str(clnt, recvbuff, err_code, MSG_KEY);
     if (err_code == boost::asio::error::timed_out) {
 	iWARN << clnt.remote_endpoint().address().to_string() << " ### TIME OUT ###" << std::endl;
     }
-    return rzt;
-}
-
-
-int 
-iegad::nets::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, 
-						  iegad::msg::basic_msg & msgbsc)
-{
-    basic_svc_ptr p_svc = basic_svc::get_svc(msgbsc.msg_type(), svc_map_);
-    if (p_svc.get() != nullptr) {
-	p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
-    } 
-    else {
-    //msg_type don't mapping the msg_svc;
-	iWARN << "### no service mapping ###" << std::endl;
-	return -1;
-    }
-    clnt.close();
-    return 0;
+    return res;
 }
 
 
