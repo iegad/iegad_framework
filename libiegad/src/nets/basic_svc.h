@@ -19,9 +19,11 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-//  -- 2015-10-10	--iegad			1. 为_response 加入加密功能
-//  -- 2015-10-22    --iegad			1. 将 _response 命名 为 _return
-//  -- 2015-11-08    --iegad			1, 替换 新版本 msg 接收和发送函数
+//  -- 2015-10-10	--iegad			-- 1. 为_response 加入加密功能
+//  -- 2015-10-22    --iegad			-- 1. 将 _response 命名 为 _return
+//  -- 2015-11-08    --iegad			-- 1, 替换 新版本 msg 接收和发送函数
+//  -- 2015-11-09	--iegad			-- 将SerializedToString替换 为SerializedToArray, 应为这样传送中文会没有问题.
+//								    但是关于字节序中 是否会在预期之外的地方出现 '\0' 还有待观查
 
 
 
@@ -128,7 +130,7 @@ namespace nets {
     int iegad::nets::basic_svc::_build_svc(const std::string & msgbdstr, __MSG_T & msg)
     {
         msg.Clear();
-        return msg.ParseFromString(msgbdstr) ? 0 : -1;
+        return msg.ParseFromArray(msgbdstr.c_str(), msgbdstr.size()) ? 0 : -1;
     }
 
 

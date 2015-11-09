@@ -425,7 +425,8 @@ iegad::string::en_cust(const std::string & src, char key)
 {
     std::string res;
     for (int i = 0, n = src.size(); i < n; i++) {
-        res.push_back(src[i] ^ key);
+	// res.push_back(src[i] ^ key);
+	res.push_back(~src[i] + 1);
     }
     return res;
 }

@@ -28,15 +28,18 @@ iegad::nets::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag,
     const std::string & msg_dbstr, 
     boost::system::error_code & err_code)
 {
-    std::string msg_str;
+    int n = -1;
     iegad::msg::basic_msg msgbsc;
     msgbsc.set_msg_type(this->get_id());
     msgbsc.set_msg_flag(flag);
     msgbsc.set_msg_bdstr(msg_dbstr);
-    if (msgbsc.SerializeToString(&msg_str)) {
-	return iegad::msg::send_str(clnt, msg_str, err_code, MSG_KEY) == msg_str.size() + 1 ? 0 : -1;
+    int datalen = msgbsc.ByteSize();
+    char * msgdata = new char[datalen + 1];
+    if (msgbsc.SerializeToArray(msgdata, datalen)) {
+	msgdata[datalen] = 0;
+	n = iegad::msg::send_str(clnt, msgdata, err_code, MSG_KEY) == datalen && err_code.value() == 0 ? 0 : -1;
     }
-
-    return -1;
+    delete[] msgdata;
+    return n;
 }
 

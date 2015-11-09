@@ -25,6 +25,8 @@
 // -- 2015-10-22	    --iegad				-- 弃用 模板参数, 目的是为了让使用更佳清晰
 // -- 2015-11-08	    --iegad				-- 1, 替换 新版 msg 收/发 函数
 //									    2, 添加close() 函数
+// -- 2015-11-09	    --iegad				-- 将SerializedToString替换 为SerializedToArray, 应为这样传送中文会没有问题.
+//									    但是关于字节序中 是否会在预期之外的地方出现 '\0' 还有待观查
 
 
 #include <boost/asio.hpp>

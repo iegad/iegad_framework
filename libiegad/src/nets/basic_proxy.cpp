@@ -18,14 +18,20 @@ iegad::netc::basic_proxy::_send_basic_msg(int msg_type, int msg_flag, const std:
     boost::system::error_code & err_code)
 {// func : send the request to the host;    
     iegad::msg::basic_msg msgbsc;
-    std::string msgstr;
+    char * msgdata;
+    int datalen, n = -1;
+
     msgbsc.set_msg_bdstr(msg_bdstr);
     msgbsc.set_msg_flag(msg_flag);
     msgbsc.set_msg_type(msg_type);
-    if (msgbsc.SerializeToString(&msgstr)) {
-	return iegad::msg::send_str(clnt_, msgstr, err_code, MSG_KEY) == msgstr.size() + 1 ? 0 : -1;
-    }
-    return -1;
+    datalen = msgbsc.ByteSize();
+    msgdata = new char[datalen + 1];    
+    if (msgbsc.SerializeToArray(msgdata, datalen + 1)) {
+	msgdata[datalen] = 0;
+	n = iegad::msg::send_str(clnt_, msgdata, err_code, MSG_KEY) == datalen && err_code.value() == 0 ? 0 : -1;
+    }    
+    delete[] msgdata;
+    return n;
 }
 
 
@@ -34,7 +40,7 @@ iegad::netc::basic_proxy::_recv_basic_msg(iegad::msg::basic_msg & msgbsc, boost:
 {// func : receive message of protobuf;
     std::string msgstr = iegad::msg::recv_str(clnt_, recvbuff_, err_code, MSG_KEY);
     if (err_code.value() == 0 && msgstr != ERR_STRING) {
-	msgbsc.ParseFromString(msgstr);
+	msgbsc.ParseFromArray(msgstr.c_str(), msgstr.size());
     }
     return msgbsc.IsInitialized() ? 0 : -1;
 }
