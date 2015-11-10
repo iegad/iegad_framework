@@ -167,8 +167,10 @@ TEST(STR_UTEST_CASE, ENCODE_TEST)
     int key = 0xaa;
     std::string enStr = iegad::string::en_cust("Hello world", key);
     EXPECT_EQ("Hello world", iegad::string::de_cust(enStr, key));
-
-    EXPECT_EQ("Hello world", iegad::string::base64_de(iegad::string::base64_en(srcString)));
+    int size = 0;
+    std::string res = iegad::string::base64_en(srcString.c_str(), srcString.size());
+    res = std::string(iegad::string::base64_de(res, size), size);
+    EXPECT_EQ("Hello world", res);
     EXPECT_EQ("3e25960a79dbc69b674cd4ec67a72c62", iegad::string::md5(srcString));
 }
 

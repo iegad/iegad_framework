@@ -20,25 +20,26 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-//  --2015-10-03	    --iegad		    添加 to_**(const std::string &) 这样的逆向转换函数
-//  --2015-10-06	    --iegad		    1, 添加md5, sha1 加密
-//							    2, 添加base64加密, 解密
-//							    3, 添加 guid 生成函数
-//  --2015-10-09	    --iegad		    添加 自定义加密 en_cust 函数, 解密 de_cust 函数 
-//  --2015-10-13	    --iegad		    1, 添加format函数, 用于格式化字符串
-//							    2, 修改to_str(double/float)的精度问题
-//  --2015-10-17	    --iegad		    修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
-//  --2015-10-20	    --iegad		    1, 添加find_str 函数.
-//							    2, 添加start_with, end_with 函数.
-//							    3, 添加 remove 函数
-//							    4, 将各个 int pos 参数类型改为 unsigned int
-//							    5, 添加 substr2 函数
-//  --2015-10-23	    --iegad		    1, 修改 trim(const std::string &) 函数名 => rtrim(...);
-//							    2, 添加 新 trim(const std::string &)
-//							    3, 添加remove2(...) 函数
-//  --2015-10-25	    --iegad		    1, 添加 std::string & std::wstring 间的相互转换
-//							    2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
-//							    3, 添加部分支持std::wstring 的字符串算法封装
+//  --2015-10-03	    --iegad		   -- 添加 to_**(const std::string &) 这样的逆向转换函数
+//  --2015-10-06	    --iegad		   -- 1, 添加md5, sha1 加密
+//							   -- 2, 添加base64加密, 解密
+//							   -- 3, 添加 guid 生成函数
+//  --2015-10-09	    --iegad		   -- 添加 自定义加密 en_cust 函数, 解密 de_cust 函数 
+//  --2015-10-13	    --iegad		   -- 1, 添加format函数, 用于格式化字符串
+//							   -- 2, 修改to_str(double/float)的精度问题
+//  --2015-10-17	    --iegad		   -- 修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
+//  --2015-10-20	    --iegad		   -- 1, 添加find_str 函数.
+//							   -- 2, 添加start_with, end_with 函数.
+//							   -- 3, 添加 remove 函数
+//							   -- 4, 将各个 int pos 参数类型改为 unsigned int
+//							   -- 5, 添加 substr2 函数
+//  --2015-10-23	    --iegad		   -- 1, 修改 trim(const std::string &) 函数名 => rtrim(...);
+//							   -- 2, 添加 新 trim(const std::string &)
+//							   -- 3, 添加remove2(...) 函数
+//  --2015-10-25	    --iegad		   -- 1, 添加 std::string & std::wstring 间的相互转换
+//							   -- 2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
+//							   -- 3, 添加部分支持std::wstring 的字符串算法封装
+//  --2015-11-10	    --iegad		   -- 修改 base64 编/解码 函数. 使之用于二进制数据
 
 
 #include <string>
@@ -563,23 +564,25 @@ sha1(const std::string & src, std::vector<unsigned int> & digest);
 
 
 // ============================
-// @用途 : 将字符串 src 进行base64加密
-// @src : 需要加密的字符串
-// @返回值 : 进行base64加密后的字符串
+// @用途 : 将 数据databuf 进行base64编码
+// @databuf : 数据缓冲区
+// @size : 数据长度
+// @返回值 : 进行base64编码后的字符串
 // ============================
 const std::string
-base64_en(const std::string & src);
+base64_en(const char * databuf, unsigned int size);
 
 
 // ============================
-// @用途 : 将字符串 src 进行base64解密
+// @用途 : 将字符串 src 进行base64解码
 // @src : 需要解密的字符串
-// @返回值 : 进行base64解密后的字符串
-// @PS : 如果src 是未进行base64加密的字符串, 
+// @len : 输出参数, 输出数据长度
+// @返回值 : 进行base64解码后的数据, 数据长度为 len
+// @PS : 如果src 是未进行base64编码的字符串, 
 //	    返回值是非预期的结果.
 // ============================
 const std::string
-base64_de(const std::string & src);
+base64_de(const std::string & src, int & len);
 
 
 // ============================
