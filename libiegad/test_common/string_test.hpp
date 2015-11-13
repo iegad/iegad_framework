@@ -167,17 +167,14 @@ TEST(STR_UTEST_CASE, ENCODE_TEST)
     int key = 0xaa;
     std::string enStr = iegad::string::en_cust("Hello world", key);
     EXPECT_EQ("Hello world", iegad::string::de_cust(enStr, key));
-    int size = 0;
-    std::string res = iegad::string::base64_en(srcString.c_str(), srcString.size());
-    res = std::string(iegad::string::base64_de(res, size), size);
-    EXPECT_EQ("Hello world", res);
+
+    std::string encodingStr = iegad::string::bin_tostr(srcString.c_str(), srcString.size());
+    char buff[1024];
+    int len = sizeof(buff);
+    iegad::string::str_tobin(encodingStr, buff, len);
+    EXPECT_EQ("Hello world", std::string(buff, len));
     EXPECT_EQ("3e25960a79dbc69b674cd4ec67a72c62", iegad::string::md5(srcString));
-}
-
-
-TEST(STR_UTEST_CASE, CONV_TEST)
-{
-    std::string srcString = "HELLO";
+    srcString = "HELLO";
     std::string utf8str = iegad::string::to_utf8("Fucking");
     std::string str1 = iegad::string::from_utf8(utf8str);
     EXPECT_EQ(L"HELLO", iegad::string::str_towstr(srcString));

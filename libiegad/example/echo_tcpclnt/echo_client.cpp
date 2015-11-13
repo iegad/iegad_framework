@@ -6,17 +6,6 @@
 
 
 
-#ifdef WIN32
-#pragma comment(lib, "libiegad_netc.lib")
-#pragma comment(lib, "libiegad_common.lib")
-#pragma comment(lib, "libiegad_msg.lib")
-#pragma comment(lib, "libglog.lib")
-#pragma comment(lib, "libprotobuf.lib")
-#endif // WIN32
-
-
-
-
 class echo_proxy : public iegad::netc::basic_proxy {
 public:
     echo_proxy(const std::string & host, const std::string & svc) 

@@ -57,8 +57,17 @@ const std::string
 iegad::nets::tcp_mt_svc::_get_msgstr(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
 	boost::system::error_code & err_code)
 {
-    std::string res(ERR_STRING);
-    res = iegad::msg::recv_str(clnt, recvbuff, err_code, MSG_KEY);
+    std::string res;
+    res = iegad::msg::recv_str(clnt, recvbuff, err_code);
+    int len = res.size() / 2;
+    char * buff = new char[len];
+    if (iegad::string::str_tobin(res, buff, len) != nullptr) {
+	res = std::move(std::string(buff, len));
+    }
+    else {
+	res = ERR_STRING;
+    }
+    delete[] buff;
     return res;
 }
 

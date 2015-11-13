@@ -7,17 +7,6 @@
 #include "msg/basic_msg.pb.h"
 
 
-#ifdef WIN32
-
-#pragma comment(lib, "libiegad_nets.lib")
-#pragma comment(lib, "libiegad_common.lib")
-#pragma comment(lib, "libiegad_msg.lib")
-#pragma comment(lib, "libglog.lib")
-#pragma comment(lib, "libprotobuf.lib")
-
-#endif // WIN32
-
-
 
 
 class echo_svc : public iegad::nets::basic_svc {

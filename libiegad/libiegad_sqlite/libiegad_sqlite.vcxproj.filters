@@ -23,9 +23,6 @@
     <ClInclude Include="..\src\sqlite\sqlite3ext.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\sqlite\iegad_sqlite.h">
-      <Filter>sqlite</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\sqlite\sqlite_helper.h">
       <Filter>sqlite</Filter>
     </ClInclude>

@@ -11,13 +11,6 @@
 
 
 
-#ifdef WIN32
-#pragma comment(lib, "gtestd.lib")
-#pragma comment(lib, "libglog.lib")
-#pragma comment(lib, "libiegad_common.lib")
-#endif // WIN32
-
-
 #if (STRING_TEST == 1)
 #include "string_test.hpp"
 #endif // #if (STRING_TEST == 1)
@@ -73,6 +66,9 @@ main(int argc, char *argv[])
 #if (STRING_TEST == 1) // ×Ö·û´®Ëã·¨²âÊÔ
     testing::InitGoogleTest(&argc, argv);
     RUN_ALL_TESTS();
+    //std::string srcStr = "Hello world";
+    //std::string basestr = iegad::string::base64_en(srcStr.c_str(), srcStr.size());
+    //std::string outStr = iegad::string::base64_de(basestr);
 #endif // #if (STRING_TEST == 1)
 
 

@@ -19,7 +19,9 @@ int
 iegad::nets::basic_svc::_return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size, 
     boost::system::error_code & err_code)
 {
-    return iegad::msg::send_str(clnt, std::string(rzt, rzt_size), err_code, MSG_KEY);
+    return iegad::msg::send_str(clnt, 
+	iegad::string::bin_tostr(rzt, rzt_size), 
+	err_code);
 }
 
 
@@ -34,10 +36,11 @@ iegad::nets::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag,
     msgbsc.set_msg_flag(flag);
     msgbsc.set_msg_bdstr(msg_dbstr);
     int datalen = msgbsc.ByteSize();
-    char * msgdata = new char[datalen + 1];
+    char * msgdata = new char[datalen];
     if (msgbsc.SerializeToArray(msgdata, datalen)) {
-	msgdata[datalen] = 0;
-	n = iegad::msg::send_str(clnt, msgdata, err_code, MSG_KEY) == datalen && err_code.value() == 0 ? 0 : -1;
+	n = iegad::msg::send_str(clnt,
+	    iegad::string::bin_tostr(msgdata, datalen), 
+	    err_code) == datalen * 2 && err_code.value() == 0 ? 0 : -1;
     }
     delete[] msgdata;
     return n;

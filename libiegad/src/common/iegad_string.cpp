@@ -11,6 +11,9 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/locale.hpp>
 #include <cwctype>
+#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/binary_from_base64.hpp>
+#include <boost/archive/iterators/transform_width.hpp>
 
 
 
@@ -381,93 +384,37 @@ iegad::string::sha1(const std::string & src, std::vector<unsigned int> & digest)
 const std::string
 iegad::string::base64_en(const char * databuf, unsigned int size)
 {
-    // 编码表
-    static const char en_tab[] = 
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    using boost::archive::iterators::base64_from_binary;
+    using boost::archive::iterators::transform_width;
+    typedef base64_from_binary<transform_width<std::string::const_iterator, 6, 8>> base64_en_itor;
 
-    std::string res;
-    unsigned char temp[4] = { 0 };
-    int len = 0;
-    for (unsigned int i = 0, n = size / 3; i < n; i++) {
-	temp[1] = *databuf++;
-	temp[2] = *databuf++;
-	temp[3] = *databuf++;
-	res += en_tab[temp[1] >> 2];
-	res += en_tab[((temp[1] << 4) | (temp[2] >> 4)) & 0x3F];
-	res += en_tab[((temp[2] << 2) | (temp[3] >> 6)) & 0x3F];
-	res += en_tab[temp[3] & 0x3F];
-	if (len += 4, len == 76) { 
-	    res += "\r\len"; len = 0; 
-	}
-    } // for (unsigned int i = 0, n = size / 3; i < n; i++);
-
-    // 对剩余数据进行编码
-    int mod = size % 3;
-    if (mod == 1) {
-	temp[1] = *databuf++;
-	res += en_tab[(temp[1] & 0xFC) >> 2];
-	res += en_tab[((temp[1] & 0x03) << 4)];
-	res += "==";
+    std::string src(databuf, size);
+    std::stringstream result;
+    std::copy(base64_en_itor(src.begin()),
+	base64_en_itor(src.end()), std::ostream_iterator<char>(result));
+    size_t equal_count = (3 - src.length() % 3) % 3;
+    for (size_t i = 0; i < equal_count; i++) {
+	result.put('=');
     }
-    else if (mod == 2) {
-	temp[1] = *databuf++;
-	temp[2] = *databuf++;
-	res += en_tab[(temp[1] & 0xFC) >> 2];
-	res += en_tab[((temp[1] & 0x03) << 4) | ((temp[2] & 0xF0) >> 4)];
-	res += en_tab[((temp[2] & 0x0F) << 2)];
-	res += "=";
-    } // if (mod == 1);
-    return res;
+    return result.str();
 }
 
 
 const std::string
-iegad::string::base64_de(const std::string & src, int & len)
+iegad::string::base64_de(const std::string & src)
 {
-    //解码表
-    const char DecodeTable[] = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	62, // '+'
-	0, 0, 0,
-	63, // '/'
-	52, 53, 54, 55, 56, 57, 58, 59, 60, 61, // '0'-'9'
-	0, 0, 0, 0, 0, 0, 0,
-	0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-	13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, // 'A'-'Z'
-	0, 0, 0, 0, 0, 0,
-	26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
-	39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, // 'a'-'z'
-    };
-
+    using boost::archive::iterators::binary_from_base64;
+    using boost::archive::iterators::transform_width;
+    typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_de_itor;
+    std::stringstream os;
     std::string res;
-    auto itor = src.begin();
-    int nValue;
-    int i = len = 0;
-    while (i < src.size()) {
-	if (*itor != '\r' && *itor != '\n') {
-	    nValue = DecodeTable[*itor++] << 18;
-	    nValue += DecodeTable[*itor++] << 12;
-	    res += (nValue & 0x00FF0000) >> 16;
-	    len++;
-	    if (*itor != '=') {
-		nValue += DecodeTable[*itor++] << 6;
-		res += (nValue & 0x0000FF00) >> 8;
-		len++;
-		if (*itor != '=') {
-		    nValue += DecodeTable[*itor++];
-		    res += nValue & 0x000000FF;
-		    len++;
-		}
-	    } // if (*itor != '=');
-	    i += 4;
-	} // if (*itor != '\r' && *itor != '\n');
-	else {
-	    // 回车换行,跳过
-	    itor++;
-	    i++;
-	}
-    } // while (i < src.size());
+    std::copy(base64_de_itor(src.begin()),
+	base64_de_itor(src.begin() + src.size()), std::ostream_iterator<char>(os));
+    res = os.str();
+    int n = res.size() - 1;
+    while (res[n] == '\0'){
+	res.erase(n--);
+    }
     return res;
 }
 
@@ -792,4 +739,61 @@ iegad::string::to_lwr(const std::wstring &src)
         restr[i] = std::towlower(restr[i]);
     }
     return restr;
+}
+
+
+const std::string 
+iegad::string::bin_tostr(const char * buff, unsigned int buff_size)
+{
+    std::string res(buff_size * 2, 0);
+    uint8_t temp;
+
+    for (size_t i = 0; i < buff_size; i++) {
+	temp = buff[i];
+	for (size_t j = 0; j < 2; j++) {
+	    uint8_t cCur = (temp & 0x0f);
+	    if (cCur < 10) {
+		cCur += '0';
+	    }
+	    else {
+		cCur += ('A' - 10);
+	    }
+	    res[2 * i + 1 - j] = cCur;
+	    temp >>= 4;
+	}
+    }
+
+    return res;
+}
+
+
+const char * 
+iegad::string::str_tobin(const std::string & src, char * buff, int & buff_size)
+{
+    if (src.size() % 2 != 0 || buff == nullptr || buff_size < src.size() / 2) {
+	return nullptr;
+    }
+
+    buff_size = src.size() / 2;
+    for (size_t i = 0; i < buff_size; i++) {
+	uint8_t cTemp = 0;
+	for (size_t j = 0; j < 2; j++) {
+	    char cCur = src[2 * i + j];
+	    if (cCur >= '0' && cCur <= '9') {
+		cTemp = (cTemp << 4) + (cCur - '0');
+	    }
+	    /*else if (cCur >= 'a' && cCur <= 'f') {
+		cTemp = (cTemp << 4) + (cCur - 'a' + 10);
+	    }*/
+	    else if (cCur >= 'A' && cCur <= 'F') {
+		cTemp = (cTemp << 4) + (cCur - 'A' + 10);
+	    }
+	    else {
+		return nullptr;
+	    }
+	} // for (size_t j = 0; j < 2; j++);
+	buff[i] = cTemp;
+    } // for (size_t i = 0; i < buff_size; i++);
+
+    return buff;
 }

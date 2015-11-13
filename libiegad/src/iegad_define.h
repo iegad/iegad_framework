@@ -58,9 +58,6 @@ const std::string ERR_STRING = "??????";
 #define MSG_KEY	0x15
 
 
-#ifdef WIN32	// for windows
-#pragma comment(lib, "libglog.lib")
-
 // 创建LOG 文件夹 命地参数
 const char MKDIR[] = "mkdir LOG";
 

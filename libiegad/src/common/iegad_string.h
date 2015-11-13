@@ -40,6 +40,8 @@
 //							   -- 2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
 //							   -- 3, 添加部分支持std::wstring 的字符串算法封装
 //  --2015-11-10	    --iegad		   -- 修改 base64 编/解码 函数. 使之用于二进制数据
+//  --2015-11-10	    --iegad		   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
+//  --2015-11-12	    --iegad		   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
 
 
 #include <string>
@@ -582,7 +584,29 @@ base64_en(const char * databuf, unsigned int size);
 //	    返回值是非预期的结果.
 // ============================
 const std::string
-base64_de(const std::string & src, int & len);
+base64_de(const std::string & src);
+
+
+
+// ============================
+// @用途 : 将 数据databuf 编码 为字符串
+// @databuf : 数据缓冲区
+// @buff_size : 数据长度
+// @返回值 : 编码后的字符串型式
+// ============================
+const std::string
+bin_tostr(const char * buff, unsigned int buff_size);
+
+
+// ============================
+// @用途 : 将 字符串src 解码为 二进制数据
+// @src : 需要解码的字符串
+// @buff : 数据缓冲区, 输出参数
+// @buff_size : 数据长度 输入/输出参数
+// @返回值 : 解码成功返回 数据的首地址, 否则, 返回nullptr
+// ============================
+const char *
+str_tobin(const std::string & src, char * buff, int & buff_size);
 
 
 // ============================
