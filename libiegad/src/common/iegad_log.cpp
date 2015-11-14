@@ -1,4 +1,5 @@
 ﻿#include "iegad_log.h"
+#include "iegad_common.in.h"
 
 
 

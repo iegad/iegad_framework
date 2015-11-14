@@ -49,7 +49,7 @@
 #include <cctype>
 #include <sstream>
 #include "iegad_md5.h"
-#include "iegad_define.h"
+#include "iegad_common.in.h"
 
 
 namespace iegad {

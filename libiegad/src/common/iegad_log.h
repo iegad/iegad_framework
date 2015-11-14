@@ -35,7 +35,6 @@
 #include <unistd.h>
 #define _access access
 #endif // WIN32
-#include "iegad_define.h"
 
 
 #ifdef iINFO 

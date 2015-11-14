@@ -41,7 +41,6 @@
     <ClInclude Include="..\src\common\iegad_md5.h">
       <Filter>security</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\iegad_define.h" />
     <ClInclude Include="..\src\common\iegad_singleton.hpp">
       <Filter>tools</Filter>
     </ClInclude>
@@ -51,5 +50,10 @@
     <ClInclude Include="..\src\common\iegad_timer.hpp">
       <Filter>tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\common\iegad_compress.hpp">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\iegad_common.in.h" />
+    <ClInclude Include="..\src\iegad_common.h" />
   </ItemGroup>
 </Project>

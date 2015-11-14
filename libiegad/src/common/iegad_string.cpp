@@ -770,12 +770,14 @@ iegad::string::bin_tostr(const char * buff, unsigned int buff_size)
 const char * 
 iegad::string::str_tobin(const std::string & src, char * buff, int & buff_size)
 {
-    if (src.size() % 2 != 0 || buff == nullptr || buff_size < src.size() / 2) {
+    if (src.size() % 2 != 0 || 
+	buff == nullptr || 
+	static_cast<size_t>(buff_size) < src.size() / 2) {
 	return nullptr;
     }
 
     buff_size = src.size() / 2;
-    for (size_t i = 0; i < buff_size; i++) {
+    for (int i = 0; i < buff_size; i++) {
 	uint8_t cTemp = 0;
 	for (size_t j = 0; j < 2; j++) {
 	    char cCur = src[2 * i + j];
