@@ -1,5 +1,4 @@
 #include <iostream>
-#include <boost/locale.hpp>
 
 
 #define STRING_TEST		1
