@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\nets\basic_proxy.cpp" />
     <ClCompile Include="..\src\nets\basic_svc.cpp" />
+    <ClCompile Include="..\src\nets\tcp_mt_svc.cpp" />
     <ClCompile Include="..\src\nets\tcp_mt_svr.cpp" />
     <ClCompile Include="..\src\nets\udp_puller.cpp" />
     <ClCompile Include="..\src\nets\udp_pusher.cpp" />
@@ -20,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\nets\basic_proxy.h" />
     <ClInclude Include="..\src\nets\basic_svc.h" />
+    <ClInclude Include="..\src\nets\tcp_mt_svc.h" />
     <ClInclude Include="..\src\nets\tcp_mt_svr.h" />
     <ClInclude Include="..\src\nets\udp_puller.h" />
     <ClInclude Include="..\src\nets\udp_pusher.h" />

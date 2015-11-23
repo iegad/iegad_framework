@@ -1,8 +1,9 @@
 #include "tcp_mt_svr.h"
 #include "msg/basic_msg.pb.h"
 #include "common/iegad_log.h"
-#include "msg/iegad_io_msg.h"
+#include "msg/iegad_msg.h"
 #include "common/iegad_string.h"
+#include <functional>
 
 
 using namespace boost::asio;
@@ -16,8 +17,12 @@ iegad::nets::tcp_mt_svr::tcp_mt_svr(
     ios_(),
     acptor_(ios_, ip::tcp::endpoint(ip::tcp::v4(), port), true)
 {//ctor
-    // set TCP_NAGLE off
-    acptor_.set_option(ip::tcp::no_delay(true));
+    boost::system::error_code err_code;
+
+    acptor_.set_option(ip::tcp::no_delay(true), err_code);
+    assert(err_code.value() == 0);
+    acptor_.set_option(ip::tcp::socket::reuse_address(true), err_code);
+    assert(err_code.value() == 0);
 }
 
 
@@ -33,31 +38,38 @@ iegad::nets::tcp_mt_svr::tcp_mt_svr(
     acptor_.open(boost::asio::ip::tcp::v4());
 
     boost::asio::ip::tcp::resolver::iterator end;
-    boost::system::error_code errcode = boost::asio::error::bad_descriptor;
+    boost::system::error_code err_code = boost::asio::error::bad_descriptor;
 
     boost::asio::ip::tcp::resolver rlv(acptor_.get_io_service());
     boost::asio::ip::tcp::resolver::query qry(host, svc);
 
     boost::asio::ip::tcp::resolver::iterator iter = rlv.resolve(qry);
-    for (; errcode && iter != end; ++iter) {
-	if (acptor_.bind(*iter, errcode) == 0) {
+    for (; err_code && iter != end; ++iter) {
+	if (acptor_.bind(*iter, err_code) == 0 && err_code.value() == 0) {
 	    binded = true;
 	    break;
 	}
     } // for (; errcode && iter != end; ++iter);
     assert(binded);
-    acptor_.set_option(ip::tcp::socket::reuse_address(true), errcode);
-    acptor_.listen();
+
+    acptor_.set_option(ip::tcp::socket::reuse_address(true), err_code);
+    assert(err_code.value() == 0);
+    acptor_.set_option(ip::tcp::no_delay(true), err_code);
+    assert(err_code.value() == 0);
+
+    acptor_.listen(iegad::nets::tcp_mt_svr::LISTENQ, err_code);
+    assert(err_code.value() == 0);
 }
 
 
 void 
 iegad::nets::tcp_mt_svr::_thread_proc()
-{// thread proc : master thread of server's service.    
+{// thread proc : master thread of server's service.
     io_service ios;
     ip::tcp::socket clnt(ios);
     boost::system::error_code err_code;
-    iegad::msg::basic_msg msgbsc;
+    boost::asio::streambuf recvbuff;
+    std::string msgstr;
 
     for (;;) {
 	if (clnt.is_open()) {
@@ -71,13 +83,8 @@ iegad::nets::tcp_mt_svr::_thread_proc()
 	if (this->_accept(clnt, err_code) != 0) {
 	    continue;
 	}
-
-	// step 3 : get the msg_dbstr;
-	if (this->_build_basic_msg(clnt, msgbsc, err_code) != 0) {
-	    continue;
-	}
-	// step 4 : call the service;
-	this->_call_svc(clnt, msgbsc);
+	// step 3 : call the service;
+	this->_action(clnt, recvbuff);
     } // for (;;);
 }
 
@@ -97,10 +104,12 @@ iegad::nets::tcp_mt_svr::run(int n /*= 8*/)
 void 
 iegad::nets::tcp_mt_svr::stop()
 {// stop the service
+    mtx_lock_t locker(stop_mtx_);
+
     if (stop_flag_) {
 	return;
     }
-    mtx_lock_t locker(stop_mtx_);
+
     stop_flag_ = true;
     locker.unlock();
     acptor_.close();    
@@ -132,56 +141,13 @@ iegad::nets::tcp_mt_svr::_accept(ip::tcp::socket & clnt, boost::system::error_co
 	}
         return -1;
     }
-
     // 设置超时
     if (setsockopt(clnt.native(), SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout_, sizeof(timeout_)) != 0) {
         return -1;
     }
-
     // 关闭 NAGLE 算法
     clnt.set_option(ip::tcp::no_delay(true));
     
-    return 0;
-}
-
-
-void 
-iegad::nets::tcp_mt_svr::regist_svc(basic_svc_ptr svc_obj)
-{
-    if (iegad::nets::basic_svc::regist_svc(svc_obj, svc_map_) != 0) {
-	iERR << "### the service object already have ###" << std::endl;
-    }
-}
-
-
-int
-iegad::nets::tcp_mt_svr::_build_basic_msg(ip::tcp::socket & clnt,
-iegad::msg::basic_msg & msgbsc,
-boost::system::error_code & err_code)
-{
-    int rzt;
-    rzt = iegad::msg::recv_basic_msg(clnt, msgbsc, err_code);
-    if (err_code == boost::asio::error::timed_out) {
-	iWARN << clnt.remote_endpoint().address().to_string() << " ### TIME OUT ###" << std::endl;
-    }
-    return rzt;
-}
-
-
-int 
-iegad::nets::tcp_mt_svr::_call_svc(ip::tcp::socket & clnt, 
-						  iegad::msg::basic_msg & msgbsc)
-{
-    basic_svc_ptr p_svc = basic_svc::get_svc(msgbsc.msg_type(), svc_map_);
-    if (p_svc.get() != nullptr) {
-	p_svc->action(clnt, msgbsc.msg_flag(), msgbsc.msg_bdstr());
-    } 
-    else {
-    //msg_type don't mapping the msg_svc;
-	iWARN << "### no service mapping ###" << std::endl;
-	return -1;
-    }
-    clnt.close();
     return 0;
 }
 
@@ -195,5 +161,6 @@ iegad::nets::tcp_mt_svr::~tcp_mt_svr()
 const std::string 
 iegad::nets::tcp_mt_svr::host_endpoint()
 {
-    return acptor_.local_endpoint().address().to_string() + ":" + iegad::string::to_str(acptor_.local_endpoint().port());
+    return acptor_.local_endpoint().address().to_string() 
+	+ ":" + iegad::string::to_str(acptor_.local_endpoint().port());
 }

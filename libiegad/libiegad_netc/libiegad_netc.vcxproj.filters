@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="clnt">
+    <Filter Include="client">
       <UniqueIdentifier>{c7423cc8-e3fa-4c0b-a387-dcae4a9b1239}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\netc\basic_proxy.cpp">
-      <Filter>clnt</Filter>
+    <ClCompile Include="..\src\nets\basic_proxy.cpp">
+      <Filter>client</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\netc\udp_puller.cpp">
-      <Filter>clnt</Filter>
+    <ClCompile Include="..\src\nets\udp_puller.cpp">
+      <Filter>client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\netc\basic_proxy.h">
-      <Filter>clnt</Filter>
+    <ClInclude Include="..\src\nets\basic_proxy.h">
+      <Filter>client</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\netc\udp_puller.h">
-      <Filter>clnt</Filter>
+    <ClInclude Include="..\src\nets\udp_puller.h">
+      <Filter>client</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

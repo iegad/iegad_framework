@@ -12,11 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\msg\basic_msg.pb.cc" />
-    <ClCompile Include="..\src\msg\iegad_io_msg.cpp" />
+    <ClCompile Include="..\src\msg\iegad_msg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\msg\basic_msg.pb.h" />
-    <ClInclude Include="..\src\msg\iegad_io_msg.h" />
+    <ClInclude Include="..\src\msg\iegad_msg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\msg\basic_msg.proto" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F9B212E5-971C-4C3A-8ACA-1DBC49944769}</ProjectGuid>

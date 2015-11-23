@@ -6,14 +6,14 @@
 #endif // WIN32
 #include <iomanip>
 #include <boost/uuid/sha1.hpp>
-#include <boost/archive/iterators/base64_from_binary.hpp>
-#include <boost/archive/iterators/binary_from_base64.hpp>
-#include <boost/archive/iterators/transform_width.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/locale.hpp>
 #include <cwctype>
+#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/binary_from_base64.hpp>
+#include <boost/archive/iterators/transform_width.hpp>
 
 
 
@@ -381,33 +381,41 @@ iegad::string::sha1(const std::string & src, std::vector<unsigned int> & digest)
 }
 
 
-const std::string 
-iegad::string::base64_en(const std::string & src)
+const std::string
+iegad::string::base64_en(const char * databuf, unsigned int size)
 {
     using boost::archive::iterators::base64_from_binary;
     using boost::archive::iterators::transform_width;
     typedef base64_from_binary<transform_width<std::string::const_iterator, 6, 8>> base64_en_itor;
+
+    std::string src(databuf, size);
     std::stringstream result;
-    std::copy(base64_en_itor(src.begin()), 
+    std::copy(base64_en_itor(src.begin()),
 	base64_en_itor(src.end()), std::ostream_iterator<char>(result));
     size_t equal_count = (3 - src.length() % 3) % 3;
     for (size_t i = 0; i < equal_count; i++) {
-        result.put('=');
+	result.put('=');
     }
     return result.str();
 }
 
 
-const std::string 
+const std::string
 iegad::string::base64_de(const std::string & src)
 {
     using boost::archive::iterators::binary_from_base64;
     using boost::archive::iterators::transform_width;
     typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_de_itor;
-    std::stringstream result;
+    std::stringstream os;
+    std::string res;
     std::copy(base64_de_itor(src.begin()),
-	base64_de_itor(src.end() - 1), std::ostream_iterator<char>(result));
-    return result.str();
+	base64_de_itor(src.begin() + src.size()), std::ostream_iterator<char>(os));
+    res = os.str();
+    int n = res.size() - 1;
+    while (res[n] == '\0'){
+	res.erase(n--);
+    }
+    return res;
 }
 
 
@@ -425,7 +433,8 @@ iegad::string::en_cust(const std::string & src, char key)
 {
     std::string res;
     for (int i = 0, n = src.size(); i < n; i++) {
-        res.push_back(src[i] ^ key);
+	// res.push_back(src[i] ^ key);
+	res.push_back(~src[i] + 1);
     }
     return res;
 }
@@ -730,4 +739,63 @@ iegad::string::to_lwr(const std::wstring &src)
         restr[i] = std::towlower(restr[i]);
     }
     return restr;
+}
+
+
+const std::string 
+iegad::string::bin_tostr(const char * buff, unsigned int buff_size)
+{
+    std::string res(buff_size * 2, 0);
+    uint8_t temp;
+
+    for (size_t i = 0; i < buff_size; i++) {
+	temp = buff[i];
+	for (size_t j = 0; j < 2; j++) {
+	    uint8_t cCur = (temp & 0x0f);
+	    if (cCur < 10) {
+		cCur += '0';
+	    }
+	    else {
+		cCur += ('A' - 10);
+	    }
+	    res[2 * i + 1 - j] = cCur;
+	    temp >>= 4;
+	}
+    }
+
+    return res;
+}
+
+
+const char * 
+iegad::string::str_tobin(const std::string & src, char * buff, int & buff_size)
+{
+    if (src.size() % 2 != 0 || 
+	buff == nullptr || 
+	static_cast<size_t>(buff_size) < src.size() / 2) {
+	return nullptr;
+    }
+
+    buff_size = src.size() / 2;
+    for (int i = 0; i < buff_size; i++) {
+	uint8_t cTemp = 0;
+	for (size_t j = 0; j < 2; j++) {
+	    char cCur = src[2 * i + j];
+	    if (cCur >= '0' && cCur <= '9') {
+		cTemp = (cTemp << 4) + (cCur - '0');
+	    }
+	    /*else if (cCur >= 'a' && cCur <= 'f') {
+		cTemp = (cTemp << 4) + (cCur - 'a' + 10);
+	    }*/
+	    else if (cCur >= 'A' && cCur <= 'F') {
+		cTemp = (cTemp << 4) + (cCur - 'A' + 10);
+	    }
+	    else {
+		return nullptr;
+	    }
+	} // for (size_t j = 0; j < 2; j++);
+	buff[i] = cTemp;
+    } // for (size_t i = 0; i < buff_size; i++);
+
+    return buff;
 }

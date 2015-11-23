@@ -6,9 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\mysql\iegad_mysql.h">
-      <Filter>mysql</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\mysql\mysql_helper.h">
       <Filter>mysql</Filter>
     </ClInclude>

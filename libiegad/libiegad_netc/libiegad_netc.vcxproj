@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\netc\basic_proxy.cpp" />
-    <ClCompile Include="..\src\netc\udp_puller.cpp" />
+    <ClCompile Include="..\src\nets\basic_proxy.cpp" />
+    <ClCompile Include="..\src\nets\udp_puller.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\netc\basic_proxy.h" />
-    <ClInclude Include="..\src\netc\udp_puller.h" />
+    <ClInclude Include="..\src\nets\basic_proxy.h" />
+    <ClInclude Include="..\src\nets\udp_puller.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5B7A6C61-6F7C-4FC8-84B4-CC0CDD1C45DF}</ProjectGuid>

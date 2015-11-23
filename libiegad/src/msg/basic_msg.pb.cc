@@ -83,7 +83,7 @@ void protobuf_AddDesc_basic_5fmsg_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\017basic_msg.proto\022\tiegad.msg\"B\n\tbasic_ms"
     "g\022\020\n\010msg_type\030\001 \002(\005\022\020\n\010msg_flag\030\002 \002(\005\022\021\n"
-    "\tmsg_bdstr\030\003 \002(\t", 96);
+    "\tmsg_bdstr\030\003 \002(\014", 96);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "basic_msg.proto", &protobuf_RegisterTypes);
   basic_msg::default_instance_ = new basic_msg();
@@ -231,16 +231,12 @@ bool basic_msg::MergePartialFromCodedStream(
         break;
       }
 
-      // required string msg_bdstr = 3;
+      // required bytes msg_bdstr = 3;
       case 3: {
         if (tag == 26) {
          parse_msg_bdstr:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_msg_bdstr()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->msg_bdstr().data(), this->msg_bdstr().length(),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "msg_bdstr");
         } else {
           goto handle_unusual;
         }
@@ -283,13 +279,9 @@ void basic_msg::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->msg_flag(), output);
   }
 
-  // required string msg_bdstr = 3;
+  // required bytes msg_bdstr = 3;
   if (has_msg_bdstr()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->msg_bdstr().data(), this->msg_bdstr().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "msg_bdstr");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
       3, this->msg_bdstr(), output);
   }
 
@@ -313,14 +305,10 @@ void basic_msg::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->msg_flag(), target);
   }
 
-  // required string msg_bdstr = 3;
+  // required bytes msg_bdstr = 3;
   if (has_msg_bdstr()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->msg_bdstr().data(), this->msg_bdstr().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "msg_bdstr");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         3, this->msg_bdstr(), target);
   }
 
@@ -350,10 +338,10 @@ int basic_msg::ByteSize() const {
           this->msg_flag());
     }
 
-    // required string msg_bdstr = 3;
+    // required bytes msg_bdstr = 3;
     if (has_msg_bdstr()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
           this->msg_bdstr());
     }
 

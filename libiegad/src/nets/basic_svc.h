@@ -10,6 +10,7 @@
 //
 // ============================
 // @用途 : 该服务基类, 是所有服务类对象的基类, 
+//		基于 google protocol buffer
 //		1. 统一调用接口
 //		2. 提供一些公共的函数
 // ============================
@@ -18,15 +19,17 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-//  -- 2015-10-10	--iegad			1. 为_response 加入加密功能
-//  -- 2015-10-22    --iegad			1. 将 _response 命名 为 _return
+//  -- 2015-10-10	--iegad			-- 1. 为_response 加入加密功能
+//  -- 2015-10-22    --iegad			-- 1. 将 _response 命名 为 _return
+//  -- 2015-11-08    --iegad			-- 1, 替换 新版本 msg 接收和发送函数
+//  -- 2015-11-09	--iegad			-- 将SerializedToString替换 为SerializedToArray, 应为这样传送中文会没有问题.
+//								    但是关于字节序中 是否会在预期之外的地方出现 '\0' 还有待观查
 
 
 
 #include <string>
 #include <memory>
-#include <unordered_map>
-#include "msg/iegad_io_msg.h"
+#include "msg/iegad_msg.h"
 
 
 namespace iegad {
@@ -34,7 +37,8 @@ namespace nets {
 
     
     class basic_svc {
-    // 服务对象基础类, 抽象类;
+    // 服务对象基类, 抽象类;
+
     public:
 	// ============================
 	// @用途 : 类本身的智能指针 类型声明
@@ -43,28 +47,10 @@ namespace nets {
 
 
 	// ============================
-	// @用途 : "服务ID 与服务对象 映射表" 类型声明
+	// @用途 : 返回该对象的服务ID
+	// @返回值 : 返回服务ID
 	// ============================
-	typedef std::unordered_map<int, basic_svc_ptr> svc_map_t;
-	
-
-	// ============================
-	// @用途 : 从 映射表 svc_map 中找到 对应 svc_id 的服务对象指针
-	// @svc_id : 服务ID
-	// @svc_map : 映射表
-	// @返回值 : 成功返回 svc对象智能指针, 否则, 返回一个nullptr的智能指针
-	// ============================
-	static basic_svc_ptr get_svc(int svc_id, svc_map_t & svc_map);
-
-
-	// ============================
-	// @用途 : 把 服务对象 svc_obj 加到 映射表 svc_map 中;
-	// @svc_obj : 服务对象的智能指针
-	// @svc_map : 映射表
-	// @返回值 : 成功返回 0, 否则返回 -1; 
-	// @PS : 错误的情况只会是 两个服务对象 具有相同的服务ID;
-	// ============================
-	static int regist_svc(const basic_svc_ptr & svc_obj, svc_map_t & svc_map);
+	int get_id();
 
 
 	// ============================
@@ -75,14 +61,8 @@ namespace nets {
 	// @返回值 : 调用成功返回 0, 否则返回 -1; 
 	// @PS : 服务对象的调用接口, 该函数为纯虚函数, 由实际的服务对象(派生类)实现;
 	// ============================
-	virtual int action(boost::asio::ip::tcp::socket & clnt, int msg_flag, const std::string & msg_bdstr) = 0;
+	virtual int invoke(boost::asio::ip::tcp::socket & clnt, int msg_flag, const std::string & msg_bdstr) = 0;
 
-
-	// ============================
-	// @用途 : 返回该对象的服务ID
-	// @返回值 : 返回服务ID
-	// ============================
-	int get_id();
 
     protected:
 	// ============================
@@ -114,13 +94,12 @@ namespace nets {
 	// @用途 : 向tcp客户端 clnt 发送 消息 msg;
 	// @clnt : tcp 客户端
 	// @flag : 消息标志, basic_msg::msg_flag
-	// @msg : 子消息类型;
+	// @msg_dbstr : 子消息类型, 由google protocol buffer 所生成的消息, 并以经序列化成字符串
 	// @返回值, 发送成功返回0, 否则, 返回-1;
-	// @PS : 模板参数 __MSG_T 一定要是由google protocol buffer
-	//		所生成的msg对象类型.
 	// ============================
-	template <class __MSG_T>
-	int _send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg);
+	int _send_msg(boost::asio::ip::tcp::socket & clnt, int flag, 
+		const std::string & msg_dbstr,
+		boost::system::error_code & err_code);
 
 
 	// ============================
@@ -128,15 +107,18 @@ namespace nets {
 	// @clnt : tcp 客户端
 	// @rzt : 应答的结果, 规则由自己定义
 	// @rzt_size : 应答数据的长度
+	// @err_code : 错误信息
 	// @返回值, 发送成功发送的字节数
 	// @PS : 为了提高通信从而添加该函数, 这样便可以
 	//		每次应答时, 都构建一个basic_msg对象;
 	// ============================
-	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size);
+	int _return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size, 
+		boost::system::error_code & err_code);
+
 
     private:
 	// 服务ID
-	int svc_id_;
+	const int svc_id_;
     }; // class basic_svc
 
 
@@ -148,25 +130,7 @@ namespace nets {
     int iegad::nets::basic_svc::_build_svc(const std::string & msgbdstr, __MSG_T & msg)
     {
         msg.Clear();
-        return msg.ParseFromString(msgbdstr) ? 0 : -1;
-    }
-
-
-    template <class __MSG_T>
-    int iegad::nets::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag, const __MSG_T & msg)
-    {
-        std::string msg_str;
-        boost::system::error_code errcode;
-
-        if (!msg.SerializeToString(&msg_str)) {
-            return -1;
-        }
-
-        iegad::msg::basic_msg msgbsc;
-        msgbsc.set_msg_type(this->svc_id_);
-        msgbsc.set_msg_flag(flag);
-        msgbsc.set_msg_bdstr(msg_str);
-        return iegad::msg::send_basic_msg(clnt, msgbsc, errcode);
+        return msg.ParseFromArray(msgbdstr.c_str(), msgbdstr.size()) ? 0 : -1;
     }
 
 
