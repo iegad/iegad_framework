@@ -1,6 +1,8 @@
 ﻿#include "nets/basic_svc.h"
 #include "common/iegad_string.h"
 #include "msg/basic_msg.pb.h"
+#include "common/iegad_compress.hpp"
+#include "iegad_msg_ex.h"
 
 
 iegad::nets::basic_svc::basic_svc(int svc_id)
@@ -19,9 +21,11 @@ int
 iegad::nets::basic_svc::_return(boost::asio::ip::tcp::socket & clnt, const char * rzt, size_t rzt_size, 
     boost::system::error_code & err_code)
 {
-    return iegad::msg::send_str(clnt, 
-	iegad::string::bin_tostr(rzt, rzt_size), 
-	err_code);
+    //std::string temp = iegad::string::bin_tostr(rzt, rzt_size);
+    //std::string msgstr;
+    //size_t n = iegad::tools::compress(temp.c_str(), temp.size(), &msgstr);
+    //return iegad::msg::send_str(clnt, msgstr, err_code);
+    return iegad::msg::msg_ex::send_data(clnt, rzt, rzt_size, err_code);
 }
 
 
@@ -38,9 +42,7 @@ iegad::nets::basic_svc::_send_msg(boost::asio::ip::tcp::socket & clnt, int flag,
     int datalen = msgbsc.ByteSize();
     char * msgdata = new char[datalen];
     if (msgbsc.SerializeToArray(msgdata, datalen)) {
-	n = iegad::msg::send_str(clnt,
-	    iegad::string::bin_tostr(msgdata, datalen), 
-	    err_code) == datalen * 2 && err_code.value() == 0 ? 0 : -1;
+	n = iegad::msg::msg_ex::send_data(clnt, msgdata, datalen, err_code);
     }
     delete[] msgdata;
     return n;

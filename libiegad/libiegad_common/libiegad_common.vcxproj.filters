@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\common\iegad_log.cpp">
-      <Filter>log</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\common\iegad_string.cpp">
       <Filter>string</Filter>
     </ClCompile>
@@ -26,12 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\common\iegad_log.h">
-      <Filter>log</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\common\iegad_string.h">
-      <Filter>string</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\common\job_worker.hpp">
       <Filter>tools</Filter>
     </ClInclude>
@@ -55,5 +46,14 @@
     </ClInclude>
     <ClInclude Include="..\src\common\iegad_common.in.h" />
     <ClInclude Include="..\src\iegad_common.h" />
+    <ClInclude Include="..\src\common\iegad_log.hpp">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\iegad_string.hpp">
+      <Filter>string</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

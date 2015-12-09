@@ -25,5 +25,6 @@
     <None Include="..\src\msg\basic_msg.proto">
       <Filter>msg</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

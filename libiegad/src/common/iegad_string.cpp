@@ -1,4 +1,4 @@
-﻿#include "iegad_string.h"
+﻿#include "iegad_string.hpp"
 #include <string.h>
 #include <sstream>
 #ifdef WIN32
@@ -11,10 +11,6 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/locale.hpp>
 #include <cwctype>
-#include <boost/archive/iterators/base64_from_binary.hpp>
-#include <boost/archive/iterators/binary_from_base64.hpp>
-#include <boost/archive/iterators/transform_width.hpp>
-
 
 
 const std::vector<std::string>
@@ -169,198 +165,6 @@ iegad::string::to_lwr(const std::string &src)
 
 
 const std::string 
-iegad::string::to_str(int val)
-{
-    return to_str<int>(val);
-}
-
-
-const std::string
-iegad::string::to_str(short val)
-{
-    return to_str<short>(val);
-}
-
-const std::string iegad::string::to_str(long val)
-{
-    return to_str<long>(val);
-}
-
-
-const std::string 
-iegad::string::to_str(long long val)
-{
-    return to_str<long long>(val);
-}
-
-
-const std::string
-iegad::string::to_str(unsigned int val)
-{
-    return to_str<unsigned int>(val);
-}
-
-
-const std::string 
-iegad::string::to_str(unsigned short val)
-{
-    return to_str<unsigned short>(val);
-}
-
-
-const std::string 
-iegad::string::to_str(unsigned long val)
-{
-    return to_str<unsigned long>(val);
-}
-
-
-const std::string 
-iegad::string::to_str(unsigned long long val)
-{
-    return to_str<unsigned long long>(val);
-}
-
-
-const std::string 
-iegad::string::to_str(float val, int p /* = 6*/)
-{
-    std::string res;
-    std::stringstream strm;
-    strm.precision(p);
-    strm << val;
-    strm >> res;
-    return res;
-}
-
-
-const std::string
-iegad::string::to_str(double val, int p /* = 15*/)
-{
-    std::string res;
-    std::stringstream strm;
-    strm.precision(p);
-    strm << val;
-    strm >> res;
-    return res;
-}
-
-
-const std::string 
-iegad::string::to_str(bool val)
-{
-    return val ? "true" : "false";
-}
-
-
-const std::string 
-iegad::string::to_str(long double val, int p /* = 15*/)
-{
-    std::string res;
-    std::stringstream strm;
-    strm.precision(p);
-    strm << val;
-    strm >> res;
-    return res;
-}
-
-
-char 
-iegad::string::to_char(const std::string & str)
-{
-    return str[0];
-}
-
-
-short 
-iegad::string::to_int16(const std::string & str)
-{
-    std::stringstream ss;
-    short res;
-    ss.str(str);
-    ss >> res;  
-    return res;
-}
-
-
-unsigned short 
-iegad::string::to_uint16(const std::string & str)
-{
-    std::stringstream ss;
-    unsigned short res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-int 
-iegad::string::to_int32(const std::string & str)
-{
-    std::stringstream ss;
-    int res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-unsigned int 
-iegad::string::to_uint32(const std::string & str)
-{
-    std::stringstream ss;
-    unsigned int res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-long long 
-iegad::string::to_int64(const std::string & str)
-{
-    std::stringstream ss;
-    long long res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-unsigned long long 
-iegad::string::to_uint64(const std::string & str)
-{
-    std::stringstream ss;
-    unsigned long long res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-float
-iegad::string::to_float(const std::string & str)
-{
-    std::stringstream ss;
-    float res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-double 
-iegad::string::to_double(const std::string & str)
-{
-    std::stringstream ss;
-    double res;
-    ss.str(str);
-    ss >> res;
-    return res;
-}
-
-
-const std::string 
 iegad::string::md5(const std::string & src)
 {
     iegad::security::MD5 m(src);
@@ -378,44 +182,6 @@ iegad::string::sha1(const std::string & src, std::vector<unsigned int> & digest)
     for (int i = 0; i < 5; i++) {
         digest.push_back(temp[i]);
     }
-}
-
-
-const std::string
-iegad::string::base64_en(const char * databuf, unsigned int size)
-{
-    using boost::archive::iterators::base64_from_binary;
-    using boost::archive::iterators::transform_width;
-    typedef base64_from_binary<transform_width<std::string::const_iterator, 6, 8>> base64_en_itor;
-
-    std::string src(databuf, size);
-    std::stringstream result;
-    std::copy(base64_en_itor(src.begin()),
-	base64_en_itor(src.end()), std::ostream_iterator<char>(result));
-    size_t equal_count = (3 - src.length() % 3) % 3;
-    for (size_t i = 0; i < equal_count; i++) {
-	result.put('=');
-    }
-    return result.str();
-}
-
-
-const std::string
-iegad::string::base64_de(const std::string & src)
-{
-    using boost::archive::iterators::binary_from_base64;
-    using boost::archive::iterators::transform_width;
-    typedef transform_width<binary_from_base64<std::string::const_iterator>, 8, 6> base64_de_itor;
-    std::stringstream os;
-    std::string res;
-    std::copy(base64_de_itor(src.begin()),
-	base64_de_itor(src.begin() + src.size()), std::ostream_iterator<char>(os));
-    res = os.str();
-    int n = res.size() - 1;
-    while (res[n] == '\0'){
-	res.erase(n--);
-    }
-    return res;
 }
 
 
@@ -444,18 +210,6 @@ const std::string
 iegad::string::de_cust(const std::string & src, char key)
 {
     return en_cust(src, key);
-}
-
-
-const std::string 
-iegad::string::format(const std::string & fmt, std::vector<std::string> & parms)
-{
-    std::string res = fmt, flag;
-    for (int i = 0, n = parms.size(); i < n; i++) {
-	flag = "{" + iegad::string::to_str(i) + "}";
-        res = iegad::string::replace(res, flag, parms[i]);
-    }
-    return res;
 }
 
 
@@ -505,34 +259,6 @@ iegad::string::remove2(const std::string & src, unsigned int bgn, unsigned int e
     end = static_cast<int>(end) == -1 ? res.size() : end;
     res.erase(res.begin() + bgn, res.begin() + end + 1);
     return res;
-}
-
-
-const std::wstring 
-iegad::string::str_towstr(const std::string & src, const std::string & charset /*= CHARSET_DEFAULT*/)
-{
-    return boost::locale::conv::to_utf<wchar_t>(src, charset);
-}
-
-
-const std::string 
-iegad::string::wstr_tostr(const std::wstring & src, const std::string & charset /*= CHARSET_DEFAULT*/)
-{
-    return boost::locale::conv::from_utf<wchar_t>(src, charset);
-}
-
-
-const std::string 
-iegad::string::to_utf8(const std::string & srcstr, const std::string & charset /*= CHARSET_DEFAULT*/)
-{
-    return boost::locale::conv::between(srcstr, "UTF-8", charset);
-}
-
-
-const std::string
-iegad::string::from_utf8(const std::string & utf8str, const std::string & charset /*= CHARSET_DEFAULT*/)
-{
-    return boost::locale::conv::between(utf8str, charset, "UTF-8");
 }
 
 

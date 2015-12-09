@@ -1,7 +1,7 @@
 #include <iostream>
 #include "nets/basic_proxy.h"
-#include "iegad_define.h"
 #include <thread>
+#include "common/iegad_common.in.h"
 
 
 
@@ -12,7 +12,8 @@ public:
 	: iegad::netc::basic_proxy(host, svc) {}
 
 
-    virtual const std::string call(const std::string & msgstr) override {
+    virtual const std::string call(const std::string & msgstr) override 
+    {
 	boost::system::error_code err_code;
 	if (this->_connect() != 0) {
 	    return ERR_STRING;
@@ -56,7 +57,7 @@ public:
 
 
 enum {
-    NTIME = 10
+    NTIME = 2
 };
 
 

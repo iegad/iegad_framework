@@ -24,15 +24,18 @@
 //							    3, 添加 二进制 消息类型 bmsg_t;
 //							    4, 添加 字符串消息和文件消息 的recv/send 操作函数.
 //  --2015-11-08	--iegad		-- 添加 加密 发送/接收 函数
+//  --2015-11-14	--iegad		-- 取消 加密 解密的发送与接收, 加密行为 放入 上层
 
 
 #include <boost/asio.hpp>
 #include <string>
-#include "iegad_define.h"
 
 
 namespace iegad {
 namespace msg {
+
+// 缓冲区大小
+#define BUF_SIZE	1440
 
 
     // ============================
@@ -45,13 +48,6 @@ namespace msg {
     const std::string recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
 	boost::system::error_code & err_code);
 
-    // ============================
-    // @用途 : recv_str => 加密版
-    // @msg_key : 密钥
-    // ============================
-    const std::string recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
-	boost::system::error_code & err_code, char msg_key);
-
 
     // ============================
     // @用途 : 向 客户端clnt 发送 字符串消息;
@@ -62,13 +58,6 @@ namespace msg {
     // ============================
     int send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
 	boost::system::error_code & err_code);
-
-    // ============================
-    // @用途 : send_str => 加密版
-    // @msg_key : 密钥
-    // ============================
-    int send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
-	boost::system::error_code & err_code, char msg_key);
 
 
     // ============================

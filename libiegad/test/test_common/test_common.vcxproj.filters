@@ -12,4 +12,7 @@
   <ItemGroup>
     <ClCompile Include="test_common_main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

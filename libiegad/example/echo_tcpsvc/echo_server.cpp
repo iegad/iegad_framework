@@ -1,6 +1,5 @@
 #include "nets/tcp_mt_svc.h"
 #include "nets/basic_svc.h"
-#include "iegad_define.h"
 
 
 #include <iostream>
@@ -60,7 +59,7 @@ main(int argc, char * argv[])
     std::shared_ptr<echoEx_svc> echoExSvc(new echoEx_svc());
     host.regist_svc(echoSvc);
     host.regist_svc(echoExSvc);
-    host.run(4);
+    host.run(2);
     std::cin.get();
     exit(0);
 }

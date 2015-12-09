@@ -11,22 +11,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\common\iegad_log.cpp" />
     <ClCompile Include="..\src\common\iegad_md5.cpp" />
     <ClCompile Include="..\src\common\iegad_string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\iegad_common.in.h" />
     <ClInclude Include="..\src\common\iegad_compress.hpp" />
-    <ClInclude Include="..\src\common\iegad_log.h" />
+    <ClInclude Include="..\src\common\iegad_log.hpp" />
     <ClInclude Include="..\src\common\iegad_map.hpp" />
     <ClInclude Include="..\src\common\iegad_md5.h" />
     <ClInclude Include="..\src\common\iegad_timer.hpp" />
     <ClInclude Include="..\src\common\iegad_singleton.hpp" />
-    <ClInclude Include="..\src\common\iegad_string.h" />
+    <ClInclude Include="..\src\common\iegad_string.hpp" />
     <ClInclude Include="..\src\common\job_queue.hpp" />
     <ClInclude Include="..\src\common\job_worker.hpp" />
     <ClInclude Include="..\src\iegad_common.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{25F1C83F-737F-4A59-B1A0-4CC3B6C976BB}</ProjectGuid>
@@ -62,7 +64,9 @@
     <Import Project="..\libiegad_envronment.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <NuGetPackageImportStamp>82b31796</NuGetPackageImportStamp>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -107,5 +111,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.6.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.6.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.6.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.6.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets'))" />
+  </Target>
 </Project>

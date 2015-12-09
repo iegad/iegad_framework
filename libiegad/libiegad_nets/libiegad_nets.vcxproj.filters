@@ -7,6 +7,9 @@
     <Filter Include="client">
       <UniqueIdentifier>{a4a75a67-3ace-41a0-a167-2d8a2f909212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="msg_ex">
+      <UniqueIdentifier>{f32951b7-7dec-4bda-965e-cb95168d5729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\nets\basic_svc.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="..\src\nets\tcp_mt_svc.cpp">
       <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\nets\iegad_msg_ex.cpp">
+      <Filter>msg_ex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,5 +53,11 @@
     <ClInclude Include="..\src\nets\tcp_mt_svc.h">
       <Filter>server</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\nets\iegad_msg_ex.h">
+      <Filter>msg_ex</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

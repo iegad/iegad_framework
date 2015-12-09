@@ -20,15 +20,6 @@ iegad::msg::recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf
 }
 
 
-const std::string 
-iegad::msg::recv_str(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
-    boost::system::error_code & err_code, char msg_key)
-{
-    std::string res = iegad::msg::recv_str(clnt, recvbuff, err_code);
-    return iegad::string::de_cust(res, msg_key);
-}
-
-
 int 
 iegad::msg::send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
     boost::system::error_code & err_code)
@@ -36,14 +27,6 @@ iegad::msg::send_str(boost::asio::ip::tcp::socket & clnt, const std::string & ms
     // msgstr.size() + 1 : 连同 '\0' 一起发送
     int n = clnt.write_some(boost::asio::buffer(msgstr.c_str(), msgstr.size() + 1), err_code);
     return err_code ? -1 : n;
-}
-
-
-int 
-iegad::msg::send_str(boost::asio::ip::tcp::socket & clnt, const std::string & msgstr, 
-    boost::system::error_code & err_code, char msg_key)
-{
-    return send_str(clnt, iegad::string::en_cust(msgstr, msg_key), err_code);
 }
 
 
@@ -94,7 +77,7 @@ iegad::msg::send_file(boost::asio::ip::tcp::socket & clnt, const std::string & f
 	res = 0;
 	while (true) {
 	    fin.read(sendbuff, BUF_SIZE);
-	    n = fin.gcount();
+	    n = static_cast<int>(fin.gcount());
 	    again:
 	    n = clnt.write_some(boost::asio::buffer(sendbuff, n), err_code);
 	    res += n;

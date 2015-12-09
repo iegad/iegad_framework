@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClCompile Include="echo_client.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

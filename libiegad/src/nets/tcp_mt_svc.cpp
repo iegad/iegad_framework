@@ -1,7 +1,8 @@
 #include "tcp_mt_svc.h"
-#include "common/iegad_string.h"
 #include "msg/basic_msg.pb.h"
 #include "common/iegad_log.h"
+#include "nets/iegad_msg_ex.h"
+#include "common/iegad_common.in.h"
 
 
 
@@ -54,21 +55,11 @@ iegad::nets::tcp_mt_svc::regist_svc(basic_svc::basic_svc_ptr svc)
 
 
 const std::string 
-iegad::nets::tcp_mt_svc::_get_msgstr(boost::asio::ip::tcp::socket & clnt, boost::asio::streambuf & recvbuff, 
+iegad::nets::tcp_mt_svc::_get_msgstr(boost::asio::ip::tcp::socket & clnt, 
+	boost::asio::streambuf & recvbuff, 
 	boost::system::error_code & err_code)
-{
-    std::string res;
-    res = iegad::msg::recv_str(clnt, recvbuff, err_code);
-    int len = res.size() / 2;
-    char * buff = new char[len];
-    if (iegad::string::str_tobin(res, buff, len) != nullptr) {
-	res = std::move(std::string(buff, len));
-    }
-    else {
-	res = ERR_STRING;
-    }
-    delete[] buff;
-    return res;
+{   
+    return iegad::msg::msg_ex::recv_data(clnt, recvbuff, err_code);
 }
 
 

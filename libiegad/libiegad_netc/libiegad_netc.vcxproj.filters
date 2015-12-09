@@ -12,6 +12,9 @@
     <ClCompile Include="..\src\nets\udp_puller.cpp">
       <Filter>client</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\nets\iegad_msg_ex.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\nets\basic_proxy.h">
@@ -20,5 +23,11 @@
     <ClInclude Include="..\src\nets\udp_puller.h">
       <Filter>client</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\nets\iegad_msg_ex.h">
+      <Filter>client</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
