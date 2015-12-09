@@ -9,8 +9,7 @@
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 用来记录, INFO, WARNING, ERROR, FATAL 
-//		四种级别的日志;
+// @用途 : 用来记录, INFO
 //
 // @PS : 因为打印日志会带来额外的系统开销, 由其是
 //	      IO操作, 所以, 只在必要时打印日志.
@@ -20,7 +19,7 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-
+// 2015-12-09		    -- iegad			简化使用
 
 
 // glog standard;
@@ -35,36 +34,16 @@
 #include <unistd.h>
 #define _access access
 #endif // WIN32
+#include "iegad_common.in.h"
 
 
 #ifdef iINFO 
 #error iINFO has defined;
 #endif // iINFO 
 
-#ifdef iWARN 
-#error iWARN has defined;
-#endif // iWARN 
-
-#ifdef iERR 
-#error iERR has defined;
-#endif // iERR 
-
-#ifdef iSYSERR 
-#error iSYSERR has defined;
-#endif // iSYSERR 
-
 
 // INFO级 操作宏
 #define iINFO		    LOG(INFO)
-
-// WARNING级 操作宏
-#define iWARN		    LOG(WARNING)
-
-// ERROR级 操作宏
-#define iERR		    LOG(ERROR)
-
-// FATAL级 操作宏, 这里改称为 系统级错误
-#define iSYSERR	    LOG(FATAL)
 
 
 namespace iegad {
@@ -79,13 +58,32 @@ namespace tools {
 	// @argv0 : main函数中的 环境变量 argv[0], 
 	//		表示程序当前运行路径;
 	// ============================
-	explicit _LOG(char * argv0);
+	explicit _LOG(char * argv0) {
+	    if (_access("LOG", 0) != 0) {
+		system(MKDIR);
+	    }
+	    google::InitGoogleLogging(argv0);
+	    // set the file position;
+	    google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
+	    // set log file max size 100M;
+	    FLAGS_max_log_size = 100;
+	    //init charset;
+
+#ifdef WIN32 // for win
+	    const char * charset = "chs";
+#else // for linux
+	    const char * charset = "zh_CN.UTF-8";
+#endif // WIN32
+	    std::locale::global(std::locale(charset));
+	}
 
 
 	// ============================
 	// @用途 : 析构函数, 释放glog所使用的资源;
 	// ============================
-	~_LOG();
+	~_LOG() {
+	    google::ShutdownGoogleLogging();
+	}
 
     private:
 	// 禁用
