@@ -13,6 +13,9 @@
     <Filter Include="security">
       <UniqueIdentifier>{1a392521-99de-42a9-a45e-d25fa398d906}</UniqueIdentifier>
     </Filter>
+    <Filter Include="thrift_ex">
+      <UniqueIdentifier>{c0f3ead7-013b-487c-a180-c2371dd1062f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\common\iegad_string.cpp">
@@ -20,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="..\src\common\iegad_md5.cpp">
       <Filter>security</Filter>
+    </ClCompile>
+    <ClCompile Include="thrift_ex.hpp">
+      <Filter>thrift_ex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,8 +58,5 @@
     <ClInclude Include="..\src\common\iegad_string.hpp">
       <Filter>string</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>
