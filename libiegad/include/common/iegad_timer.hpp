@@ -24,6 +24,7 @@
 #include <string>
 #include <assert.h>
 #include <ctime>
+#include <string.h>
 
 
 namespace iegad {

@@ -27,7 +27,7 @@ public:
 	    boost::shared_ptr<TBinaryProtocol> proto(new TBinaryProtocol(buff));
 	    data.write(proto.get());
 	    uint8_t * p;
-	    buff->getBuffer(&p, size);
+	    buff->getBuffer(&p, (uint32_t *)size);
 	    *serstr = std::string((char *)p, *size);
 	    return true;
 	}
@@ -88,7 +88,7 @@ public:
 class BasicCloneFactory : virtual public XXX_IfFactory {
 public:
     virtual ~BasicCloneFactory() {}
-    virtual CenterBizIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo)
+    virtual XXX_If* getHandler(const ::apache::thrift::TConnectionInfo& connInfo)
     {
 	boost::shared_ptr<TSocket> sock = boost::dynamic_pointer_cast<TSocket>(connInfo.transport);
 	return new XXX_Handler;
@@ -101,6 +101,10 @@ public:
 
 class ServerHost {
 public:
+    static bool InitEvironment() {
+	return XXX_Handler::InitEvironment();
+    }
+
     explicit ServerHost(int port, int threadCount = 4)
 	:
 	threadCount_(threadCount),

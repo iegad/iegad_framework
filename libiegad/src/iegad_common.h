@@ -4,7 +4,6 @@
 
 #include "common/iegad_common.in.h"
 #include "common/iegad_singleton.hpp"
-#include "common/iegad_compress.hpp"
 #include "common/iegad_log.h"
 #include "common/iegad_map.hpp"
 #include "common/iegad_string.h"

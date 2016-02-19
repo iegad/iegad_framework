@@ -13,11 +13,9 @@
   <ItemGroup>
     <ClCompile Include="..\src\common\iegad_md5.cpp" />
     <ClCompile Include="..\src\common\iegad_string.cpp" />
-    <ClCompile Include="thrift_ex.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\iegad_common.in.h" />
-    <ClInclude Include="..\src\common\iegad_compress.hpp" />
     <ClInclude Include="..\src\common\iegad_log.hpp" />
     <ClInclude Include="..\src\common\iegad_map.hpp" />
     <ClInclude Include="..\src\common\iegad_md5.h" />
@@ -26,6 +24,7 @@
     <ClInclude Include="..\src\common\iegad_string.hpp" />
     <ClInclude Include="..\src\common\job_queue.hpp" />
     <ClInclude Include="..\src\common\job_worker.hpp" />
+    <ClInclude Include="..\src\common\thrift_ex.hpp" />
     <ClInclude Include="..\src\iegad_common.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

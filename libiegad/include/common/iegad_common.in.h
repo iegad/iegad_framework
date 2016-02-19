@@ -24,12 +24,6 @@
 #define	    MKDIR			    "mkdir LOG"
 // info 日志保存路径
 #define	    LOG_INF_FILE	    ".\\LOG\\INFO_"
-// error 日志保存路径
-#define	    LOG_ERR_FILE	    ".\\LOG\\ERROR_"
-// warning 日志保存路径
-#define	    LOG_WARN_FILE	    ".\\LOG\\WARNING_"
-// fatal 日志保存路径
-#define	    LOG_FATAL_FILE	    ".\\LOG\\FATAL_"
 
 
 // ===========
@@ -39,18 +33,12 @@
 // long double 精度
 #define	    DECIMAL_DEFAULT_PRECISION	    18
 // 系统GBK 字符集
-#define	    CHARSET_DEFAULT			    "zh_CN.GBK"
+#define	    CHARSET_DEFAULT			    "zh_CN.UTF-8"
 
 // 创建日志目录
 #define	    MKDIR			    "mkdir -p ./LOG";
 // info 日志保存路径
 #define	    LOG_INF_FILE	    "./LOG/INFO_"
-// error 日志保存路径
-#define	    LOG_ERR_FILE	    "./LOG/ERROR_"
-// warning 日志保存路径
-#define	    LOG_WARN_FILE	    "./LOG/WARNING_"
-// fatal 日志保存路径
-#define	    LOG_FATAL_FILE	    "./LOG/FATAL_"
 
 // 使 windows 和 linux 下统一调用名称
 #define	    _snprintf(buff, buffsize, fmt, ...)	    { snprintf((buff), (buffsize), (fmt), ##__VA_ARGS__); }
