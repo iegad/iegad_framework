@@ -13,7 +13,7 @@ rdmServerHandler::Connect(const std::string& ipstr, const int32_t port, const st
 {
     std::string addrStr = ipstr + ":" + std::to_string(port);
     try {
-	if (rds_clients_->get_addr() != addrStr) {
+	if (rds_clients_ == nullptr || rds_clients_->get_addr() != addrStr) {
 	    delete rds_clients_;
 	    rds_clients_ = new acl::redis_client_pool(addrStr.c_str(), max_threads_);
 	}

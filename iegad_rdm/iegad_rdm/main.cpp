@@ -24,15 +24,8 @@ main(int argc, char * argv[])
 	if (!ServerHost::InitEvironment()) {
 	    break;
 	}
-	acl::redis_client clnt("192.168.1.210:6379");
-	rds_processor proc(&clnt);
-	proc.Connect();
-	std::vector<RedisData_t> dataVct;
-	proc.GetKeys(&dataVct, "*");
-	for (auto itor = dataVct.begin(); itor != dataVct.end(); itor++) {
-	    std::cout << itor->key << '\t' << itor->type << std::endl;
-	}
-	std::cin.get();
+	ServerHost host(6688);
+	host.Run();	
 	exit(0);
     } while (false);
     exit(1);
