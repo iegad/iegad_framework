@@ -15,11 +15,12 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(BOOST_DIR)\stage\lib;$(IEGAD_BASE)\third_party\lib\$(Configuration);$(IEGAD_BASE)\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgsnappy.lib;libglog.lib;libpugixml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libglog.lib;libpugixml.lib;libeay32.lib;libevent.lib;libthrift.lib;ssleay32.lib;libactivemq-cpp.lib;libapr.lib;ws2_32.lib;rpcrt4.lib;mswsock.lib;user32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(IEGAD_BASE)\third_party\lib\$(Configuration);$(BOOST_DIR)\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(IEGAD_BASE)\lib\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

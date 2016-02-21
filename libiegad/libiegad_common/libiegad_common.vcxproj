@@ -11,11 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\common\amq_baser.cpp" />
+    <ClCompile Include="..\src\common\amq_consumer.cpp" />
     <ClCompile Include="..\src\common\amq_producer.cpp" />
     <ClCompile Include="..\src\common\iegad_md5.cpp" />
     <ClCompile Include="..\src\common\iegad_string.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\common\amq_baser.h" />
+    <ClInclude Include="..\src\common\amq_consumer.h" />
+    <ClInclude Include="..\src\common\amq_iworker.hpp" />
     <ClInclude Include="..\src\common\amq_producer.h" />
     <ClInclude Include="..\src\common\iegad_common.in.h" />
     <ClInclude Include="..\src\common\iegad_log.hpp" />

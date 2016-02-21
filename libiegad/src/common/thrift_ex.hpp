@@ -62,6 +62,7 @@ public:
     // ============================
     virtual ~Serializer() = 0;
 
+
     // ============================
     // @用途 : 将 T 序列化为 字节 数据
     // @data : 由thrift 生成的 struct 对象
@@ -155,6 +156,7 @@ public:
 }; // class Serializer<T>;
 
 
+
 // ============ 声明 ============
 //  在包含该头文件时, 必需声明 
 //	XXX_IfFactory, XXX_Handler, XXX_If, XXX_ProcessorFactory 
@@ -204,12 +206,12 @@ public:
     // ============================
     // @用途 : 初始化环境.
     // @返回值 : 初始化成功, 返回 true, 否则返回 false.
-    // @PS : XXX_Handler 必需提供InitEvironment 函数, 
+    // @PS : XXX_Handler 必需提供InitEnvironment 函数, 
     //		   该函数不会由thrift 生成, 必需手动修改.
     //		   该函数必需在构建ServerHost 实例之前被调用.
     // ============================
-    static bool InitEvironment() {
-	return XXX_Handler::InitEvironment();
+    static bool InitEnvironment() {
+	return XXX_Handler::InitEnvironment();
     }
 
 

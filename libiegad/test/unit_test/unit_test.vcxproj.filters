@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="amq_test">
+      <UniqueIdentifier>{986aa57f-9e01-409d-9b9d-6b6f18974f4b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="producer.hpp">
+      <Filter>amq_test</Filter>
+    </ClInclude>
+    <ClInclude Include="consumer.hpp">
+      <Filter>amq_test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+</Project>
