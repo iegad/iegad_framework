@@ -2,6 +2,7 @@
 #define __THRIFT_EX__
 
 
+
 // ============ 说明 ============
 //
 // @创建日期 : 2016-02-20
@@ -12,7 +13,7 @@
 //		方便使用.
 //		2, 对thirft 所生成的结构提供序列化的类.
 //		
-//		@PS : 该文件依赖于 thrift 开源库    
+// @PS : 该文件依赖于 thrift 开源库    
 //		
 //		@ Serializer : 序列化器, 
 //			    用于序列化与反序列化, 提供 二进制 与 JSON串的序列化方式.
@@ -31,15 +32,6 @@
 //  日期                     修改人                                   修改说明
 // =======================================
 
-
-
-// ============ 声明 ============
-//  在包含该头文件时, 必需声明 
-//	XXX_IfFactory, XXX_Handler, XXX_If, XXX_ProcessorFactory 
-//  以上这些宏.
-//  宏值 用thrift 所生成的对应名称, 替换 XXX_ 部分.
-// ===========================
-#if defined(XXX_IfFactory) && defined(XXX_Handler) && defined(XXX_If) && defined(XXX_ProcessorFactory)
 
 
 #define VERSION_TYPE "V0.0.1"	    // 当前 thrift_ex 版本号.
@@ -160,7 +152,16 @@ public:
 	}
 	return false;
     }
-}; // class Serializer;
+}; // class Serializer<T>;
+
+
+// ============ 声明 ============
+//  在包含该头文件时, 必需声明 
+//	XXX_IfFactory, XXX_Handler, XXX_If, XXX_ProcessorFactory 
+//  以上这些宏.
+//  宏值 用thrift 所生成的对应名称, 替换 XXX_ 部分.
+// ===========================
+#if defined(XXX_IfFactory) && defined(XXX_Handler) && defined(XXX_If) && defined(XXX_ProcessorFactory)
 
 
 class BasicCloneFactory : virtual public XXX_IfFactory {

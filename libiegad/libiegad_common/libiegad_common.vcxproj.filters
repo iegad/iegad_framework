@@ -16,6 +16,9 @@
     <Filter Include="thrift_ex">
       <UniqueIdentifier>{c0f3ead7-013b-487c-a180-c2371dd1062f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cms_ex">
+      <UniqueIdentifier>{d205ca71-edea-47cd-add4-2628e177035a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\common\iegad_string.cpp">
@@ -23,6 +26,9 @@
     </ClCompile>
     <ClCompile Include="..\src\common\iegad_md5.cpp">
       <Filter>security</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\common\amq_producer.cpp">
+      <Filter>cms_ex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="..\src\common\thrift_ex.hpp">
       <Filter>thrift_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\amq_producer.h">
+      <Filter>cms_ex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

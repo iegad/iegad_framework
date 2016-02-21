@@ -4,9 +4,9 @@
 
 #include "common/iegad_common.in.h"
 #include "common/iegad_singleton.hpp"
-#include "common/iegad_log.h"
+#include "common/iegad_log.hpp"
 #include "common/iegad_map.hpp"
-#include "common/iegad_string.h"
+#include "common/iegad_string.hpp"
 #include "common/iegad_timer.hpp"
 #include "common/job_queue.hpp"
 #include "common/job_worker.hpp"
