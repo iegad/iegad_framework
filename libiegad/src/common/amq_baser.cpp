@@ -66,7 +66,6 @@ iegad::cms_ex::AMQ_Baser::_init()
     }
     conn_->start();
     session_ = std::shared_ptr<::cms::Session>(conn_->createSession());
-    dest_ = std::shared_ptr<::cms::Destination>(session_->createQueue(amq_name_));
 }
 
 

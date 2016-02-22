@@ -36,6 +36,12 @@
     <ClCompile Include="..\src\common\amq_baser.cpp">
       <Filter>cms_ex</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\common\amq_publisher.cpp">
+      <Filter>cms_ex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\common\amq_subscriber.cpp">
+      <Filter>cms_ex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\job_worker.hpp">
@@ -77,6 +83,12 @@
       <Filter>cms_ex</Filter>
     </ClInclude>
     <ClInclude Include="..\src\common\amq_iworker.hpp">
+      <Filter>cms_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\amq_publisher.h">
+      <Filter>cms_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\amq_subscriber.h">
       <Filter>cms_ex</Filter>
     </ClInclude>
   </ItemGroup>

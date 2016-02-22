@@ -43,7 +43,9 @@ namespace iegad {
 	    // ============================
 	    // @用途 : 析构函数
 	    // ============================
-	    virtual ~AMQ_Consumer() { this->_cleanup(); }
+	    virtual ~AMQ_Consumer() { 
+		this->_cleanup();
+	    }
 
 
 	    // ============================
@@ -81,8 +83,8 @@ namespace iegad {
 	    virtual void _cleanup() override;
 
 
-	    // 消费者指针
-	    std::shared_ptr<::cms::MessageConsumer> consumer_;	    
+	    // 消费者对象指针
+	    std::shared_ptr<::cms::MessageConsumer> consumer_;
 	}; // class AMQ_Consumer;
 
 

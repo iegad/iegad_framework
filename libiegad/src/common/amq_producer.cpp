@@ -8,6 +8,7 @@ void
 AMQ_Producer::_init()
 {
     AMQ_Baser::_init();
+    dest_ = std::shared_ptr<::cms::Destination>(session_->createQueue(amq_name_));
     producer_ = std::shared_ptr<::cms::MessageProducer>(session_->createProducer(dest_.get()));
     producer_->setDeliveryMode(static_cast<::cms::DeliveryMode::DELIVERY_MODE>(persistent_flag_));
 }

@@ -5,6 +5,7 @@ void
 iegad::cms_ex::AMQ_Consumer::_init()
 {
     iegad::cms_ex::AMQ_Baser::_init();
+    dest_ = std::shared_ptr<::cms::Destination>(session_->createQueue(amq_name_));
     consumer_ = std::shared_ptr<::cms::MessageConsumer>(session_->createConsumer(dest_.get()));
 }
 

@@ -86,6 +86,8 @@
   <ItemGroup>
     <ClInclude Include="consumer.hpp" />
     <ClInclude Include="producer.hpp" />
+    <ClInclude Include="publisher.hpp" />
+    <ClInclude Include="subscriber.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

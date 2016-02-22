@@ -12,6 +12,12 @@
     <ClInclude Include="consumer.hpp">
       <Filter>amq_test</Filter>
     </ClInclude>
+    <ClInclude Include="publisher.hpp">
+      <Filter>amq_test</Filter>
+    </ClInclude>
+    <ClInclude Include="subscriber.hpp">
+      <Filter>amq_test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

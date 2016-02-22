@@ -1,17 +1,21 @@
-#ifndef __AMQ_PRODUCER__
-#define __AMQ_PRODUCER__
+#ifndef __AMQ_PUBLISHER__
+#define __AMQ_PUBLISHER__
 
 
 
 // ============ 说明 ============
 //
-// @创建日期 : 2016-02-21
+// @创建日期 : 2016-02-22
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 1, 对ActiveMQ-CMS 的扩展, 封装一个 "生产者" 方便开发使用.
+// @用途 : 1, 对ActiveMQ-CMS 的扩展, 
+//
+//		    封装一个 "发布者" 方便开发使用.
 //		
 // @PS : 该文件依赖于 ActiveMQ-CMS 开源库
+//
+// @bugs : 目前 "发布-订阅"模式 不支持久化, 关键问题出在 订阅者.
 // ============================
 //
 // @修改记录:
@@ -30,21 +34,26 @@ namespace iegad {
 namespace cms_ex {
 
 
-    class AMQ_Producer : public AMQ_Baser, public AMQ_ISender {
-    //AMQ 生产者 : 派生自 AMQ_Baser, 并继承 AMQ_ISender 接口
+    class AMQ_Publisher : public AMQ_Baser, public AMQ_ISender {
+    //AMQ 发布者 : 派生自 AMQ_Baser, 并继承 AMQ_ISender 接口
     public:
 	// ============================
 	// @用途 : 构造函数
 	// @PS : 提供默认构造的目的是可以结和 单例模板 来使用.
 	// ============================
-	AMQ_Producer() {}
+	AMQ_Publisher() {}
 
 
 	// ============================
 	// @用途 : 析构函数
 	// ============================
-	virtual ~AMQ_Producer() { 
-	    this->_cleanup();
+	virtual ~AMQ_Publisher() { 
+	    this->_cleanup(); 
+	}
+
+
+	void SetClientId(const std::string & clientId) {
+	    this->client_id_ = clientId;
 	}
 
 
@@ -82,13 +91,16 @@ namespace cms_ex {
 	virtual void _cleanup() override;
 
 
-	// 生产者对象指针
-	std::shared_ptr<::cms::MessageProducer> producer_;
-    }; // class AMQ_Producer;
+	// 发布者对象指针
+	std::shared_ptr<::cms::MessageProducer> publisher_;
+
+	std::string client_id_;
+    }; // class AMQ_Publisher;
 
 
 } // namespace cms_ex;
 } // namespace iegad;
 
 
-#endif // __AMQ_PRODUCER__
+
+#endif // __AMQ_PUBLISHER__
