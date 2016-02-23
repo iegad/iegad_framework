@@ -16,8 +16,13 @@
     <ClCompile Include="..\src\common\amq_producer.cpp" />
     <ClCompile Include="..\src\common\amq_publisher.cpp" />
     <ClCompile Include="..\src\common\amq_subscriber.cpp" />
+    <ClCompile Include="..\src\common\Astroboy.svr.cpp" />
+    <ClCompile Include="..\src\common\gen-cpp\Astroboy.cpp" />
+    <ClCompile Include="..\src\common\gen-cpp\Astroboy_constants.cpp" />
+    <ClCompile Include="..\src\common\gen-cpp\Astroboy_types.cpp" />
     <ClCompile Include="..\src\common\iegad_md5.cpp" />
     <ClCompile Include="..\src\common\iegad_string.cpp" />
+    <ClCompile Include="..\src\common\thrift_IElefunImp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\common\amq_baser.h" />
@@ -26,6 +31,11 @@
     <ClInclude Include="..\src\common\amq_producer.h" />
     <ClInclude Include="..\src\common\amq_publisher.h" />
     <ClInclude Include="..\src\common\amq_subscriber.h" />
+    <ClInclude Include="..\src\common\Astroboy.svr.hpp" />
+    <ClInclude Include="..\src\common\gen-cpp\Astroboy.h" />
+    <ClInclude Include="..\src\common\gen-cpp\Astroboy_constants.h" />
+    <ClInclude Include="..\src\common\gen-cpp\Astroboy_server.skeleton.hpp" />
+    <ClInclude Include="..\src\common\gen-cpp\Astroboy_types.h" />
     <ClInclude Include="..\src\common\iegad_common.in.h" />
     <ClInclude Include="..\src\common\iegad_log.hpp" />
     <ClInclude Include="..\src\common\iegad_map.hpp" />
@@ -35,7 +45,9 @@
     <ClInclude Include="..\src\common\iegad_string.hpp" />
     <ClInclude Include="..\src\common\job_queue.hpp" />
     <ClInclude Include="..\src\common\job_worker.hpp" />
-    <ClInclude Include="..\src\common\thrift_ex.hpp" />
+    <ClInclude Include="..\src\common\thrift_clone_factory.hpp" />
+    <ClInclude Include="..\src\common\thrift_IElefunImp.h" />
+    <ClInclude Include="..\src\common\thrift_serializer.hpp" />
     <ClInclude Include="..\src\iegad_common.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
