@@ -8,6 +8,9 @@
 #include <ctime>
 
 
+#include <iostream>
+
+
 void 
 producer_func(int maxCount)
 {
@@ -108,7 +111,7 @@ main(int argc, char * argv[])
 	map->insert(std::make_pair(echoImp->No(), echoImp));
 	AstroboyHandler::SetActionMap(map);
 	Astroboy_svr astro(6688);
-	astro.Run();	
+	astro.Run();
     } while (false);
 
 

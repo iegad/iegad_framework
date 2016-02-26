@@ -31,8 +31,8 @@ namespace java iegad.thrift_ex
 struct req_t {
 // 请求信息
 1 : required i32 r_type;				// 消息类型
-2 : optional i32 r_size = 0;			// 消息长度
-3 : optional string r_ver = "v0.1.0";	// 版本号
+2 : optional i32 r_size = 0;				// 消息长度
+3 : optional string r_ver = "v0.1.0";		// 版本号
 4 : optional string r_str;				// 消息数据
 5 : optional string r_md5;				// MD5校验
 6 : optional list<i32> r_sha1;			// SHA1校验
@@ -42,11 +42,11 @@ struct req_t {
 struct res_t {
 // 应答信息
 1 : required i32 r_type;				// 消息类型
-2 : optional i32 r_size = 0;			// 消息长度
+2 : optional i32 r_size = 0;				// 消息长度
 3 : optional i32 r_errcode = 0;			// 错误code
-4 : optional string r_ver = "v0.1.0";	// 版本号
+4 : optional string r_ver = "v0.1.0";		// 版本号
 5 : optional string r_str;				// 消息数据
-6 : optional string r_errstr;			// 错误信息
+6 : optional string r_errstr;				// 错误信息
 }
 
 

@@ -50,6 +50,9 @@
     <ClInclude Include="..\src\common\thrift_serializer.hpp" />
     <ClInclude Include="..\src\iegad_common.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\common\Astroboy.thrift" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{25F1C83F-737F-4A59-B1A0-4CC3B6C976BB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

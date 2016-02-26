@@ -131,4 +131,9 @@
       <Filter>thrift_ex\gen-cpp</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\common\Astroboy.thrift">
+      <Filter>thrift_ex</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -89,9 +89,12 @@ namespace thrift_ex {
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::SerializeToArray(T & data, std::string * serstr, int * size)
     {
+	using ::apache::thrift::protocol::TBinaryProtocol;
+	using ::apache::thrift::transport::TMemoryBuffer;
+
 	try {
-	    boost::shared_ptr<::apache::thrift::TMemoryBuffer> buff(new ::apache::thrift::TMemoryBuffer);
-	    boost::shared_ptr<::apache::thrift::TBinaryProtocol> proto(new ::apache::thrift::TBinaryProtocol(buff));
+	    boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+	    boost::shared_ptr<TBinaryProtocol> proto(new TBinaryProtocol(buff));
 	    data.write(proto.get());
 	    uint8_t * p;
 	    buff->getBuffer(&p, (uint32_t *)size);
@@ -108,9 +111,12 @@ namespace thrift_ex {
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::ParserFromArray(T * data, const std::string & serstr)
     {
+	using ::apache::thrift::protocol::TProtocol;
+	using ::apache::thrift::transport::TMemoryBuffer;
+
 	try {
-	    boost::shared_ptr<::apache::thrift::TMemoryBuffer> buff(new ::apache::thrift::TMemoryBuffer);
-	    boost::shared_ptr<::apache::thrift::TProtocol> proto(new ::apache::thrift::TBinaryProtocol(buff));
+	    boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+	    boost::shared_ptr<TProtocol> proto(new TBinaryProtocol(buff));
 	    uint8_t * p = (uint8_t *)const_cast<char *>(serstr.c_str());
 	    buff->resetBuffer(p, serstr.size());
 	    data->read(proto.get());
@@ -126,9 +132,12 @@ namespace thrift_ex {
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::SerializeToJSONString(T & data, std::string * serstr, int * size)
     {
+	using ::apache::thrift::protocol::TJSONProtocol;
+	using ::apache::thrift::transport::TMemoryBuffer;
+
 	try {
-	    boost::shared_ptr<::apache::thrift::TMemoryBuffer> buff(new ::apache::thrift::TMemoryBuffer);
-	    boost::shared_ptr<::apache::thrift::TJSONProtocol> proto(new ::apache::thrift::TJSONProtocol(buff));
+	    boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+	    boost::shared_ptr<TJSONProtocol> proto(new TJSONProtocol(buff));
 	    data.write(proto.get());
 	    uint8_t * p;
 	    buff->getBuffer(&p, (uint32_t *)size);
@@ -145,9 +154,12 @@ namespace thrift_ex {
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::ParserFromJSONString(T * data, const std::string & serstr)
     {
+	using ::apache::thrift::protocol::TProtocol;
+	using ::apache::thrift::transport::TMemoryBuffer;
+
 	try {
-	    boost::shared_ptr<::apache::thrift::TMemoryBuffer> buff(new ::apache::thrift::TMemoryBuffer);
-	    boost::shared_ptr<::apache::thrift::TProtocol> proto(new ::apache::thrift::TJSONProtocol(buff));
+	    boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+	    boost::shared_ptr<TProtocol> proto(new TJSONProtocol(buff));
 	    uint8_t * p = (uint8_t *)const_cast<char *>(serstr.c_str());
 	    buff->resetBuffer(p, serstr.size());
 	    data->read(proto.get());

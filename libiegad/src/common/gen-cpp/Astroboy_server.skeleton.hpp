@@ -2,6 +2,11 @@
 // You should copy it to another filename to avoid overwriting it.
 
 
+#ifndef __ASTROBOY_HANDLER__
+#define __ASTROBOY_HANDLER__
+
+
+
 
 #include "Astroboy.h"
 #include <unordered_map>
@@ -41,13 +46,12 @@ namespace thrift_ex {
     }; // class AstroboyHandler;
 
 
-    std::shared_ptr<iegad::thrift_ex::AstroboyHandler::action_map_t> iegad::thrift_ex::AstroboyHandler::actionMap_;
-
-
 } // namespace thrift_ex;
 } // namespace iegad;
 
 
+
+#endif // __ASTROBOY_HANDLER__
 
 
 
