@@ -20,6 +20,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="amq_test_main.cpp" />
+    <ClCompile Include="thrift_test_main.cpp" />
   </ItemGroup>
 </Project>

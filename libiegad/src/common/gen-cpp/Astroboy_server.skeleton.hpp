@@ -45,6 +45,8 @@ namespace thrift_ex {
 	static std::shared_ptr<action_map_t> actionMap_;
     }; // class AstroboyHandler;
 
+    __declspec(selectany) std::shared_ptr<AstroboyHandler::action_map_t> AstroboyHandler::actionMap_;
+
 
 } // namespace thrift_ex;
 } // namespace iegad;

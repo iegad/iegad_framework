@@ -26,6 +26,7 @@
 
 
 #include "gen-cpp/Astroboy_server.skeleton.hpp"
+#include <iostream>
 
 
 
@@ -48,9 +49,10 @@ namespace thrift_ex {
 	// @返回值 : XXX_Handler 实例.
 	// ============================
 	virtual AstroboyIf * getHandler(const ::apache::thrift::TConnectionInfo & connInfo) {
+	    using ::apache::thrift::transport::TSocket;
 	    // 可以在这里查看所连接的 客户端 的信息
-	    /*boost::shared_ptr<TSocket> sock = boost::dynamic_pointer_cast<TSocket>(connInfo.transport);
-	    std::cout << "Client connected : " << sock->getOrigin() << '\n' << std::endl;*/
+	    boost::shared_ptr<TSocket> sock = boost::dynamic_pointer_cast<TSocket>(connInfo.transport);
+	    std::cout << "Client connected : " << sock->getOrigin() << '\n' << std::endl;
 	    return new AstroboyHandler;
 	}
 

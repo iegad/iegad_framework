@@ -21,9 +21,25 @@ iegad::thrift_ex::IElefunImp::Action(res_t * _return, const req_t & obj)
 	}
     } // if (obj.__isset.r_sha1);
 
-    _return->r_type = _action(obj.r_str, obj.r_size, 
-	&_return->r_str, &_return->r_size, 
-	&_return->r_errcode, &_return->r_errstr);    
+    _return->__set_r_type(_action(obj.r_str, obj.r_size,
+	&_return->r_str, &_return->r_size,
+	&_return->r_errcode, &_return->r_errstr));
+
+    if (!_return->r_str.empty()) {
+	_return->__isset.r_str = true;
+    }
+
+    if (!_return->r_errstr.empty()) {
+	_return->__isset.r_errstr = true;
+    }
+
+    if (_return->r_errcode != 0) {
+	_return->__isset.r_errcode = true;
+    }
+
+    if (_return->r_size != 0) {
+	_return->__isset.r_size = true;
+    }
 }
 
 
