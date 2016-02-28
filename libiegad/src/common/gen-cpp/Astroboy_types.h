@@ -7,6 +7,24 @@
 #ifndef Astroboy_TYPES_H
 #define Astroboy_TYPES_H
 
+
+
+// ============ 说明 ============
+//
+// @创建日期 : 2016-02-28
+// @创建人 : iegad
+//
+// ============================
+// @由thrift 自动生成的代码
+// ============================
+//
+// @修改记录:
+// =======================================
+//  日期                     修改人                                   修改说明
+// =======================================
+
+
+
 #include <iosfwd>
 
 #include <thrift/Thrift.h>
@@ -17,182 +35,185 @@
 #include <thrift/cxxfunctional.h>
 
 
-namespace iegad { namespace thrift_ex {
 
-class req_t;
+namespace iegad {
+    namespace thrift_ex {
 
-class res_t;
+	class req_t;
 
-typedef struct _req_t__isset {
-  _req_t__isset() : r_size(true), r_ver(true), r_str(false), r_md5(false), r_sha1(false) {}
-  bool r_size :1;
-  bool r_ver :1;
-  bool r_str :1;
-  bool r_md5 :1;
-  bool r_sha1 :1;
-} _req_t__isset;
+	class res_t;
 
-class req_t {
- public:
+	typedef struct _req_t__isset {
+	    _req_t__isset() : r_size(true), r_ver(true), r_str(false), r_md5(false), r_sha1(false) {}
+	    bool r_size : 1;
+	    bool r_ver : 1;
+	    bool r_str : 1;
+	    bool r_md5 : 1;
+	    bool r_sha1 : 1;
+	} _req_t__isset;
 
-  req_t(const req_t&);
-  req_t& operator=(const req_t&);
-  req_t() : r_type(0), r_size(0), r_ver("v0.1.0"), r_str(), r_md5() {
-  }
+	class req_t {
+	public:
 
-  virtual ~req_t() throw();
-  int32_t r_type;
-  int32_t r_size;
-  std::string r_ver;
-  std::string r_str;
-  std::string r_md5;
-  std::vector<int32_t>  r_sha1;
+	    req_t(const req_t&);
+	    req_t& operator=(const req_t&);
+	    req_t() : r_type(0), r_size(0), r_ver("v0.1.0"), r_str(), r_md5() {
+	    }
 
-  _req_t__isset __isset;
+	    virtual ~req_t() throw();
+	    int32_t r_type;
+	    int32_t r_size;
+	    std::string r_ver;
+	    std::string r_str;
+	    std::string r_md5;
+	    std::vector<int32_t>  r_sha1;
 
-  void __set_r_type(const int32_t val);
+	    _req_t__isset __isset;
 
-  void __set_r_size(const int32_t val);
+	    void __set_r_type(const int32_t val);
 
-  void __set_r_ver(const std::string& val);
+	    void __set_r_size(const int32_t val);
 
-  void __set_r_str(const std::string& val);
+	    void __set_r_ver(const std::string& val);
 
-  void __set_r_md5(const std::string& val);
+	    void __set_r_str(const std::string& val);
 
-  void __set_r_sha1(const std::vector<int32_t> & val);
+	    void __set_r_md5(const std::string& val);
 
-  bool operator == (const req_t & rhs) const
-  {
-    if (!(r_type == rhs.r_type))
-      return false;
-    if (__isset.r_size != rhs.__isset.r_size)
-      return false;
-    else if (__isset.r_size && !(r_size == rhs.r_size))
-      return false;
-    if (__isset.r_ver != rhs.__isset.r_ver)
-      return false;
-    else if (__isset.r_ver && !(r_ver == rhs.r_ver))
-      return false;
-    if (__isset.r_str != rhs.__isset.r_str)
-      return false;
-    else if (__isset.r_str && !(r_str == rhs.r_str))
-      return false;
-    if (__isset.r_md5 != rhs.__isset.r_md5)
-      return false;
-    else if (__isset.r_md5 && !(r_md5 == rhs.r_md5))
-      return false;
-    if (__isset.r_sha1 != rhs.__isset.r_sha1)
-      return false;
-    else if (__isset.r_sha1 && !(r_sha1 == rhs.r_sha1))
-      return false;
-    return true;
-  }
-  bool operator != (const req_t &rhs) const {
-    return !(*this == rhs);
-  }
+	    void __set_r_sha1(const std::vector<int32_t> & val);
 
-  bool operator < (const req_t & ) const;
+	    bool operator == (const req_t & rhs) const
+	    {
+		if (!(r_type == rhs.r_type))
+		    return false;
+		if (__isset.r_size != rhs.__isset.r_size)
+		    return false;
+		else if (__isset.r_size && !(r_size == rhs.r_size))
+		    return false;
+		if (__isset.r_ver != rhs.__isset.r_ver)
+		    return false;
+		else if (__isset.r_ver && !(r_ver == rhs.r_ver))
+		    return false;
+		if (__isset.r_str != rhs.__isset.r_str)
+		    return false;
+		else if (__isset.r_str && !(r_str == rhs.r_str))
+		    return false;
+		if (__isset.r_md5 != rhs.__isset.r_md5)
+		    return false;
+		else if (__isset.r_md5 && !(r_md5 == rhs.r_md5))
+		    return false;
+		if (__isset.r_sha1 != rhs.__isset.r_sha1)
+		    return false;
+		else if (__isset.r_sha1 && !(r_sha1 == rhs.r_sha1))
+		    return false;
+		return true;
+	    }
+	    bool operator != (const req_t &rhs) const {
+		return !(*this == rhs);
+	    }
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+	    bool operator < (const req_t &) const;
 
-  virtual void printTo(std::ostream& out) const;
-};
+	    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+	    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-void swap(req_t &a, req_t &b);
+	    virtual void printTo(std::ostream& out) const;
+	};
 
-inline std::ostream& operator<<(std::ostream& out, const req_t& obj)
-{
-  obj.printTo(out);
-  return out;
-}
+	void swap(req_t &a, req_t &b);
 
-typedef struct _res_t__isset {
-  _res_t__isset() : r_size(true), r_errcode(true), r_ver(true), r_str(false), r_errstr(false) {}
-  bool r_size :1;
-  bool r_errcode :1;
-  bool r_ver :1;
-  bool r_str :1;
-  bool r_errstr :1;
-} _res_t__isset;
+	inline std::ostream& operator<<(std::ostream& out, const req_t& obj)
+	{
+	    obj.printTo(out);
+	    return out;
+	}
 
-class res_t {
- public:
+	typedef struct _res_t__isset {
+	    _res_t__isset() : r_size(true), r_errcode(true), r_ver(true), r_str(false), r_errstr(false) {}
+	    bool r_size : 1;
+	    bool r_errcode : 1;
+	    bool r_ver : 1;
+	    bool r_str : 1;
+	    bool r_errstr : 1;
+	} _res_t__isset;
 
-  res_t(const res_t&);
-  res_t& operator=(const res_t&);
-  res_t() : r_type(0), r_size(0), r_errcode(0), r_ver("v0.1.0"), r_str(), r_errstr() {
-  }
+	class res_t {
+	public:
 
-  virtual ~res_t() throw();
-  int32_t r_type;
-  int32_t r_size;
-  int32_t r_errcode;
-  std::string r_ver;
-  std::string r_str;
-  std::string r_errstr;
+	    res_t(const res_t&);
+	    res_t& operator=(const res_t&);
+	    res_t() : r_type(0), r_size(0), r_errcode(0), r_ver("v0.1.0"), r_str(), r_errstr() {
+	    }
 
-  _res_t__isset __isset;
+	    virtual ~res_t() throw();
+	    int32_t r_type;
+	    int32_t r_size;
+	    int32_t r_errcode;
+	    std::string r_ver;
+	    std::string r_str;
+	    std::string r_errstr;
 
-  void __set_r_type(const int32_t val);
+	    _res_t__isset __isset;
 
-  void __set_r_size(const int32_t val);
+	    void __set_r_type(const int32_t val);
 
-  void __set_r_errcode(const int32_t val);
+	    void __set_r_size(const int32_t val);
 
-  void __set_r_ver(const std::string& val);
+	    void __set_r_errcode(const int32_t val);
 
-  void __set_r_str(const std::string& val);
+	    void __set_r_ver(const std::string& val);
 
-  void __set_r_errstr(const std::string& val);
+	    void __set_r_str(const std::string& val);
 
-  bool operator == (const res_t & rhs) const
-  {
-    if (!(r_type == rhs.r_type))
-      return false;
-    if (__isset.r_size != rhs.__isset.r_size)
-      return false;
-    else if (__isset.r_size && !(r_size == rhs.r_size))
-      return false;
-    if (__isset.r_errcode != rhs.__isset.r_errcode)
-      return false;
-    else if (__isset.r_errcode && !(r_errcode == rhs.r_errcode))
-      return false;
-    if (__isset.r_ver != rhs.__isset.r_ver)
-      return false;
-    else if (__isset.r_ver && !(r_ver == rhs.r_ver))
-      return false;
-    if (__isset.r_str != rhs.__isset.r_str)
-      return false;
-    else if (__isset.r_str && !(r_str == rhs.r_str))
-      return false;
-    if (__isset.r_errstr != rhs.__isset.r_errstr)
-      return false;
-    else if (__isset.r_errstr && !(r_errstr == rhs.r_errstr))
-      return false;
-    return true;
-  }
-  bool operator != (const res_t &rhs) const {
-    return !(*this == rhs);
-  }
+	    void __set_r_errstr(const std::string& val);
 
-  bool operator < (const res_t & ) const;
+	    bool operator == (const res_t & rhs) const
+	    {
+		if (!(r_type == rhs.r_type))
+		    return false;
+		if (__isset.r_size != rhs.__isset.r_size)
+		    return false;
+		else if (__isset.r_size && !(r_size == rhs.r_size))
+		    return false;
+		if (__isset.r_errcode != rhs.__isset.r_errcode)
+		    return false;
+		else if (__isset.r_errcode && !(r_errcode == rhs.r_errcode))
+		    return false;
+		if (__isset.r_ver != rhs.__isset.r_ver)
+		    return false;
+		else if (__isset.r_ver && !(r_ver == rhs.r_ver))
+		    return false;
+		if (__isset.r_str != rhs.__isset.r_str)
+		    return false;
+		else if (__isset.r_str && !(r_str == rhs.r_str))
+		    return false;
+		if (__isset.r_errstr != rhs.__isset.r_errstr)
+		    return false;
+		else if (__isset.r_errstr && !(r_errstr == rhs.r_errstr))
+		    return false;
+		return true;
+	    }
+	    bool operator != (const res_t &rhs) const {
+		return !(*this == rhs);
+	    }
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+	    bool operator < (const res_t &) const;
 
-  virtual void printTo(std::ostream& out) const;
-};
+	    uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+	    uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
-void swap(res_t &a, res_t &b);
+	    virtual void printTo(std::ostream& out) const;
+	};
 
-inline std::ostream& operator<<(std::ostream& out, const res_t& obj)
-{
-  obj.printTo(out);
-  return out;
-}
+	void swap(res_t &a, res_t &b);
 
-}} // namespace
+	inline std::ostream& operator<<(std::ostream& out, const res_t& obj)
+	{
+	    obj.printTo(out);
+	    return out;
+	}
+
+    }
+} // namespace
 
 #endif

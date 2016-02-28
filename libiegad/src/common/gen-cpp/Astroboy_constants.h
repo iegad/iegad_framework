@@ -7,18 +7,40 @@
 #ifndef Astroboy_CONSTANTS_H
 #define Astroboy_CONSTANTS_H
 
+
+
+// ============ 说明 ============
+//
+// @创建日期 : 2016-02-28
+// @创建人 : iegad
+//
+// ============================
+// @由thrift 自动生成的代码
+// ============================
+//
+// @修改记录:
+// =======================================
+//  日期                     修改人                                   修改说明
+// =======================================
+
+
+
 #include "Astroboy_types.h"
 
-namespace iegad { namespace thrift_ex {
 
-class AstroboyConstants {
- public:
-  AstroboyConstants();
 
-};
+namespace iegad {
+    namespace thrift_ex {
 
-extern const AstroboyConstants g_Astroboy_constants;
+	class AstroboyConstants {
+	public:
+	    AstroboyConstants();
 
-}} // namespace
+	};
+
+	extern const AstroboyConstants g_Astroboy_constants;
+
+    }
+} // namespace
 
 #endif
