@@ -23,6 +23,9 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
+// 2016-03-04		    -- iegad		1, 去掉 构造函数中的 threadCount的默认值( default value = 4).
+//								2, 增加 ThreadServer 模型, 通过 重载构造函数的方式实现.
+//								3, 将 server_ 类型 由 ThreadPoolServer 替换为 TServerFramework, 为了实现多态.
 
 
 
@@ -53,6 +56,14 @@ namespace thrift_ex {
 	typedef std::function<bool(void)> fun_t;
 	typedef AstroboyHandler::action_map_t action_map_t;
 
+
+	enum SERVER_MOD {
+	// 服务端模型
+	    THREAD_POOL_SERVER,
+	    THREAD_SERVER
+	}; // SERVER_MOD;
+
+
 	// ============================
 	// @用途 : 初始化环境.
 	// @func : 由调用者提供环境初始化回调函数
@@ -67,13 +78,29 @@ namespace thrift_ex {
 	// @用途 : 构造函数.
 	// @port : 端口号.
 	// @threadCount : 工作线程数
+	// @PS : ThreadPoolServer
 	// ============================
-	explicit Astroboy_svr(int port, int threadCount = 4)
+	Astroboy_svr(int port, int threadCount)
 	    :
 	    threadCount_(threadCount),
 	    port_(port),
 	    server_(nullptr) {
-	    this->_init();
+	    this->_init(SERVER_MOD::THREAD_POOL_SERVER);
+	}
+
+
+	// ============================
+	// @用途 : 构造函数.
+	// @port : 端口号.
+	// @threadCount : 工作线程数
+	// @PS : ThreadServer
+	// ============================
+	Astroboy_svr(int port)
+	    :
+	    threadCount_(0),
+	    port_(port),
+	    server_(nullptr) {
+	    this->_init(SERVER_MOD::THREAD_SERVER);
 	}
 
 
@@ -93,9 +120,10 @@ namespace thrift_ex {
     private:
 	// ============================
 	// @用途 : 内置初始化
+	// @svrMod : 服务端模型
 	// @返回值 : void
 	// ============================
-	void _init();
+	void _init(SERVER_MOD svrMod);
 
 
 	// 端口
@@ -105,7 +133,7 @@ namespace thrift_ex {
 	// 线程调度器
 	boost::shared_ptr<::apache::thrift::concurrency::ThreadManager> threadManager_;
 	// TThreadPoolServer 对象实例的指针
-	boost::shared_ptr<::apache::thrift::server::TThreadPoolServer> server_;
+	boost::shared_ptr<::apache::thrift::server::TServerFramework> server_;
 
 
 	// ============================

@@ -19,6 +19,9 @@
     <ClCompile Include="..\src\sercurity\iegad_md5.cpp" />
     <ClCompile Include="..\src\string\iegad_string.cpp" />
     <ClCompile Include="..\src\thrift_ex\Astroboy.svr.cpp" />
+    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy.cpp" />
+    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy_constants.cpp" />
+    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy_types.cpp" />
     <ClCompile Include="..\src\thrift_ex\thrift_IElefunImp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +36,10 @@
     <ClInclude Include="..\src\sercurity\iegad_md5.h" />
     <ClInclude Include="..\src\string\iegad_string.h" />
     <ClInclude Include="..\src\thrift_ex\Astroboy.svr.hpp" />
+    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy.h" />
+    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_constants.h" />
+    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_server.skeleton.hpp" />
+    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_types.h" />
     <ClInclude Include="..\src\thrift_ex\thrift_clone_factory.hpp" />
     <ClInclude Include="..\src\thrift_ex\thrift_IElefunImp.h" />
     <ClInclude Include="..\src\thrift_ex\thrift_serializer.hpp" />
