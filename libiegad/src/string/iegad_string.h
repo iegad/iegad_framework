@@ -42,13 +42,14 @@
 //  --2015-11-10	    --iegad		   -- 修改 base64 编/解码 函数. 使之用于二进制数据
 //  --2015-11-10	    --iegad		   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
 //  --2015-11-12	    --iegad		   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
+//  --2016-03-04	    --iegad		   -- 简化 to_upr & to_lwr
 
 
 #include <string>
 #include <vector>
 #include <cctype>
 #include <sstream>
-#include "iegad_md5.h"
+#include "sercurity/iegad_md5.h"
 #include "iegad_common.in.h"
 
 

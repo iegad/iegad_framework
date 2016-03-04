@@ -1,5 +1,6 @@
 #include "thrift_IElefunImp.h"
-#include "common/iegad_string.hpp"
+#include "string/iegad_string.h"
+
 
 
 void 

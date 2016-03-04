@@ -1,4 +1,4 @@
-﻿#include "iegad_string.hpp"
+﻿#include "iegad_string.h"
 #include <string.h>
 #include <sstream>
 #ifdef WIN32
@@ -11,6 +11,7 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/locale.hpp>
 #include <cwctype>
+
 
 
 const std::vector<std::string>
@@ -146,9 +147,7 @@ const std::string
 iegad::string::to_upr(const std::string &src)
 {
     std::string restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++) {
-        restr[i] = toupper(restr[i]);
-    }
+    std::transform(restr.begin(), restr.end(), restr.begin(), std::toupper);
     return restr;
 }
 
@@ -157,9 +156,7 @@ const std::string
 iegad::string::to_lwr(const std::string &src)
 {
     std::string restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++) {
-        restr[i] = tolower(restr[i]);
-    }
+    std::transform(restr.begin(), restr.end(), restr.begin(), std::tolower);
     return restr;
 }
 
@@ -450,9 +447,7 @@ const std::wstring
 iegad::string::to_upr(const std::wstring &src)
 {
     std::wstring restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++) {
-        restr[i] = std::towupper(restr[i]);
-    }
+    std::transform(restr.begin(), restr.end(), restr.begin(), std::towupper);
     return restr;
 }
 
@@ -461,9 +456,7 @@ const std::wstring
 iegad::string::to_lwr(const std::wstring &src)
 {
     std::wstring restr(src);
-    for (int i = 0, n = restr.length(); i < n; i++) {
-        restr[i] = std::towlower(restr[i]);
-    }
+    std::transform(restr.begin(), restr.end(), restr.begin(), std::towlower);
     return restr;
 }
 
