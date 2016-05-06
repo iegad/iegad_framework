@@ -1,32 +1,52 @@
 #include <iostream>
-#include "IDL_FileInfo.hpp"
-#include "CppGenerater.hpp"
+#include <memory>
 
 
-int
+#include "CppGenerater.h"
+#include "analyzer.h"
+#include "SQLGenerater.h"
+
+
+int 
 main(int argc, char * argv[])
 {
-    if (argc < 3) {
-	std::cout << "´íÎóµÄ²ÎÊý" << std::endl;
-	exit(1);
-    }
-    FileInfo file(argv[1], argv[2]);
-    CppGenerater gen;
-    NamespaceInfo ni;
-    ni.SetName("static_data");
-    file.SetNameSapceInfo(ni);
-    ClassInfo classInfo;
-    std::vector<std::string> primaryVct;
-    primaryVct.push_back("name");
-    classInfo.SetName("Employee");
-    classInfo.AddMember("age", MemberTypeE::INT32, "0");
-    classInfo.AddMember("name", MemberTypeE::STRING, "");
-    classInfo.AddMember("idcard", MemberTypeE::STRING, "");
-    classInfo.AddMember("nation", MemberTypeE::STRING, "");
-    classInfo.AddMember("sex", MemberTypeE::INT16, "0");
-    classInfo.AddMember("job", MemberTypeE::STRING, "");
-    classInfo.SetPrimary(primaryVct);
-    file.AddClass(classInfo);
-    gen.Generate(file);
-    exit(0);
+	using dogen::CppGenerater;
+	using dogen::IGenerater;
+	using data_structure::ThriftFile;
+	using data_structure::ThriftClass;
+	using dogen::Analyzer;
+	using dogen::SQLGenerater;
+
+	std::string errstr;
+
+	do {
+		if (argc < 3) {
+			break;
+		}
+		ThriftFile tf(argv[1], argv[2]);
+		std::shared_ptr<IGenerater> gen(new CppGenerater(tf.GetOutFilename() + "/data_obj_gen.hpp"));
+		std::shared_ptr<IGenerater> sqlGen(new SQLGenerater(tf.GetOutFilename() + "/INIT_CREATE_TABLE.sql"));
+		Analyzer ana(argv[1]);
+
+		if (!ana.Analyze(&tf, &errstr)) {
+			break;
+		}
+
+		if (!tf.Check(&errstr)) {
+			break;
+		}
+
+		if (!gen->Generat(tf)) {
+			break;
+		}
+
+		if (!sqlGen->Generat(tf)) {
+			break;
+		}
+
+		exit(EXIT_SUCCESS);
+	} while (false);
+	std::cout << errstr << std::endl;
+	std::cin.get();
+	exit(EXIT_FAILURE);
 }

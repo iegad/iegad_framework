@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dogen", "dogen\dogen.vcxproj", "{7DCA7EF9-7BE7-4E71-9D4C-519874858BAA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dogen", "dogen\dogen.vcxproj", "{E6AC3D44-7950-4C42-A91B-7D7202F511DD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{A909E117-BA1B-4CC0-880A-7CA8E2050B28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7DCA7EF9-7BE7-4E71-9D4C-519874858BAA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{7DCA7EF9-7BE7-4E71-9D4C-519874858BAA}.Debug|Win32.Build.0 = Debug|Win32
-		{7DCA7EF9-7BE7-4E71-9D4C-519874858BAA}.Release|Win32.ActiveCfg = Release|Win32
-		{7DCA7EF9-7BE7-4E71-9D4C-519874858BAA}.Release|Win32.Build.0 = Release|Win32
+		{E6AC3D44-7950-4C42-A91B-7D7202F511DD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E6AC3D44-7950-4C42-A91B-7D7202F511DD}.Debug|Win32.Build.0 = Debug|Win32
+		{E6AC3D44-7950-4C42-A91B-7D7202F511DD}.Release|Win32.ActiveCfg = Release|Win32
+		{E6AC3D44-7950-4C42-A91B-7D7202F511DD}.Release|Win32.Build.0 = Release|Win32
+		{A909E117-BA1B-4CC0-880A-7CA8E2050B28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A909E117-BA1B-4CC0-880A-7CA8E2050B28}.Debug|Win32.Build.0 = Debug|Win32
+		{A909E117-BA1B-4CC0-880A-7CA8E2050B28}.Release|Win32.ActiveCfg = Release|Win32
+		{A909E117-BA1B-4CC0-880A-7CA8E2050B28}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

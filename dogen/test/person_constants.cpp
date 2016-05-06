@@ -4,13 +4,13 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "Astroboy_constants.h"
+#include "person_constants.h"
 
-namespace iegad { namespace thrift_ex {
+namespace oa_system { namespace dbo {
 
-const AstroboyConstants g_Astroboy_constants;
+const personConstants g_person_constants;
 
-AstroboyConstants::AstroboyConstants() {
+personConstants::personConstants() {
 }
 
 }} // namespace

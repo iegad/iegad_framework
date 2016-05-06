@@ -55,7 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\src\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,14 +92,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="consumer.hpp" />
-    <ClInclude Include="producer.hpp" />
-    <ClInclude Include="publisher.hpp" />
-    <ClInclude Include="subscriber.hpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\..\src\thrift_ex\gen-cpp\EchoServer.cpp" />
+    <ClCompile Include="..\..\src\thrift_ex\gen-cpp\EchoServer_server.skeleton.hpp" />
+    <ClCompile Include="..\..\src\thrift_ex\gen-cpp\echo_constants.cpp" />
+    <ClCompile Include="..\..\src\thrift_ex\gen-cpp\echo_types.cpp" />
     <ClCompile Include="amq_test_main.cpp" />
     <ClCompile Include="thrift_test_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\thrift_ex\gen-cpp\EchoServer.h" />
+    <ClInclude Include="..\..\src\thrift_ex\gen-cpp\echo_constants.h" />
+    <ClInclude Include="..\..\src\thrift_ex\gen-cpp\echo_types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

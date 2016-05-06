@@ -24,6 +24,7 @@
 #define	    MKDIR			    "mkdir LOG"
 // info 日志保存路径
 #define	    LOG_INF_FILE	    ".\\LOG\\INFO_"
+#define		LOG_ERR_FILE		".\\LOG\\ERR_"
 
 
 // ===========
@@ -39,6 +40,8 @@
 #define	    MKDIR			    "mkdir -p ./LOG";
 // info 日志保存路径
 #define	    LOG_INF_FILE	    "./LOG/INFO_"
+#define		LOG_ERR_FILE		"./LOG/ERR_"
+
 
 // 使 windows 和 linux 下统一调用名称
 #define	    _snprintf(buff, buffsize, fmt, ...)	    { snprintf((buff), (buffsize), (fmt), ##__VA_ARGS__); }

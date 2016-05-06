@@ -2,19 +2,61 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="IGenerater.hpp" />
-    <ClInclude Include="CppGenerater.hpp">
+    <ClCompile Include="IGenerater.cpp">
       <Filter>generater</Filter>
-    </ClInclude>
-    <ClInclude Include="IDL_FileInfo.hpp" />
-    <ClInclude Include="NamespaceInfo.hpp" />
-    <ClInclude Include="ClassInfo.hpp" />
+    </ClCompile>
+    <ClCompile Include="thrift_namespace.cpp">
+      <Filter>data_structure</Filter>
+    </ClCompile>
+    <ClCompile Include="CppGenerater.cpp">
+      <Filter>generater</Filter>
+    </ClCompile>
+    <ClCompile Include="thrift_class.cpp">
+      <Filter>data_structure</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="thrift_file.cpp">
+      <Filter>data_structure</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLGenerater.cpp">
+      <Filter>generater</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="generater">
-      <UniqueIdentifier>{e17a2def-4b99-4eca-8035-d5b458d90a0c}</UniqueIdentifier>
+      <UniqueIdentifier>{7cf6bd7c-e03c-413a-9c98-2886a7ac9c82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data_structure">
+      <UniqueIdentifier>{f0894509-84d7-4877-b5ca-d4f65ee4083f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{e9054c41-5fbb-43c0-a44f-72df1e3fc50b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IGenerater.h">
+      <Filter>generater</Filter>
+    </ClInclude>
+    <ClInclude Include="thrift_file.h">
+      <Filter>data_structure</Filter>
+    </ClInclude>
+    <ClInclude Include="thrift_namespace.h">
+      <Filter>data_structure</Filter>
+    </ClInclude>
+    <ClInclude Include="CppGenerater.h">
+      <Filter>generater</Filter>
+    </ClInclude>
+    <ClInclude Include="thrift_class.h">
+      <Filter>data_structure</Filter>
+    </ClInclude>
+    <ClInclude Include="tools_func.hpp" />
+    <ClInclude Include="analyzer.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLGenerater.h">
+      <Filter>generater</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

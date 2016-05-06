@@ -207,9 +207,9 @@ namespace tools {
 	// @k : 键
 	// @返回值 : 存在 返回 true, 否则 返回 false
 	// ============================
-	bool find(const key_type & k) {
+	iterator find(const key_type & k) {
 	    read_lock_t lock(mtx_);
-	    return map_.find(k) != map_.end();
+		return map_.find(k);
 	}
 
 

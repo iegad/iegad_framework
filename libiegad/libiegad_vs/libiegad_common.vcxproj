@@ -18,11 +18,6 @@
     <ClCompile Include="..\src\cms_ex\amq_subscriber.cpp" />
     <ClCompile Include="..\src\sercurity\iegad_md5.cpp" />
     <ClCompile Include="..\src\string\iegad_string.cpp" />
-    <ClCompile Include="..\src\thrift_ex\Astroboy.svr.cpp" />
-    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy.cpp" />
-    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy_constants.cpp" />
-    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy_types.cpp" />
-    <ClCompile Include="..\src\thrift_ex\thrift_IElefunImp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cms_ex\amq_baser.h" />
@@ -31,27 +26,19 @@
     <ClInclude Include="..\src\cms_ex\amq_producer.h" />
     <ClInclude Include="..\src\cms_ex\amq_publisher.h" />
     <ClInclude Include="..\src\cms_ex\amq_subscriber.h" />
-    <ClInclude Include="..\src\iegad_common.h" />
-    <ClInclude Include="..\src\iegad_common.in.h" />
     <ClInclude Include="..\src\sercurity\iegad_md5.h" />
     <ClInclude Include="..\src\string\iegad_string.h" />
-    <ClInclude Include="..\src\thrift_ex\Astroboy.svr.hpp" />
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy.h" />
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_constants.h" />
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_server.skeleton.hpp" />
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_types.h" />
-    <ClInclude Include="..\src\thrift_ex\thrift_clone_factory.hpp" />
-    <ClInclude Include="..\src\thrift_ex\thrift_IElefunImp.h" />
+    <ClInclude Include="..\src\thrift_ex\thrift_client.hpp" />
+    <ClInclude Include="..\src\thrift_ex\thrift_eventhandler.hpp" />
+    <ClInclude Include="..\src\thrift_ex\thrift_ex_macro.h" />
     <ClInclude Include="..\src\thrift_ex\thrift_serializer.hpp" />
+    <ClInclude Include="..\src\thrift_ex\thrift_server.hpp" />
     <ClInclude Include="..\src\tools\iegad_log.hpp" />
     <ClInclude Include="..\src\tools\iegad_map.hpp" />
     <ClInclude Include="..\src\tools\iegad_singleton.hpp" />
     <ClInclude Include="..\src\tools\iegad_timer.hpp" />
     <ClInclude Include="..\src\tools\job_queue.hpp" />
     <ClInclude Include="..\src\tools\job_worker.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\src\thrift_ex\Astroboy.thrift" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{25F1C83F-737F-4A59-B1A0-4CC3B6C976BB}</ProjectGuid>

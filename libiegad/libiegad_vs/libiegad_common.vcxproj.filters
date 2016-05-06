@@ -16,9 +16,6 @@
     <Filter Include="cms_ex">
       <UniqueIdentifier>{d205ca71-edea-47cd-add4-2628e177035a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="thrift_ex\gen-cpp">
-      <UniqueIdentifier>{acceaf7b-9b8c-4012-86db-a243c8becc6f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\cms_ex\amq_baser.cpp">
@@ -41,21 +38,6 @@
     </ClCompile>
     <ClCompile Include="..\src\string\iegad_string.cpp">
       <Filter>string</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\thrift_ex\Astroboy.svr.cpp">
-      <Filter>thrift_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\thrift_ex\thrift_IElefunImp.cpp">
-      <Filter>thrift_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy.cpp">
-      <Filter>thrift_ex\gen-cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy_constants.cpp">
-      <Filter>thrift_ex\gen-cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\thrift_ex\gen-cpp\Astroboy_types.cpp">
-      <Filter>thrift_ex\gen-cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,18 +65,6 @@
     <ClInclude Include="..\src\string\iegad_string.h">
       <Filter>string</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\Astroboy.svr.hpp">
-      <Filter>thrift_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\thrift_clone_factory.hpp">
-      <Filter>thrift_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\thrift_IElefunImp.h">
-      <Filter>thrift_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\thrift_serializer.hpp">
-      <Filter>thrift_ex</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\tools\iegad_log.hpp">
       <Filter>tools</Filter>
     </ClInclude>
@@ -113,24 +83,20 @@
     <ClInclude Include="..\src\tools\job_worker.hpp">
       <Filter>tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\iegad_common.h" />
-    <ClInclude Include="..\src\iegad_common.in.h" />
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy.h">
-      <Filter>thrift_ex\gen-cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_constants.h">
-      <Filter>thrift_ex\gen-cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_server.skeleton.hpp">
-      <Filter>thrift_ex\gen-cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\thrift_ex\gen-cpp\Astroboy_types.h">
-      <Filter>thrift_ex\gen-cpp</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\src\thrift_ex\Astroboy.thrift">
+    <ClInclude Include="..\src\thrift_ex\thrift_client.hpp">
       <Filter>thrift_ex</Filter>
-    </None>
+    </ClInclude>
+    <ClInclude Include="..\src\thrift_ex\thrift_eventhandler.hpp">
+      <Filter>thrift_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thrift_ex\thrift_ex_macro.h">
+      <Filter>thrift_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thrift_ex\thrift_serializer.hpp">
+      <Filter>thrift_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\thrift_ex\thrift_server.hpp">
+      <Filter>thrift_ex</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

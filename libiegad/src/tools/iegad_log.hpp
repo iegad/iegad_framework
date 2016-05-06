@@ -20,6 +20,7 @@
 //  日期                     修改人                                   修改说明
 // =======================================
 // 2015-12-09		    -- iegad			简化使用
+// 2016-04-11			-- iegad			添加ERROR级操作
 
 
 // glog standard;
@@ -37,13 +38,14 @@
 #include "iegad_common.in.h"
 
 
-#ifdef iINFO 
-#error iINFO has defined;
+#ifdef iINFO || iERR
+#error iINFO or iERR has defined;
 #endif // iINFO 
 
 
-// INFO级 操作宏
+// 操作宏
 #define iINFO		    LOG(INFO)
+#define iERR				LOG(ERROR)
 
 
 namespace iegad {
@@ -65,6 +67,7 @@ namespace tools {
 	    google::InitGoogleLogging(argv0);
 	    // set the file position;
 	    google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
+		google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
 	    // set log file max size 100M;
 	    FLAGS_max_log_size = 100;
 	    //init charset;

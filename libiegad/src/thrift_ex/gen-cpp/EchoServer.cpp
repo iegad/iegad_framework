@@ -4,16 +4,16 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "Astroboy.h"
-
-namespace iegad { namespace thrift_ex {
+#include "EchoServer.h"
 
 
-Astroboy_Elefun_args::~Astroboy_Elefun_args() throw() {
+
+
+EchoServer_echo_args::~EchoServer_echo_args() throw() {
 }
 
 
-uint32_t Astroboy_Elefun_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t EchoServer_echo_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -35,9 +35,9 @@ uint32_t Astroboy_Elefun_args::read(::apache::thrift::protocol::TProtocol* iprot
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->req_msg.read(iprot);
-          this->__isset.req_msg = true;
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->msg);
+          this->__isset.msg = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -54,13 +54,13 @@ uint32_t Astroboy_Elefun_args::read(::apache::thrift::protocol::TProtocol* iprot
   return xfer;
 }
 
-uint32_t Astroboy_Elefun_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t EchoServer_echo_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Astroboy_Elefun_args");
+  xfer += oprot->writeStructBegin("EchoServer_echo_args");
 
-  xfer += oprot->writeFieldBegin("req_msg", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->req_msg.write(oprot);
+  xfer += oprot->writeFieldBegin("msg", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->msg);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -69,17 +69,17 @@ uint32_t Astroboy_Elefun_args::write(::apache::thrift::protocol::TProtocol* opro
 }
 
 
-Astroboy_Elefun_pargs::~Astroboy_Elefun_pargs() throw() {
+EchoServer_echo_pargs::~EchoServer_echo_pargs() throw() {
 }
 
 
-uint32_t Astroboy_Elefun_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t EchoServer_echo_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Astroboy_Elefun_pargs");
+  xfer += oprot->writeStructBegin("EchoServer_echo_pargs");
 
-  xfer += oprot->writeFieldBegin("req_msg", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->req_msg)).write(oprot);
+  xfer += oprot->writeFieldBegin("msg", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->msg)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -88,11 +88,11 @@ uint32_t Astroboy_Elefun_pargs::write(::apache::thrift::protocol::TProtocol* opr
 }
 
 
-Astroboy_Elefun_result::~Astroboy_Elefun_result() throw() {
+EchoServer_echo_result::~EchoServer_echo_result() throw() {
 }
 
 
-uint32_t Astroboy_Elefun_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t EchoServer_echo_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -114,8 +114,8 @@ uint32_t Astroboy_Elefun_result::read(::apache::thrift::protocol::TProtocol* ipr
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->success.read(iprot);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->success);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -133,15 +133,15 @@ uint32_t Astroboy_Elefun_result::read(::apache::thrift::protocol::TProtocol* ipr
   return xfer;
 }
 
-uint32_t Astroboy_Elefun_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t EchoServer_echo_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("Astroboy_Elefun_result");
+  xfer += oprot->writeStructBegin("EchoServer_echo_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
-    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
+    xfer += oprot->writeString(this->success);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -150,11 +150,11 @@ uint32_t Astroboy_Elefun_result::write(::apache::thrift::protocol::TProtocol* op
 }
 
 
-Astroboy_Elefun_presult::~Astroboy_Elefun_presult() throw() {
+EchoServer_echo_presult::~EchoServer_echo_presult() throw() {
 }
 
 
-uint32_t Astroboy_Elefun_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t EchoServer_echo_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -176,8 +176,8 @@ uint32_t Astroboy_Elefun_presult::read(::apache::thrift::protocol::TProtocol* ip
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += (*(this->success)).read(iprot);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString((*(this->success)));
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -195,19 +195,19 @@ uint32_t Astroboy_Elefun_presult::read(::apache::thrift::protocol::TProtocol* ip
   return xfer;
 }
 
-void AstroboyClient::Elefun(res_t& _return, const req_t& req_msg)
+void EchoServerClient::echo(std::string& _return, const std::string& msg)
 {
-  send_Elefun(req_msg);
-  recv_Elefun(_return);
+  send_echo(msg);
+  recv_echo(_return);
 }
 
-void AstroboyClient::send_Elefun(const req_t& req_msg)
+void EchoServerClient::send_echo(const std::string& msg)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("Elefun", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("echo", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Astroboy_Elefun_pargs args;
-  args.req_msg = &req_msg;
+  EchoServer_echo_pargs args;
+  args.msg = &msg;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -215,7 +215,7 @@ void AstroboyClient::send_Elefun(const req_t& req_msg)
   oprot_->getTransport()->flush();
 }
 
-void AstroboyClient::recv_Elefun(res_t& _return)
+void EchoServerClient::recv_echo(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -235,12 +235,12 @@ void AstroboyClient::recv_Elefun(res_t& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("Elefun") != 0) {
+  if (fname.compare("echo") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  Astroboy_Elefun_presult result;
+  EchoServer_echo_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -250,10 +250,10 @@ void AstroboyClient::recv_Elefun(res_t& _return)
     // _return pointer has now been filled
     return;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Elefun failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "echo failed: unknown result");
 }
 
-bool AstroboyProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
+bool EchoServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
   if (pfn == processMap_.end()) {
@@ -272,38 +272,38 @@ bool AstroboyProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* ipro
   return true;
 }
 
-void AstroboyProcessor::process_Elefun(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void EchoServerProcessor::process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("Astroboy.Elefun", callContext);
+    ctx = this->eventHandler_->getContext("EchoServer.echo", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Astroboy.Elefun");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "EchoServer.echo");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "Astroboy.Elefun");
+    this->eventHandler_->preRead(ctx, "EchoServer.echo");
   }
 
-  Astroboy_Elefun_args args;
+  EchoServer_echo_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "Astroboy.Elefun", bytes);
+    this->eventHandler_->postRead(ctx, "EchoServer.echo", bytes);
   }
 
-  Astroboy_Elefun_result result;
+  EchoServer_echo_result result;
   try {
-    iface_->Elefun(result.success, args.req_msg);
+    iface_->echo(result.success, args.msg);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "Astroboy.Elefun");
+      this->eventHandler_->handlerError(ctx, "EchoServer.echo");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("Elefun", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("echo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -312,41 +312,41 @@ void AstroboyProcessor::process_Elefun(int32_t seqid, ::apache::thrift::protocol
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "Astroboy.Elefun");
+    this->eventHandler_->preWrite(ctx, "EchoServer.echo");
   }
 
-  oprot->writeMessageBegin("Elefun", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("echo", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "Astroboy.Elefun", bytes);
+    this->eventHandler_->postWrite(ctx, "EchoServer.echo", bytes);
   }
 }
 
-::boost::shared_ptr< ::apache::thrift::TProcessor > AstroboyProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
-  ::apache::thrift::ReleaseHandler< AstroboyIfFactory > cleanup(handlerFactory_);
-  ::boost::shared_ptr< AstroboyIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-  ::boost::shared_ptr< ::apache::thrift::TProcessor > processor(new AstroboyProcessor(handler));
+::boost::shared_ptr< ::apache::thrift::TProcessor > EchoServerProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
+  ::apache::thrift::ReleaseHandler< EchoServerIfFactory > cleanup(handlerFactory_);
+  ::boost::shared_ptr< EchoServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
+  ::boost::shared_ptr< ::apache::thrift::TProcessor > processor(new EchoServerProcessor(handler));
   return processor;
 }
 
-void AstroboyConcurrentClient::Elefun(res_t& _return, const req_t& req_msg)
+void EchoServerConcurrentClient::echo(std::string& _return, const std::string& msg)
 {
-  int32_t seqid = send_Elefun(req_msg);
-  recv_Elefun(_return, seqid);
+  int32_t seqid = send_echo(msg);
+  recv_echo(_return, seqid);
 }
 
-int32_t AstroboyConcurrentClient::send_Elefun(const req_t& req_msg)
+int32_t EchoServerConcurrentClient::send_echo(const std::string& msg)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("Elefun", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("echo", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Astroboy_Elefun_pargs args;
-  args.req_msg = &req_msg;
+  EchoServer_echo_pargs args;
+  args.msg = &msg;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -357,7 +357,7 @@ int32_t AstroboyConcurrentClient::send_Elefun(const req_t& req_msg)
   return cseqid;
 }
 
-void AstroboyConcurrentClient::recv_Elefun(res_t& _return, const int32_t seqid)
+void EchoServerConcurrentClient::recv_echo(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -386,7 +386,7 @@ void AstroboyConcurrentClient::recv_Elefun(res_t& _return, const int32_t seqid)
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("Elefun") != 0) {
+      if (fname.compare("echo") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -395,7 +395,7 @@ void AstroboyConcurrentClient::recv_Elefun(res_t& _return, const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      Astroboy_Elefun_presult result;
+      EchoServer_echo_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -407,7 +407,7 @@ void AstroboyConcurrentClient::recv_Elefun(res_t& _return, const int32_t seqid)
         return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "Elefun failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "echo failed: unknown result");
     }
     // seqid != rseqid
     this->sync_.updatePending(fname, mtype, rseqid);
@@ -417,5 +417,5 @@ void AstroboyConcurrentClient::recv_Elefun(res_t& _return, const int32_t seqid)
   } // end while(true)
 }
 
-}} // namespace
+
 
