@@ -29,7 +29,9 @@ std::string sendMsgStr = "君不见黄河之水天上来⑵，奔流到海不复回。\n"
 
 
 DECLARE_EVENT_HANDLER(EchoEvent);
-DECLARE_THREADED_SERVER(EchoServer, JSON_PROTOCOL);
+//DECLARE_THREADED_SERVER(EchoServer, JSON_PROTOCOL);
+//DECLARE_THREADPOOL_SERVER(EchoServer, BINARY_PROTOCOL);
+DECLARE_NON_BLOCKING_SERVER(EchoServer, BINARY_PROTOCOL);
 DECLARE_PROXY(EchoServer, JSON_PROTOCOL);
 
 DECLARE_CREATE_CONTEXT(myCreateContext, in, out)
@@ -63,7 +65,8 @@ main(int argc, char * argv[])
 			boost::shared_ptr<EchoEvent> ev(new EchoEvent);
 			ev->OnPreServeEvent = myPreServer;
 			ev->OnCreateContextEvent = myCreateContext;
-			iegad::thrift_ex::THost host(6688/*, ev, 1*/);
+			iegad::thrift_ex::THost host(6688, ev, 1);
+			
 			host.Run();
 		}
 		else {
