@@ -36,79 +36,79 @@
 
 
 namespace iegad {
-	namespace thrift_ex {
+namespace thrift_ex {
 
 
-		template <class T>
-		class Serializer {
-			// thrift 序列化器.
-		public:
-			// ============================
-			// @用途 : 防止 实例化该类
-			// ============================
-			virtual ~Serializer() = 0;
+	template <class T>
+	class Serializer {
+		// thrift 序列化器.
+	public:
+		// ============================
+		// @用途 : 防止 实例化该类
+		// ============================
+		virtual ~Serializer() = 0;
 
 
-			// ============================
-			// @用途 : 将 T 序列化为 字节 数据
-			// @data : 由thrift 生成的 struct 对象
-			// @serstr : 序列化后的数据 : out参数
-			// @size : 序列化后的数据大小 : out参数
-			// @返回值 : 成功返回 true, 否则返回 false.
-			// ============================
-			static bool SerializeToBinary(T & data, std::string * serstr, int * size);
+		// ============================
+		// @用途 : 将 T 序列化为 字节 数据
+		// @data : 由thrift 生成的 struct 对象
+		// @serstr : 序列化后的数据 : out参数
+		// @size : 序列化后的数据大小 : out参数
+		// @返回值 : 成功返回 true, 否则返回 false.
+		// ============================
+		static bool SerializeToBinary(T & data, std::string * serstr, int * size);
 
 
-			// ============================
-			// @用途 : 将 字节数据 反序列化为 T 数据对象
-			// @data : 由thrift 生成的 struct 对象指针 : out参数
-			// @serstr : 用于反序列化的 字节数据
-			// @返回值 : 成功返回 true, 否则返回 false.
-			// ============================
-			static bool ParserFromBinary(T * data, const std::string & serstr);
+		// ============================
+		// @用途 : 将 字节数据 反序列化为 T 数据对象
+		// @data : 由thrift 生成的 struct 对象指针 : out参数
+		// @serstr : 用于反序列化的 字节数据
+		// @返回值 : 成功返回 true, 否则返回 false.
+		// ============================
+		static bool ParseFromBinary(T * data, const std::string & serstr);
 
 
-			// ============================
-			// @用途 : 将 T 序列化为 JSON 串
-			// @data : 由thrift 生成的 struct 对象
-			// @serstr : 序列化后的 JSON串 : out参数
-			// @size : 序列化后的 JSON串长度 : out参数
-			// @返回值 : 成功返回 true, 否则返回 false.
-			// ============================
-			static bool SerializeToJSONString(T & data, std::string * serstr, int * size);
+		// ============================
+		// @用途 : 将 T 序列化为 JSON 串
+		// @data : 由thrift 生成的 struct 对象
+		// @serstr : 序列化后的 JSON串 : out参数
+		// @size : 序列化后的 JSON串长度 : out参数
+		// @返回值 : 成功返回 true, 否则返回 false.
+		// ============================
+		static bool SerializeToJSONString(T & data, std::string * serstr, int * size);
 
 
-			// ============================
-			// @用途 : 将 JSON串 反序列化为 T 数据对象
-			// @data : 由thrift 生成的 struct 对象指针 : out参数
-			// @serstr : 用于反序列化的 JSON串
-			// @返回值 : 成功返回 true, 否则返回 false.
-			// ============================
-			static bool ParserFromJSONString(T * data, const std::string & serstr);
+		// ============================
+		// @用途 : 将 JSON串 反序列化为 T 数据对象
+		// @data : 由thrift 生成的 struct 对象指针 : out参数
+		// @serstr : 用于反序列化的 JSON串
+		// @返回值 : 成功返回 true, 否则返回 false.
+		// ============================
+		static bool ParseFromJSONString(T * data, const std::string & serstr);
 
 
-			// ============================
-			// @用途 : 将 T 序列化为变长数据
-			// @data : 由thrift 生成的 struct 对象
-			// @serstr : 序列化后的 变长数据 : out参数
-			// @size : 序列化后的 变长数据长度 : out参数
-			// @返回值 : 成功返回 true, 否则返回 false.
-			// ============================
-			static bool SerializeToVarint(T & data, std::string * serstr, int * size);
+		// ============================
+		// @用途 : 将 T 序列化为变长数据
+		// @data : 由thrift 生成的 struct 对象
+		// @serstr : 序列化后的 变长数据 : out参数
+		// @size : 序列化后的 变长数据长度 : out参数
+		// @返回值 : 成功返回 true, 否则返回 false.
+		// ============================
+		static bool SerializeToVarint(T & data, std::string * serstr, int * size);
 
 
-			// ============================
-			// @用途 : 将 变长数据 反序列化为 T 数据对象
-			// @data : 由thrift 生成的 struct 对象指针 : out参数
-			// @serstr : 用于反序列化的 变长数据
-			// @返回值 : 成功返回 true, 否则返回 false.
-			// ============================
-			static bool ParserFromVarint(T * data, const std::string & serstr);
-		}; // class Serializer<T>;
+		// ============================
+		// @用途 : 将 变长数据 反序列化为 T 数据对象
+		// @data : 由thrift 生成的 struct 对象指针 : out参数
+		// @serstr : 用于反序列化的 变长数据
+		// @返回值 : 成功返回 true, 否则返回 false.
+		// ============================
+		static bool ParseFromVarint(T * data, const std::string & serstr);
+	}; // class Serializer<T>;
 
 
 
-	// ======================== 以下是实现部分 ========================
+// ======================== 以下是实现部分 ========================
 
 
 
@@ -135,7 +135,7 @@ namespace iegad {
 
 
 	template <class T>
-	bool iegad::thrift_ex::Serializer<T>::ParserFromBinary(T * data, const std::string & serstr)
+	bool iegad::thrift_ex::Serializer<T>::ParseFromBinary(T * data, const std::string & serstr)
 	{
 		using ::apache::thrift::protocol::TBinaryProtocol;
 		using ::apache::thrift::protocol::TProtocol;
@@ -179,7 +179,7 @@ namespace iegad {
 
 
 	template <class T>
-	bool iegad::thrift_ex::Serializer<T>::ParserFromJSONString(T * data, const std::string & serstr)
+	bool iegad::thrift_ex::Serializer<T>::ParseFromJSONString(T * data, const std::string & serstr)
 	{
 		using ::apache::thrift::protocol::TJSONProtocol;
 		using ::apache::thrift::protocol::TProtocol;
@@ -224,7 +224,7 @@ namespace iegad {
 
 
 	template <class T>
-	bool iegad::thrift_ex::Serializer<T>::ParserFromVarint(T * data, const std::string & serstr)
+	bool iegad::thrift_ex::Serializer<T>::ParseFromVarint(T * data, const std::string & serstr)
 	{
 		using ::apache::thrift::protocol::TCompactProtocol;
 		using ::apache::thrift::protocol::TProtocol;

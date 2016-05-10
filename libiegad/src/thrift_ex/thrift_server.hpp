@@ -32,17 +32,58 @@
 
 #include "thrift_ex_macro.h"
 #include "thrift_eventhandler.hpp"
+#include "tools/iegad_log.hpp"
 
 
 
-#define THRIFT_THREADED_SERVICE(serviceIfFactory, serviceIf, serviceHandler, serviceProcessorFactory, protocol_type) \
+// ============================
+// @用途 : socket资源初始化
+// @返回值 : 初始化成功返回true, 否则返回false
+// @PS : 只在WINDOWS平台有效
+// ============================
+static inline bool
+socket_init()
+{
+#ifdef WIN32
+	WSADATA wData;
+	if (WSAStartup(0x0202, &wData) != 0) {
+		return false;
+	}
+	return HIBYTE(wData.wVersion) == 2 && LOBYTE(wData.wVersion) == 2;
+#endif // WIN32
+	return true;
+}
+
+
+// ============================
+// @用途 : socket资源回收
+// @返回值 : void
+// @PS : 只在WINDOWS平台有效
+// ============================
+static inline void
+socket_release()
+{
+#ifdef WIN32
+	WSACleanup();
+#endif // WIN32
+}
+
+
+
+// ============================
+// @用途 : 处理机工厂定义宏
+// @serviceIfFactory : RPC接口工厂
+// @serviceIf : RPC接口
+// @serviceHandler : RPC接口实现句柄类
+// ============================
+#define DEFINE_PROCESSOR_FACTORY(serviceIfFactory, serviceIf, serviceHandler) \
 namespace iegad { \
 namespace thrift_ex { \
-class ProcessorCloneFactory : virtual public serviceIfFactory \
-{ \
+ \
+class ProcessorCloneFactory : virtual public serviceIfFactory { \
 public: \
 	virtual ~ProcessorCloneFactory() {} \
-	\
+		\
 	virtual serviceIf * getHandler(const ::apache::thrift::TConnectionInfo & connInfo) { \
 		boost::shared_ptr<::apache::thrift::transport::TSocket> sock = \
 		boost::dynamic_pointer_cast<::apache::thrift::transport::TSocket>(connInfo.transport); \
@@ -54,14 +95,31 @@ public: \
 		delete handler; \
 	} \
 }; \
+} \
+}
+
+
+// ============================
+// @用途 : per-connect 模式服务端定义宏
+// @serviceName : 服务名称
+// @serviceIfFactory : RPC接口工厂
+// @serviceIf : RPC接口
+// @serviceHandler : RPC接口实现句柄类
+// @serviceProcessorFactory : 处理机工厂
+// @protocol_type : 协议类型; 支持的协议有 Json, binary, compact
+// ============================
+#define THRIFT_THREADED_SERVICE(serviceName, serviceIfFactory, serviceIf, serviceHandler, serviceProcessorFactory, protocol_type) \
+DEFINE_PROCESSOR_FACTORY(serviceIfFactory, serviceIf, serviceHandler) \
+namespace iegad { \
+namespace thrift_ex { \
 \
-class THost { \
+class serviceName { \
 public: \
 	typedef ::apache::thrift::server::TServerEventHandler TServerEventHandler; \
 	typedef protocol_type protoc_fac_t;	\
 	typedef ::apache::thrift::server::TThreadedServer	TThreadedServer; \
 	\
-	explicit THost(int port, \
+	explicit serviceName(int port, \
 	boost::shared_ptr<TServerEventHandler> eventHandler = nullptr, \
 	int threadCount = 4) \
 		: \
@@ -69,17 +127,17 @@ public: \
 	port_(port), \
 	server_(nullptr) { \
 		this->_init(eventHandler);	\
-	} \
+		} \
 	\
-	~THost() {	\
+	~serviceName() {	\
 		server_->stop(); \
-	} \
+		} \
 	\
 	void Run() { \
-		std::cout << "===============================\n"; \
-		std::cout << VERSION_TYPE << std::endl; \
-		std::cout << "Threaded Server running...\nlistened at 0.0.0.0 : " << port_ << std::endl; \
-		std::cout << "===============================\n\n"; \
+		iINFO << "===============================\n"; \
+		iINFO << VERSION_TYPE << std::endl; \
+		iINFO << "Threaded Server running : listened at 0.0.0.0 : " << port_ << std::endl; \
+		iINFO << "===============================\n\n"; \
 		server_->run(); \
 	} \
 	\
@@ -104,48 +162,41 @@ private: \
 		server_->setConcurrentClientLimit(threadCount_); \
 		if (eventHandler != nullptr) { \
 			server_->setServerEventHandler(eventHandler); \
+				} \
 		} \
-	} \
 	\
 	int port_; \
 	int threadCount_; \
 	boost::shared_ptr<::apache::thrift::server::TThreadedServer> server_;	 \
 	\
-	THost(const THost &); \
-	THost & operator=(const THost &); \
+	serviceName(const serviceName &); \
+	serviceName & operator=(const serviceName &); \
 }; \
 } \
 }
 
 
-
-#define THRIFT_THREAD_POOL_SERVICE(serviceIfFactory, serviceIf, serviceHandler, serviceProcessorFactory, protocol_type) \
+// ============================
+// @用途 : connect-pool 模式服务端定义宏
+// @serviceName : 服务名称
+// @serviceIfFactory : RPC接口工厂
+// @serviceIf : RPC接口
+// @serviceHandler : RPC接口实现句柄类
+// @serviceProcessorFactory : 处理机工厂
+// @protocol_type : 协议类型; 支持的协议有 Json, binary, compact
+// ============================
+#define THRIFT_THREAD_POOL_SERVICE(serviceName, serviceIfFactory, serviceIf, serviceHandler, serviceProcessorFactory, protocol_type) \
+DEFINE_PROCESSOR_FACTORY(serviceIfFactory, serviceIf, serviceHandler) \
 namespace iegad { \
 namespace thrift_ex { \
-class ProcessorCloneFactory : virtual public serviceIfFactory \
-{ \
-public: \
-	virtual ~ProcessorCloneFactory() {} \
-	\
-	virtual serviceIf * getHandler(const ::apache::thrift::TConnectionInfo & connInfo) { \
-		boost::shared_ptr<::apache::thrift::transport::TSocket> sock = \
-		boost::dynamic_pointer_cast<::apache::thrift::transport::TSocket>(connInfo.transport); \
-		sock->setRecvTimeout(_APP_TIME_OUT); \
-		return new serviceHandler; \
-	} \
-	\
-	virtual void releaseHandler(serviceIf * handler) { \
-		delete handler; \
-	} \
-}; \
 \
-class THost { \
+class serviceName { \
 public: \
 	typedef ::apache::thrift::server::TServerEventHandler TServerEventHandler; \
 	typedef protocol_type protoc_fac_t;	\
 	typedef ::apache::thrift::server::TThreadedServer	TThreadedServer; \
 	\
-	explicit THost(int port, \
+	explicit serviceName(int port, \
 	boost::shared_ptr<TServerEventHandler> eventHandler = nullptr, \
 	int threadCount = 4) \
 		: \
@@ -155,21 +206,21 @@ public: \
 		this->_init(eventHandler);	\
 	} \
 	\
-	~THost() {	\
+	~serviceName() {	\
 		server_->stop(); \
 	} \
 	\
 	void Run() { \
-		std::cout << "===============================\n"; \
-		std::cout << VERSION_TYPE << std::endl; \
-		std::cout << "ThreadPool Server running...\nlistened at 0.0.0.0 : " << port_ << std::endl; \
-		std::cout << "===============================\n\n"; \
+		iINFO << "===============================\n"; \
+		iINFO << VERSION_TYPE << std::endl; \
+		iINFO << "ThreadPool Server running : listened at 0.0.0.0 : " << port_ << std::endl; \
+		iINFO << "===============================\n\n"; \
 		server_->run(); \
-	} \
+		} \
 	\
 	boost::shared_ptr<TThreadPoolServer> GetServer() { \
 		return this->server_;	 \
-	} \
+		} \
 	\
 private: \
 	void _init(boost::shared_ptr<TServerEventHandler> eventHandler) {	\
@@ -199,41 +250,34 @@ private: \
 	boost::shared_ptr<::apache::thrift::concurrency::ThreadManager> threadManager_; \
 	boost::shared_ptr<::apache::thrift::server::TThreadPoolServer> server_; \
 	\
-	THost(const THost &); \
-	THost & operator=(const THost &); \
+	serviceName(const serviceName &); \
+	serviceName & operator=(const serviceName &); \
 }; \
 } \
 }
 
 
-
-#define THRIFT_NON_BLOCKING_SERVICE(serviceIfFactory, serviceIf, serviceHandler, serviceProcessorFactory, protocol_type) \
+// ============================
+// @用途 : IO复用+非阻塞套接字 模式服务端定义宏
+// @serviceName : 服务名称
+// @serviceIfFactory : RPC接口工厂
+// @serviceIf : RPC接口
+// @serviceHandler : RPC接口实现句柄类
+// @serviceProcessorFactory : 处理机工厂
+// @protocol_type : 协议类型; 支持的协议有 Json, binary, compact
+// ============================
+#define THRIFT_NON_BLOCKING_SERVICE(serviceName, serviceIfFactory, serviceIf, serviceHandler, serviceProcessorFactory, protocol_type) \
+DEFINE_PROCESSOR_FACTORY(serviceIfFactory, serviceIf, serviceHandler) \
 namespace iegad { \
 namespace thrift_ex { \
-class ProcessorCloneFactory : virtual public serviceIfFactory \
-{ \
-public: \
-	virtual ~ProcessorCloneFactory() {} \
-	\
-	virtual serviceIf * getHandler(const ::apache::thrift::TConnectionInfo & connInfo) { \
-		boost::shared_ptr<::apache::thrift::transport::TSocket> sock = \
-		boost::dynamic_pointer_cast<::apache::thrift::transport::TSocket>(connInfo.transport); \
-		sock->setRecvTimeout(_APP_TIME_OUT); \
-		return new serviceHandler; \
-	} \
-	\
-	virtual void releaseHandler(serviceIf * handler) { \
-		delete handler; \
-	} \
-}; \
 \
-class THost { \
+class serviceName { \
 public: \
 	typedef ::apache::thrift::server::TServerEventHandler TServerEventHandler; \
 	typedef protocol_type						protoc_fac_t; \
 	typedef ::apache::thrift::server::TNonblockingServer	TNonblockingServer; \
 	\
-	explicit THost(int port, \
+	explicit serviceName(int port, \
 	boost::shared_ptr<TServerEventHandler> eventHandler = nullptr, \
 	int threadCount = 4) \
 		: \
@@ -241,23 +285,24 @@ public: \
 	port_(port), \
 	server_(nullptr) { \
 		this->_init(eventHandler);	\
-	} \
+		} \
 	\
-	~THost() {	\
+	~serviceName() {	\
+		socket_release(); \
 		server_->stop(); \
 	} \
 	\
 	void Run() { \
-		std::cout << "===============================\n"; \
-		std::cout << VERSION_TYPE << std::endl; \
-		std::cout << "Nonblocking Server running...\nlistened at 0.0.0.0 : " << port_ << std::endl; \
-		std::cout << "===============================\n\n"; \
+		iINFO << "===============================\n"; \
+		iINFO << VERSION_TYPE << std::endl; \
+		iINFO << "Nonblocking Server running : listened at 0.0.0.0 : " << port_ << std::endl; \
+		iINFO << "===============================\n\n"; \
 		server_->run(); \
-	} \
+		} \
 	\
 	boost::shared_ptr<TNonblockingServer> GetServer() { \
 		return this->server_;	 \
-	} \
+		} \
 	\
 private: \
 	void _init(boost::shared_ptr<TServerEventHandler> eventHandler) {	\
@@ -277,6 +322,9 @@ private: \
 			port_, \
 			threadManager_)); \
 		if (eventHandler != nullptr) { \
+			if (!socket_init()) { \
+				throw std::exception("Windows socket init failed"); \
+			} \
 			server_->setServerEventHandler(eventHandler); \
 		} \
 	} \
@@ -286,28 +334,45 @@ private: \
 	boost::shared_ptr<::apache::thrift::concurrency::ThreadManager> threadManager_; \
 	boost::shared_ptr<::apache::thrift::server::TNonblockingServer> server_; \
 	\
-	THost(const THost &); \
-	THost & operator=(const THost &); \
+	serviceName(const serviceName &); \
+	serviceName & operator=(const serviceName &); \
 }; \
 } \
 }
 
-
-#define DECLARE_THREADED_SERVER(serviceName, __protocol) THRIFT_THREADED_SERVICE(XXX_IfFactory(serviceName), \
+// ============================
+// @用途 : per-connect 模式服务端定义宏(接口宏, 供用户使用的部分)
+// @serviceName : 服务名称
+// @__protocol : 协议类型; 支持的协议有 Json, binary, compact
+// ============================
+#define DEFINE_THREADED_SERVER(serviceName, __protocol) THRIFT_THREADED_SERVICE(serviceName, \
+XXX_IfFactory(serviceName), \
 XXX_If(serviceName), \
 XXX_Handler(serviceName), \
 XXX_ProcessorFactory(serviceName), \
 XXX_ProtocolFactory(__protocol))
 
 
-#define DECLARE_THREADPOOL_SERVER(serviceName, __protocol) THRIFT_THREAD_POOL_SERVICE(XXX_IfFactory(serviceName), \
+// ============================
+// @用途 : connect-pool 模式服务端定义宏(接口宏, 供用户使用的部分)
+// @serviceName : 服务名称
+// @__protocol : 协议类型; 支持的协议有 Json, binary, compact
+// ============================
+#define DEFINE_THREADPOOL_SERVER(serviceName, __protocol) THRIFT_THREAD_POOL_SERVICE(serviceName, \
+XXX_IfFactory(serviceName), \
 XXX_If(serviceName), \
 XXX_Handler(serviceName), \
 XXX_ProcessorFactory(serviceName), \
 XXX_ProtocolFactory(__protocol))
 
 
-#define DECLARE_NON_BLOCKING_SERVER(serviceName, __protocol) THRIFT_NON_BLOCKING_SERVICE(XXX_IfFactory(serviceName), \
+// ============================
+// @用途 : IO复用+非阻塞套接字 模式服务端定义宏(接口宏, 供用户使用的部分)
+// @serviceName : 服务名称
+// @__protocol : 协议类型; 支持的协议有 Json, binary, compact
+// ============================
+#define DEFINE_NON_BLOCKING_SERVER(serviceName, __protocol) THRIFT_NON_BLOCKING_SERVICE(serviceName, \
+XXX_IfFactory(serviceName), \
 XXX_If(serviceName), \
 XXX_Handler(serviceName), \
 XXX_ProcessorFactory(serviceName), \

@@ -27,23 +27,34 @@ std::string sendMsgStr = "君不见黄河之水天上来⑵，奔流到海不复回。\n"
 
 
 
+DEFINE_EVENT_HANDLER(EchoEvent);
+DEFINE_NON_BLOCKING_SERVER(EchoServer, BINARY_PROTOCOL);
+DEFINE_NON_BLOCKING_CLIENT(EchoClient, EchoServer, BINARY_PROTOCOL);
 
-DECLARE_EVENT_HANDLER(EchoEvent);
-//DECLARE_THREADED_SERVER(EchoServer, JSON_PROTOCOL);
-//DECLARE_THREADPOOL_SERVER(EchoServer, BINARY_PROTOCOL);
-DECLARE_NON_BLOCKING_SERVER(EchoServer, BINARY_PROTOCOL);
-DECLARE_PROXY(EchoServer, JSON_PROTOCOL);
 
-DECLARE_CREATE_CONTEXT(myCreateContext, in, out)
+
+DEFINE_CREATE_CONTEXT(OnCreateContext, in, out)
 {
+	iINFO << "create context\n";
 	return nullptr;
 }
 
-DECLARE_PRE_SERVER(myPreServer)
+DEFINE_PRE_SERVER(OnPreServer)
 {
-	std::cout << "PreServer\n";
+	iINFO << "PreServer\n";
 }
 
+
+DEFINE_DELETE_CONTEXT(OnDeleteContext, txt, in, out)
+{
+	iINFO << "delete\n";
+}
+
+
+DEFINE_PROCESS_CONTEXT(OnProcessContext, txt, trans)
+{
+	iINFO << trans->getOrigin() << std::endl;
+}
 
 
 
@@ -55,29 +66,30 @@ main(int argc, char * argv[])
 	using ::apache::thrift::protocol::TBinaryProtocol;
 	using ::apache::thrift::protocol::TProtocol;
 	using ::apache::thrift::transport::TFramedTransport;
-
+	//iegad::tools::_LOG svcLog(argv[0]);
 	if (argc < 2) {
 		exit(1);
 	}
 	try {
 		if (std::stoi(argv[1]) > 1000) {
 			// server
-			boost::shared_ptr<EchoEvent> ev(new EchoEvent);
-			ev->OnPreServeEvent = myPreServer;
-			ev->OnCreateContextEvent = myCreateContext;
-			iegad::thrift_ex::THost host(6688, ev, 1);
-			
+			boost::shared_ptr<iegad::thrift_ex::EchoEvent> ev(new iegad::thrift_ex::EchoEvent);
+			ev->PreServeEvent = OnPreServer;
+			ev->CreateContextEvent = OnCreateContext;
+			ev->DeleteContextEvent = OnDeleteContext;
+			ev->ProcessContextEvent = OnProcessContext;
+			iegad::thrift_ex::EchoServer host(6688, ev, 1);
 			host.Run();
 		}
 		else {
 			// client
 			std::clock_t start, finish;
 
-			iegad::thrift_ex::TProxy proxy("127.0.0.1", 6688);
+			iegad::thrift_ex::EchoClient proxy("127.0.0.1", 6688);
 			std::string res;
 			start = std::clock();
 			for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
-				std::cin.get();
+				//std::cin.get();
 				proxy.imp()->echo(res, sendMsgStr);
 				std::cout << res << std::endl;
 			}
@@ -91,7 +103,7 @@ main(int argc, char * argv[])
 		}
 	}
 	catch (std::exception & ex) {
-		std::cout << ex.what();
+		iINFO << ex.what();
 	}
 	exit(0);
 }
