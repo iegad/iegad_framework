@@ -78,5 +78,4 @@ typedef ::apache::thrift::server::TNonblockingServer		THRIFT_NON_BLOCKING_SERVER
 #define _APP_TIME_OUT (1000 * 60) 
 
 
-
 #endif // __THRIFT_EX_MACRO__

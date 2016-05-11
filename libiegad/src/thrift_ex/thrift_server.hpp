@@ -41,6 +41,7 @@ namespace iegad {
 namespace thrift_ex { 
  
 
+
     // ============================
     // @用途 : 处理机工厂模板
     // @__SVC_IFFAC_T_ : RPC接口工厂
@@ -49,6 +50,7 @@ namespace thrift_ex {
     // ============================
     template <typename __SVC_IFFAC_T_, typename __SVC_IF_T_, typename __SVC_HANDLER_T_>
     class ProcessorCloneFactory : virtual public __SVC_IFFAC_T_ {
+    // 处理机工厂模板类
     public:
 	virtual ~ProcessorCloneFactory() {}
 
@@ -63,6 +65,7 @@ namespace thrift_ex {
 	    delete handler;
 	} // virtual void releaseHandler(__SVC_IF_T_ *);
     }; // class ProcessorCloneFactory;
+
 
 
     // ============================
@@ -84,6 +87,7 @@ namespace thrift_ex {
     	typename __SERVER_T_,
     	typename __PROTOCOL_FAC_T_>
     class THost {
+    // thrift服务端模板类
     public:
 	// ============================
 	// @用途 : 内置类型定义
@@ -278,6 +282,7 @@ namespace thrift_ex {
 	THost(const THost &);
 	THost & operator=(const THost &);
     }; // class THost;
+
 
 
 }  // namespace thrift_ex;
