@@ -27,5 +27,5 @@ class EchoServerHandler : virtual public EchoServerIf {
 	  _return = msg;
   }
 
-};
+}; // class EchoServerHandler;
 

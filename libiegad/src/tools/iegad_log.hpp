@@ -70,6 +70,7 @@ namespace tools {
 		google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
 	    // set log file max size 100M;
 	    FLAGS_max_log_size = 100;
+		FLAGS_logbufsecs = 0;
 	    //init charset;
 
 #ifdef WIN32 // for win

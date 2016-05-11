@@ -2,6 +2,7 @@
 #include <ctime>
 #include <iostream>
 
+
 #include "thrift_ex/gen-cpp/EchoServer.h"
 #include "thrift_ex/gen-cpp/EchoServer_server.skeleton.hpp"
 #include "thrift_ex/gen-cpp/echo_types.h"
@@ -26,11 +27,12 @@ std::string sendMsgStr = "君不见黄河之水天上来⑵，奔流到海不复回。\n"
 "五花马⒂，千金裘，呼儿将出换美酒，与尔同销万古愁⒃。\n";
 
 
-
+// 定义服务端事件类
 DEFINE_EVENT_HANDLER(EchoEvent);
-DEFINE_NON_BLOCKING_SERVER(EchoServer, BINARY_PROTOCOL);
-DEFINE_NON_BLOCKING_CLIENT(EchoClient, EchoServer, BINARY_PROTOCOL);
-
+// 定义客户端类
+DEFINE_THRIFT_CLIENT(EchoClient, EchoServer, BINARY_PROTOCOL, true);
+// 定义服务端类
+DEFINE_THRIFT_SERVER(EchoServer, THRIFT_NON_BLOCKING_SERVER, BINARY_PROTOCOL);
 
 
 DEFINE_CREATE_CONTEXT(OnCreateContext, in, out)
@@ -38,6 +40,7 @@ DEFINE_CREATE_CONTEXT(OnCreateContext, in, out)
 	iINFO << "create context\n";
 	return nullptr;
 }
+
 
 DEFINE_PRE_SERVER(OnPreServer)
 {
@@ -61,49 +64,49 @@ DEFINE_PROCESS_CONTEXT(OnProcessContext, txt, trans)
 int
 main(int argc, char * argv[])
 {
-	using ::apache::thrift::transport::TSocket;
-	using ::apache::thrift::transport::TTransport;
-	using ::apache::thrift::protocol::TBinaryProtocol;
-	using ::apache::thrift::protocol::TProtocol;
-	using ::apache::thrift::transport::TFramedTransport;
-	//iegad::tools::_LOG svcLog(argv[0]);
-	if (argc < 2) {
-		exit(1);
+    using ::apache::thrift::transport::TSocket;
+    using ::apache::thrift::transport::TTransport;
+    using ::apache::thrift::protocol::TBinaryProtocol;
+    using ::apache::thrift::protocol::TProtocol;
+    using ::apache::thrift::transport::TFramedTransport;
+    iegad::tools::_LOG svcLog(argv[0]);
+    if (argc < 2) {
+	exit(1);
+    }
+    try {
+	if (std::stoi(argv[1]) > 1000) {
+	    // server
+	    boost::shared_ptr<EchoEvent> ev(new EchoEvent);
+	    ev->PreServeEvent = OnPreServer;
+	    ev->CreateContextEvent = OnCreateContext;
+	    ev->DeleteContextEvent = OnDeleteContext;
+	    ev->ProcessContextEvent = OnProcessContext;
+	    EchoServer host(6688, ev, 1);
+	    host.Run();
 	}
-	try {
-		if (std::stoi(argv[1]) > 1000) {
-			// server
-			boost::shared_ptr<iegad::thrift_ex::EchoEvent> ev(new iegad::thrift_ex::EchoEvent);
-			ev->PreServeEvent = OnPreServer;
-			ev->CreateContextEvent = OnCreateContext;
-			ev->DeleteContextEvent = OnDeleteContext;
-			ev->ProcessContextEvent = OnProcessContext;
-			iegad::thrift_ex::EchoServer host(6688, ev, 1);
-			host.Run();
-		}
-		else {
-			// client
-			std::clock_t start, finish;
+	else {
+	    // client
+	    std::clock_t start, finish;
 
-			iegad::thrift_ex::EchoClient proxy("127.0.0.1", 6688);
-			std::string res;
-			start = std::clock();
-			for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
-				//std::cin.get();
-				proxy.imp()->echo(res, sendMsgStr);
-				std::cout << res << std::endl;
-			}
-			finish = std::clock();
-			std::cout << argv[1]
-				<< "s message and  with per message's size : "
-				<< sendMsgStr.size()
-				<< "\ntimespan : "
-				<< ((double)finish - start) / CLOCKS_PER_SEC
-				<< " seconds!" << std::endl;
-		}
+	    EchoClient proxy("127.0.0.1", 6688);
+	    std::string res;
+	    start = std::clock();
+	    for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
+		//std::cin.get();
+		proxy.imp()->echo(res, sendMsgStr);
+		std::cout << res << std::endl;
+	    }
+	    finish = std::clock();
+	    std::cout << argv[1]
+		<< "s message and  with per message's size : "
+		<< sendMsgStr.size()
+		<< "\ntimespan : "
+		<< ((double)finish - start) / CLOCKS_PER_SEC
+		<< " seconds!" << std::endl;
 	}
-	catch (std::exception & ex) {
-		iINFO << ex.what();
-	}
-	exit(0);
-}
+    }
+    catch (std::exception & ex) {
+	iINFO << ex.what();
+    }
+    exit(0);
+} // int main(int argc, char * argv[]);
