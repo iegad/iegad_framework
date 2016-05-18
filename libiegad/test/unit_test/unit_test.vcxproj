@@ -96,8 +96,9 @@
     <ClCompile Include="..\..\src\thrift_ex\gen-cpp\EchoServer_server.skeleton.hpp" />
     <ClCompile Include="..\..\src\thrift_ex\gen-cpp\echo_constants.cpp" />
     <ClCompile Include="..\..\src\thrift_ex\gen-cpp\echo_types.cpp" />
-    <ClCompile Include="amq_test_main.cpp" />
-    <ClCompile Include="thrift_test_main.cpp" />
+    <ClCompile Include="test_amq_main.cpp" />
+    <ClCompile Include="test_string_main.cpp" />
+    <ClCompile Include="test_thrift_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\thrift_ex\gen-cpp\EchoServer.h" />

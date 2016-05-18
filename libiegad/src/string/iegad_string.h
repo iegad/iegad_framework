@@ -43,6 +43,9 @@
 //  --2015-11-10	    --iegad		   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
 //  --2015-11-12	    --iegad		   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
 //  --2016-03-04	    --iegad		   -- 简化 to_upr & to_lwr
+//  --2016-05-18	    --iegad		   --1, 去掉自定义加密/解密函数
+//							   --2, 添加wstring 与 string 相互转换函数. 
+//							   --3, 添加format函数, 用来格式化字符串.
 
 
 #include <string>
@@ -384,23 +387,32 @@ guid();
 
 
 // ============================
-// @用途 : 将字符串 src 进行 自定义 加密
-// @src : 需要加密的字符串
-// @key : 密钥
-// @返回值 : 加密后的字符串
+// @用途 : 将std::wstring 转换成std::string 
+// @wstr : 需要std::wstring 宽字符串
+// @返回值 : 转换后的std::string类型字符串
 // ============================
 const std::string
-en_cust(const std::string & src, char key);
+wstr_to_str(const std::wstring & wstr);
 
 
 // ============================
-// @用途 : 将字符串 src 进行 自定义 解密
-// @src : 需要解密的字符串
-// @key : 密钥
-// @返回值 : 解密后的字符串
+// @用途 : 将std::string 转换成std::wstring 
+// @str : 需要std::string 字符串
+// @返回值 : 转换后的std::wstring类型字符串
+// ============================
+const std::wstring
+str_to_wstr(const std::string & str);
+
+
+// ============================
+// @用途 : 将std::string 转换成std::wstring 
+// @fmt : 格式化字符串
+// @params : 参数列表.
+// @返回值 : 格式化后的字符串
+// @PS : 使用C#的Format格式 {0}, {1}, {2} ...
 // ============================
 const std::string
-de_cust(const std::string & src, char key);
+format(const std::string & fmt, const std::initializer_list<std::string> & params);
 
 
 } //end namespace string

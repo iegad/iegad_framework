@@ -1,9 +1,6 @@
 ﻿#include "iegad_string.h"
 #include <string.h>
 #include <sstream>
-#ifdef WIN32
-#include <codecvt>
-#endif // WIN32
 #include <iomanip>
 #include <boost/uuid/sha1.hpp>
 #include <boost/uuid/uuid.hpp>
@@ -11,6 +8,7 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/locale.hpp>
 #include <cwctype>
+#include <clocale>
 
 
 
@@ -188,25 +186,6 @@ iegad::string::guid()
     boost::uuids::random_generator rgen;
     boost::uuids::uuid u(rgen());
     return boost::uuids::to_string(u);
-}
-
-
-const std::string 
-iegad::string::en_cust(const std::string & src, char key)
-{
-    std::string res;
-    for (int i = 0, n = src.size(); i < n; i++) {
-	// res.push_back(src[i] ^ key);
-	res.push_back(~src[i] + 1);
-    }
-    return res;
-}
-
-
-const std::string 
-iegad::string::de_cust(const std::string & src, char key)
-{
-    return en_cust(src, key);
 }
 
 
@@ -517,4 +496,45 @@ iegad::string::str_tobin(const std::string & src, char * buff, int & buff_size)
     } // for (size_t i = 0; i < buff_size; i++);
 
     return buff;
+}
+
+
+const std::string
+iegad::string::wstr_to_str(const std::wstring & wstr)
+{
+    const wchar_t* _Source = wstr.c_str();
+    size_t _Dsize = 2 * wstr.size() + 1;
+    char *_Dest = new char[_Dsize];
+    memset(_Dest, 0, _Dsize);
+    wcstombs(_Dest, _Source, _Dsize);
+    std::string res = _Dest;
+    delete[]_Dest;
+    return res;
+}
+
+
+const std::wstring 
+iegad::string::str_to_wstr(const std::string & str)
+{
+    const char* _Source = str.c_str();
+    size_t _Dsize = str.size() + 1;
+    wchar_t *_Dest = new wchar_t[_Dsize];
+    wmemset(_Dest, 0, _Dsize);
+    mbstowcs(_Dest, _Source, _Dsize);
+    std::wstring res = _Dest;
+    delete[]_Dest;
+    return res;
+}
+
+
+const std::string 
+iegad::string::format(const std::string & fmt, const std::initializer_list<std::string> & params)
+{
+    std::string temp, res = fmt;
+    int i = 0;
+    for (auto itor = params.begin(); itor != params.end(); itor++, i++) {
+	temp = std::string("{") + std::to_string(i) + "}";
+	res = iegad::string::replace(res, temp, *itor);
+    }
+    return res;
 }
