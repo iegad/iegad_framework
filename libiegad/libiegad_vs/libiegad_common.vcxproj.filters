@@ -39,6 +39,12 @@
     <ClCompile Include="..\src\string\iegad_string.cpp">
       <Filter>string</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\sercurity\iegad_aes.cpp">
+      <Filter>security</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sercurity\iegad_sha1.cpp">
+      <Filter>security</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cms_ex\amq_baser.h">
@@ -97,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="..\src\thrift_ex\thrift_server.hpp">
       <Filter>thrift_ex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sercurity\iegad_aes.h">
+      <Filter>security</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sercurity\iegad_sha1.h">
+      <Filter>security</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

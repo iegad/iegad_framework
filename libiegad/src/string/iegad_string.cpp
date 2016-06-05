@@ -2,13 +2,13 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
-#include <boost/uuid/sha1.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/locale.hpp>
 #include <cwctype>
 #include <clocale>
+#include "sercurity/iegad_sha1.h"
 
 
 
@@ -166,17 +166,13 @@ iegad::string::md5(const std::string & src)
     return m.hexdigest();
 }
 
-void 
-iegad::string::sha1(const std::string & src, std::vector<unsigned int> & digest)
+
+const std::string
+iegad::string::sha1(const std::string & src)
 {
-    unsigned int temp[5];
-    digest.clear();
-    boost::uuids::detail::sha1 sha;
-    sha.process_bytes(src.c_str(), src.size());
-    sha.get_digest(temp);
-    for (int i = 0; i < 5; i++) {
-        digest.push_back(temp[i]);
-    }
+    std::string res;
+    iegad::security::SHA1 sha1;    
+    return sha1.sha_go(src, &res) ? res : "";
 }
 
 

@@ -350,11 +350,10 @@ md5(const std::string & src);
 // ============================
 // @用途 : 将字符串 src 进行sha1加密, 并将结果存放到 digest中
 // @src : 需要加密的字符串
-// @ser : 用来保存摘要的数组容器
-// @返回值 : void
+// @返回值 : 序列化后的字节序列
 // ============================
-void
-sha1(const std::string & src, std::vector<unsigned int> & digest);
+const std::string
+sha1(const std::string & src);
 
 
 // ============================

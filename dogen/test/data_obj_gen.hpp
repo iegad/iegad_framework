@@ -113,14 +113,6 @@ namespace dbo {
 			return iegad::thrift_ex::Serializer<Person>::ParseFromJSONString(obj, serstr);
 		} // static bool ParseFromJSONString;
 
-		static bool SerializeToArray(Person & obj, std::string * serstr, int * size) {
-			return iegad::thrift_ex::Serializer<Person>::SerializeToArray(obj, serstr, size);
-		} // static bool SerializeToArray;
-
-		static bool ParseFromArray(Person * obj, const std::string & serstr) {
-			return iegad::thrift_ex::Serializer<Person>::ParseFromArray(obj, serstr);
-		} // static bool ParseFromArray;
-
 	}; // PersonAcs;
 
 
