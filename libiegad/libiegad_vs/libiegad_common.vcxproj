@@ -11,27 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\cms_ex\amq_baser.cpp" />
-    <ClCompile Include="..\src\cms_ex\amq_consumer.cpp" />
-    <ClCompile Include="..\src\cms_ex\amq_producer.cpp" />
-    <ClCompile Include="..\src\cms_ex\amq_publisher.cpp" />
-    <ClCompile Include="..\src\cms_ex\amq_subscriber.cpp" />
-    <ClCompile Include="..\src\sercurity\iegad_aes.cpp" />
-    <ClCompile Include="..\src\sercurity\iegad_md5.cpp" />
-    <ClCompile Include="..\src\sercurity\iegad_sha1.cpp" />
-    <ClCompile Include="..\src\string\iegad_string.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\src\cms_ex\amq_baser.h" />
-    <ClInclude Include="..\src\cms_ex\amq_consumer.h" />
-    <ClInclude Include="..\src\cms_ex\amq_iworker.hpp" />
-    <ClInclude Include="..\src\cms_ex\amq_producer.h" />
-    <ClInclude Include="..\src\cms_ex\amq_publisher.h" />
-    <ClInclude Include="..\src\cms_ex\amq_subscriber.h" />
-    <ClInclude Include="..\src\sercurity\iegad_aes.h" />
-    <ClInclude Include="..\src\sercurity\iegad_md5.h" />
-    <ClInclude Include="..\src\sercurity\iegad_sha1.h" />
-    <ClInclude Include="..\src\string\iegad_string.h" />
+    <ClInclude Include="..\src\sercurity\iegad_aes.hpp" />
+    <ClInclude Include="..\src\sercurity\iegad_md5.hpp" />
+    <ClInclude Include="..\src\sercurity\iegad_sha1.hpp" />
+    <ClInclude Include="..\src\string\iegad_string.hpp" />
     <ClInclude Include="..\src\thrift_ex\thrift_client.hpp" />
     <ClInclude Include="..\src\thrift_ex\thrift_eventhandler.hpp" />
     <ClInclude Include="..\src\thrift_ex\thrift_ex_macro.h" />

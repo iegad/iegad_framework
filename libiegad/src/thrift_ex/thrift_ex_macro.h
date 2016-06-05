@@ -22,23 +22,23 @@
 #include <iostream>
 #include <ctime>
 // iegad tools include
-#include "string/iegad_string.h"
+#include "string/iegad_string.hpp"
 
 
-// µ±Ç° thrift_ex °æ±¾ºÅ.
+// å½“å‰ thrift_ex ç‰ˆæœ¬å·.
 #define VERSION_TYPE "host's version 0.1.3 and thrift's version 0.9.3\n"	    
 
 
 // ============================
-// @ÓÃÍ¾ : ÊÂ¼ş¶¨Òåºê
-// @__event_type_ : ÊÂ¼şÀàĞÍÃû³Æ
-// @__delegate_sign_ : º¯ÊıÇ©Ãû
+// @ç”¨é€” : äº‹ä»¶å®šä¹‰å®
+// @__event_type_ : äº‹ä»¶ç±»å‹åç§°
+// @__delegate_sign_ : å‡½æ•°ç­¾å
 // ============================
 #define DEFINE_EVENT(__event_type_, __delegate_sign_) \
 typedef std::function<##__delegate_sign_##> __event_type_;
 
 
-// ºêÊµÏÖ¶¨Òå
+// å®å®ç°å®šä¹‰
 #define __XXX_IfFactory__(a)				a##IfFactory
 #define __XXX_If__(a)					a##If
 #define __XXX_Handler__(a)				a##Handler
@@ -50,7 +50,7 @@ typedef std::function<##__delegate_sign_##> __event_type_;
 #define __XXX_Class_Member(a, b)			a##::##b
 
 
-// ºêµ÷ÓÃÉùÃ÷¶¨Òå
+// å®è°ƒç”¨å£°æ˜å®šä¹‰
 #define XXX_IfFactory(a)					__XXX_IfFactory__(a)
 #define XXX_If(a)						__XXX_If__(a)
 #define XXX_Handler(a)					__XXX_Handler__(a)
@@ -62,19 +62,19 @@ typedef std::function<##__delegate_sign_##> __event_type_;
 #define XXX_Class_Member(a, b)			__XXX_Class_Member(a, b)
 
 
-// Ğ­Òé¶¨Òå
+// åè®®å®šä¹‰
 #define BINARY_PROTOCOL		Binary
 #define COMPACT_PROTOCOL	Compact
 #define JSON_PROTOCOL		JSON
 
 
-// ·şÎñ¶ËÄ£ĞÍ¶¨Òå
+// æœåŠ¡ç«¯æ¨¡å‹å®šä¹‰
 typedef	 ::apache::thrift::server::TThreadedServer		THRIFT_THREADED_SERVER;
 typedef ::apache::thrift::server::TThreadPoolServer		THRIFT_THREADPOOL_SERVER;
 typedef ::apache::thrift::server::TNonblockingServer		THRIFT_NON_BLOCKING_SERVER;
 
 
-// 1·ÖÖÓ³¬Ê±Öµ
+// 1åˆ†é’Ÿè¶…æ—¶å€¼
 #define _APP_TIME_OUT (1000 * 60) 
 
 

@@ -13,64 +13,8 @@
     <Filter Include="thrift_ex">
       <UniqueIdentifier>{c0f3ead7-013b-487c-a180-c2371dd1062f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cms_ex">
-      <UniqueIdentifier>{d205ca71-edea-47cd-add4-2628e177035a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\cms_ex\amq_baser.cpp">
-      <Filter>cms_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\cms_ex\amq_consumer.cpp">
-      <Filter>cms_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\cms_ex\amq_producer.cpp">
-      <Filter>cms_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\cms_ex\amq_publisher.cpp">
-      <Filter>cms_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\cms_ex\amq_subscriber.cpp">
-      <Filter>cms_ex</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\sercurity\iegad_md5.cpp">
-      <Filter>security</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\string\iegad_string.cpp">
-      <Filter>string</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\sercurity\iegad_aes.cpp">
-      <Filter>security</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\sercurity\iegad_sha1.cpp">
-      <Filter>security</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\src\cms_ex\amq_baser.h">
-      <Filter>cms_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\cms_ex\amq_consumer.h">
-      <Filter>cms_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\cms_ex\amq_iworker.hpp">
-      <Filter>cms_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\cms_ex\amq_producer.h">
-      <Filter>cms_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\cms_ex\amq_publisher.h">
-      <Filter>cms_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\cms_ex\amq_subscriber.h">
-      <Filter>cms_ex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\sercurity\iegad_md5.h">
-      <Filter>security</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\string\iegad_string.h">
-      <Filter>string</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\tools\iegad_log.hpp">
       <Filter>tools</Filter>
     </ClInclude>
@@ -104,10 +48,16 @@
     <ClInclude Include="..\src\thrift_ex\thrift_server.hpp">
       <Filter>thrift_ex</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\sercurity\iegad_aes.h">
+    <ClInclude Include="..\src\string\iegad_string.hpp">
+      <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sercurity\iegad_md5.hpp">
       <Filter>security</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\sercurity\iegad_sha1.h">
+    <ClInclude Include="..\src\sercurity\iegad_sha1.hpp">
+      <Filter>security</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sercurity\iegad_aes.hpp">
       <Filter>security</Filter>
     </ClInclude>
   </ItemGroup>

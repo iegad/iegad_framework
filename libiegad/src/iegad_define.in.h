@@ -2,11 +2,11 @@
 #define __IEGAD_COMMON_IN__
 
 
-// float ¾«¶È
+// float ç²¾åº¦
 #define	    FLOAT_DEFAULT_PRECISION	    6
-// double ¾«¶È
+// double ç²¾åº¦
 #define	    DOUBLE_DEFAULT_PRECISION	    15
-// ´íÎó×Ö·û´®
+// é”™è¯¯å­—ç¬¦ä¸²
 #define	    ERR_STRING					    "??????"
 
 
@@ -14,15 +14,15 @@
 //	for windows
 // ===========
 #ifdef WIN32 
-// long double ¾«¶È
+// long double ç²¾åº¦
 #define	    DECIMAL_DEFAULT_PRECISION	    15
-// ÏµÍ³GBK ×Ö·û¼¯
+// ç³»ç»ŸGBK å­—ç¬¦é›†
 #define	    CHARSET_DEFAULT			    "GBK"
 
 
-// ´´½¨ÈÕÖ¾Ä¿Â¼
+// åˆ›å»ºæ—¥å¿—ç›®å½•
 #define	    MKDIR			    "mkdir LOG"
-// info ÈÕÖ¾±£´æÂ·¾¶
+// info æ—¥å¿—ä¿å­˜è·¯å¾„
 #define	    LOG_INF_FILE	    ".\\LOG\\INFO_"
 #define		LOG_ERR_FILE		".\\LOG\\ERR_"
 
@@ -31,19 +31,19 @@
 //	    for linux
 // ===========
 #else 
-// long double ¾«¶È
+// long double ç²¾åº¦
 #define	    DECIMAL_DEFAULT_PRECISION	    18
-// ÏµÍ³GBK ×Ö·û¼¯
+// ç³»ç»ŸGBK å­—ç¬¦é›†
 #define	    CHARSET_DEFAULT			    "zh_CN.UTF-8"
 
-// ´´½¨ÈÕÖ¾Ä¿Â¼
+// åˆ›å»ºæ—¥å¿—ç›®å½•
 #define	    MKDIR			    "mkdir -p ./LOG";
-// info ÈÕÖ¾±£´æÂ·¾¶
+// info æ—¥å¿—ä¿å­˜è·¯å¾„
 #define	    LOG_INF_FILE	    "./LOG/INFO_"
 #define		LOG_ERR_FILE		"./LOG/ERR_"
 
 
-// Ê¹ windows ºÍ linux ÏÂÍ³Ò»µ÷ÓÃÃû³Æ
+// ä½¿ windows å’Œ linux ä¸‹ç»Ÿä¸€è°ƒç”¨åç§°
 #define	    _snprintf(buff, buffsize, fmt, ...)	    { snprintf((buff), (buffsize), (fmt), ##__VA_ARGS__); }
 #endif // WIN32
 

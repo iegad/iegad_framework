@@ -4,7 +4,7 @@
 
 
 #ifndef THRIFT_SERVICE_NAME
-#error Î´¶¨Òå·þÎñÃû³Æ
+#error æœªå®šä¹‰æœåŠ¡åç§°
 #endif
 
 

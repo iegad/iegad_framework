@@ -10,12 +10,12 @@
 
 
 // ============================
-// @ÓÃÍ¾ : CreateContextEventÊÂ¼ş¾ä±úºê
-// @__func_name_ : º¯ÊıÃû³Æ
-// @inputProtocol : inputĞ­ÒéĞÎ²Î
-// @outputProtocol : outputĞ­ÒéĞÎ²Î
-// @·µ»ØÖµ : void* Îª×Ô¶¨ÒåÉÏÏÂÎÄ¶ÔÏóµÄµØÖ·
-// @PS : ¿Í»§¶ËÁ¬½ÓÊ±´¥·¢
+// @ç”¨é€” : CreateContextEventäº‹ä»¶å¥æŸ„å®
+// @__func_name_ : å‡½æ•°åç§°
+// @inputProtocol : inputåè®®å½¢å‚
+// @outputProtocol : outputåè®®å½¢å‚
+// @è¿”å›å€¼ : void* ä¸ºè‡ªå®šä¹‰ä¸Šä¸‹æ–‡å¯¹è±¡çš„åœ°å€
+// @PS : å®¢æˆ·ç«¯è¿æ¥æ—¶è§¦å‘
 // ============================
 #define DEFINE_CREATE_CONTEXT(__func_name_, inputProtocol, outputProtocol) \
 void* __func_name_(boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol, \
@@ -23,12 +23,12 @@ boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol)
 
 
 // ============================
-// @ÓÃÍ¾ : DeleteContextEventÊÂ¼ş¾ä±úºê
-// @__func_name_ : º¯ÊıÃû³Æ
-// @serverContext : ¸ø¶¨µÄÉÏÏÂÎÄ»·¾³
-// @inputProtocol : inputĞ­ÒéĞÎ²Î
-// @outputProtocol : outputĞ­ÒéĞÎ²Î
-// @PS : ¿Í»§¶Ë¹Ø±ÕÍ¨ĞÅÁ¬½ÓÊ±´¥·¢
+// @ç”¨é€” : DeleteContextEventäº‹ä»¶å¥æŸ„å®
+// @__func_name_ : å‡½æ•°åç§°
+// @serverContext : ç»™å®šçš„ä¸Šä¸‹æ–‡ç¯å¢ƒ
+// @inputProtocol : inputåè®®å½¢å‚
+// @outputProtocol : outputåè®®å½¢å‚
+// @PS : å®¢æˆ·ç«¯å…³é—­é€šä¿¡è¿æ¥æ—¶è§¦å‘
 // ============================
 #define DEFINE_DELETE_CONTEXT(__func_name_, serverContext, inputProtocol, outputProtocol) \
 void __func_name_(void* serverContext, \
@@ -37,19 +37,19 @@ boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol)
 
 
 // ============================
-// @ÓÃÍ¾ : ProcessContextEventÊÂ¼ş¾ä±úºê
-// @__func_name_ : º¯ÊıÃû³Æ
-// @serverContext : ¸ø¶¨µÄÉÏÏÂÎÄ»·¾³
-// @trans : ¿Í»§¶ËÍ¨ĞÅ¶ÔÏó
-// @PS : ¿Í»§¶Ë·¢³öRPCµ÷ÓÃÇëÇóÊ±´¥·¢
+// @ç”¨é€” : ProcessContextEventäº‹ä»¶å¥æŸ„å®
+// @__func_name_ : å‡½æ•°åç§°
+// @serverContext : ç»™å®šçš„ä¸Šä¸‹æ–‡ç¯å¢ƒ
+// @trans : å®¢æˆ·ç«¯é€šä¿¡å¯¹è±¡
+// @PS : å®¢æˆ·ç«¯å‘å‡ºRPCè°ƒç”¨è¯·æ±‚æ—¶è§¦å‘
 // ============================
 #define DEFINE_PROCESS_CONTEXT(__func_name_, serverContext, trans) \
 void __func_name_(void* serverContext, boost::shared_ptr<::apache::thrift::transport::TTransport> trans)
 
 
 // ============================
-// @ÓÃÍ¾ : PreServerEventÊÂ¼ş¾ä±úºê
-// @PS : ·şÎñ¶ËÆô¶¯Ê±´¥·¢
+// @ç”¨é€” : PreServerEventäº‹ä»¶å¥æŸ„å®
+// @PS : æœåŠ¡ç«¯å¯åŠ¨æ—¶è§¦å‘
 // ============================
 #define DEFINE_PRE_SERVER(__func_name_) \
 void __func_name_()
@@ -57,25 +57,25 @@ void __func_name_()
 
 
 // ============================
-// @ÓÃÍ¾ : thirft::TServerEventHandlerÅÉÉúÀà¶¨Òåºê
-// @className : ÅÉÉúÀàÀàÃû
+// @ç”¨é€” : thirft::TServerEventHandleræ´¾ç”Ÿç±»å®šä¹‰å®
+// @className : æ´¾ç”Ÿç±»ç±»å
 // ============================
 namespace iegad { 
 namespace thrift_ex { 
 
 
     class ServerEventImpl : public ::apache::thrift::server::TServerEventHandler {
-// ·şÎñ¶ËÊÂ¼şÀ©Õ¹
+// æœåŠ¡ç«¯äº‹ä»¶æ‰©å±•
     public:
 	// ============================
-	// @ÓÃÍ¾ : ÄÚÖÃÀàĞÍ¶¨Òå
+	// @ç”¨é€” : å†…ç½®ç±»å‹å®šä¹‰
 	// ============================
 	typedef boost::shared_ptr<::apache::thrift::protocol::TProtocol> TProtocol_ptr;
 	typedef boost::shared_ptr<::apache::thrift::transport::TTransport> TTransport_ptr;
 
 
 	// ============================
-	// @ÓÃÍ¾ : ÊÂ¼şÀàĞÍ¶¨Òå
+	// @ç”¨é€” : äº‹ä»¶ç±»å‹å®šä¹‰
 	// ============================
 	DEFINE_EVENT(createContextEvent_t, void*(TProtocol_ptr, TProtocol_ptr))
 	    DEFINE_EVENT(deleteContextEvent_t, void(void*, TProtocol_ptr, TProtocol_ptr))
@@ -84,7 +84,7 @@ namespace thrift_ex {
 
 
 	    // ============================
-	    // @ÓÃÍ¾ : ¹¹Ôìº¯Êı
+	    // @ç”¨é€” : æ„é€ å‡½æ•°
 	    // ============================
 	    ServerEventImpl()
 	    :
@@ -96,18 +96,18 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : Îö¹¹º¯Êı
+	// @ç”¨é€” : ææ„å‡½æ•°
 	// ============================
 	virtual ~ServerEventImpl() {}
 
 
 	// ============================
-	// @ÓÃÍ¾ : ´´½¨¿Í»§¶ËÉÏÏÂÎÄ»·¾³, ÔÚ¿Í»§¶ËÁ¬½ÓÊ±´¥·¢.
-	// @inputProtocol : ÊäÈëÁ÷Ğ­Òé
-	// @outputProtocol : Êä³öÁ÷Ğ­Òé
-	// @·µ»ØÖµ : ÉÏÏÂÎÄ¶ÔÏóµØÖ·
-	// @PS : ÔÚTNonBlockingServerÏÂ inputProtocol, outputProtocol
-	//			Á½¸ö²ÎÊıÎŞÒâÒå
+	// @ç”¨é€” : åˆ›å»ºå®¢æˆ·ç«¯ä¸Šä¸‹æ–‡ç¯å¢ƒ, åœ¨å®¢æˆ·ç«¯è¿æ¥æ—¶è§¦å‘.
+	// @inputProtocol : è¾“å…¥æµåè®®
+	// @outputProtocol : è¾“å‡ºæµåè®®
+	// @è¿”å›å€¼ : ä¸Šä¸‹æ–‡å¯¹è±¡åœ°å€
+	// @PS : åœ¨TNonBlockingServerä¸‹ inputProtocol, outputProtocol
+	//			ä¸¤ä¸ªå‚æ•°æ— æ„ä¹‰
 	// ============================
 	virtual void* createContext(boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol,
 	    boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol) override {
@@ -119,13 +119,13 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : É¾³ı¿Í»§¶ËÉÏÏÂÎÄ»·¾³, ÔÚ¿Í»§¶Ë¶Ï¿ªÊ±´¥·¢.
-	// @serverContext : ÉÏÏÂÎÄ»·¾³¶ÔÏó.
-	// @inputProtocol : ÊäÈëÁ÷Ğ­Òé
-	// @outputProtocol : Êä³öÁ÷Ğ­Òé
-	// @·µ»ØÖµ : void
-	// @PS : ÔÚTNonBlockingServerÏÂ inputProtocol, outputProtocol
-	//			Á½¸ö²ÎÊıÎŞÒâÒå
+	// @ç”¨é€” : åˆ é™¤å®¢æˆ·ç«¯ä¸Šä¸‹æ–‡ç¯å¢ƒ, åœ¨å®¢æˆ·ç«¯æ–­å¼€æ—¶è§¦å‘.
+	// @serverContext : ä¸Šä¸‹æ–‡ç¯å¢ƒå¯¹è±¡.
+	// @inputProtocol : è¾“å…¥æµåè®®
+	// @outputProtocol : è¾“å‡ºæµåè®®
+	// @è¿”å›å€¼ : void
+	// @PS : åœ¨TNonBlockingServerä¸‹ inputProtocol, outputProtocol
+	//			ä¸¤ä¸ªå‚æ•°æ— æ„ä¹‰
 	// ============================
 	virtual void deleteContext(void* serverContext,
 	    boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol,
@@ -137,10 +137,10 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ´¦Àí¿Í»§¶ËÉÏÏÂÎÄ»·¾³, ÔÚ¿Í»§¶Ëµ÷ÓÃRPCÊ±, Á¬½ÓÊ±´¥·¢.
-	// @serverContext : ÉÏÏÂÎÄ»·¾³¶ÔÏó.
-	// @trans : Í¨ĞÅ¶ÔÏó
-	// @·µ»ØÖµ : void
+	// @ç”¨é€” : å¤„ç†å®¢æˆ·ç«¯ä¸Šä¸‹æ–‡ç¯å¢ƒ, åœ¨å®¢æˆ·ç«¯è°ƒç”¨RPCæ—¶, è¿æ¥æ—¶è§¦å‘.
+	// @serverContext : ä¸Šä¸‹æ–‡ç¯å¢ƒå¯¹è±¡.
+	// @trans : é€šä¿¡å¯¹è±¡
+	// @è¿”å›å€¼ : void
 	// ============================
 	virtual void processContext(void* serverContext,
 	    boost::shared_ptr<::apache::thrift::transport::TTransport> trans) override {
@@ -151,8 +151,8 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ÔÚ·şÎñÆô¶¯Ç°ÔËĞĞ, ÔÚ·şÎñ¶ËÆô¶¯Ê±´¥·¢.
-	// @·µ»ØÖµ : void
+	// @ç”¨é€” : åœ¨æœåŠ¡å¯åŠ¨å‰è¿è¡Œ, åœ¨æœåŠ¡ç«¯å¯åŠ¨æ—¶è§¦å‘.
+	// @è¿”å›å€¼ : void
 	// ============================
 	virtual void preServe() override {
 	    if (PreServeEvent != nullptr) {
@@ -161,7 +161,7 @@ namespace thrift_ex {
 	}
 
 	// ============================
-	// @ÓÃÍ¾ : ÊÂ¼şÊµÀı¶¨Òå
+	// @ç”¨é€” : äº‹ä»¶å®ä¾‹å®šä¹‰
 	// ============================
 	preServeEvent_t PreServeEvent;
 	createContextEvent_t CreateContextEvent;
@@ -171,7 +171,7 @@ namespace thrift_ex {
 
     private:
 	// ============================
-	// @ÓÃÍ¾ : ½û ÓÃ
+	// @ç”¨é€” : ç¦ ç”¨
 	// ============================
 	ServerEventImpl(const ServerEventImpl &);
 	ServerEventImpl & operator=(const ServerEventImpl &);
@@ -183,8 +183,8 @@ namespace thrift_ex {
 
 
 // ============================
-// @ÓÃÍ¾ : ·şÎñ¶ËÊÂ¼ş´¦ÀíÀà ¶¨Òåºê(½Ó¿Úºê, ¹©ÓÃ»§Ê¹ÓÃµÄ²¿·Ö)
-// @__class_name_ : ÀàÃû
+// @ç”¨é€” : æœåŠ¡ç«¯äº‹ä»¶å¤„ç†ç±» å®šä¹‰å®(æ¥å£å®, ä¾›ç”¨æˆ·ä½¿ç”¨çš„éƒ¨åˆ†)
+// @__class_name_ : ç±»å
 // ============================
 #define DEFINE_EVENT_HANDLER(__class_name_) \
 typedef iegad::thrift_ex::ServerEventImpl __class_name_;

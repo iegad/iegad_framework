@@ -13,7 +13,7 @@ namespace thrift_ex {
 
     template <typename __SVC_CLIENT_T_, typename __PROTOCOL_T_, bool __NON_BLOCK_>
     class TClient {
-    // thrift客户端模板类
+    // thrift瀹㈡埛绔ā鏉跨被
     public:
 	typedef ::apache::thrift::transport::TSocket		    TSocket;
 	typedef ::apache::thrift::transport::TTransport		    TTransport;

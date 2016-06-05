@@ -3,44 +3,44 @@
 
 
 
-// ============ ËµÃ÷ ============
+// ============ è¯´æ˜ ============
 //
-// @´´½¨ÈÕÆÚ : 2016-02-23
-// @´´½¨ÈË : iegad
+// @åˆ›å»ºæ—¥æœŸ : 2016-02-23
+// @åˆ›å»ºäºº : iegad
 //
 // ============================
-// @ÓÃÍ¾ : 1, ¶Ôthrift ÈıÖÖServerÄ£ĞÍµÄÀ©Õ¹
-//				2, Ìá¹©¿ìËÙ¿ª·¢
+// @ç”¨é€” : 1, å¯¹thrift ä¸‰ç§Serveræ¨¡å‹çš„æ‰©å±•
+//				2, æä¾›å¿«é€Ÿå¼€å‘
 //		
-// @PS : ¸ÃÎÄ¼şÒÀÀµÓÚ thrift ¿ªÔ´¿â    
+// @PS : è¯¥æ–‡ä»¶ä¾èµ–äº thrift å¼€æºåº“    
 //
 // ============================
 //
-// @ĞŞ¸Ä¼ÇÂ¼:
+// @ä¿®æ”¹è®°å½•:
 // =======================================
-//  ÈÕÆÚ                     ĞŞ¸ÄÈË                                   ĞŞ¸ÄËµÃ÷
+//  æ—¥æœŸ                     ä¿®æ”¹äºº                                   ä¿®æ”¹è¯´æ˜
 // =======================================
-// 2016-03-04		    -- iegad		1, È¥µô ¹¹Ôìº¯ÊıÖĞµÄ threadCountµÄÄ¬ÈÏÖµ( default value = 4).
-//								2, Ôö¼Ó ThreadServer Ä£ĞÍ, Í¨¹ı ÖØÔØ¹¹Ôìº¯ÊıµÄ·½Ê½ÊµÏÖ.
-//								3, ½« server_ ÀàĞÍ ÓÉ ThreadPoolServer Ìæ»»Îª TServerFramework, ÎªÁËÊµÏÖ¶àÌ¬.
-// 2016-04-19			-- iegad			1, È¥µô·şÎñÆ÷°üµÄ¸ÅÄî, ¸ÄÎªÓÃºê¶¨Òå.
-//														2, Ìí¼ÓNonBlockingServerºÍThreadedServerÁ½ÖÖ²»Í¬µÄ·şÎñÆ÷Ä£ĞÍ
-//														3, È¥µôInitEnvironment¾²Ì¬º¯Êı
+// 2016-03-04		    -- iegad		1, å»æ‰ æ„é€ å‡½æ•°ä¸­çš„ threadCountçš„é»˜è®¤å€¼( default value = 4).
+//								2, å¢åŠ  ThreadServer æ¨¡å‹, é€šè¿‡ é‡è½½æ„é€ å‡½æ•°çš„æ–¹å¼å®ç°.
+//								3, å°† server_ ç±»å‹ ç”± ThreadPoolServer æ›¿æ¢ä¸º TServerFramework, ä¸ºäº†å®ç°å¤šæ€.
+// 2016-04-19			-- iegad			1, å»æ‰æœåŠ¡å™¨åŒ…çš„æ¦‚å¿µ, æ”¹ä¸ºç”¨å®å®šä¹‰.
+//														2, æ·»åŠ NonBlockingServerå’ŒThreadedServerä¸¤ç§ä¸åŒçš„æœåŠ¡å™¨æ¨¡å‹
+//														3, å»æ‰InitEnvironmenté™æ€å‡½æ•°
 
 
 
 #ifndef THRIFT_SERVICE_NAME
-#error Çë¶¨Òåthrift·şÎñÃû³Æ
+#error è¯·å®šä¹‰thriftæœåŠ¡åç§°
 #endif
 
 
 #if defined(THREADED_SERVER) && defined(NON_BLOCK_SERVER)
-#error ²»ÄÜÍ¬Ê±¶¨ÒåÁ½ÖÖ·şÎñÆ÷ÀàĞÍ
+#error ä¸èƒ½åŒæ—¶å®šä¹‰ä¸¤ç§æœåŠ¡å™¨ç±»å‹
 #endif
 
 
 
-#define VERSION_TYPE "V0.1.1"	    // µ±Ç° thrift_ex °æ±¾ºÅ.
+#define VERSION_TYPE "V0.1.1"	    // å½“å‰ thrift_ex ç‰ˆæœ¬å·.
 
 
 
@@ -55,9 +55,9 @@
 
 
 #ifndef NON_BLOCK_SERVER
-#define _APP_TIME_OUT 10  // 10Ãë³¬Ê±Öµ
+#define _APP_TIME_OUT 10  // 10ç§’è¶…æ—¶å€¼
 #else
-#define _APP_TIME_OUT 300 // 5·ÖÖÓ³¬Ê±Öµ
+#define _APP_TIME_OUT 300 // 5åˆ†é’Ÿè¶…æ—¶å€¼
 #endif
 
 
@@ -95,22 +95,22 @@ namespace thrift_ex {
 
 
 	class ProcessorCloneFactory : virtual public _XXX_IfFactory(THRIFT_SERVICE_NAME) {
-		// Handler¹¤³§
+		// Handlerå·¥å‚
 	public:
 		// ============================
-		// @ÓÃÍ¾ : Îö¹¹º¯Êı
+		// @ç”¨é€” : ææ„å‡½æ•°
 		// ============================
 		virtual ~ProcessorCloneFactory() {}
 
 
 		// ============================
-		// @ÓÃÍ¾ : ¹¹½¨ XXX_Handler ¶ÔÏóÊµÀı
-		// @connInfo : ¿Í»§¶ËÁ¬½ÓĞÅÏ¢.
-		// @·µ»ØÖµ : XXX_Handler ÊµÀı.
+		// @ç”¨é€” : æ„å»º XXX_Handler å¯¹è±¡å®ä¾‹
+		// @connInfo : å®¢æˆ·ç«¯è¿æ¥ä¿¡æ¯.
+		// @è¿”å›å€¼ : XXX_Handler å®ä¾‹.
 		// ============================
 		virtual _XXX_If(THRIFT_SERVICE_NAME)* getHandler(const ::apache::thrift::TConnectionInfo& connInfo)
 		{
-			// ¿ÉÒÔÔÚÕâÀï²é¿´ËùÁ¬½ÓµÄ ¿Í»§¶Ë µÄĞÅÏ¢
+			// å¯ä»¥åœ¨è¿™é‡ŒæŸ¥çœ‹æ‰€è¿æ¥çš„ å®¢æˆ·ç«¯ çš„ä¿¡æ¯
 			boost::shared_ptr<::apache::thrift::transport::TSocket> sock =
 				boost::dynamic_pointer_cast<::apache::thrift::transport::TSocket>(connInfo.transport);
 			std::cout << "Client connected : " << sock->getOrigin() << '\n' << std::endl;
@@ -119,9 +119,9 @@ namespace thrift_ex {
 
 
 		// ============================
-		// @ÓÃÍ¾ : ÊÍ·Å handler ¶ÔÏó.
-		// @handler : ĞèÒªÊÍ·ÅµÄ×ÊÔ´¶ÔÏó.
-		// @·µ»ØÖµ : void
+		// @ç”¨é€” : é‡Šæ”¾ handler å¯¹è±¡.
+		// @handler : éœ€è¦é‡Šæ”¾çš„èµ„æºå¯¹è±¡.
+		// @è¿”å›å€¼ : void
 		// ============================
 		virtual void releaseHandler(_XXX_If(THRIFT_SERVICE_NAME) * handler) {
 			delete handler;
@@ -131,7 +131,7 @@ namespace thrift_ex {
 
 
 	class THost {
-		// ¶àÏß³Ì³Ø Server¶Ë
+		// å¤šçº¿ç¨‹æ±  Serverç«¯
 	public:
 #if defined(JSON_PROTOCOL)
 		typedef ::apache::thrift::protocol::TJSONProtocolFactory protoc_fac_t;
@@ -144,9 +144,9 @@ namespace thrift_ex {
 
 
 		// ============================
-		// @ÓÃÍ¾ : ¹¹Ôìº¯Êı.
-		// @port : ¶Ë¿ÚºÅ.
-		// @threadCount : ¹¤×÷Ïß³ÌÊı
+		// @ç”¨é€” : æ„é€ å‡½æ•°.
+		// @port : ç«¯å£å·.
+		// @threadCount : å·¥ä½œçº¿ç¨‹æ•°
 		// ============================
 		explicit THost(int port, boost::shared_ptr<TServerEventHandler> eventHandler = nullptr, int threadCount = 4)
 			:
@@ -166,8 +166,8 @@ namespace thrift_ex {
 
 
 		// ============================
-		// @ÓÃÍ¾ : Æô¶¯²¢ÔËĞĞ Server.
-		// @·µ»ØÖµ : void
+		// @ç”¨é€” : å¯åŠ¨å¹¶è¿è¡Œ Server.
+		// @è¿”å›å€¼ : void
 		// ============================
 		void Run() {
 			std::cout << "===============================\n";
@@ -195,9 +195,9 @@ namespace thrift_ex {
 
 	private:
 		// ============================
-		// @ÓÃÍ¾ : ÄÚÖÃ³õÊ¼»¯
-		// @eventHandler : ÊÂ¼ş¾ä±ú
-		// @·µ»ØÖµ : void
+		// @ç”¨é€” : å†…ç½®åˆå§‹åŒ–
+		// @eventHandler : äº‹ä»¶å¥æŸ„
+		// @è¿”å›å€¼ : void
 		// ============================
 		void _init(boost::shared_ptr<TServerEventHandler> eventHandler) {
 			using ::apache::thrift::concurrency::ThreadManager;
@@ -215,7 +215,7 @@ namespace thrift_ex {
 			using ::apache::thrift::protocol::TCompactProtocolFactory;
 
 			/* 
-			 *	widnows ÏÂ³õÊ¼»¯winsock2»·¾³
+			 *	widnows ä¸‹åˆå§‹åŒ–winsock2ç¯å¢ƒ
 			 */
 #if defined(WIN32 ) && defined(NON_BLOCK_SERVER)
 			WSAData wData;
@@ -273,13 +273,13 @@ namespace thrift_ex {
 		}
 
 
-		// ¶Ë¿Ú
+		// ç«¯å£
 		int port_;
-		// ¹¤×÷Ïß³ÌÊı
+		// å·¥ä½œçº¿ç¨‹æ•°
 		int threadCount_;
-		// Ïß³Ìµ÷¶ÈÆ÷
+		// çº¿ç¨‹è°ƒåº¦å™¨
 		boost::shared_ptr<::apache::thrift::concurrency::ThreadManager> threadManager_;
-		// Server ¶ÔÏóÊµÀıµÄÖ¸Õë
+		// Server å¯¹è±¡å®ä¾‹çš„æŒ‡é’ˆ
 #if defined(NON_BLOCK_SERVER)
 		boost::shared_ptr<::apache::thrift::server::TNonblockingServer> server_;
 #elif defined(THREADED_SERVER)
@@ -289,7 +289,7 @@ namespace thrift_ex {
 #endif
 
 		// ============================
-		// @ÓÃÍ¾ : ½ûÖ¹ ½øĞĞ ¸³Öµ²Ù×÷
+		// @ç”¨é€” : ç¦æ­¢ è¿›è¡Œ èµ‹å€¼æ“ä½œ
 		// ============================
 		THost(const THost &);
 		THost & operator=(const THost &);

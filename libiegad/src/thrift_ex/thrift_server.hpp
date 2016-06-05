@@ -3,31 +3,31 @@
 
 
 
-// ============ ËµÃ÷ ============
+// ============ è¯´æ˜ ============
 //
-// @´´½¨ÈÕÆÚ : 2016-02-23
-// @´´½¨ÈË : iegad
+// @åˆ›å»ºæ—¥æœŸ : 2016-02-23
+// @åˆ›å»ºäºº : iegad
 //
 // ============================
-// @ÓÃÍ¾ : 1, ¶Ôthrift ÈıÖÖServerÄ£ĞÍµÄÀ©Õ¹
-//				2, Ìá¹©¿ìËÙ¿ª·¢
+// @ç”¨é€” : 1, å¯¹thrift ä¸‰ç§Serveræ¨¡å‹çš„æ‰©å±•
+//				2, æä¾›å¿«é€Ÿå¼€å‘
 //		
-// @PS : ¸ÃÎÄ¼şÒÀÀµÓÚ thrift ¿ªÔ´¿â    
+// @PS : è¯¥æ–‡ä»¶ä¾èµ–äº thrift å¼€æºåº“    
 //
 // ============================
 //
-// @ĞŞ¸Ä¼ÇÂ¼:
+// @ä¿®æ”¹è®°å½•:
 // =======================================
-//  ÈÕÆÚ                     ĞŞ¸ÄÈË                                   ĞŞ¸ÄËµÃ÷
+//  æ—¥æœŸ                     ä¿®æ”¹äºº                                   ä¿®æ”¹è¯´æ˜
 // =======================================
-// 2016-03-04		    -- iegad		1, È¥µô ¹¹Ôìº¯ÊıÖĞµÄ threadCountµÄÄ¬ÈÏÖµ( default value = 4).
-//								2, Ôö¼Ó ThreadServer Ä£ĞÍ, Í¨¹ı ÖØÔØ¹¹Ôìº¯ÊıµÄ·½Ê½ÊµÏÖ.
-//								3, ½« server_ ÀàĞÍ ÓÉ ThreadPoolServer Ìæ»»Îª TServerFramework, ÎªÁËÊµÏÖ¶àÌ¬.
-// 2016-04-19		    -- iegad		1, È¥µô·şÎñÆ÷°üµÄ¸ÅÄî, ¸ÄÎªÓÃºê¶¨Òå.
-//								2, Ìí¼ÓNonBlockingServerºÍThreadedServerÁ½ÖÖ²»Í¬µÄ·şÎñÆ÷Ä£ĞÍ
-//								3, È¥µôInitEnvironment¾²Ì¬º¯Êı
-// 2016-05-06		    -- iegad		1, ¸ÄÓÃºêÀ´¶¨Òå·şÎñ¶Ë
-// 2016-05-11		    -- iegad		1, ¸ÄÓÃ·¶ĞÍÓëºêÀ´¶¨Òå·şÎñ¶Ë, ÓÅµãÊÇ, ¿É¶ÁĞÔ¸ß, ·½±ã´úÂëµ÷ÊÔ
+// 2016-03-04		    -- iegad		1, å»æ‰ æ„é€ å‡½æ•°ä¸­çš„ threadCountçš„é»˜è®¤å€¼( default value = 4).
+//								2, å¢åŠ  ThreadServer æ¨¡å‹, é€šè¿‡ é‡è½½æ„é€ å‡½æ•°çš„æ–¹å¼å®ç°.
+//								3, å°† server_ ç±»å‹ ç”± ThreadPoolServer æ›¿æ¢ä¸º TServerFramework, ä¸ºäº†å®ç°å¤šæ€.
+// 2016-04-19		    -- iegad		1, å»æ‰æœåŠ¡å™¨åŒ…çš„æ¦‚å¿µ, æ”¹ä¸ºç”¨å®å®šä¹‰.
+//								2, æ·»åŠ NonBlockingServerå’ŒThreadedServerä¸¤ç§ä¸åŒçš„æœåŠ¡å™¨æ¨¡å‹
+//								3, å»æ‰InitEnvironmenté™æ€å‡½æ•°
+// 2016-05-06		    -- iegad		1, æ”¹ç”¨å®æ¥å®šä¹‰æœåŠ¡ç«¯
+// 2016-05-11		    -- iegad		1, æ”¹ç”¨èŒƒå‹ä¸å®æ¥å®šä¹‰æœåŠ¡ç«¯, ä¼˜ç‚¹æ˜¯, å¯è¯»æ€§é«˜, æ–¹ä¾¿ä»£ç è°ƒè¯•
 
 
 
@@ -43,14 +43,14 @@ namespace thrift_ex {
 
 
     // ============================
-    // @ÓÃÍ¾ : ´¦Àí»ú¹¤³§Ä£°å
-    // @__SVC_IFFAC_T_ : RPC½Ó¿Ú¹¤³§
-    // @__SVC_IF_T_ : RPC½Ó¿Ú
-    // @__SVC_HANDLER_T_ : RPC½Ó¿ÚÊµÏÖ¾ä±úÀà
+    // @ç”¨é€” : å¤„ç†æœºå·¥å‚æ¨¡æ¿
+    // @__SVC_IFFAC_T_ : RPCæ¥å£å·¥å‚
+    // @__SVC_IF_T_ : RPCæ¥å£
+    // @__SVC_HANDLER_T_ : RPCæ¥å£å®ç°å¥æŸ„ç±»
     // ============================
     template <typename __SVC_IFFAC_T_, typename __SVC_IF_T_, typename __SVC_HANDLER_T_>
     class ProcessorCloneFactory : virtual public __SVC_IFFAC_T_ {
-    // ´¦Àí»ú¹¤³§Ä£°åÀà
+    // å¤„ç†æœºå·¥å‚æ¨¡æ¿ç±»
     public:
 	virtual ~ProcessorCloneFactory() {}
 
@@ -69,15 +69,15 @@ namespace thrift_ex {
 
 
     // ============================
-    // @ÓÃÍ¾ : À©Õ¹thrift·şÎñ¶Ë, ÒÔÌá¹©¸üÓÑºÃµÄÊ¹ÓÃ½Ó¿Ú
-    // @__SVC_PROCESSOR_FAC_T_ : ´¦Àí»ú¹¤³§½Ó¿ÚÀà(ÓÉthriftÉú³É), 
-    //							Ãû³ÆÒ»°ãÊÇ xxxProcessorFactory;
-    // @__SVC_PROCESSOR_CLONE_FAC_T_ : ´¦Àí»ú¹¤³§ÊµÏÖÀà, ÓÉ×Ô¼ºÊµÏÖ, ProcessorCloneFactory<T1, T2, T3>;
-    // @__SERVER_T_ : ·şÎñ¶ËÄ£ĞÍÀà, ¿ÉÑ¡Ä£ĞÍÓĞ:
+    // @ç”¨é€” : æ‰©å±•thriftæœåŠ¡ç«¯, ä»¥æä¾›æ›´å‹å¥½çš„ä½¿ç”¨æ¥å£
+    // @__SVC_PROCESSOR_FAC_T_ : å¤„ç†æœºå·¥å‚æ¥å£ç±»(ç”±thriftç”Ÿæˆ), 
+    //							åç§°ä¸€èˆ¬æ˜¯ xxxProcessorFactory;
+    // @__SVC_PROCESSOR_CLONE_FAC_T_ : å¤„ç†æœºå·¥å‚å®ç°ç±», ç”±è‡ªå·±å®ç°, ProcessorCloneFactory<T1, T2, T3>;
+    // @__SERVER_T_ : æœåŠ¡ç«¯æ¨¡å‹ç±», å¯é€‰æ¨¡å‹æœ‰:
     //					1) per-connect, 
     //					2) connect-pool, 
     //					3) IO-overlapping;
-    // @__PROTOCOL_FAC_T_ : Ğ­Òé¹¤³§Àà, ¿ÉÑ¡Ğ­ÒéÓĞ:
+    // @__PROTOCOL_FAC_T_ : åè®®å·¥å‚ç±», å¯é€‰åè®®æœ‰:
     //					1) json, 
     //					2) binary, 
     //					3) compact(varint);
@@ -87,23 +87,23 @@ namespace thrift_ex {
     	typename __SERVER_T_,
     	typename __PROTOCOL_FAC_T_>
     class THost {
-    // thrift·şÎñ¶ËÄ£°åÀà
+    // thriftæœåŠ¡ç«¯æ¨¡æ¿ç±»
     public:
 	// ============================
-	// @ÓÃÍ¾ : ÄÚÖÃÀàĞÍ¶¨Òå
+	// @ç”¨é€” : å†…ç½®ç±»å‹å®šä¹‰
 	// ============================
-	// ²¢·¢ĞÔ¹¤¾ß
+	// å¹¶å‘æ€§å·¥å…·
 	typedef ::apache::thrift::concurrency::ThreadManager		ThreadManager;
 	typedef ::apache::thrift::concurrency::PlatformThreadFactory	PlatformThreadFactory;
 	typedef ::apache::thrift::transport::TBufferedTransportFactory	TBufferedTransportFactory;
-	// ·şÎñ¶Ë
+	// æœåŠ¡ç«¯
 	typedef ::apache::thrift::transport::TServerSocket			TServerSocket;
 	typedef ::apache::thrift::server::TServerEventHandler			TServerEventHandler;
 	typedef ::apache::thrift::server::TServer					TServer;
 	typedef ::apache::thrift::server::TThreadedServer			TThreadedServer;
 	typedef ::apache::thrift::server::TThreadPoolServer			TThreadPoolServer;
 	typedef ::apache::thrift::server::TNonblockingServer			TNonblockingServer;
-	// Ğ­Òé
+	// åè®®
 	typedef __PROTOCOL_FAC_T_							protoc_fac_t;
 	typedef ::apache::thrift::protocol::TBinaryProtocolFactory		TBinaryProtocolFactory;
 	typedef ::apache::thrift::protocol::TJSONProtocolFactory		TJSONProtocolFactory;
@@ -111,11 +111,11 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ¹¹Ôìº¯Êı
-	// @port : ¶Ë¿ÚºÅ
-	// @eventHandler : ÊÂ¼ş¾ä±ú
-	// @threadCount : ¹¤×÷Ïß³ÌÊı/ ×î´ó¿Í»§¶ËÁ¬½ÓÊı
-	// @PS : windowsÆ½Ì¨ÏÂ, µ±µ÷ÓÃ_socket_init·½·¨Ê§°ÜÊ±, »áÅ×³öÒì³£
+	// @ç”¨é€” : æ„é€ å‡½æ•°
+	// @port : ç«¯å£å·
+	// @eventHandler : äº‹ä»¶å¥æŸ„
+	// @threadCount : å·¥ä½œçº¿ç¨‹æ•°/ æœ€å¤§å®¢æˆ·ç«¯è¿æ¥æ•°
+	// @PS : windowså¹³å°ä¸‹, å½“è°ƒç”¨_socket_initæ–¹æ³•å¤±è´¥æ—¶, ä¼šæŠ›å‡ºå¼‚å¸¸
 	// ============================
 	explicit THost(int port,
 	    boost::shared_ptr<TServerEventHandler> eventHandler = nullptr,
@@ -140,7 +140,7 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : Îö¹¹º¯Êı
+	// @ç”¨é€” : ææ„å‡½æ•°
 	// ============================
 	~THost() {
 	    _socket_release();
@@ -149,8 +149,8 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : Æô¶¯·şÎñ
-	// @·µ»ØÖµ : void
+	// @ç”¨é€” : å¯åŠ¨æœåŠ¡
+	// @è¿”å›å€¼ : void
 	// ============================
 	void Run() {
 	    iINFO << "===============================\n";
@@ -162,9 +162,9 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ·µ»Ø ·şÎñÊµÏÖ ¶ÔÏóÖ¸Õë, ÒÔ·½±ãÓÃ»§¶Ô·şÎñ¶Ë½ø
-	//            ¸ü¶àµÄÅäÖÃ.
-	// @·µ»ØÖµ : µ±Ç°·şÎñÆ÷ÀàĞÍµÄÖ¸Õë
+	// @ç”¨é€” : è¿”å› æœåŠ¡å®ç° å¯¹è±¡æŒ‡é’ˆ, ä»¥æ–¹ä¾¿ç”¨æˆ·å¯¹æœåŠ¡ç«¯è¿›
+	//            æ›´å¤šçš„é…ç½®.
+	// @è¿”å›å€¼ : å½“å‰æœåŠ¡å™¨ç±»å‹çš„æŒ‡é’ˆ
 	// ============================
 	boost::shared_ptr<__SERVER_T_> GetServer() {
 	    return boost::dynamic_pointer_cast<__SERVER_T_>(this->server_);
@@ -173,9 +173,9 @@ namespace thrift_ex {
 
     private:
 	// ============================
-	// @ÓÃÍ¾ : socket×ÊÔ´³õÊ¼»¯
-	// @·µ»ØÖµ : ³õÊ¼»¯³É¹¦·µ»Øtrue, ·ñÔò·µ»Øfalse
-	// @PS : Ö»ÔÚWINDOWSÆ½Ì¨ÓĞÒâÒå
+	// @ç”¨é€” : socketèµ„æºåˆå§‹åŒ–
+	// @è¿”å›å€¼ : åˆå§‹åŒ–æˆåŠŸè¿”å›true, å¦åˆ™è¿”å›false
+	// @PS : åªåœ¨WINDOWSå¹³å°æœ‰æ„ä¹‰
 	// ============================
 	bool _socket_init() {
 #ifdef WIN32
@@ -190,9 +190,9 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : socket×ÊÔ´»ØÊÕ
-	// @·µ»ØÖµ : void
-	// @PS : Ö»ÔÚWINDOWSÆ½Ì¨ÓĞÒâÒå
+	// @ç”¨é€” : socketèµ„æºå›æ”¶
+	// @è¿”å›å€¼ : void
+	// @PS : åªåœ¨WINDOWSå¹³å°æœ‰æ„ä¹‰
 	// ============================
 	void _socket_release() {
 #ifdef WIN32
@@ -202,9 +202,9 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ¹¹Ôì TThreadPool ·şÎñ¶Ë ¶ÔÏó
-	// @eventHandler : ·şÎñ¶ËÊÂ¼ş¾ä±ú
-	// @·µ»ØÖµ : ¹¹Ôì³É¹¦µÄ TThreadPool·şÎñ¶Ë ¶ÔÏó
+	// @ç”¨é€” : æ„é€  TThreadPool æœåŠ¡ç«¯ å¯¹è±¡
+	// @eventHandler : æœåŠ¡ç«¯äº‹ä»¶å¥æŸ„
+	// @è¿”å›å€¼ : æ„é€ æˆåŠŸçš„ TThreadPoolæœåŠ¡ç«¯ å¯¹è±¡
 	// ============================
 	boost::shared_ptr<TThreadPoolServer> _init_threadpool_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
 	    threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
@@ -224,9 +224,9 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ¹¹Ôì TThreadedServer ·şÎñ¶Ë ¶ÔÏó
-	// @eventHandler : ·şÎñ¶ËÊÂ¼ş¾ä±ú
-	// @·µ»ØÖµ : ¹¹Ôì³É¹¦µÄ TThreadedServer·şÎñ¶Ë ¶ÔÏó
+	// @ç”¨é€” : æ„é€  TThreadedServer æœåŠ¡ç«¯ å¯¹è±¡
+	// @eventHandler : æœåŠ¡ç«¯äº‹ä»¶å¥æŸ„
+	// @è¿”å›å€¼ : æ„é€ æˆåŠŸçš„ TThreadedServeræœåŠ¡ç«¯ å¯¹è±¡
 	// ============================
 	boost::shared_ptr<TThreadedServer> _init_threaded_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
 	    boost::shared_ptr<TThreadedServer> serv(new TThreadedServer(
@@ -243,9 +243,9 @@ namespace thrift_ex {
 
 
 	// ============================
-	// @ÓÃÍ¾ : ¹¹Ôì TNonblockingServer ·şÎñ¶Ë ¶ÔÏó
-	// @eventHandler : ·şÎñ¶ËÊÂ¼ş¾ä±ú
-	// @·µ»ØÖµ : ¹¹Ôì³É¹¦µÄ TNonblockingServer·şÎñ¶Ë ¶ÔÏó
+	// @ç”¨é€” : æ„é€  TNonblockingServer æœåŠ¡ç«¯ å¯¹è±¡
+	// @eventHandler : æœåŠ¡ç«¯äº‹ä»¶å¥æŸ„
+	// @è¿”å›å€¼ : æ„é€ æˆåŠŸçš„ TNonblockingServeræœåŠ¡ç«¯ å¯¹è±¡
 	// ============================
 	boost::shared_ptr<TNonblockingServer> _init_nonblock_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
 	    threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
@@ -266,18 +266,18 @@ namespace thrift_ex {
 	    return serv;
 	}
 
-	// ¶Ë¿ÚºÅ
+	// ç«¯å£å·
 	int port_;
-	// ¹¤×÷Ïß³ÌÊı/ ×î´ó¿Í»§¶ËÁ¬½ÓÊı
+	// å·¥ä½œçº¿ç¨‹æ•°/ æœ€å¤§å®¢æˆ·ç«¯è¿æ¥æ•°
 	int threadCount_;
-	// ÄÚÖÃ ·şÎñ¶ËÊµÏÖµÄ¶ÔÏóÖ¸Õë
+	// å†…ç½® æœåŠ¡ç«¯å®ç°çš„å¯¹è±¡æŒ‡é’ˆ
 	boost::shared_ptr<TServer> server_;
-	// Ïß³Ì¹ÜÀíÆ÷
+	// çº¿ç¨‹ç®¡ç†å™¨
 	boost::shared_ptr<::apache::thrift::concurrency::ThreadManager> threadManager_;
 
 
 	// ============================
-	// @ÓÃÍ¾ : ½ûÓÃ
+	// @ç”¨é€” : ç¦ç”¨
 	// ============================
 	THost(const THost &);
 	THost & operator=(const THost &);
@@ -291,8 +291,8 @@ namespace thrift_ex {
 
 
 // ============================
-// @ÓÃÍ¾ : ´¦Àí»úÀàºê¶¨Òå
-// @__service_name_ : ·şÎñÃû³Æ
+// @ç”¨é€” : å¤„ç†æœºç±»å®å®šä¹‰
+// @__service_name_ : æœåŠ¡åç§°
 // ============================
 #define DEFINE_PROCESSOR_CLONE_FACTORY(__service_name_) \
 typedef ::iegad::thrift_ex::ProcessorCloneFactory<XXX_IfFactory(__service_name_), \
@@ -303,13 +303,13 @@ XXX_ProcessorCloneFactory(__service_name_);
 
 
 // ============================
-// @ÓÃÍ¾ : thrift·şÎñÀà ºê¶¨Òå
-// @__service_name_ : ·şÎñÃû³Æ
-// @__server_type_ : ·şÎñÀàĞÍ; 
+// @ç”¨é€” : thriftæœåŠ¡ç±» å®å®šä¹‰
+// @__service_name_ : æœåŠ¡åç§°
+// @__server_type_ : æœåŠ¡ç±»å‹; 
 //				1) THRIFT_THREADED_SERVER, 
 //				2) THRIFT_THREADPOOL_SERVER, 
 //				3) THRIFT_NON_BLOCKING_SERVER;
-// @__protocol_ :  Ğ­ÒéÀàĞÍ; 
+// @__protocol_ :  åè®®ç±»å‹; 
 //				1) BINARY_PROTOCOL, 
 //				2) COMPACT_PROTOCOL, 
 //				3) JSON_PROTOCOL;

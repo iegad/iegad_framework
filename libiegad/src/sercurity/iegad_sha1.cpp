@@ -271,6 +271,4 @@ void SHA1::_pad_msg()
  *
  */
 unsigned SHA1::_circular_shift(int bits, unsigned word)
-{
-	return ((word << bits) & 0xFFFFFFFF) | ((word & 0xFFFFFFFF) >> (32-bits));
-}
+
