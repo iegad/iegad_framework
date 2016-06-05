@@ -8,16 +8,16 @@ main()
 {
     std::setlocale(LC_ALL, "");
     std::cout << iegad::string::wstr_to_str(L"twtwtwererere") << std::endl;
-    std::wcout << iegad::string::str_to_wstr("²âÊÔµÄµÚ¶þ¶ÎÖÐÎÄ×Ö·û´®") << std::endl;
+    std::wcout << iegad::string::str_to_wstr("æµ‹è¯•çš„ç¬¬äºŒæ®µä¸­æ–‡å­—ç¬¦ä¸²") << std::endl;
 <<<<<<< HEAD:libiegad/test/unit_test/test_string_main.cpp
-    std::cout << iegad::string::format("ÎÒ½Ð{0}, ½ñÄê{1}Ëê!!!{1}ËêÁË, ¿ÉÊÇÎÒ»¹ÊÇÃ»ÓÐÕÒµ½×Ô¼ºµÄÊÂÒµ!!!", { "Ð¤ç÷", std::to_string(29) }) << std::endl;
+    std::cout << iegad::string::format("æˆ‘å«{0}, ä»Šå¹´{1}å²!!!{1}å²äº†, å¯æ˜¯æˆ‘è¿˜æ˜¯æ²¡æœ‰æ‰¾åˆ°è‡ªå·±çš„äº‹ä¸š!!!", { "è‚–çª", std::to_string(29) }) << std::endl;
     std::string temp = iegad::string::sha1("iegad");
     if ("98dd2bbbb974a5f82e4667480f07a03de0768f7d" == temp) {
 	std::cout << "good\n";
     }
     std::cin.get();
 =======
-    std::cout << iegad::string::format("ÎÒ½Ð{0}, ½ñÄê{1}Ëê!!!{1}ËêÁË, ¿ÉÊÇÎÒ»¹ÊÇÃ»ÓÐÕÒµ½×Ô¼ºµÄÊÂÒµ!!!", { "Ð¤ç÷", std::to_string(29) });
+    std::cout << iegad::string::format("æˆ‘å«{0}, ä»Šå¹´{1}å²!!!{1}å²äº†, å¯æ˜¯æˆ‘è¿˜æ˜¯æ²¡æœ‰æ‰¾åˆ°è‡ªå·±çš„äº‹ä¸š!!!", { "è‚–çª", std::to_string(29) });
 >>>>>>> 060fdfb35a03e1e62f7edcd4a0ed1371e84aaf1d:libiegad/test/test_string_main.cpp
     exit(0);
 }
