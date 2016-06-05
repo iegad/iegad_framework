@@ -33,9 +33,10 @@
 #include <io.h>
 #else
 #include <unistd.h>
+#include <stdlib.h>
 #define _access access
 #endif // WIN32
-#include "iegad_common.in.h"
+#include "iegad_define.in.h"
 
 
 #ifdef iINFO || iERR
@@ -60,9 +61,9 @@ namespace tools {
 	// @argv0 : main函数中的 环境变量 argv[0], 
 	//		表示程序当前运行路径;
 	// ============================
-	explicit _LOG(char * argv0) {
+    explicit _LOG(const char * argv0) {
 	    if (_access("LOG", 0) != 0) {
-		system(MKDIR);
+            system(MKDIR);
 	    }
 	    google::InitGoogleLogging(argv0);
 	    // set the file position;

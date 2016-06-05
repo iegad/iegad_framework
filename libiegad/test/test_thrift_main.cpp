@@ -3,9 +3,11 @@
 //#include <iostream>
 //
 //
-//#include "thrift_ex/gen-cpp/EchoServer.h"
-//#include "thrift_ex/gen-cpp/EchoServer_server.skeleton.hpp"
-//#include "thrift_ex/gen-cpp/echo_types.h"
+//#include "gen-cpp/EchoServer.h"
+//#include "gen-cpp/EchoServer_server.skeleton.hpp"
+//#include "gen-cpp/echo_types.h"
+//
+//
 //
 //
 //#include "thrift_ex/thrift_server.hpp"
@@ -37,32 +39,32 @@
 //
 //DEFINE_CREATE_CONTEXT(OnCreateContext, in, out)
 //{
-//	iINFO << "create context\n";
-//	return nullptr;
+//    iINFO << "create context\n";
+//    return nullptr;
 //}
 //
 //
 //DEFINE_PRE_SERVER(OnPreServer)
 //{
-//	iINFO << "PreServer\n";
+//    iINFO << "PreServer\n";
 //}
 //
 //
 //DEFINE_DELETE_CONTEXT(OnDeleteContext, txt, in, out)
 //{
-//	iINFO << "delete\n";
+//    iINFO << "delete\n";
 //}
 //
 //
 //DEFINE_PROCESS_CONTEXT(OnProcessContext, txt, trans)
 //{
-//	iINFO << trans->getOrigin() << std::endl;
+//    iINFO << trans->getOrigin() << std::endl;
 //}
 //
 //
 //
 //int
-//main(int argc, char * argv[])
+//TEST_THRIFT(int argc, char * argv[])
 //{
 //    using ::apache::thrift::transport::TSocket;
 //    using ::apache::thrift::transport::TTransport;
@@ -71,42 +73,42 @@
 //    using ::apache::thrift::transport::TFramedTransport;
 //    iegad::tools::_LOG svcLog(argv[0]);
 //    if (argc < 2) {
-//	exit(1);
+//    exit(1);
 //    }
 //    try {
-//	if (std::stoi(argv[1]) > 1000) {
-//	    // server
-//	    boost::shared_ptr<EchoEvent> ev(new EchoEvent);
-//	    ev->PreServeEvent = OnPreServer;
-//	    ev->CreateContextEvent = OnCreateContext;
-//	    ev->DeleteContextEvent = OnDeleteContext;
-//	    ev->ProcessContextEvent = OnProcessContext;
-//	    EchoServer host(6688, ev, 1);
-//	    host.Run();
-//	}
-//	else {
-//	    // client
-//	    std::clock_t start, finish;
+//    if (std::stoi(argv[1]) > 1000) {
+//        // server
+//        boost::shared_ptr<EchoEvent> ev(new EchoEvent);
+//        ev->PreServeEvent = OnPreServer;
+//        ev->CreateContextEvent = OnCreateContext;
+//        ev->DeleteContextEvent = OnDeleteContext;
+//        ev->ProcessContextEvent = OnProcessContext;
+//        EchoServer host(6688, ev, 1);
+//        host.Run();
+//    }
+//    else {
+//        // client
+//        std::clock_t start, finish;
 //
-//	    EchoClient proxy("127.0.0.1", 6688);
-//	    std::string res;
-//	    start = std::clock();
-//	    for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
-//		//std::cin.get();
-//		proxy.imp()->echo(res, sendMsgStr);
-//		std::cout << res << std::endl;
-//	    }
-//	    finish = std::clock();
-//	    std::cout << argv[1]
-//		<< "s message and  with per message's size : "
-//		<< sendMsgStr.size()
-//		<< "\ntimespan : "
-//		<< ((double)finish - start) / CLOCKS_PER_SEC
-//		<< " seconds!" << std::endl;
-//	}
+//        EchoClient proxy("127.0.0.1", 6688);
+//        std::string res;
+//        start = std::clock();
+//        for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
+//        //std::cin.get();
+//        proxy.imp()->echo(res, sendMsgStr);
+//        std::cout << res << std::endl;
+//        }
+//        finish = std::clock();
+//        std::cout << argv[1]
+//        << "s message and  with per message's size : "
+//        << sendMsgStr.size()
+//        << "\ntimespan : "
+//        << ((double)finish - start) / CLOCKS_PER_SEC
+//        << " seconds!" << std::endl;
+//    }
 //    }
 //    catch (std::exception & ex) {
-//	iINFO << ex.what();
+//    iINFO << ex.what();
 //    }
 //    exit(0);
 //} // int main(int argc, char * argv[]);

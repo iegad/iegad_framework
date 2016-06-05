@@ -102,10 +102,10 @@ typedef u_int32_t uint32;
 typedef int64_t int64;
 typedef u_int64_t uint64;
 #elif 1    // the windows (vc7) format
-typedef __int32 int32;
-typedef unsigned __int32 uint32;
-typedef __int64 int64;
-typedef unsigned __int64 uint64;
+typedef int32_t int32;
+typedef uint32_t uint32;
+typedef int64_t int64;
+typedef uint64_t uint64;
 #else
 #error Do not know how to define a 32-bit integer quantity on your system
 #endif
@@ -1570,7 +1570,7 @@ class GOOGLE_GLOG_DLL_DECL NullStreamFatal : public NullStream {
   NullStreamFatal() { }
   NullStreamFatal(const char* file, int line, const CheckOpString& result) :
       NullStream(file, line, result) { }
-   ~NullStreamFatal() { _exit(1); }
+   ~NullStreamFatal() { exit(1); }
 };
 
 // Install a signal handler that will dump signal information and a stack

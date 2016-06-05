@@ -37,7 +37,7 @@
 #define	    CHARSET_DEFAULT			    "zh_CN.UTF-8"
 
 // 创建日志目录
-#define	    MKDIR			    "mkdir -p ./LOG";
+#define	    MKDIR			    "mkdir -p ./LOG"
 // info 日志保存路径
 #define	    LOG_INF_FILE	    "./LOG/INFO_"
 #define		LOG_ERR_FILE		"./LOG/ERR_"
