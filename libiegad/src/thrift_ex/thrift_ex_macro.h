@@ -22,7 +22,7 @@
 #include <iostream>
 #include <ctime>
 // iegad tools include
-#include "string/iegad_string.h"
+#include "string/iegad_string.hpp"
 
 
 // µ±Ç° thrift_ex °æ±¾ºÅ.

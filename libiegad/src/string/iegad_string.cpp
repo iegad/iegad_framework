@@ -12,25 +12,6 @@
 
 
 
-const std::vector<std::string>
-iegad::string::split_vct(const std::string &src, const std::string & chs)
-{
-    int pos = 0, len = chs.length(), n = 0, index = 0;
-    std::vector<std::string> res;
-    while (true) {
-        index = src.find(chs, pos);
-        if (index == -1) {
-            res.push_back(std::string(src, pos, src.length() - pos));
-            break;
-        }
-        n = index - n;
-        res.push_back(std::string(src, pos, n));
-        pos = index + len;
-        n = pos;
-    }
-    return res;
-}
-
 
 const std::string
 iegad::string::substr(const std::string &src, unsigned int pos, int n /*=-1*/)
@@ -145,7 +126,7 @@ const std::string
 iegad::string::to_upr(const std::string &src)
 {
     std::string restr(src);
-    std::transform(restr.begin(), restr.end(), restr.begin(), std::toupper);
+    std::transform(restr.begin(), restr.end(), restr.begin(), ::toupper);
     return restr;
 }
 
@@ -154,7 +135,7 @@ const std::string
 iegad::string::to_lwr(const std::string &src)
 {
     std::string restr(src);
-    std::transform(restr.begin(), restr.end(), restr.begin(), std::tolower);
+    std::transform(restr.begin(), restr.end(), restr.begin(), ::tolower);
     return restr;
 }
 
@@ -243,24 +224,6 @@ iegad::string::remove2(const std::string & src, unsigned int bgn, unsigned int e
 
 
 
-const std::vector<std::wstring>
-iegad::string::split_vct(const std::wstring &src, const std::wstring &chs)
-{
-    int pos = 0, len = chs.length(), n = 0, index = 0;
-    std::vector<std::wstring> res;
-    while (true) {
-        index = src.find(chs, pos);
-        if (index == -1) {
-            res.push_back(std::wstring(src, pos, src.length() - pos));
-            break;
-        }
-        n = index - n;
-        res.push_back(std::wstring(src, pos, n));
-        pos = index + len;
-        n = pos;
-    }
-    return std::move(res);
-}
 
 
 const std::wstring
