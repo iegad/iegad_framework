@@ -5,7 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
     ../libiegad/test/test_thrift_main.cpp \
-    ../libiegad/test/test_string.cxx
+    ../libiegad/test/test_string.cxx \
+    ../libiegad/test/test_rmq.cxx
 
 HEADERS += \
     ../libiegad/src/iegad_define.in.h \
@@ -23,7 +24,11 @@ HEADERS += \
     ../libiegad/src/sercurity/iegad_md5.hpp \
     ../libiegad/src/string/iegad_string.hpp \
     ../libiegad/src/sercurity/iegad_aes.hpp \
-    ../libiegad/src/sercurity/iegad_sha1.hpp
+    ../libiegad/src/sercurity/iegad_sha1.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_queue.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_producter.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_session.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_interface.hpp
 
 
 INCLUDEPATH += ../libiegad/src/ \
@@ -35,10 +40,6 @@ INCLUDEPATH += ../libiegad/src/ \
 unix: LIBS += -L/usr/local/lib -lthrift
 unix: LIBS += -L/usr/local/lib -lglog
 unix: LIBS += -L/usr/local/lib -lgtest
+unix: LIBS += -L/usr/local/lib -lSimpleAmqpClient.2.4.0
 
-INCLUDEPATH += $$PWD/../../
-DEPENDPATH += $$PWD/../../
 
-unix: PRE_TARGETDEPS += /usr/local/lib/libthrift.a
-unix: PRE_TARGETDEPS += /usr/local/lib/libglog.a
-unix: PRE_TARGETDEPS += /usr/local/lib/libgtest.a

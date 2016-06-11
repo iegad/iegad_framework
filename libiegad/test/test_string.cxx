@@ -170,10 +170,4 @@ TEST(stringTest, encoding)
 }
 
 
-int
-main(int argc, char * argv[])
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    iegad::tools::_LOG log(argv[0]);
-    return RUN_ALL_TESTS();
-}
+

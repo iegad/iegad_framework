@@ -39,14 +39,14 @@
 #include "iegad_define.in.h"
 
 
-#ifdef iINFO || iERR
+#if (iINFO || iERR)
 #error iINFO or iERR has defined;
 #endif // iINFO 
 
 
 // 操作宏
 #define iINFO		    LOG(INFO)
-#define iERR				LOG(ERROR)
+#define iERR			LOG(ERROR)
 
 
 namespace iegad {
