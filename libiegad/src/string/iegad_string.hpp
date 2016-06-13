@@ -57,7 +57,6 @@
 #include "sercurity/iegad_md5.hpp"
 #include "iegad_define.in.h"
 #include "sercurity/iegad_sha1.hpp"
-#include "sercurity/iegad_aes.hpp"
 
 
 
@@ -72,7 +71,8 @@ public:
     // @返回值 : 返回分组成功的字符串向量
     // ============================
     static const std::vector<std::string>
-    split_vct(const std::string & src, const std::string & chs) {
+    split_vct(const std::string & src, const std::string & chs)
+    {
         int pos = 0, len = chs.length(), n = 0, index = 0;
         std::vector<std::string> res;
         while (true) {
@@ -94,7 +94,8 @@ public:
     // @重载 : split_vct => std::wstring
     // ============================
     static const std::vector<std::wstring>
-    split_vct(const std::wstring & src, const std::wstring & chs) {
+    split_vct(const std::wstring & src, const std::wstring & chs)
+    {
         int pos = 0, len = chs.length(), n = 0, index = 0;
         std::vector<std::wstring> res;
         while (true) {
@@ -121,7 +122,8 @@ public:
     // @返回值 : 切割后的子字符串
     // ============================
     static const std::string
-    substr(const std::string & src, unsigned int pos, int n = -1) {
+    substr(const std::string & src, unsigned int pos, int n = -1)
+    {
         int len = n < 0 ? src.size() - pos : n;
         std::string restr(src, pos, len);
         return restr;
@@ -132,7 +134,8 @@ public:
     // @重载 : substr => std::wstring
     // ============================
     static const std::wstring
-    substr(const std::wstring & src, unsigned int pos, int n = -1) {
+    substr(const std::wstring & src, unsigned int pos, int n = -1)
+    {
         int len = n < 0 ? src.size() - pos : n;
         std::wstring restr(src, pos, len);
         return restr;
@@ -150,7 +153,8 @@ public:
     //	    返回值包含 end 下标指表示的字符
     // ============================
     static const std::string
-    substr2(const std::string & src, unsigned int bgn, unsigned int end = -1) {
+    substr2(const std::string & src, unsigned int bgn, unsigned int end = -1)
+    {
         return std::string(src.begin() + bgn,
                            src.begin() + (end == (unsigned int)(-1) ? src.size() : end + 1));
     }
@@ -160,7 +164,8 @@ public:
     // @重载 : substr2 => std::wstring
     // ============================
     static const std::wstring
-    substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1) {
+    substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1)
+    {
         return std::wstring(src.begin() + bgn,
                             src.begin() + (end == (unsigned int)(-1) ? src.size() : end + 1));
     }
@@ -172,7 +177,8 @@ public:
     // @返回值 : 修改后的新字符串
     // ============================
     static const std::string
-    rtrim(const std::string & src) {
+    rtrim(const std::string & src)
+    {
         int n = src.length() - 1;
         while (std::isspace(src[n])) {
         n--;
@@ -185,7 +191,8 @@ public:
     // @重载 : rtrim => std::wstring
     // ============================
     static const std::wstring
-    rtrim(const std::wstring & src) {
+    rtrim(const std::wstring & src)
+    {
         int n = src.length() - 1;
         while (::iswspace(src[n])) {
             n--;
@@ -201,7 +208,8 @@ public:
     // @返回值 : 修改后的新字符串
     // ============================
     static const std::string
-    trim(const std::string & src) {
+    trim(const std::string & src)
+    {
         std::string restr;
         for (int i = 0, n = src.length(); i < n; i++) {
             if (::isspace(src[i])) {
@@ -775,25 +783,6 @@ public:
         return res;
     }
 
-
-    static const std::string
-    aes128_encoding(const std::string & src, const std::string & aes128key) {
-        if (aes128key.size() != 16) {
-            return "";
-        }
-        iegad::security::AES_128 a128((unsigned char *)aes128key.c_str());
-        return a128.encrypt(src.c_str());
-    }
-
-
-    static const std::string
-    aes128_decoding(const std::string & src, const std::string & aes128key) {
-        if (aes128key.size() != 16) {
-            return "";
-        }
-        iegad::security::AES_128 a128((unsigned char *)aes128key.c_str());
-        return a128.decrypt(src.c_str());
-    }
 
 
 }; // class string_ex;

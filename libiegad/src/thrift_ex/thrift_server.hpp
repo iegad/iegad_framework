@@ -56,7 +56,7 @@ namespace thrift_ex {
 
 	virtual __SVC_IF_T_ * getHandler(const ::apache::thrift::TConnectionInfo & connInfo) {
 	    boost::shared_ptr<::apache::thrift::transport::TSocket> sock =
-		boost::dynamic_pointer_cast<::apache::thrift::transport::TSocket>(connInfo.transport);
+            boost::dynamic_pointer_cast<::apache::thrift::transport::TSocket>(connInfo.transport);
 	    sock->setRecvTimeout(_APP_TIME_OUT);
 	    return new __SVC_HANDLER_T_;
 	} // virtual __SVC_IF_T_ * getHandler(const ::apache::thrift::TConnectionInfo &);

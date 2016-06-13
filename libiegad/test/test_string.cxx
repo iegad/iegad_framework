@@ -16,7 +16,7 @@ TEST(stringTest, split)
     std::wstring wsrc = L"This,is, a, Hello world, testing of , split";
 
     auto strVct = string_ex::split_vct(src, ",");
-    EXPECT_EQ(6, strVct.size());
+    EXPECT_EQ(6u, strVct.size());
     EXPECT_EQ("This", strVct[0]);
     EXPECT_EQ("is", strVct[1]);
     EXPECT_EQ(" a", strVct[2]);
@@ -25,7 +25,7 @@ TEST(stringTest, split)
     EXPECT_EQ(" split", strVct[5]);
 
     strVct = string_ex::split_vct(src, ", ");
-    EXPECT_EQ(5, strVct.size());
+    EXPECT_EQ(5ul, strVct.size());
     EXPECT_EQ("This,is", strVct[0]);
     EXPECT_EQ("a", strVct[1]);
     EXPECT_EQ("Hello world", strVct[2]);
@@ -33,7 +33,7 @@ TEST(stringTest, split)
     EXPECT_EQ("split", strVct[4]);
 
     auto wstrVct = string_ex::split_vct(wsrc, L",");
-    EXPECT_EQ(6, wstrVct.size());
+    EXPECT_EQ(6ul, wstrVct.size());
     EXPECT_EQ(L"This", wstrVct[0]);
     EXPECT_EQ(L"is", wstrVct[1]);
     EXPECT_EQ(L" a", wstrVct[2]);
@@ -42,7 +42,7 @@ TEST(stringTest, split)
     EXPECT_EQ(L" split", wstrVct[5]);
 
     wstrVct = string_ex::split_vct(wsrc, L", ");
-    EXPECT_EQ(5, wstrVct.size());
+    EXPECT_EQ(5ul, wstrVct.size());
     EXPECT_EQ(L"This,is", wstrVct[0]);
     EXPECT_EQ(L"a", wstrVct[1]);
     EXPECT_EQ(L"Hello world", wstrVct[2]);

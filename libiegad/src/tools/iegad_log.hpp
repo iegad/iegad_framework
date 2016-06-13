@@ -45,56 +45,57 @@
 
 
 // 操作宏
-#define iINFO		    LOG(INFO)
-#define iERR			LOG(ERROR)
+#define iINFO       LOG(INFO)
+#define iERR        LOG(ERROR)
 
 
 namespace iegad {
 namespace tools {
 
 
-    class _LOG {
-    // 日志类, 基于google glog
-    public:
-	// ============================
-	// @用途 : 构造函数, 初始化glog的配置
-	// @argv0 : main函数中的 环境变量 argv[0], 
-	//		表示程序当前运行路径;
-	// ============================
+class _LOG {
+// 日志类, 基于google glog
+public:
+    // ============================
+    // @用途 : 构造函数, 初始化glog的配置
+    // @argv0 : main函数中的 环境变量 argv[0],
+    //		表示程序当前运行路径;
+    // ============================
     explicit _LOG(const char * argv0) {
-	    if (_access("LOG", 0) != 0) {
+        if (_access("LOG", 0) != 0) {
             system(MKDIR);
-	    }
-	    google::InitGoogleLogging(argv0);
-	    // set the file position;
-	    google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
-		google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
-	    // set log file max size 100M;
-	    FLAGS_max_log_size = 100;
-		FLAGS_logbufsecs = 0;
-	    //init charset;
+        }
+        google::InitGoogleLogging(argv0);
+        // set the file position;
+        google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
+        google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
+        // set log file max size 100M;
+        FLAGS_max_log_size = 100;
+        FLAGS_logbufsecs = 0;
+        //init charset;
 
 #ifdef WIN32 // for win
-	    const char * charset = "chs";
+        const char * charset = "chs";
 #else // for linux
-	    const char * charset = "zh_CN.UTF-8";
+        const char * charset = "zh_CN.UTF-8";
 #endif // WIN32
-	    std::locale::global(std::locale(charset));
-	}
+        std::locale::global(std::locale(charset));
+    }
 
 
-	// ============================
-	// @用途 : 析构函数, 释放glog所使用的资源;
-	// ============================
-	~_LOG() {
-	    google::ShutdownGoogleLogging();
-	}
+    // ============================
+    // @用途 : 析构函数, 释放glog所使用的资源;
+    // ============================
+    ~_LOG() {
+        google::ShutdownGoogleLogging();
+    }
 
-    private:
-	// 禁用
-	_LOG(const _LOG &);
-	_LOG & operator=(const _LOG &);
-    }; // class _LOG;
+private:
+    // 禁用
+    _LOG(const _LOG &);
+    _LOG & operator=(const _LOG &);
+}; // class _LOG;
+
 
 
 } // namespace tools;

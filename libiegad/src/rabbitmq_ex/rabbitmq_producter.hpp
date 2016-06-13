@@ -1,10 +1,10 @@
-#ifndef __RABBIT_MQ_WORKER__
-#define __RABBIT_MQ_WORKER__
+#ifndef __RABBIT_MQ_PRODUCTER__
+#define __RABBIT_MQ_PRODUCTER__
 
 
 
-#include "rabbitmq_ex/rabbitmq_queue.hpp"
-#include <set>
+#include "rabbitmq_ex/rabbitmq_sender.hpp"
+#include "rabbitmq_ex/rabbitmq_session.hpp"
 
 
 
@@ -12,39 +12,23 @@ namespace iegad {
 namespace rabbitmq_ex {
 
 
-class producter {
+class producter : public basic_sender {
 public:
     explicit producter(rabbitmq_ex::queue_t & que) :
-        que_(que)
+        basic_sender::basic_sender(que.channel()),
+        queue_(que.name())
     {}
 
 
-    bool push(const std::string & msgstr, bool persistent = false, std::string * errstr = nullptr) {
-        return rabbitmq_ex::producter::push(que_, msgstr, persistent, errstr);
+    virtual ~producter() {}
+
+
+    bool send(const std::string & msgstr, bool persistent = false, std::string * errstr = nullptr) {
+        return basic_sender::send("", queue_, msgstr, persistent, true, errstr);
     }
-
-
-    static bool push(rabbitmq_ex::queue_t & que,
-                     const std::string & msgstr, bool persistent = false, std::string * errstr = nullptr) {
-        AmqpClient::BasicMessage::ptr_t msg = AmqpClient::BasicMessage::Create(msgstr);
-        if (persistent) {
-            msg->DeliveryMode(AmqpClient::BasicMessage::delivery_mode_t::dm_persistent);
-        }
-        try {
-            que.channel()->BasicPublish("", que.name(), msg, true);
-            return true;
-        }
-        catch (std::exception & ex) {
-            if (errstr) {
-                *errstr = ex.what();
-            }
-        }
-        return false;
-    }
-
 
 private:
-    rabbitmq_ex::queue_t & que_;
+    std::string queue_;
 }; // class producter
 
 
@@ -54,4 +38,4 @@ private:
 
 
 
-#endif // __RABBIT_MQ_WORKER__
+#endif // __RABBIT_MQ_PRODUCTER__

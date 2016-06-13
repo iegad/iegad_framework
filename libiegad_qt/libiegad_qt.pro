@@ -28,7 +28,18 @@ HEADERS += \
     ../libiegad/src/rabbitmq_ex/rabbitmq_queue.hpp \
     ../libiegad/src/rabbitmq_ex/rabbitmq_producter.hpp \
     ../libiegad/src/rabbitmq_ex/rabbitmq_session.hpp \
-    ../libiegad/src/rabbitmq_ex/rabbitmq_interface.hpp
+    ../libiegad/src/rabbitmq_ex/rabbitmq_consumer.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_publisher.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_subcriber.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_exchange.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_interface副本 2.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_interface副本 3.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_interface副本 3.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_sender.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_interface副本 2.hpp \
+    ../libiegad/src/rabbitmq_ex/wwww.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_basic.hpp \
+    ../libiegad/src/rabbitmq_ex/rabbitmq_recver.hpp
 
 
 INCLUDEPATH += ../libiegad/src/ \
