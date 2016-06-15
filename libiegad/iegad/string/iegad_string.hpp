@@ -533,7 +533,7 @@ public:
     // @返回值 : 返回(删除)修改后的字符串
     // ============================
     static const std::string
-    remove2(const std::string & src, unsigned int bgn, unsigned int end = -1)
+    remove2(const std::string & src, unsigned int bgn, int end = -1)
     {
         std::string res = src;
         end = static_cast<int>(end) == -1 ? res.size() : end;
@@ -545,7 +545,7 @@ public:
     // @重载 : remove2 => std::wstring
     // ============================
     static const std::wstring
-    remove2(const std::wstring & src, unsigned int bgn, unsigned int end = -1)
+    remove2(const std::wstring & src, unsigned int bgn, int end = -1)
     {
         std::wstring res = src;
         end = static_cast<int>(end) == -1 ? res.size() : end;
