@@ -7,31 +7,32 @@
 
 
 namespace iegad {
-namespace redis {
+    namespace redis {
 
 
 
-class redis_exception : public std::exception {
-public:
-    redis_exception(const std::string & errstr, int errcode)
-        :
-        std::exception(),
-        errcode_(errcode),
-        errstr_(errstr)
-    {}
+        class redis_exception : public std::exception {
+        public:
+            redis_exception(const std::string & errstr, int errcode)
+                :
+                std::exception(),
+                errcode_(errcode),
+                errstr_(errstr)
+            {}
 
-    virtual const char* what() const _NOEXCEPT {
-        return (errstr_ + "; err is " + std::to_string(errcode_)).c_str();
-    }
+            virtual const char* what() const _NOEXCEPT{
+                errstr_ = errstr_ + " : " + std::to_string(errcode_);
+                return errstr_.c_str();
+            }
 
-private:
-    int errcode_;
-    std::string errstr_;
-}; // class redis_exception;
+        private:
+            int errcode_;
+            mutable std::string errstr_;
+        }; // class redis_exception;
 
 
 
-} // namespace redis;
+    } // namespace redis;
 } // namespace iegad;
 
 

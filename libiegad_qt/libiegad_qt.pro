@@ -4,46 +4,49 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-    ../src/test/test_string.cxx \
-    ../src/test/test_rmq.cxx \
-    ../src/test/test_redis.cxx \
-    ../src/test/test_thrift.cxx
+    ../libiegad/test/test_string.cxx \
+    ../libiegad/test/test_rmq.cxx \
+    ../libiegad/test/test_redis.cxx \
+    ../libiegad/test/test_thrift.cxx
 
 HEADERS += \
-    ../src/iegad/iegad_define.in.h \
-    ../src/iegad/thrift_ex/thrift_client.hpp \
-    ../src/iegad/thrift_ex/thrift_eventhandler.hpp \
-    ../src/iegad/thrift_ex/thrift_ex_macro.h \
-    ../src/iegad/thrift_ex/thrift_serializer.hpp \
-    ../src/iegad/thrift_ex/thrift_server.hpp \
-    ../src/iegad/tools/iegad_log.hpp \
-    ../src/iegad/tools/iegad_map.hpp \
-    ../src/iegad/tools/iegad_singleton.hpp \
-    ../src/iegad/tools/iegad_timer.hpp \
-    ../src/iegad/tools/job_queue.hpp \
-    ../src/iegad/tools/job_worker.hpp \
-    ../src/iegad/sercurity/iegad_md5.hpp \
-    ../src/iegad/string/iegad_string.hpp \
-    ../src/iegad/sercurity/iegad_aes.hpp \
-    ../src/iegad/sercurity/iegad_sha1.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_queue.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_producter.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_session.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_consumer.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_publisher.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_subcriber.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_exchange.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_sender.hpp \
-    ../src/iegad/rabbitmq_ex/wwww.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_basic.hpp \
-    ../src/iegad/rabbitmq_ex/rabbitmq_recver.hpp \
-    ../src/iegad/redis_ex/iegad_redis_command.hpp \
-    ../src/iegad/redis_ex/iegad_redis_connection.hpp \
-    ../src/iegad/redis_ex/iegad_redis_exception.hpp \
-    ../src/iegad/redis_ex/iegad_redis_key.hpp
+    ../libiegad/iegad/iegad_define.in.h \
+    ../libiegad/iegad/thrift_ex/thrift_client.hpp \
+    ../libiegad/iegad/thrift_ex/thrift_eventhandler.hpp \
+    ../libiegad/iegad/thrift_ex/thrift_ex_macro.h \
+    ../libiegad/iegad/thrift_ex/thrift_serializer.hpp \
+    ../libiegad/iegad/thrift_ex/thrift_server.hpp \
+    ../libiegad/iegad/tools/iegad_log.hpp \
+    ../libiegad/iegad/tools/iegad_map.hpp \
+    ../libiegad/iegad/tools/iegad_singleton.hpp \
+    ../libiegad/iegad/tools/iegad_timer.hpp \
+    ../libiegad/iegad/tools/job_queue.hpp \
+    ../libiegad/iegad/tools/job_worker.hpp \
+    ../libiegad/iegad/sercurity/iegad_md5.hpp \
+    ../libiegad/iegad/string/iegad_string.hpp \
+    ../libiegad/iegad/sercurity/iegad_aes.hpp \
+    ../libiegad/iegad/sercurity/iegad_sha1.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_queue.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_producter.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_session.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_consumer.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_publisher.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_subcriber.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_exchange.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_sender.hpp \
+    ../libiegad/iegad/rabbitmq_ex/wwww.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_basic.hpp \
+    ../libiegad/iegad/rabbitmq_ex/rabbitmq_recver.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_command.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_connection.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_exception.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_key.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_client.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_list.hpp \
+    ../libiegad/iegad/redis_ex/iegad_redis_string.hpp
 
 
-INCLUDEPATH += ../src/iegad/ \
+INCLUDEPATH += ../libiegad/iegad/ \
     ../iegad/third_party/include \
     /usr/local/include
 
