@@ -536,7 +536,10 @@ public:
     remove2(const std::string & src, unsigned int bgn, int end = -1)
     {
         std::string res = src;
-        end = static_cast<int>(end) == -1 ? res.size() : end;
+        if (end <= bgn) {
+            return "";
+        }
+        end = end == -1 ? res.size() : end;
         res.erase(res.begin() + bgn, res.begin() + end + 1);
         return res;
     }
@@ -548,7 +551,10 @@ public:
     remove2(const std::wstring & src, unsigned int bgn, int end = -1)
     {
         std::wstring res = src;
-        end = static_cast<int>(end) == -1 ? res.size() : end;
+        if (end <= bgn) {
+            return "";
+        }
+        end = end == -1 ? res.size() : end;
         res.erase(res.begin() + bgn, res.begin() + end + 1);
         return res;
     }
