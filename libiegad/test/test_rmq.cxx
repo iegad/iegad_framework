@@ -23,8 +23,8 @@ TEST(rmqExTesting, queueTesting)
 {// 队列测试
     rabbitmq_ex::host_option_t hopt;
     hopt.host = "127.0.0.1";
-    hopt.usr = "iegad";
-    hopt.pwd = "1111";
+    hopt.usr = "guest";
+    hopt.pwd = "guest";
     rabbitmq_ex::session_t session(hopt);
 
     //  静态函数创建（删除）队列
@@ -54,8 +54,8 @@ TEST(rmqExTesting, queueTesting)
     // 测试会话信息
     EXPECT_EQ("127.0.0.1", que.session().host());
     EXPECT_EQ(5672, que.session().port());
-    EXPECT_EQ("iegad", que.session().usr());
-    EXPECT_EQ("1111", que.session().pwd());
+    EXPECT_EQ("guest", que.session().usr());
+    EXPECT_EQ("guest", que.session().pwd());
     EXPECT_EQ("/", que.session().vhost());
 }
 

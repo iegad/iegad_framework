@@ -3,11 +3,12 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
+
 SOURCES += \
-    ../libiegad/test/test_string.cxx \
-    ../libiegad/test/test_rmq.cxx \
-    ../libiegad/test/test_redis.cxx \
-    ../libiegad/test/test_thrift.cxx
+    #../libiegad/test/test_rmq.cxx \
+    #../libiegad/test/test_redis.cxx \
+    #../libiegad/test/test_thrift.cxx \
+    ../libiegad/test/test_string.cxx
 
 HEADERS += \
     ../libiegad/iegad/iegad_define.in.h \
@@ -55,7 +56,7 @@ INCLUDEPATH += ../libiegad/iegad/ \
 unix: LIBS += -L/usr/local/lib -lthrift
 unix: LIBS += -L/usr/local/lib -lglog
 unix: LIBS += -L/usr/local/lib -lgtest
-unix: LIBS += -L/usr/local/lib -lSimpleAmqpClient.2.4.0
+unix: LIBS += -L/usr/local/lib -lSimpleAmqpClient
 unix: LIBS += -L/usr/local/lib -lhiredis
-
-
+#ubuntu required
+unix: LIBS += -pthread

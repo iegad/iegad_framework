@@ -19,11 +19,18 @@ namespace iegad {
                 errcode_(errcode),
                 errstr_(errstr)
             {}
-
+#if (__linux__)
+            virtual const char* what() const _GLIBCXX_USE_NOEXCEPT{
+                errstr_ = errstr_ + " : " + std::to_string(errcode_);
+                return errstr_.c_str();
+            }
+#elif
             virtual const char* what() const _NOEXCEPT{
                 errstr_ = errstr_ + " : " + std::to_string(errcode_);
                 return errstr_.c_str();
             }
+#endif // (__linux__)
+
 
         private:
             int errcode_;

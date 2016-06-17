@@ -46,20 +46,4 @@ TEST(redisTesting, client)
     EXPECT_TRUE(c.select(0));
 }
 
-int
-main(int argc, char * argv[])
-{
-    ::tools::_LOG log(argv[0]);
 
-    //for (int i = 0; i < 3; i++) {
-    //    std::thread p(pf);
-    //    p.detach();
-    //    std::thread c(cf);
-    //    c.detach();
-    //}
-    //
-    //std::this_thread::sleep_for(std::chrono::seconds(20));
-
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
