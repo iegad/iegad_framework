@@ -64,9 +64,9 @@ namespace iegad {
 namespace thrift_ex { 
 
 
-    class ServerEventImpl : public ::apache::thrift::server::TServerEventHandler {
+class ServerEventImpl : public ::apache::thrift::server::TServerEventHandler {
 // 服务端事件扩展
-    public:
+public:
 	// ============================
 	// @用途 : 内置类型定义
 	// ============================
@@ -77,16 +77,16 @@ namespace thrift_ex {
 	// ============================
 	// @用途 : 事件类型定义
 	// ============================
-	DEFINE_EVENT(createContextEvent_t, void*(TProtocol_ptr, TProtocol_ptr))
-	    DEFINE_EVENT(deleteContextEvent_t, void(void*, TProtocol_ptr, TProtocol_ptr))
-	    DEFINE_EVENT(processContextEvent_t, void(void*, TTransport_ptr))
-	    DEFINE_EVENT(preServeEvent_t, void(void))
+    typedef std::function<void*(TProtocol_ptr, TProtocol_ptr)> createContextEvent_t;
+    typedef std::function<void(void*, TProtocol_ptr, TProtocol_ptr)> deleteContextEvent_t;
+    typedef std::function<void(void*, TTransport_ptr)> processContextEvent_t;
+    typedef std::function<void(void)> preServeEvent_t;
 
 
-	    // ============================
-	    // @用途 : 构造函数
-	    // ============================
-	    ServerEventImpl()
+    // ============================
+    // @用途 : 构造函数
+    // ============================
+    ServerEventImpl()
 	    :
 	    PreServeEvent(nullptr),
 	    CreateContextEvent(nullptr),
@@ -109,10 +109,10 @@ namespace thrift_ex {
 	// @PS : 在TNonBlockingServer下 inputProtocol, outputProtocol
 	//			两个参数无意义
 	// ============================
-	virtual void* createContext(boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol,
-	    boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol) override {
+    virtual void* createContext(boost::shared_ptr<apache::thrift::protocol::TProtocol> inputProtocol,
+        boost::shared_ptr<apache::thrift::protocol::TProtocol> outputProtocol) override {
 	    if (CreateContextEvent != nullptr) {
-		return CreateContextEvent(inputProtocol, outputProtocol);
+            return CreateContextEvent(inputProtocol, outputProtocol);
 	    }
 	    return nullptr;
 	}
@@ -128,8 +128,8 @@ namespace thrift_ex {
 	//			两个参数无意义
 	// ============================
 	virtual void deleteContext(void* serverContext,
-	    boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol,
-	    boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol) override {
+        boost::shared_ptr<apache::thrift::protocol::TProtocol> inputProtocol,
+        boost::shared_ptr<apache::thrift::protocol::TProtocol> outputProtocol) override {
 	    if (DeleteContextEvent != nullptr) {
 		DeleteContextEvent(serverContext, inputProtocol, outputProtocol);
 	    }
@@ -143,7 +143,7 @@ namespace thrift_ex {
 	// @返回值 : void
 	// ============================
 	virtual void processContext(void* serverContext,
-	    boost::shared_ptr<::apache::thrift::transport::TTransport> trans) override {
+        boost::shared_ptr<apache::thrift::transport::TTransport> trans) override {
 	    if (ProcessContextEvent != nullptr) {
 		ProcessContextEvent(serverContext, trans);
 	    }
@@ -175,7 +175,7 @@ namespace thrift_ex {
 	// ============================
 	ServerEventImpl(const ServerEventImpl &);
 	ServerEventImpl & operator=(const ServerEventImpl &);
-    }; // class ServerEventImpl;
+}; // class ServerEventImpl;
  
 
 } // namespace thrift_ex;

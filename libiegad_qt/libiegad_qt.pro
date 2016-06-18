@@ -7,7 +7,6 @@ CONFIG -= qt
 SOURCES += \
     #../libiegad/test/test_rmq.cxx \
     #../libiegad/test/test_redis.cxx \
-    #../libiegad/test/test_thrift.cxx \
     ../libiegad/test/test_string.cxx \
     ../libiegad/test/test_main.cpp \
     ../libiegad/test/test_queue.cxx \
@@ -67,12 +66,16 @@ INCLUDEPATH += ../libiegad/iegad/ \
 
 
 unix: LIBS += -L/usr/local/lib -lthrift
+unix: LIBS += -L/usr/local/lib -lthriftnb
 unix: LIBS += -L/usr/local/lib -lglog
 unix: LIBS += -L/usr/local/lib -lgtest
 unix: LIBS += -L/usr/local/lib -lSimpleAmqpClient
 unix: LIBS += -L/usr/local/lib -lhiredis
+unix: LIBS += -L/usr/local/lib -levent
+unix: LIBS += -L/usr/local/lib -levent_core
+unix: LIBS += -L/usr/local/lib -levent_extra
+
 #ubuntu required
 unix: LIBS += -pthread
 
-DISTFILES += \
-    ../libiegad/test/testing.thrift
+

@@ -781,7 +781,8 @@ public:
         return std::string(buff);
 #else
 #error non uuid defined!!!
-#endif;
+        return "";
+#endif
         return "";
     }
 

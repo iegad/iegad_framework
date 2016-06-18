@@ -121,20 +121,20 @@ namespace thrift_ex {
 	    boost::shared_ptr<TServerEventHandler> eventHandler = nullptr,
 	    int threadCount = 4)
 	    :
-	    threadCount_(threadCount),
 	    port_(port),
+        threadCount_(threadCount),
 	    server_(nullptr) {
 	    if (!_socket_init()) {
-		throw std::exception("Windows socket init failed");
+            throw std::logic_error("Windows socket init failed");
 	    }
 	    if (typeid(__SERVER_T_) == typeid(TThreadedServer)) {
-		server_ = _init_threaded_svr(eventHandler);
+            server_ = _init_threaded_svr(eventHandler);
 	    }
 	    else if (typeid(__SERVER_T_) == typeid(TThreadPoolServer)) {
-		server_ = _init_threadpool_svr(eventHandler);
+            server_ = _init_threadpool_svr(eventHandler);
 	    }
 	    else if (typeid(__SERVER_T_) == typeid(TNonblockingServer)) {
-		server_ = _init_nonblock_svr(eventHandler);
+            server_ = _init_nonblock_svr(eventHandler);
 	    }
 	}
 
