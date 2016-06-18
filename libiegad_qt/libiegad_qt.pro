@@ -8,7 +8,17 @@ SOURCES += \
     #../libiegad/test/test_rmq.cxx \
     #../libiegad/test/test_redis.cxx \
     #../libiegad/test/test_thrift.cxx \
-    ../libiegad/test/test_string.cxx
+    ../libiegad/test/test_string.cxx \
+    ../libiegad/test/test_main.cpp \
+    ../libiegad/test/test_queue.cxx \
+    ../libiegad/test/test_worker.cxx \
+    ../libiegad/test/test_timer.cxx \
+    ../libiegad/test/test_rmq.cxx \
+    ../libiegad/test/gen-cpp/EchoServer.cpp \
+    ../libiegad/test/gen-cpp/testing_constants.cpp \
+    ../libiegad/test/gen-cpp/testing_types.cpp \
+    ../libiegad/test/gen-cpp/TimeServer.cpp \
+    ../libiegad/test/test_thrift.cxx
 
 HEADERS += \
     ../libiegad/iegad/iegad_define.in.h \
@@ -18,14 +28,11 @@ HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_serializer.hpp \
     ../libiegad/iegad/thrift_ex/thrift_server.hpp \
     ../libiegad/iegad/tools/iegad_log.hpp \
-    ../libiegad/iegad/tools/iegad_map.hpp \
-    ../libiegad/iegad/tools/iegad_singleton.hpp \
     ../libiegad/iegad/tools/iegad_timer.hpp \
     ../libiegad/iegad/tools/job_queue.hpp \
     ../libiegad/iegad/tools/job_worker.hpp \
     ../libiegad/iegad/sercurity/iegad_md5.hpp \
     ../libiegad/iegad/string/iegad_string.hpp \
-    ../libiegad/iegad/sercurity/iegad_aes.hpp \
     ../libiegad/iegad/sercurity/iegad_sha1.hpp \
     ../libiegad/iegad/rabbitmq_ex/rabbitmq_queue.hpp \
     ../libiegad/iegad/rabbitmq_ex/rabbitmq_producter.hpp \
@@ -44,7 +51,13 @@ HEADERS += \
     ../libiegad/iegad/redis_ex/iegad_redis_key.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_client.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_list.hpp \
-    ../libiegad/iegad/redis_ex/iegad_redis_string.hpp
+    ../libiegad/iegad/redis_ex/iegad_redis_string.hpp \
+    ../libiegad/test/gen-cpp/EchoServer.h \
+    ../libiegad/test/gen-cpp/testing_constants.h \
+    ../libiegad/test/gen-cpp/testing_types.h \
+    ../libiegad/test/gen-cpp/TimeServer.h \
+    ../libiegad/test/gen-cpp/TimeServer_server.skeleton.hpp \
+    ../libiegad/test/gen-cpp/EchoServer_server.skeleton.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -60,3 +73,6 @@ unix: LIBS += -L/usr/local/lib -lSimpleAmqpClient
 unix: LIBS += -L/usr/local/lib -lhiredis
 #ubuntu required
 unix: LIBS += -pthread
+
+DISTFILES += \
+    ../libiegad/test/testing.thrift

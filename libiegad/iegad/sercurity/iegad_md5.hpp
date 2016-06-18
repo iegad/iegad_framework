@@ -257,12 +257,12 @@ namespace security {
         // low level logic operations
         static uint32_t
         F(uint32_t x, uint32_t y, uint32_t z) {
-            return x&y | ~x&z;
+            return (x&y) | (~x&z);
         }
 
         static uint32_t
         G(uint32_t x, uint32_t y, uint32_t z) {
-            return x&z | y&~z;
+            return (x&z) | (y&~z);
         }
 
         static uint32_t

@@ -24,7 +24,7 @@ namespace iegad {
                 errstr_ = errstr_ + " : " + std::to_string(errcode_);
                 return errstr_.c_str();
             }
-#elif
+#elif (__APPLE__)
             virtual const char* what() const _NOEXCEPT{
                 errstr_ = errstr_ + " : " + std::to_string(errcode_);
                 return errstr_.c_str();

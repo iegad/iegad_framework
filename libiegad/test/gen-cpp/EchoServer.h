@@ -9,9 +9,9 @@
 
 #include <thrift/TDispatchProcessor.h>
 #include <thrift/async/TConcurrentClientSyncInfo.h>
-#include "echo_types.h"
+#include "testing_types.h"
 
-
+namespace test {
 
 #ifdef _WIN32
   #pragma warning( push )
@@ -291,6 +291,6 @@ class EchoServerConcurrentClient : virtual public EchoServerIf {
   #pragma warning( pop )
 #endif
 
-
+} // namespace
 
 #endif

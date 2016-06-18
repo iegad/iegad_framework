@@ -54,15 +54,15 @@ public:
     //	     使用智能指针
     // @返回值 : void
     // ============================
-    void push(T val);
+    void push(const T & val);
 
 
     // ============================
     // @用途 : 将 任务 val 从队首取出
     // @val : 用来存放 队首任务值 的 对象
-    // @返回值 : 成功取值, 返回 0, 否则返回 -1;
+    // @返回值 : 成功取值, 返回 true, 否则返回 false;
     // ============================
-    int pop(T & val);
+    bool pop(T * val);
 
 
     // ============================
@@ -108,7 +108,7 @@ void iegad::tools::job_que_t<T>::stop()
 
 
 template<typename T>
-void iegad::tools::job_que_t<T>::push(T val)
+void iegad::tools::job_que_t<T>::push(const T & val)
 {
     std::unique_lock<std::mutex> locker(mtx_);
     if (stop_flag_) {
@@ -120,7 +120,7 @@ void iegad::tools::job_que_t<T>::push(T val)
 
 
 template<typename T>
-int iegad::tools::job_que_t<T>::pop(T & val)
+bool iegad::tools::job_que_t<T>::pop(T * val)
 {
     std::unique_lock<std::mutex> locker(mtx_);
     while (!stop_flag_ && que_.empty()) {
@@ -129,12 +129,12 @@ int iegad::tools::job_que_t<T>::pop(T & val)
 
     if (stop_flag_ && que_.empty()) {
         // job queue stop while singal stopped and all job done;
-        return -1;
+        return false;
     }
 
-    val = que_.front();
+    *val = que_.front();
     que_.pop_front();
-    return 0;
+    return true;
 }
 
 

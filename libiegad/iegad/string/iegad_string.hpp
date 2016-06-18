@@ -1,5 +1,5 @@
-#ifndef __IEGAD_STRING__
-#define __IEGAD_STRING__
+#ifndef __IEGAD_STRING_EX__
+#define __IEGAD_STRING_EX__
 
 
 // ============ 说明 ============
@@ -51,10 +51,13 @@
 //  --2016-06-17        --iegad        --
 
 
+#if (__APPLE__ || __linux__)
+#include <uuid/uuid.h>
+#endif // (__APPLE__ || __linux__)
+
 #include <string>
 #include <vector>
-#include <cctype>
-#include <sstream>
+
 #include "sercurity/iegad_md5.hpp"
 #include "iegad_define.in.h"
 #include "sercurity/iegad_sha1.hpp"
@@ -769,7 +772,18 @@ public:
     // @返回值 : 一个 36 位, 小写, 中间还代有 短横杠的 guid字符串
     // ============================
     static const std::string
-    guid();
+    guid() {
+#if (__APPLE__ || __linux__)
+        uuid_t uuid;
+        char buff[36];
+        uuid_generate(uuid);
+        uuid_unparse(uuid, buff);
+        return std::string(buff);
+#else
+#error non uuid defined!!!
+#endif;
+        return "";
+    }
 
 
     // ============================
@@ -850,4 +864,4 @@ public:
 } // namespace iegad;
 
 
-#endif // __IEGAD_STRING__
+#endif // __IEGAD_STRING_EX__

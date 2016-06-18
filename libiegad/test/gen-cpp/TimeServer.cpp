@@ -4,16 +4,16 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "EchoServer.h"
+#include "TimeServer.h"
 
 namespace test {
 
 
-EchoServer_echo_args::~EchoServer_echo_args() throw() {
+TimeServer_get_args::~TimeServer_get_args() throw() {
 }
 
 
-uint32_t EchoServer_echo_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TimeServer_get_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -32,20 +32,7 @@ uint32_t EchoServer_echo_args::read(::apache::thrift::protocol::TProtocol* iprot
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->msg);
-          this->__isset.msg = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
+    xfer += iprot->skip(ftype);
     xfer += iprot->readFieldEnd();
   }
 
@@ -54,14 +41,10 @@ uint32_t EchoServer_echo_args::read(::apache::thrift::protocol::TProtocol* iprot
   return xfer;
 }
 
-uint32_t EchoServer_echo_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TimeServer_get_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("EchoServer_echo_args");
-
-  xfer += oprot->writeFieldBegin("msg", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->msg);
-  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeStructBegin("TimeServer_get_args");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -69,18 +52,14 @@ uint32_t EchoServer_echo_args::write(::apache::thrift::protocol::TProtocol* opro
 }
 
 
-EchoServer_echo_pargs::~EchoServer_echo_pargs() throw() {
+TimeServer_get_pargs::~TimeServer_get_pargs() throw() {
 }
 
 
-uint32_t EchoServer_echo_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TimeServer_get_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("EchoServer_echo_pargs");
-
-  xfer += oprot->writeFieldBegin("msg", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->msg)));
-  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeStructBegin("TimeServer_get_pargs");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -88,11 +67,11 @@ uint32_t EchoServer_echo_pargs::write(::apache::thrift::protocol::TProtocol* opr
 }
 
 
-EchoServer_echo_result::~EchoServer_echo_result() throw() {
+TimeServer_get_result::~TimeServer_get_result() throw() {
 }
 
 
-uint32_t EchoServer_echo_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TimeServer_get_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -133,11 +112,11 @@ uint32_t EchoServer_echo_result::read(::apache::thrift::protocol::TProtocol* ipr
   return xfer;
 }
 
-uint32_t EchoServer_echo_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t TimeServer_get_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("EchoServer_echo_result");
+  xfer += oprot->writeStructBegin("TimeServer_get_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
@@ -150,11 +129,11 @@ uint32_t EchoServer_echo_result::write(::apache::thrift::protocol::TProtocol* op
 }
 
 
-EchoServer_echo_presult::~EchoServer_echo_presult() throw() {
+TimeServer_get_presult::~TimeServer_get_presult() throw() {
 }
 
 
-uint32_t EchoServer_echo_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t TimeServer_get_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -195,19 +174,18 @@ uint32_t EchoServer_echo_presult::read(::apache::thrift::protocol::TProtocol* ip
   return xfer;
 }
 
-void EchoServerClient::echo(std::string& _return, const std::string& msg)
+void TimeServerClient::get(std::string& _return)
 {
-  send_echo(msg);
-  recv_echo(_return);
+  send_get();
+  recv_get(_return);
 }
 
-void EchoServerClient::send_echo(const std::string& msg)
+void TimeServerClient::send_get()
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("echo", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("get", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  EchoServer_echo_pargs args;
-  args.msg = &msg;
+  TimeServer_get_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -215,7 +193,7 @@ void EchoServerClient::send_echo(const std::string& msg)
   oprot_->getTransport()->flush();
 }
 
-void EchoServerClient::recv_echo(std::string& _return)
+void TimeServerClient::recv_get(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -235,12 +213,12 @@ void EchoServerClient::recv_echo(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("echo") != 0) {
+  if (fname.compare("get") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  EchoServer_echo_presult result;
+  TimeServer_get_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -250,10 +228,10 @@ void EchoServerClient::recv_echo(std::string& _return)
     // _return pointer has now been filled
     return;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "echo failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "get failed: unknown result");
 }
 
-bool EchoServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
+bool TimeServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
   if (pfn == processMap_.end()) {
@@ -272,38 +250,38 @@ bool EchoServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* ip
   return true;
 }
 
-void EchoServerProcessor::process_echo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void TimeServerProcessor::process_get(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("EchoServer.echo", callContext);
+    ctx = this->eventHandler_->getContext("TimeServer.get", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "EchoServer.echo");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TimeServer.get");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "EchoServer.echo");
+    this->eventHandler_->preRead(ctx, "TimeServer.get");
   }
 
-  EchoServer_echo_args args;
+  TimeServer_get_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "EchoServer.echo", bytes);
+    this->eventHandler_->postRead(ctx, "TimeServer.get", bytes);
   }
 
-  EchoServer_echo_result result;
+  TimeServer_get_result result;
   try {
-    iface_->echo(result.success, args.msg);
+    iface_->get(result.success);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "EchoServer.echo");
+      this->eventHandler_->handlerError(ctx, "TimeServer.get");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("echo", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("get", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -312,41 +290,40 @@ void EchoServerProcessor::process_echo(int32_t seqid, ::apache::thrift::protocol
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "EchoServer.echo");
+    this->eventHandler_->preWrite(ctx, "TimeServer.get");
   }
 
-  oprot->writeMessageBegin("echo", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("get", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "EchoServer.echo", bytes);
+    this->eventHandler_->postWrite(ctx, "TimeServer.get", bytes);
   }
 }
 
-::boost::shared_ptr< ::apache::thrift::TProcessor > EchoServerProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
-  ::apache::thrift::ReleaseHandler< EchoServerIfFactory > cleanup(handlerFactory_);
-  ::boost::shared_ptr< EchoServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-  ::boost::shared_ptr< ::apache::thrift::TProcessor > processor(new EchoServerProcessor(handler));
+::boost::shared_ptr< ::apache::thrift::TProcessor > TimeServerProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
+  ::apache::thrift::ReleaseHandler< TimeServerIfFactory > cleanup(handlerFactory_);
+  ::boost::shared_ptr< TimeServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
+  ::boost::shared_ptr< ::apache::thrift::TProcessor > processor(new TimeServerProcessor(handler));
   return processor;
 }
 
-void EchoServerConcurrentClient::echo(std::string& _return, const std::string& msg)
+void TimeServerConcurrentClient::get(std::string& _return)
 {
-  int32_t seqid = send_echo(msg);
-  recv_echo(_return, seqid);
+  int32_t seqid = send_get();
+  recv_get(_return, seqid);
 }
 
-int32_t EchoServerConcurrentClient::send_echo(const std::string& msg)
+int32_t TimeServerConcurrentClient::send_get()
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("echo", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("get", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  EchoServer_echo_pargs args;
-  args.msg = &msg;
+  TimeServer_get_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -357,7 +334,7 @@ int32_t EchoServerConcurrentClient::send_echo(const std::string& msg)
   return cseqid;
 }
 
-void EchoServerConcurrentClient::recv_echo(std::string& _return, const int32_t seqid)
+void TimeServerConcurrentClient::recv_get(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -386,7 +363,7 @@ void EchoServerConcurrentClient::recv_echo(std::string& _return, const int32_t s
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("echo") != 0) {
+      if (fname.compare("get") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -395,7 +372,7 @@ void EchoServerConcurrentClient::recv_echo(std::string& _return, const int32_t s
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      EchoServer_echo_presult result;
+      TimeServer_get_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -407,7 +384,7 @@ void EchoServerConcurrentClient::recv_echo(std::string& _return, const int32_t s
         return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "echo failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "get failed: unknown result");
     }
     // seqid != rseqid
     this->sync_.updatePending(fname, mtype, rseqid);

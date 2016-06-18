@@ -91,7 +91,7 @@ private:
 
 
 
-=================  以下为实现部分 ==================
+// =================  以下为实现部分 ==================
 
 
 
@@ -122,7 +122,7 @@ int iegad::tools::worker_t<T>::_thread_proc()
 {
     for (;;) {
         T val;
-        if (que_.pop(val) == -1 || wkr_handler_ == nullptr) {
+        if (!que_.pop(&val) || wkr_handler_ == nullptr) {
             break;
         }
         wkr_handler_(val);

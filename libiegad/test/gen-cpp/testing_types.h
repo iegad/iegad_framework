@@ -4,8 +4,8 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef echo_TYPES_H
-#define echo_TYPES_H
+#ifndef testing_TYPES_H
+#define testing_TYPES_H
 
 #include <iosfwd>
 
@@ -17,8 +17,8 @@
 #include <thrift/cxxfunctional.h>
 
 
+namespace test {
 
-
-
+} // namespace
 
 #endif

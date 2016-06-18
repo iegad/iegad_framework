@@ -4,18 +4,13 @@
 // ==========================================
 
 
-#include <iostream>
-#include <clocale>
-
 
 #include <gtest/gtest.h>
-
-
 #include "string/iegad_string.hpp"
 #include "tools/iegad_log.hpp"
 
-
 using namespace iegad;
+
 
 
 // 1: ============= split =============
@@ -24,7 +19,7 @@ TEST(stringTest, split_1)
 {// 单个分隔符
     std::string src = "00,01,02,03,04";
     std::vector<std::string> res = string_ex::split_vct(src, ",");
-    EXPECT_EQ(5, res.size());
+    EXPECT_EQ(5u, res.size());
     EXPECT_EQ("00", res[0]);
     EXPECT_EQ("01", res[1]);
     EXPECT_EQ("02", res[2]);
@@ -33,7 +28,7 @@ TEST(stringTest, split_1)
 
     std::wstring wsrc = L"00,01,02,03,04";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",");
-    EXPECT_EQ(5, wres.size());
+    EXPECT_EQ(5u, wres.size());
     EXPECT_EQ(L"00", wres[0]);
     EXPECT_EQ(L"01", wres[1]);
     EXPECT_EQ(L"02", wres[2]);
@@ -46,7 +41,7 @@ TEST(stringTest, split_2)
 {// 结尾出现分隔符
     std::string src = "00,01,02,03,04,";
     std::vector<std::string> res = string_ex::split_vct(src, ",");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ("00", res[0]);
     EXPECT_EQ("01", res[1]);
     EXPECT_EQ("02", res[2]);
@@ -57,7 +52,7 @@ TEST(stringTest, split_2)
 
     std::wstring wsrc = L"00,01,02,03,04,";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",");
-    EXPECT_EQ(6, wres.size());
+    EXPECT_EQ(6u, wres.size());
     EXPECT_EQ(L"00", wres[0]);
     EXPECT_EQ(L"01", wres[1]);
     EXPECT_EQ(L"02", wres[2]);
@@ -72,7 +67,7 @@ TEST(stringTest, split_3)
 {// 中间出现分隔符
     std::string src = "00,01,,02,03,04";
     std::vector<std::string> res = string_ex::split_vct(src, ",");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ("00", res[0]);
     EXPECT_EQ("01", res[1]);
     EXPECT_EQ("", res[2]);
@@ -83,7 +78,7 @@ TEST(stringTest, split_3)
 
     std::wstring wsrc = L"00,01,,02,03,04";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",");
-    EXPECT_EQ(6, wres.size());
+    EXPECT_EQ(6u, wres.size());
     EXPECT_EQ(L"00", wres[0]);
     EXPECT_EQ(L"01", wres[1]);
     EXPECT_EQ(L"", wres[2]);
@@ -98,7 +93,7 @@ TEST(stringTest, split_4)
 {// 开始处出现分隔符
     std::string src = ",00,01,02,03,04";
     std::vector<std::string> res = string_ex::split_vct(src, ",");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ("", res[0]);
     EXPECT_EQ("00", res[1]);
     EXPECT_EQ("01", res[2]);
@@ -109,7 +104,7 @@ TEST(stringTest, split_4)
 
     std::wstring wsrc = L",00,01,02,03,04";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",");
-    EXPECT_EQ(6, wres.size());
+    EXPECT_EQ(6u, wres.size());
     EXPECT_EQ(L"", wres[0]);
     EXPECT_EQ(L"00", wres[1]);
     EXPECT_EQ(L"01", wres[2]);
@@ -125,7 +120,7 @@ TEST(stringTest, split_5)
 {// 多个分隔符， 正常情况
     std::string src = "00,, 01,, 02,, 03,, 04";
     std::vector<std::string> res = string_ex::split_vct(src, ",, ");
-    EXPECT_EQ(5, res.size());
+    EXPECT_EQ(5u, res.size());
     EXPECT_EQ("00", res[0]);
     EXPECT_EQ("01", res[1]);
     EXPECT_EQ("02", res[2]);
@@ -134,7 +129,7 @@ TEST(stringTest, split_5)
 
     std::wstring wsrc = L"00,, 01,, 02,, 03,, 04";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",, ");
-    EXPECT_EQ(5, res.size());
+    EXPECT_EQ(5u, res.size());
     EXPECT_EQ(L"00", wres[0]);
     EXPECT_EQ(L"01", wres[1]);
     EXPECT_EQ(L"02", wres[2]);
@@ -147,7 +142,7 @@ TEST(stringTest, split_6)
 {// 多个分隔符， 末尾出现分隔符
     std::string src = "00,, 01,, 02,, 03,, 04,, ";
     std::vector<std::string> res = string_ex::split_vct(src, ",, ");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ("00", res[0]);
     EXPECT_EQ("01", res[1]);
     EXPECT_EQ("02", res[2]);
@@ -158,7 +153,7 @@ TEST(stringTest, split_6)
 
     std::wstring wsrc = L"00,, 01,, 02,, 03,, 04,, ";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",, ");
-    EXPECT_EQ(6, wres.size());
+    EXPECT_EQ(6u, wres.size());
     EXPECT_EQ(L"00", wres[0]);
     EXPECT_EQ(L"01", wres[1]);
     EXPECT_EQ(L"02", wres[2]);
@@ -173,7 +168,7 @@ TEST(stringTest, split_7)
 {// 多个分隔符, 中间出现分隔符
     std::string src = "00,, 01,, ,, 02,, 03,, 04";
     std::vector<std::string> res = string_ex::split_vct(src, ",, ");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ("00", res[0]);
     EXPECT_EQ("01", res[1]);
     EXPECT_EQ("", res[2]);
@@ -184,7 +179,7 @@ TEST(stringTest, split_7)
 
     std::wstring wsrc = L"00,, 01,, ,, 02,, 03,, 04";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",, ");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ(L"00", wres[0]);
     EXPECT_EQ(L"01", wres[1]);
     EXPECT_EQ(L"", wres[2]);
@@ -199,7 +194,7 @@ TEST(stringTest, split_8)
 {// 多个分隔符, 开始处出现分隔符
     std::string src = ",, 00,, 01,, 02,, 03,, 04";
     std::vector<std::string> res = string_ex::split_vct(src, ",, ");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ("", res[0]);
     EXPECT_EQ("00", res[1]);
     EXPECT_EQ("01", res[2]);
@@ -210,7 +205,7 @@ TEST(stringTest, split_8)
 
     std::wstring wsrc = L",, 00,, 01,, 02,, 03,, 04";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L",, ");
-    EXPECT_EQ(6, res.size());
+    EXPECT_EQ(6u, res.size());
     EXPECT_EQ(L"", wres[0]);
     EXPECT_EQ(L"00", wres[1]);
     EXPECT_EQ(L"01", wres[2]);
@@ -225,7 +220,7 @@ TEST(stringTest, split)
 {// 综合测试
     std::string src = "iegad|28|iegad@vip.qq.com|肖琪";
     std::vector<std::string> res = string_ex::split_vct(src, "|");
-    EXPECT_EQ(4, res.size());
+    EXPECT_EQ(4u, res.size());
     EXPECT_EQ("iegad", res[0]);
     EXPECT_EQ("28", res[1]);
     EXPECT_EQ("iegad@vip.qq.com", res[2]);
@@ -233,7 +228,7 @@ TEST(stringTest, split)
 
     std::wstring wsrc = L"iegad|28|iegad@vip.qq.com|肖琪";
     std::vector<std::wstring> wres = string_ex::split_vct(wsrc, L"|");
-    EXPECT_EQ(4, wres.size());
+    EXPECT_EQ(4u, wres.size());
     EXPECT_EQ(L"iegad", wres[0]);
     EXPECT_EQ(L"28", wres[1]);
     EXPECT_EQ(L"iegad@vip.qq.com", wres[2]);
@@ -374,14 +369,14 @@ TEST(stringTest, firstAndLast)
 {// 查找指定字符， 第一次或最后一次出现的位置
     std::string src = "Hello world, the world is wonderful";
     EXPECT_EQ(2, string_ex::first_ch(src, 'l'));
-    EXPECT_EQ(src.size() - 1, string_ex::last_ch(src, 'l'));
+    EXPECT_EQ(int(src.size() - 1), string_ex::last_ch(src, 'l'));
     EXPECT_EQ(-1, string_ex::first_ch(src, 'x'));
     EXPECT_EQ(-1, string_ex::last_ch(src, 'x'));
     EXPECT_EQ(-1, string_ex::last_ch(src, '\0'));
 
     std::wstring wsrc = L"Hello world, the world is wonderful";
     EXPECT_EQ(2, string_ex::first_ch(wsrc, L'l'));
-    EXPECT_EQ(wsrc.size() - 1, string_ex::last_ch(wsrc, L'l'));
+    EXPECT_EQ(int(wsrc.size() - 1), string_ex::last_ch(wsrc, L'l'));
     EXPECT_EQ(-1, string_ex::first_ch(wsrc, L'x'));
     EXPECT_EQ(-1, string_ex::last_ch(wsrc, L'x'));
     EXPECT_EQ(-1, string_ex::last_ch(wsrc, L'\0'));
@@ -482,7 +477,7 @@ TEST(stringTest, remove_2)
 
 // 9: ============= upper & lower =============
 
-TEST(strinfTest, upperAndLower)
+TEST(stringTest, upperAndLower)
 {
     std::string src = "abcd12345!@#Aa";
     EXPECT_EQ("ABCD12345!@#AA", string_ex::to_upr(src));
@@ -529,6 +524,7 @@ TEST(stringTest, bin2strAndstr2bin)
 
 TEST(stringTest, wstringToStringAndStringToWstring)
 {
+
     std::string src = "1234567890里面有文中";
     std::wstring wstr = string_ex::str_to_wstr(src);
     EXPECT_EQ(L"1234567890里面有文中", wstr);
@@ -549,13 +545,10 @@ TEST(stringTest, format)
 }
 
 
+// 15: ============= uuid =============
 
-int
-main(int argc, char * argv[])
+TEST(stringTest, uuid)
 {
-    iegad::tools::_LOG log(argv[0]);
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    std::string src = string_ex::guid();
+    std::cout<<src<<std::endl;
 }
-
-
