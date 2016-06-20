@@ -29,10 +29,10 @@ namespace thrift_ex {
 	    trans_(nullptr),
 	    client_(nullptr) {
 	    if (__NON_BLOCK_) {
-		_init_thread_clnt(ipstr, port);
+            _init_thread_clnt(ipstr, port);
 	    }
 	    else {
-		_init_nonblocking_clnt(ipstr, port);
+            _init_nonblocking_clnt(ipstr, port);
 	    }
 	    this->Open();
 	}

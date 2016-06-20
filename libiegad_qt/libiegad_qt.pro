@@ -77,5 +77,5 @@ unix: LIBS += -L/usr/local/lib -levent_extra
 
 #ubuntu required
 unix: LIBS += -pthread
-
+unix: LIBS += -luuid
 

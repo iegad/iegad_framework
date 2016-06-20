@@ -8,7 +8,7 @@
 // double 精度
 #define     DOUBLE_DEFAULT_PRECISION     15
 // 错误字符串
-#define     ERR_STRING                                           "??????"
+#define     ERR_STRING      "??????"
 
 
 // ===========
@@ -16,7 +16,7 @@
 // ===========
 #ifdef WIN32 
 // long double 精度
-#define	    DECIMAL_DEFAULT_PRECISION       15
+#define     DECIMAL_DEFAULT_PRECISION       15
 // 系统字符集
 #define	    CHARSET_DEFAULT     "GBK"
 // 创建日志目录
@@ -24,7 +24,7 @@
 
 
 // ===========
-//	    for linux
+//	for linux
 // ===========
 #else 
 // long double 精度

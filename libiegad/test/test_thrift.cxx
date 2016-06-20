@@ -32,7 +32,7 @@ std::string sendMsgStr = "君不见黄河之水天上来⑵，奔流到海不复
 // 定义服务端事件类
 DEFINE_EVENT_HANDLER(EchoEvent);
 // 定义客户端类
-DEFINE_THRIFT_CLIENT(EchoClient, EchoServer, BINARY_PROTOCOL, true);
+DEFINE_THRIFT_CLIENT(EchoClient, EchoServer, BINARY_PROTOCOL, false);
 // 定义服务端类
 DEFINE_THRIFT_SERVER(EchoServer, THRIFT_NON_BLOCKING_SERVER, BINARY_PROTOCOL);
 
