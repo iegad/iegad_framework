@@ -18,8 +18,8 @@
 // @PS : 客户端连接时触发
 // ============================
 #define DEFINE_CREATE_CONTEXT(__func_name_, inputProtocol, outputProtocol) \
-void* __func_name_(boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol, \
-boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol)
+void* __func_name_(boost::shared_ptr<apache::thrift::protocol::TProtocol> inputProtocol, \
+boost::shared_ptr<apache::thrift::protocol::TProtocol> outputProtocol)
 
 
 // ============================
@@ -32,8 +32,8 @@ boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol)
 // ============================
 #define DEFINE_DELETE_CONTEXT(__func_name_, serverContext, inputProtocol, outputProtocol) \
 void __func_name_(void* serverContext, \
-boost::shared_ptr<::apache::thrift::protocol::TProtocol> inputProtocol, \
-boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol)
+boost::shared_ptr<apache::thrift::protocol::TProtocol> inputProtocol, \
+boost::shared_ptr<apache::thrift::protocol::TProtocol> outputProtocol)
 
 
 // ============================
@@ -44,7 +44,7 @@ boost::shared_ptr<::apache::thrift::protocol::TProtocol> outputProtocol)
 // @PS : 客户端发出RPC调用请求时触发
 // ============================
 #define DEFINE_PROCESS_CONTEXT(__func_name_, serverContext, trans) \
-void __func_name_(void* serverContext, boost::shared_ptr<::apache::thrift::transport::TTransport> trans)
+void __func_name_(void* serverContext, boost::shared_ptr<apache::thrift::transport::TTransport> trans)
 
 
 // ============================

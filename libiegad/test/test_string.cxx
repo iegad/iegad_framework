@@ -287,11 +287,15 @@ TEST(stringTest, rtrim)
     EXPECT_EQ("hello world", string_ex::rtrim(src1));
     std::string src2 = "hello world\n\t\r  tt";
     EXPECT_NE("hello world", string_ex::rtrim(src2));
+    std::string src3 = "hell0 w0rld0000";
+    EXPECT_EQ("hell0 w0rld", string_ex::rtrim(src3, '0'));
 
     std::wstring wsrc1 = L"hello world\n\t\r  ";
     EXPECT_EQ(L"hello world", string_ex::rtrim(wsrc1));
     std::wstring wsrc2 = L"hello world\n\t\r  tt";
     EXPECT_NE(L"hello world", string_ex::rtrim(wsrc2));
+    std::wstring wsrc3 = L"hell0 w0rld00";
+    EXPECT_EQ(L"hell0 w0rld", string_ex::rtrim(wsrc3, L'0'));
 }
 
 
@@ -328,12 +332,16 @@ TEST(stringTest, ltrim)
     std::string src1 = "\n\t\r  hello world";
     EXPECT_EQ("hello world", string_ex::ltrim(src1));
     std::string src2 = "\n\t\rhello world  tt";
-    EXPECT_NE("hello world tt", string_ex::ltrim(src2));
+    EXPECT_EQ("hello world  tt", string_ex::ltrim(src2));
+    std::string src3 = "00000hell0 w0rld";
+    EXPECT_EQ("hell0 w0rld", string_ex::ltrim(src3, '0'));
 
     std::wstring wsrc1 = L"\n\t\r  hello world";
     EXPECT_EQ(L"hello world", string_ex::ltrim(wsrc1));
     std::wstring wsrc2 = L"\n\t\rhello world  tt";
     EXPECT_EQ(L"hello world  tt", string_ex::ltrim(wsrc2));
+    std::wstring wsrc3 = L"00000hell0 w0rld";
+    EXPECT_EQ(L"hell0 w0rld", string_ex::ltrim(wsrc3, L'0'));
 }
 
 

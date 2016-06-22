@@ -25,30 +25,30 @@
 //                                     -- 2, 添加base64加密, 解密
 //                                     -- 3, 添加 guid 生成函数
 //  --2015-10-09	    --iegad		   -- 添加 自定义加密 en_cust 函数, 解密 de_cust 函数
-//  --2015-10-13	    --iegad		   -- 1, 添加format函数, 用于格式化字符串
-//                                     -- 2, 修改to_str(double/float)的精度问题
-//  --2015-10-17	    --iegad		   -- 修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
+//  --2015-10-13        --iegad		   -- 1, 添加format函数, 用于格式化字符串
+//                                      -- 2, 修改to_str(double/float)的精度问题
+//  --2015-10-17	        --iegad		   -- 修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
 //  --2015-10-20	    --iegad		   -- 1, 添加find_str 函数.
-//                                     -- 2, 添加start_with, end_with 函数.
-//                                     -- 3, 添加 remove 函数
-//                                     -- 4, 将各个 int pos 参数类型改为 unsigned int
-//                                     -- 5, 添加 substr2 函数
+//                                      -- 2, 添加start_with, end_with 函数.
+//                                      -- 3, 添加 remove 函数
+//                                      -- 4, 将各个 int pos 参数类型改为 unsigned int
+//                                      -- 5, 添加 substr2 函数
 //  --2015-10-23	    --iegad		   -- 1, 修改 trim(const std::string &) 函数名 => rtrim(...);
-//                                     -- 2, 添加 新 trim(const std::string &)
-//                                     -- 3, 添加remove2(...) 函数
+//                                      -- 2, 添加 新 trim(const std::string &)
+//                                      -- 3, 添加remove2(...) 函数
 //  --2015-10-25	    --iegad		   -- 1, 添加 std::string & std::wstring 间的相互转换
-//                                     -- 2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
-//                                     -- 3, 添加部分支持std::wstring 的字符串算法封装
-//  --2015-11-10	    --iegad		   -- 修改 base64 编/解码 函数. 使之用于二进制数据
-//  --2015-11-10	    --iegad		   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
-//  --2015-11-12	    --iegad		   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
+//                                      -- 2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
+//                                      -- 3, 添加部分支持std::wstring 的字符串算法封装
+//  --2015-11-10         --iegad		   -- 修改 base64 编/解码 函数. 使之用于二进制数据
+//  --2015-11-10         --iegad		   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
+//  --2015-11-12         --iegad		   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
 //  --2016-03-04	    --iegad		   -- 简化 to_upr & to_lwr
 //  --2016-05-18	    --iegad		   --1, 去掉自定义加密/解密函数
-//                                     --2, 添加wstring 与 string 相互转换函数.
-//                                     --3, 添加format函数, 用来格式化字符串.
-//  --2016-06-05        --iegad        --1, 将string操作改为hpp文件, 并更换为class实现
-//                                     --2, 将sha1改为非boost实现
-//  --2016-06-17        --iegad        --
+//                                      --2, 添加wstring 与 string 相互转换函数.
+//                                      --3, 添加format函数, 用来格式化字符串.
+//  --2016-06-05       --iegad        --1, 将string操作改为hpp文件, 并更换为class实现
+//                                                              --2, 将sha1改为非boost实现
+//  --2016-06-22        --iegad        -- 添加 ltrim & rtrim 的指定字符版本
 
 
 #if (__APPLE__ || __linux__)
@@ -57,6 +57,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "sercurity/iegad_md5.hpp"
 #include "iegad_define.in.h"
@@ -210,7 +211,7 @@ public:
     {
         int n = src.length() - 1;
         while (::isspace(src[n])) {
-        n--;
+            n--;
         }
         std::string restr(src, 0, n + 1);
         return restr;
@@ -224,6 +225,40 @@ public:
     {
         int n = src.length() - 1;
         while (::iswspace(src[n])) {
+            n--;
+        }
+        std::wstring restr(src, 0, n + 1);
+        return restr;
+    }
+
+
+    // ============================
+    // @用途 : 去掉字符串src右边指定的字符
+    // @src : 源字符串
+    // @chr : 指定去掉的字符
+    // @返回值 : 修改后的新字符串
+    // ============================
+    static const std::string
+    rtrim(const std::string & src, char c)
+    {
+        int n = src.length() - 1;
+        while (src[n] == c) {
+            n--;
+        }
+        std::string restr(src, 0, n + 1);
+        return restr;
+    }
+
+
+
+    // ============================
+    // @重载 : rtrim => std::wstring
+    // ============================
+    static const std::wstring
+    rtrim(const std::wstring & src, wchar_t c)
+    {
+        int n = src.length() - 1;
+        while (src[n] == c) {
             n--;
         }
         std::wstring restr(src, 0, n + 1);
@@ -327,6 +362,39 @@ public:
     {
         int rpos = 0;
         while (::iswspace(src[rpos])) {
+            rpos++;
+        }
+        std::wstring restr(src, rpos, src.length() - rpos);
+        return restr;
+    }
+
+
+    // ============================
+    // @用途 : 去掉字符串src左边指定的字符
+    // @src : 源字符串
+    // @chr : 指定去掉的字符
+    // @返回值 : 修改后的新字符串
+    // ============================
+    static const std::string
+    ltrim(const std::string & src, char c)
+    {
+        int rpos = 0;
+        while (src[rpos] == c) {
+            rpos++;
+        }
+        std::string restr(src, rpos, src.length() - rpos);
+        return restr;
+    }
+
+
+    // ============================
+    // @重载 : ltrim => std::wstring
+    // ============================
+    static const std::wstring
+    ltrim(const std::wstring & src, wchar_t c)
+    {
+        int rpos = 0;
+        while(src[rpos] == c) {
             rpos++;
         }
         std::wstring restr(src, rpos, src.length() - rpos);
