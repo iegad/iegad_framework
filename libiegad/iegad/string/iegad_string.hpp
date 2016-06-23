@@ -57,6 +57,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "sercurity/iegad_md5.hpp"
 #include "iegad_define.in.h"
