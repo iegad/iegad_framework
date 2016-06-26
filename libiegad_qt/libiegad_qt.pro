@@ -17,7 +17,8 @@ SOURCES += \
     ../libiegad/test/gen-cpp/testing_constants.cpp \
     ../libiegad/test/gen-cpp/testing_types.cpp \
     ../libiegad/test/gen-cpp/TimeServer.cpp \
-    ../libiegad/test/test_thrift.cxx
+    ../libiegad/test/test_thrift.cxx \
+    ../libiegad/test/test_tcp_echo.cxx
 
 HEADERS += \
     ../libiegad/iegad/iegad_define.in.h \
@@ -56,7 +57,10 @@ HEADERS += \
     ../libiegad/test/gen-cpp/testing_types.h \
     ../libiegad/test/gen-cpp/TimeServer.h \
     ../libiegad/test/gen-cpp/TimeServer_server.skeleton.hpp \
-    ../libiegad/test/gen-cpp/EchoServer_server.skeleton.hpp
+    ../libiegad/test/gen-cpp/EchoServer_server.skeleton.hpp \
+    ../libiegad/iegad/net/iegad_tcp_server.hpp \
+    ../libiegad/iegad/net/iegad_tcp_session.hpp \
+    #../libiegad/iegad/container/iegad_safe_map.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -74,6 +78,8 @@ unix: LIBS += -L/usr/local/lib -lhiredis
 unix: LIBS += -L/usr/local/lib -levent
 unix: LIBS += -L/usr/local/lib -levent_core
 unix: LIBS += -L/usr/local/lib -levent_extra
+unix: LIBS += -L/usr/local/lib -lboost_system
+unix: LIBS += -L/usr/local/lib -lboost_thread
 
 #ubuntu required
 unix: LIBS += -pthread
