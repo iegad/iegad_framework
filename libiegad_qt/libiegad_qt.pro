@@ -60,7 +60,7 @@ HEADERS += \
     ../libiegad/test/gen-cpp/EchoServer_server.skeleton.hpp \
     ../libiegad/iegad/net/iegad_tcp_server.hpp \
     ../libiegad/iegad/net/iegad_tcp_session.hpp \
-    #../libiegad/iegad/container/iegad_safe_map.hpp
+    ../libiegad/iegad/net/iegad_tcp_event.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -83,5 +83,5 @@ unix: LIBS += -L/usr/local/lib -lboost_thread
 
 #ubuntu required
 unix: LIBS += -pthread
-#unix: LIBS += -luuid
+unix: LIBS += -luuid
 

@@ -37,6 +37,7 @@
 #define _access access
 #endif // WIN32
 #include "iegad_define.in.h"
+#include <assert.h>
 
 
 #if (iINFO || iERR)
@@ -47,6 +48,7 @@
 // 操作宏
 #define iINFO       LOG(INFO)
 #define iERR        LOG(ERROR)
+#define iWARN       LOG(WARNING)
 
 
 namespace iegad {
@@ -63,12 +65,13 @@ public:
     // ============================
     explicit _LOG(const char * argv0) {
         if (_access("LOG", 0) != 0) {
-            system(MKDIR);
+            assert(!system(MKDIR));
         }
         google::InitGoogleLogging(argv0);
         // set the file position;
         google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
         google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
+        google::SetLogDestination(google::GLOG_WARNING, LOG_WARN_FILE);
         // set log file max size 100M;
         FLAGS_max_log_size = 100;
         FLAGS_logbufsecs = 0;

@@ -6,35 +6,10 @@
 
 
 
-class EchoServer {
+class EchoServer : public iegad::net::tcp_event {
 public:
-    static void OnConnect(std::shared_ptr<iegad::net::tcp_session> tcpSession) {
-        std::cout << tcpSession->sockfd() << " : connected\n";
-        m_.insert(std::make_pair(tcpSession->sockfd(), tcpSession));
-    }
-
-    static void OnReadErr(int sockfd) {
-        std::cout << sockfd << " : readerr\n";
-        auto itr = m_.find(sockfd);
-        if (itr == m_.end()) {
-            return;
-        }
-        m_.erase(itr);
-    }
-
-    static void OnReadEof(int sockfd) {
-        std::cout << sockfd << " : readeof\n";
-        iegad::map<int, std::shared_ptr<iegad::net::tcp_session>>::iterator itr = m_.find(sockfd);
-        if (itr == m_.end()) {
-            return;
-        }
-        m_.erase(itr);
-        std::cout << m_.size() << std::endl;
-    }
-
-
-    static int OnRead(int sockfd, const char * buff, size_t n) {
-        auto itr = m_.find(sockfd);
+    int onReadBuff(int sockfd, const char *buff, size_t n) {
+        auto itr = sm_.find(sockfd);
         std::shared_ptr<iegad::net::tcp_session> s = itr->second;
         s->setMsgbuff(std::string(buff, n));
         std::cout<<s->msgbuff()<<std::endl;
@@ -45,11 +20,7 @@ public:
 
     EchoServer(uint16_t port)
         :
-          host_(port,
-                &EchoServer::OnConnect,
-                &EchoServer::OnRead,
-                &EchoServer::OnReadEof,
-                &EchoServer::OnReadErr)
+          host_(port, this)
     {}
 
 
@@ -61,11 +32,8 @@ public:
 
 private:
     iegad::net::tcp_server host_;
-    static std::map<int, std::shared_ptr<iegad::net::tcp_session>> m_;
 }; // class EchoServer;
 
-
-std::map<int, std::shared_ptr<iegad::net::tcp_session>> EchoServer::m_;
 
 
 int

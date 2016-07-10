@@ -7,15 +7,18 @@
 #include <memory.h>
 #include <assert.h>
 #include <functional>
-#include <event.h>
+#include <memory>
+#include <boost/asio.hpp>
+#include <event2/event.h>
 
 #include "tools/iegad_endian.hpp"
-#include "iegad_tcp_session.hpp"
+#include "net/iegad_tcp_event.hpp"
+#include <thread>
 
 
 
 #define LISTENQ         (15)
-#define BUFFSIZE      (512)
+#define BUFFSIZE        (1440)
 
 
 
@@ -25,71 +28,82 @@ namespace net {
 
 class tcp_server {
 public:
-    typedef std::function<void(std::shared_ptr<tcp_session>)> connect_callback;
-    typedef std::function<int(int, const char *, size_t)> read_callback;
-    typedef std::function<void(int)> readeof_callback;
-    typedef std::function<void(int)> readerror_callback;
-
-
     static void on_accept(int fd, short ev, void * arg) {
+        tcp_event * tcpev = (tcp_event *)arg;
         int sockfd = -1;
         if (arg == nullptr) {
-            std::cout << "arg is null"<<std::endl;
             return;
         }
-        socklen_t len = sizeof(sockaddr_in);
-        event_base * base = (event_base *)arg;
-        sockaddr_in addr;
-        memset(&addr, 0, sizeof(addr));
-        sockfd = accept(fd, (sockaddr *)&addr, &len);
-        std::cout << "sock : " << sockfd << std::endl;
+        sockfd = accept(fd, nullptr, nullptr);
         if (sockfd < 0) {
             return;
         }
+        timeval tv;
+        tv.tv_sec = 40;
+        tv.tv_usec = 0;
+        linger li;
+        li.l_linger = 0;
+        li.l_onoff = 1;
+        //evutil_make_socket_nonblocking(sockfd);
+        //assert(!setsockopt(sockfd, SOL_SOCKET, TCP_NODELAY, &on, sizeof(on)));
+        if (setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &li, sizeof(li)) != 0) {
+            std::cout<<errno<<std::endl;
+        }
+        assert(!setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)));
         event * read_event = new event;
-        event_set(read_event, sockfd, EV_READ | EV_PERSIST, on_read, read_event);
-        event_base_set(base, read_event);
-        event_add(read_event, nullptr);
-        std::shared_ptr<tcp_session> session(new tcp_session(sockfd));
-        conn_handler_(session);
+        event_set(read_event, sockfd, EV_READ | EV_PERSIST, on_read, arg);
+        event_base_set(tcpev->base(), read_event);
+        event_add(read_event, &tv);
+        tcp_session::ptr_t session(new tcp_session(sockfd, read_event));
+        tcpev->onConnected(session);
     }
 
 
     static void on_read(int sockfd, short ev, void * arg) {
         char buffer[BUFFSIZE] = {0};
-        event * read_event = (event *)arg;
-        int n;
-        n = read(sockfd, buffer, BUFFSIZE);
-        if (n < 0) {
-            readerr_handler_(sockfd);
-            event_del(read_event);
-            delete read_event;
-            close(sockfd);
+        bool eof = false, err = false;
+        tcp_event * tcpev = (tcp_event *)arg;
+        std::string msgstr;
+        int n = 0;
+        do {
+            n = read(sockfd, buffer, BUFFSIZE);
+            if (n < 0) {
+                err = true;
+                break;
+            }
+            else if (n == 0) {
+                eof = true;
+                break;
+            }
+            else {
+                msgstr.append(buffer, n);
+                if (n != BUFFSIZE) {
+                    break;
+                }
+            }
+        } while(true);
+        tcp_session::ptr_t session = tcpev->get_session(sockfd);
+        if (eof) {
+            tcpev->onReadEof(sockfd);
         }
-        else if (n == 0) {
-            readeof_handler_(sockfd);
-            event_del(read_event);
-            delete read_event;
+        if (err) {
+            tcpev->onReadErr(sockfd);
         }
-        else {
-            read_handler_(sockfd, buffer, n);
+        if (!msgstr.empty() && session != nullptr) {
+            session->setMsgbuff(msgstr);
+            std::thread t(std::bind(&tcp_event::onReadBuff, tcpev, session));
+            t.detach();
         }
     }
 
+
     explicit tcp_server(uint16_t port,
-                        connect_callback connhandler,
-                        read_callback readhandler,
-                        readeof_callback readeofhandler,
-                        readerror_callback readerrhandler)
+                        tcp_event * ev)
         :
         port_(port),
         sockfd_(-1),
-        base_(nullptr) {
-        conn_handler_ = connhandler;
-        read_handler_ = readhandler;
-        readeof_handler_ = readeofhandler;
-        readerr_handler_ = readerrhandler;
-
+        base_(nullptr),
+        ev_(ev) {
         memset(&accept_event_, 0, sizeof(event));
         memset(&addr_, 0, sizeof(sockaddr_in));
         _init();
@@ -108,6 +122,7 @@ public:
     }
 
 
+
 private:
     void _init() {
         sockfd_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -119,18 +134,13 @@ private:
         assert(!setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int)));
         assert(!bind(sockfd_, (sockaddr *)&addr_, sizeof(sockaddr)));
         assert(!listen(sockfd_, LISTENQ));
-        base_ = event_base_new();
+        base_ = event_base_new();        
         assert(base_);
-        event_set(&accept_event_, sockfd_, EV_READ | EV_PERSIST, on_accept, base_);
-        assert(!event_base_set(base_, &accept_event_));
+        ev_->setBase(base_);
+        event_set(&accept_event_, sockfd_, EV_READ | EV_PERSIST, on_accept, ev_);
+        assert(!event_base_set(base_, &accept_event_));        
         assert(!event_add(&accept_event_, nullptr));
     }
-
-
-    static connect_callback conn_handler_;
-    static read_callback read_handler_;
-    static readeof_callback readeof_handler_;
-    static readerror_callback readerr_handler_;
 
 
     uint16_t port_;
@@ -138,13 +148,9 @@ private:
     event_base * base_;
     event accept_event_;
     sockaddr_in addr_;
+    tcp_event * ev_;
 }; // class tcp_server;
 
-
-tcp_server::connect_callback tcp_server::conn_handler_;
-tcp_server::read_callback tcp_server::read_handler_;
-tcp_server::readeof_callback tcp_server::readeof_handler_;
-tcp_server::readerror_callback tcp_server::readerr_handler_;
 
 
 } // namespace net;

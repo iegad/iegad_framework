@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory.h>
 
 
 #define S11 7
