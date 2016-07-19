@@ -3,11 +3,12 @@
 
 
 
-#include <string>
-#include <memory.h>
-#include <memory>
-#include <unistd.h>
-#include <event.h>
+#include <boost/smart_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/bind.hpp>
+
+#include "net/iegad_tcp_buffer.hpp"
+#include "net/iegad_tcp_event.hpp"
 
 
 
@@ -15,85 +16,112 @@ namespace iegad {
 namespace net {
 
 
-class tcp_session {
+class tcp_session : public boost::enable_shared_from_this<tcp_session> {
 public:
-    typedef std::shared_ptr<tcp_session> ptr_t;
+    typedef boost::shared_ptr<tcp_session> ptr_t;
+    typedef boost::asio::ip::tcp::socket socket;
+    typedef boost::asio::io_service io_service;
 
 
-    int send(const char * buff, size_t buffsize) {
-        int nleft = buffsize;
-        int n;
-        const char * p = buff;
-        while (nleft != 0) {
-            n = write(sockfd_, p, nleft);
-            if (n < 0) {
-                return -1;
-            }
-            p += n;
-            nleft -= n;
-        }
-        return buffsize - nleft;
-    }
-
-
-    explicit tcp_session(int sockfd, event * ev)
+    explicit tcp_session(io_service & ios)
         :
-        sockfd_(sockfd),
-        read_event_(ev)
+          sock_(ios)
     {}
 
 
-    explicit tcp_session(int sockfd, const std::string & recvstr)
-        :
-        sockfd_(sockfd),
-        read_event_(nullptr),
-        recvbuff_(recvstr)
-    {}
-
-
-    ~tcp_session() {
-        if (sockfd_ != -1) {
-            close(sockfd_);
+    void start(tcp_event::ptr_t ev) {        
+        tcpev_ = ev;
+        if (tcpev_ && tcpev_->open_handler) {
+            tcpev_->open_handler(shared_from_this());
         }
-        if (read_event_ != nullptr) {
-            event_del(read_event_);
-            read_event_ = nullptr;
+        this->read();
+    }
+
+
+    void close() {
+        boost::system::error_code ec;
+        if (tcpev_ && tcpev_->close_handler) {
+            tcpev_->close_handler(shared_from_this());
         }
+        sock_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+        sock_.close(ec);
+    }
+
+    void write() {
+        sock_.async_write_some(wbuff_.data(),
+                               boost::bind(&tcp_session::write_handler,
+                                           shared_from_this(),
+                                           boost::asio::placeholders::error,
+                                           boost::asio::placeholders::bytes_transferred));
     }
 
 
-    int sockfd() const {
-        return sockfd_;
+    void write(const void * data, size_t len) {
+        wbuff_.append(data, len);
+        this->write();
     }
 
 
-    void reset_sockfd() {
-        if (sockfd_ != -1) {
-            close(sockfd_);
-            sockfd_ = -1;
+    void read() {
+        sock_.async_read_some(rbuff_.prepare(),
+                              boost::bind(&tcp_session::read_handler, shared_from_this(),
+                                          boost::asio::placeholders::error,
+                                          boost::asio::placeholders::bytes_transferred));
+    }
+
+
+    void read_handler(const boost::system::error_code & ec, size_t bytes_transferred) {
+        if (ec) {            
+            this->close();
+            return;
         }
+        rbuff_.commit(bytes_transferred);
+
+        if (tcpev_ && tcpev_->read_handler) {
+            tcpev_->read_handler(shared_from_this(), bytes_transferred);
+        }
+
+        rbuff_.consume(bytes_transferred);
+        read();
     }
 
 
-    std::string & recvbuff() {
-        return recvbuff_;
+    void write_handler(const boost::system::error_code & ec, size_t bytes_transferred) {
+        if (ec) {
+            this->close();
+            return;
+        }
+        if (tcpev_ && tcpev_->write_handler) {
+            tcpev_->write_handler(shared_from_this(), bytes_transferred);
+        }
+        wbuff_.consume(bytes_transferred);
     }
 
 
-    void setMsgbuff(const std::string &recvbuff) {
-        recvbuff_ = recvbuff;
+    socket & sock() {
+        return sock_;
     }
 
 
-    event * read_event() const {
-        return read_event_;
+    io_service & ios() {
+        return sock_.get_io_service();
+    }
+
+
+    tcp_buffer & rbuff() {
+        return rbuff_;
+    }
+
+    tcp_buffer & wbuff() {
+        return wbuff_;
     }
 
 
 private:
-    int sockfd_;
-    event * read_event_;
-    std::string recvbuff_;
+    socket sock_;
+    tcp_event::ptr_t tcpev_;
+    tcp_buffer rbuff_;
+    tcp_buffer wbuff_;
 }; // class tcp_session;
 
 

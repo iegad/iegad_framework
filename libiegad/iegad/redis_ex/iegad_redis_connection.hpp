@@ -17,12 +17,12 @@ public:
 
     explicit connection(const std::string & host, int port = 6379, const std::string & usr = "", const std::string & pwd = "", int timeout = -1)
         : 
-    context_(nullptr),
-    port_(port), 
-    timeout_(timeout),
-    usr_(usr), 
-    pwd_(pwd),
-    host_(host) {
+        context_(nullptr),
+        port_(port),
+        timeout_(timeout),
+        usr_(usr),
+        pwd_(pwd),
+        host_(host) {
         this->_init();
     }
 
