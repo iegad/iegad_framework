@@ -47,28 +47,6 @@ public:
         sock_.close(ec);
     }
 
-<<<<<<< HEAD
-
-    int send(const std::string & msgstr) {
-        int n = -1, nleft = msgstr.size();
-        const char * p = msgstr.c_str();
-        while(nleft) {
-            n = write(sockfd_, p, nleft);
-            if (n > 0) {
-                nleft -= n;
-                p += n;
-            }
-            else {
-                return -1;
-            }
-            return msgstr.size() - nleft;
-        }
-    }
-
-
-    int sockfd() const {
-        return sockfd_;
-=======
     void write() {
         sock_.async_write_some(wbuff_.data(),
                                boost::bind(&tcp_session::write_handler,
@@ -89,7 +67,6 @@ public:
                               boost::bind(&tcp_session::read_handler, shared_from_this(),
                                           boost::asio::placeholders::error,
                                           boost::asio::placeholders::bytes_transferred));
->>>>>>> ab2d0a0d98186f8a443fe810bb73c6e41cea8479
     }
 
 
