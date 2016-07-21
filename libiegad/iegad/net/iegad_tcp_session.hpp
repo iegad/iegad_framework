@@ -27,6 +27,24 @@ public:
         }
     }
 
+
+    int send(const std::string & msgstr) {
+        int n = -1, nleft = msgstr.size();
+        const char * p = msgstr.c_str();
+        while(nleft) {
+            n = write(sockfd_, p, nleft);
+            if (n > 0) {
+                nleft -= n;
+                p += n;
+            }
+            else {
+                return -1;
+            }
+            return msgstr.size() - nleft;
+        }
+    }
+
+
     int sockfd() const {
         return sockfd_;
     }

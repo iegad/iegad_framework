@@ -38,6 +38,7 @@ public:
         std::shared_ptr<iegad::net::tcp_session> s = itr->second;
         s->setMsgbuff(std::string(buff, n));
         std::cout<<s->msgbuff()<<std::endl;
+        s->send(s->msgbuff());
         s->msgbuff().clear();
         return 0;
     }
@@ -81,9 +82,14 @@ main(int argc, char * argv[])
             addr.sin_addr.s_addr = inet_addr("127.0.0.1");
             addr.sin_family = AF_INET;
             addr.sin_port = htons(6688);
+            char buff[1024] = {0};
+            int n;
             assert(!connect(sockfd, (sockaddr *)&addr, sizeof(addr)));
-            for (int i = 0, n = std::stoi(argv[1]); i < n; i++)
+            for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
                 write(sockfd, "hello world\n", 12);
+                n = read(sockfd, buff, 1024);
+                std::cout << std::string(buff, n) << std::endl;
+            }
             close(sockfd);
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
