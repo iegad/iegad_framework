@@ -201,6 +201,18 @@ public:
     }
 
 
+    static const std::string
+    lpad(const std::string & src, int len, char c)
+    {
+        std::string res;
+        for (int i = 0, n = len - src.size(); i < n; i++) {
+            res.push_back(c);
+        }
+        res.append(src);
+        return res;
+    }
+
+
     // ============================
     // @用途 : 去掉字符串src尾部的空白字符
     // @src : 源字符串

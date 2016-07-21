@@ -40,22 +40,22 @@ typedef std::function<##__delegate_sign_##> __event_type_;
 
 // 宏实现定义
 #define __XXX_IfFactory__(a)				a##IfFactory
-#define __XXX_If__(a)					a##If
-#define __XXX_Handler__(a)				a##Handler
-#define __XXX_ProcessorFactory__(a)		a##ProcessorFactory
+#define __XXX_If__(a)                       a##If
+#define __XXX_Handler__(a)                  a##Handler
+#define __XXX_ProcessorFactory__(a)         a##ProcessorFactory
 #define __XXX_ProcessorCloneFactory__(a)	a##ProcessorCloneFactory
-#define __XXX_ProtocolFactory__(a)			::apache::thrift::protocol::T##a##ProtocolFactory
+#define __XXX_ProtocolFactory__(a)			apache::thrift::protocol::T##a##ProtocolFactory
 #define __XXX_Client__(a)					a##Client
-#define __XXX_Protocol__(a)				::apache::thrift::protocol::T##a##Protocol
+#define __XXX_Protocol__(a)                 apache::thrift::protocol::T##a##Protocol
 #define __XXX_Class_Member(a, b)			a##::##b
 
 
 // 宏调用声明定义
-#define XXX_IfFactory(a)					__XXX_IfFactory__(a)
+#define XXX_IfFactory(a)				__XXX_IfFactory__(a)
 #define XXX_If(a)						__XXX_If__(a)
 #define XXX_Handler(a)					__XXX_Handler__(a)
 #define XXX_ProcessorFactory(a)			__XXX_ProcessorFactory__(a)	
-#define XXX_ProcessorCloneFactory(a)		__XXX_ProcessorCloneFactory__(a)	
+#define XXX_ProcessorCloneFactory(a)	__XXX_ProcessorCloneFactory__(a)
 #define XXX_ProtocolFactory(a)			__XXX_ProtocolFactory__(a)
 #define XXX_Client(a)					__XXX_Client__(a)
 #define XXX_Protocol(a	)				__XXX_Protocol__(a)

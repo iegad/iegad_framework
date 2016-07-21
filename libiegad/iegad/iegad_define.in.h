@@ -39,8 +39,9 @@
 
 
 // info && error 日志保存路径
-#define	    LOG_INF_FILE        "./LOG/INFO_"
+#define	    LOG_INF_FILE      "./LOG/INFO_"
 #define		LOG_ERR_FILE      "./LOG/ERR_"
+#define     LOG_WARN_FILE     "./LOG/WARNING_"
 
 
 #endif // __IEGAD_COMMON_IN__

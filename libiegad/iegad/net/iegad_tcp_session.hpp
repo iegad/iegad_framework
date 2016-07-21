@@ -3,9 +3,12 @@
 
 
 
-#include <string>
-#include <memory.h>
-#include <unistd.h>
+#include <boost/smart_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/bind.hpp>
+
+#include "net/iegad_tcp_buffer.hpp"
+#include "net/iegad_tcp_event.hpp"
 
 
 
@@ -13,20 +16,38 @@ namespace iegad {
 namespace net {
 
 
-class tcp_session {
+class tcp_session : public boost::enable_shared_from_this<tcp_session> {
 public:
-    explicit tcp_session(int sockfd)
+    typedef boost::shared_ptr<tcp_session> ptr_t;
+    typedef boost::asio::ip::tcp::socket socket;
+    typedef boost::asio::io_service io_service;
+
+
+    explicit tcp_session(io_service & ios)
         :
-        sockfd_(sockfd) {
-        memset(&addr_, 0, sizeof(addr_));
-    }
+          sock_(ios)
+    {}
 
-    ~tcp_session() {
-        if (sockfd_ != -1) {
-            close(sockfd_);
+
+    void start(tcp_event::ptr_t ev) {        
+        tcpev_ = ev;
+        if (tcpev_ && tcpev_->open_handler) {
+            tcpev_->open_handler(shared_from_this());
         }
+        this->read();
     }
 
+
+    void close() {
+        boost::system::error_code ec;
+        if (tcpev_ && tcpev_->close_handler) {
+            tcpev_->close_handler(shared_from_this());
+        }
+        sock_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+        sock_.close(ec);
+    }
+
+<<<<<<< HEAD
 
     int send(const std::string & msgstr) {
         int n = -1, nleft = msgstr.size();
@@ -47,38 +68,84 @@ public:
 
     int sockfd() const {
         return sockfd_;
+=======
+    void write() {
+        sock_.async_write_some(wbuff_.data(),
+                               boost::bind(&tcp_session::write_handler,
+                                           shared_from_this(),
+                                           boost::asio::placeholders::error,
+                                           boost::asio::placeholders::bytes_transferred));
     }
 
 
-    void reset_sockfd() {
-        if (sockfd_ != -1) {
-            close(sockfd_);
-            sockfd_ = -1;
+    void write(const void * data, size_t len) {
+        wbuff_.append(data, len);
+        this->write();
+    }
+
+
+    void read() {
+        sock_.async_read_some(rbuff_.prepare(),
+                              boost::bind(&tcp_session::read_handler, shared_from_this(),
+                                          boost::asio::placeholders::error,
+                                          boost::asio::placeholders::bytes_transferred));
+>>>>>>> ab2d0a0d98186f8a443fe810bb73c6e41cea8479
+    }
+
+
+    void read_handler(const boost::system::error_code & ec, size_t bytes_transferred) {
+        if (ec) {            
+            this->close();
+            return;
         }
+        rbuff_.commit(bytes_transferred);
+
+        if (tcpev_ && tcpev_->read_handler) {
+            tcpev_->read_handler(shared_from_this(), bytes_transferred);
+        }
+
+        rbuff_.consume(bytes_transferred);
+        read();
     }
 
-    const sockaddr_in & addr() const {
-        return addr_;
+
+    void write_handler(const boost::system::error_code & ec, size_t bytes_transferred) {
+        if (ec) {
+            this->close();
+            return;
+        }
+        if (tcpev_ && tcpev_->write_handler) {
+            tcpev_->write_handler(shared_from_this(), bytes_transferred);
+        }
+        wbuff_.consume(bytes_transferred);
     }
 
 
-    std::string & msgbuff() {
-        return msgbuff_;
+    socket & sock() {
+        return sock_;
     }
 
-    void setMsgbuff(const std::string &msgbuff) {
-        msgbuff_ = msgbuff;
+
+    io_service & ios() {
+        return sock_.get_io_service();
+    }
+
+
+    tcp_buffer & rbuff() {
+        return rbuff_;
+    }
+
+    tcp_buffer & wbuff() {
+        return wbuff_;
     }
 
 
 private:
-    int sockfd_;
-    sockaddr_in addr_;
-    std::string msgbuff_;
-};
-
-
- // class tcp_session;
+    socket sock_;
+    tcp_event::ptr_t tcpev_;
+    tcp_buffer rbuff_;
+    tcp_buffer wbuff_;
+}; // class tcp_session;
 
 
 } // namespace net;
