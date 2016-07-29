@@ -49,6 +49,7 @@
 //  --2016-06-05       --iegad        --1, 将string操作改为hpp文件, 并更换为class实现
 //                                                              --2, 将sha1改为非boost实现
 //  --2016-06-22        --iegad        -- 添加 ltrim & rtrim 的指定字符版本
+//  --2016-07-19        --iegad        --
 
 
 #if (__APPLE__ || __linux__)
@@ -202,13 +203,47 @@ public:
 
 
     static const std::string
-    lpad(const std::string & src, int len, char c)
+    lpad(const std::string & src, int len, char c = ' ')
     {
         std::string res;
-        for (int i = 0, n = len - src.size(); i < n; i++) {
+        for (int i = 0; i < len; i++) {
             res.push_back(c);
         }
         res.append(src);
+        return res;
+    }
+
+
+    static const std::wstring
+    lpad(const std::wstring & src, int len, wchar_t c = L' ')
+    {
+        std::wstring res;
+        for (int i = 0; i < len; i++) {
+            res.push_back(c);
+        }
+        res.append(src);
+        return res;
+    }
+
+
+    static const std::string
+    rpad(const std::string & src, int len, char c = ' ')
+    {
+        std::string res = src;
+        for (int i = 0; i < len; i++) {
+            res.push_back(c);
+        }
+        return res;
+    }
+
+
+    static const std::wstring
+    rpad(const std::wstring & src, int len, wchar_t c = L' ')
+    {
+        std::wstring res = src;
+        for (int i = 0; i < len; i++) {
+            res.push_back(c);
+        }
         return res;
     }
 

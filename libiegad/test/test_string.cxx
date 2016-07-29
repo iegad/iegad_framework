@@ -560,3 +560,30 @@ TEST(stringTest, uuid)
     std::string src = string_ex::guid();
     std::cout<<src<<std::endl;
 }
+
+
+// 16: ============= pad =============
+
+TEST(stringTest, pad)
+{
+    std::string src = "123";
+    EXPECT_EQ("000123", string_ex::lpad(src, 3, '0'));
+    EXPECT_EQ("123000", string_ex::rpad(src, 3, '0'));
+
+    std::wstring wsrc = L"123";
+    EXPECT_EQ(L"000123", string_ex::lpad(wsrc, 3, L'0'));
+    EXPECT_EQ(L"123000", string_ex::rpad(wsrc, 3, L'0'));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
