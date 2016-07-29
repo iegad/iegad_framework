@@ -5,6 +5,7 @@
 #include "iegad_redis_connection.hpp"
 #include "string/iegad_string.hpp"
 #include <vector>
+#include <memory>
 
 
 namespace iegad {
@@ -37,36 +38,34 @@ protected:
     }
 
 
-    bool action_number(int64_t * res, std::string * errstr) {
+    int64_t action_number() {
         reply_ = (redisReply_ptr)redisCommand(context_, cmd_.c_str());
-        if (this->_assert_handler(errstr)
-                && this->_assert_type(REDIS_REPLY_INTEGER)) {
-            *res = reply_->integer;
-            return true;
+        if (reply_->type != REDIS_REPLY_INTEGER) {
+            throw redis_exception(context_->errstr, context_->err);
         }
-        return false;
+        return reply_->integer;
     }
 
 
-    bool action_string(std::string * res) {
+    const std::string action_string() {
         reply_ = (redisReply_ptr)redisCommand(context_, cmd_.c_str());
-        if (this->_assert_handler(res) &&
-                this->_assert_type(REDIS_REPLY_STRING)) {
-            *res = reply_->str;
-            return true;
+        if (reply_->type != REDIS_REPLY_STRING) {
+            throw redis_exception(context_->errstr, context_->err);
         }
-        return false;
+        return std::string(reply_->str, reply_->len);
     }
 
 
-    void action_vector(std::vector<std::string> * res, std::string * errstr) {
+    const std::vector<std::string> action_vector() {
         reply_ = (redisReply_ptr)redisCommand(context_, cmd_.c_str());
-        this->_assert_handler(errstr);
-        if (this->_assert_type(REDIS_REPLY_ARRAY)) {
-            for (int i = 0, n = reply_->elements; i < n; i++) {
-                res->push_back(reply_->element[i]->str != nullptr ? reply_->element[i]->str : "");
-            }
+        if (reply_->type != REDIS_REPLY_ARRAY) {
+            throw redis_exception(context_->errstr, context_->err);
         }
+        std::vector<std::string> res;
+        for (int i = 0, n = reply_->elements; i < n; i++) {
+            res.push_back(reply_->element[i]->str != nullptr ? reply_->element[i]->str : "");
+        }
+        return res;
     }
 
 

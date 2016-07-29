@@ -6,19 +6,17 @@ CONFIG -= qt
 
 SOURCES += \
     #../libiegad/test/test_rmq.cxx \
-    #../libiegad/test/test_redis.cxx \
+    ../libiegad/test/test_redis.cxx \
     ../libiegad/test/test_string.cxx \
     ../libiegad/test/test_main.cpp \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
-    ../libiegad/test/test_timer.cxx \
-    ../libiegad/test/test_rmq.cxx \
+    ../libiegad/test/test_timer.cxx \    
     ../libiegad/test/gen-cpp/EchoServer.cpp \
     ../libiegad/test/gen-cpp/testing_constants.cpp \
     ../libiegad/test/gen-cpp/testing_types.cpp \
     ../libiegad/test/gen-cpp/TimeServer.cpp \
-    ../libiegad/test/test_thrift.cxx \
-    ../libiegad/test/test_tcp_echo.cxx
+    ../libiegad/test/test_thrift.cxx
 
 HEADERS += \
     ../libiegad/iegad/iegad_define.in.h \

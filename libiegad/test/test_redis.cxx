@@ -10,40 +10,34 @@
 
 using namespace iegad;
 
-TEST(redisTesting, connection)
+TEST(redisTesting, Key)
 {
-    std::string errstr;
     redis::connection conn("127.0.0.1");
-    redis::key_t key(conn);
-    EXPECT_EQ(0, key.exists("testKey"));
-    EXPECT_EQ(1, key.exists("iegad"));
-    EXPECT_EQ(0, key.del("test"));
-    std::cout << "dump key : " << key.dump("iegad").size() << std::endl;
-    EXPECT_EQ(1, key.expire("iegad", 60));
-    EXPECT_EQ(0, key.expire("ieddad", 100));
-    EXPECT_EQ(1, key.persist("iegad"));
-    auto keys = key.keys("*");
-    EXPECT_EQ(3, keys.size());
-    EXPECT_EQ("abcd", keys[0]);
-    EXPECT_EQ("name", keys[1]);
-    EXPECT_EQ("iegad", keys[2]);
-    EXPECT_FALSE(key.rename("111", "222", &errstr));
-    //EXPECT_TRUE(key.renamenx("iegad", "iegadd")); 该函数api有问题
-    EXPECT_TRUE(key.rename("iegad", "iegadd"));
-    EXPECT_TRUE(key.rename("iegadd", "iegad"));
+    redis::key_t::ptr_t cmd = redis::key_t::Create(conn);
+    EXPECT_EQ(0, cmd->del("name"));
+    std::string res = cmd->dump("222");
+    EXPECT_FALSE(res.empty());
+    EXPECT_EQ(1, cmd->exists("222"));
+    EXPECT_EQ(0, cmd->expire("111", 100000));
+    EXPECT_EQ(0, cmd->expireat("111", 1460000800));
+    EXPECT_EQ(0, cmd->pexpire("111", 100000000000));
+    EXPECT_EQ(0, cmd->pexpireat("111", 1460000800));
+    std::vector<std::string> keyVct = cmd->keys("*");
+    EXPECT_TRUE(keyVct.size() > 0);
+    EXPECT_EQ(0, cmd->move("111", 6));
 }
 
 
-TEST(redisTesting, client)
-{
-    std::string errstr;
-    redis::connection conn("127.0.0.1");
-    redis::client c(conn);
-    EXPECT_EQ(c.echo("\"hello\""), "\"hello\"");
-    EXPECT_TRUE(c.ping(&errstr));
-    std::cout<<errstr<<std::endl;
-    EXPECT_TRUE(c.select(3));
-    EXPECT_TRUE(c.select(0));
-}
+//TEST(redisTesting, client)
+//{
+//    std::string errstr;
+//    redis::connection conn("127.0.0.1");
+//    redis::client c(conn);
+//    EXPECT_EQ(c.echo("\"hello\""), "\"hello\"");
+//    EXPECT_TRUE(c.ping(&errstr));
+//    std::cout<<errstr<<std::endl;
+//    EXPECT_TRUE(c.select(3));
+//    EXPECT_TRUE(c.select(0));
+//}
 
 

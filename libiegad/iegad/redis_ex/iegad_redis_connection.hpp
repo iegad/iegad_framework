@@ -38,22 +38,22 @@ public:
     }
 
 
-    int Port() const {
+    int port() const {
         return port_;
     }
 
 
-    void Port(int val) {
+    void port(int val) {
         port_ = val;
     }
 
 
-    const std::string & Host() const {
+    const std::string & host() const {
         return host_;
     }
 
 
-    void Host(std::string val) {
+    void host(std::string val) {
         host_ = val;
     }
 

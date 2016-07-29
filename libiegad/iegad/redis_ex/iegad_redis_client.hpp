@@ -29,9 +29,7 @@ public:
 
     const std::string echo(const std::string & str) {
         this->make_cmdstr("ECHO ", { str.c_str() });
-        std::string res;
-        this->action_string(&res);
-        return res;
+        return this->action_string();
     }
 
 
