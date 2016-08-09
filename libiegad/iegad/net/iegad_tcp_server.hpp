@@ -13,17 +13,16 @@ namespace iegad {
 namespace net {
 
 
-template <typename T>
 class tcp_server {
 public:
     typedef ioservice_pool::io_service io_service;
     typedef boost::asio::ip::tcp::acceptor acceptor;
-    typedef std::shared_ptr<tcp_server<T>> ptr_t;
+    typedef std::shared_ptr<tcp_server> ptr_t;
+    typedef tcp_session::que_t que_t;
 
 
-
-    static ptr_t Create(int port, int n = 1) {
-        ptr_t p(new tcp_server(port, n));
+    static ptr_t Create(int port, que_t & que, int n = 1) {
+        ptr_t p(new tcp_server(port, que, n));
         return p;
     }
 
@@ -39,17 +38,18 @@ public:
 
 
 private:
-    tcp_server(int port, int n)
+    tcp_server(int port, que_t & que, int n)
         :
         iopool_(n),
         acptr_(iopool_.get(),
-               boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)) {
+               boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
+        que_(que) {
         _start_accept();
     }
 
 
     void _start_accept() {
-        tcp_session::ptr_t session(new tcp_session(iopool_.get()));
+        tcp_session::ptr_t session(new tcp_session(iopool_.get(), que_));
 
         acptr_.async_accept(session->sock(),
                             boost::bind(&tcp_server::_handler_accept, this,
@@ -64,11 +64,12 @@ private:
             session->close();
             return;
         }
-        session->start(T::Create());
+        session->start();
     }
 
     ioservice_pool iopool_;
     acceptor acptr_;
+    que_t & que_;
 }; // class tcp_server;
 
 
