@@ -44,6 +44,7 @@ private:
         acptr_(iopool_.get(),
                boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
         que_(que) {
+        acptr_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
         _start_accept();
     }
 

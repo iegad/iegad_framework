@@ -12,9 +12,7 @@ std::mutex mtx_;
 
 int
 checkMsg(iegad::net::msg_t::ptr_t msg) {
-    std::unique_lock<std::mutex> lk(mtx_);
-    static int i = 1;
-    std::cout<<i++<<std::endl;
+    std::cout<<msg->m_data<<std::endl;
     return 0;
 }
 
@@ -52,41 +50,23 @@ void client(int t) {
 }
 
 
-
 int
 main(int argc, char * argv[])
 {
     std::setlocale(LC_ALL, "zh_CN.UTF-8");
     testing::InitGoogleTest(&argc, argv);
-<<<<<<< HEAD
-   return RUN_ALL_TESTS();
-=======
-
     if (argc > 1) {
-        // client
         std::cout<<"client\n";
-        std::vector<std::thread> ts;
-        for (int i = 0, n = std::stoi(argv[1]); i < n; i++) {
-            ts.push_back(std::thread(std::bind(client, std::stoi(argv[2]))));
-        }
-
-        for (int i = 0, n = ts.size(); i < n; i++) {
-            if (ts[i].joinable()) {
-                ts[i].join();
-            }
-        }
+        client(10);
     }
     else {
-        // server
-        iegad::net::tcp_server::que_t que;
+        std::cout<<"server\n";
+        iegad::tools::job_que_t<iegad::net::msg_t::ptr_t> que;
         iegad::tools::worker_t<iegad::net::msg_t::ptr_t> wkr(que, checkMsg);
         wkr.run(1);
-        iegad::net::tcp_server::ptr_t host = iegad::net::tcp_server::Create(6688, que, 8);
+        iegad::net::tcp_server::ptr_t host = iegad::net::tcp_server::Create(6688, que);
         host->run();
     }
-    std::cout<<"done\n";
-    exit(0);
-    //return RUN_ALL_TESTS();
->>>>>>> 8656b058c030cc3a9ebf2355859034ce2095e9e2
+    return 0;//RUN_ALL_TESTS();
 }
 

@@ -17,7 +17,6 @@ SOURCES += \
     ../libiegad/test/gen-cpp/testing_types.cpp \
     ../libiegad/test/gen-cpp/TimeServer.cpp \
     #../libiegad/test/test_thrift.cxx \
-    ../libiegad/test/test_tcp_server.cxx
 
 HEADERS += \
     ../libiegad/iegad/iegad_define.in.h \
@@ -61,10 +60,10 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_tcp_session.hpp \
     ../libiegad/iegad/net/iegad_tcp_event.hpp \
     ../libiegad/iegad/net/iegad_ioserive_pool.hpp \
-    ../libiegad/iegad/net/iegad_tcp_buffer.hpp \
     ../libiegad/iegad/tools/iegad_endian.hpp \
     ../libiegad/iegad/net/iegad_msg_type.hpp \
-    ../libiegad/iegad/net/iegad_msg_ctl.hpp
+    ../libiegad/iegad/net/iegad_msg_ctl.hpp \
+    ../libiegad/iegad/net/iegad_msg.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
