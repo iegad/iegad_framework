@@ -6,7 +6,7 @@ CONFIG -= qt
 
 SOURCES += \
     #../libiegad/test/test_rmq.cxx \
-    ../libiegad/test/test_redis.cxx \
+    #../libiegad/test/test_redis.cxx \
     ../libiegad/test/test_string.cxx \
     ../libiegad/test/test_main.cpp \
     ../libiegad/test/test_queue.cxx \
@@ -16,7 +16,8 @@ SOURCES += \
     ../libiegad/test/gen-cpp/testing_constants.cpp \
     ../libiegad/test/gen-cpp/testing_types.cpp \
     ../libiegad/test/gen-cpp/TimeServer.cpp \
-    ../libiegad/test/test_thrift.cxx
+    #../libiegad/test/test_thrift.cxx \
+    ../libiegad/test/test_tcp_server.cxx
 
 HEADERS += \
     ../libiegad/iegad/iegad_define.in.h \
@@ -61,7 +62,9 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_tcp_event.hpp \
     ../libiegad/iegad/net/iegad_ioserive_pool.hpp \
     ../libiegad/iegad/net/iegad_tcp_buffer.hpp \
-    ../libiegad/iegad/tools/iegad_endian.hpp
+    ../libiegad/iegad/tools/iegad_endian.hpp \
+    ../libiegad/iegad/net/iegad_msg_type.hpp \
+    ../libiegad/iegad/net/iegad_msg_ctl.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -83,6 +86,6 @@ unix: LIBS += -L/usr/local/lib -lboost_system
 unix: LIBS += -L/usr/local/lib -lboost_thread
 
 #ubuntu required
-unix: LIBS += -pthread
-unix: LIBS += -luuid
+#unix: LIBS += -pthread
+#unix: LIBS += -luuid
 
