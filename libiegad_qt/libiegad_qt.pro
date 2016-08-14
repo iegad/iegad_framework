@@ -2,10 +2,10 @@ TEMPLATE = app
 CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
-
+CONFIG += C++11
 
 SOURCES += \
-    #../libiegad/test/test_rmq.cxx \
+    ../libiegad/test/test_rmq.cxx \
     #../libiegad/test/test_redis.cxx \
     ../libiegad/test/test_string.cxx \
     ../libiegad/test/test_main.cpp \
@@ -32,17 +32,6 @@ HEADERS += \
     ../libiegad/iegad/sercurity/iegad_md5.hpp \
     ../libiegad/iegad/string/iegad_string.hpp \
     ../libiegad/iegad/sercurity/iegad_sha1.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_queue.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_producter.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_session.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_consumer.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_publisher.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_subcriber.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_exchange.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_sender.hpp \
-    ../libiegad/iegad/rabbitmq_ex/wwww.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_basic.hpp \
-    ../libiegad/iegad/rabbitmq_ex/rabbitmq_recver.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_command.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_connection.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_exception.hpp \
@@ -50,12 +39,6 @@ HEADERS += \
     ../libiegad/iegad/redis_ex/iegad_redis_client.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_list.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_string.hpp \
-    ../libiegad/test/gen-cpp/EchoServer.h \
-    ../libiegad/test/gen-cpp/testing_constants.h \
-    ../libiegad/test/gen-cpp/testing_types.h \
-    ../libiegad/test/gen-cpp/TimeServer.h \
-    ../libiegad/test/gen-cpp/TimeServer_server.skeleton.hpp \
-    ../libiegad/test/gen-cpp/EchoServer_server.skeleton.hpp \
     ../libiegad/iegad/net/iegad_tcp_server.hpp \
     ../libiegad/iegad/net/iegad_tcp_session.hpp \
     ../libiegad/iegad/net/iegad_tcp_event.hpp \
@@ -63,7 +46,9 @@ HEADERS += \
     ../libiegad/iegad/tools/iegad_endian.hpp \
     ../libiegad/iegad/net/iegad_msg_type.hpp \
     ../libiegad/iegad/net/iegad_msg_ctl.hpp \
-    ../libiegad/iegad/net/iegad_msg.hpp
+    ../libiegad/iegad/net/iegad_msg.hpp \
+    ../libiegad/iegad/rabbit_ex/iegad_rabbit_handler.hpp \
+    ../libiegad/iegad/rabbit_ex/iegad_rabbit_buffer.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -72,17 +57,14 @@ INCLUDEPATH += ../libiegad/iegad/ \
 
 
 
-unix: LIBS += -L/usr/local/lib -lthrift
-unix: LIBS += -L/usr/local/lib -lthriftnb
-unix: LIBS += -L/usr/local/lib -lglog
-unix: LIBS += -L/usr/local/lib -lgtest
-unix: LIBS += -L/usr/local/lib -lSimpleAmqpClient
-unix: LIBS += -L/usr/local/lib -lhiredis
-unix: LIBS += -L/usr/local/lib -levent
-unix: LIBS += -L/usr/local/lib -levent_core
-unix: LIBS += -L/usr/local/lib -levent_extra
-unix: LIBS += -L/usr/local/lib -lboost_system
-unix: LIBS += -L/usr/local/lib -lboost_thread
+LIBS += -L/usr/local/lib -lthrift
+LIBS += -L/usr/local/lib -lthriftnb
+LIBS += -L/usr/local/lib -lglog
+LIBS += -L/usr/local/lib -lgtest
+LIBS += -L/usr/local/lib -lamqp-cpp
+LIBS += -L/usr/local/lib -lhiredis
+LIBS += -L/usr/local/lib -lboost_system
+LIBS += -L/usr/local/lib -lboost_thread
 
 #ubuntu required
 #unix: LIBS += -pthread

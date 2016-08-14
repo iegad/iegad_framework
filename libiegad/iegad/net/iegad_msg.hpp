@@ -7,12 +7,8 @@
 #include <boost/smart_ptr.hpp>
 
 
-
-
 namespace iegad {
 namespace net {
-
-
 
 
 #pragma pack(1)
