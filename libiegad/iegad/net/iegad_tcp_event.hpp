@@ -5,6 +5,8 @@
 #include <boost/function.hpp>
 #include <boost/smart_ptr.hpp>
 
+#include "net/iegad_msg.hpp"
+
 
 namespace iegad {
 namespace net {
@@ -20,8 +22,8 @@ public:
 
     virtual void on_connected(tcp_session_ptr session) = 0;
     virtual void on_closed(tcp_session_ptr session) = 0;
-    virtual void on_readed(tcp_session_ptr session) = 0;
-    virtual void on_writed(tcp_session_ptr session) = 0;
+    virtual void on_readed(tcp_session_ptr session, msg_t::ptr_t msg) = 0;
+    virtual void on_writed(tcp_session_ptr session, msg_t::ptr_t msg) = 0;
 }; // class tcp_event;
 
 

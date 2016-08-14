@@ -46,7 +46,25 @@ public:
           m_tcpss(ss)
     {}
 
+
+    bool check() {
+        uint8_t tc = 0;
+        for (int i = 0, n = m_data.size(); i < n; i++) {
+            tc ^= m_data[i];
+        }
+        return tc == m_head.msg_ccode;
+    }
+
+
+    void set_check() {
+        for (int i = 0, n = m_data.size(); i < n; i++) {
+            m_head.msg_ccode ^= m_data[i];
+        }
+    }
+
+
     msg_t() {}
+
 
     msg_head m_head;
     std::string m_data;

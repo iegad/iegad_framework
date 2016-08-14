@@ -104,7 +104,7 @@ private:
             return;
         }
         if (event_) {
-            event_->on_writed(shared_from_this());
+            event_->on_writed(shared_from_this(), msg);
         }
     }
 
@@ -143,12 +143,12 @@ private:
 
 
     void _read_msg_handler(const boost::system::error_code & ec, size_t n, msg_t::ptr_t msg) {
-        if (ec || n != msg->m_head.msg_size) {
+        if (ec || n != msg->m_head.msg_size || !msg->check()) {
             this->close();
             return;
         }
         if (event_) {
-            event_->on_readed(shared_from_this());
+            event_->on_readed(shared_from_this(), msg);
         }
         que_.push(msg);
         start();
