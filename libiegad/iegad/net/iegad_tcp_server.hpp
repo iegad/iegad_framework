@@ -37,6 +37,11 @@ public:
     }
 
 
+    ioservice_pool & io_pool() {
+        return iopool_;
+    }
+
+
 private:
     tcp_server(int port, que_t & que, int n)
         :

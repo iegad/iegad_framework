@@ -20,14 +20,15 @@ TEST(rmqTesting, publishMsg) {
     std::cout<<channel.connected()<<std::endl;
     AMQP::Deferred & d = channel.startTransaction();
     d.onSuccess([](){ std::cout<<"transaction commit!!!\n"; });
-    d.onError([&](const char * errstr){
-        std::cout<<"transaction faled : "<<errstr<<std::endl;
+    d.onError([&](const char * errstr) {
+        std::cout<<"transaction faild : "<<errstr<<std::endl;
         channel.rollbackTransaction(); });
 
     for (int i = 0; i < 1000; i++) {
         EXPECT_TRUE(channel.publish("", "test_queue_d", "Hello World!"));
     }
     EXPECT_TRUE(channel.commitTransaction());
+    ioService.run();
 }
 
 
