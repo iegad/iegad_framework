@@ -7,59 +7,15 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
-#include <boost/pool/object_pool.hpp>
-#include <boost/function.hpp>
 
 
 #include "tools/job_queue.hpp"
-
+#include "net/iegad_tcp_event.hpp"
+#include "net/iegad_msg.hpp"
 
 
 namespace iegad {
 namespace net {
-
-
-class tcp_session;
-
-
-struct msg_head {
-    uint8_t msg_flag;
-    uint8_t msg_ccode;
-    uint16_t msg_size;
-    uint16_t msg_type;
-    uint16_t msg_seq;
-};
-
-
-struct msg_t : public boost::noncopyable {
-    typedef msg_t * ptr_t;
-    typedef boost::function<void(msg_t *)> destory_t;
-
-    template <typename Func>
-    msg_t(boost::shared_ptr<tcp_session> ss, Func func)
-        :
-          m_tcpss(ss),
-          destory_(func)
-    {}
-
-    msg_t() {}
-
-
-    void destory() {
-        if (destory_) {
-            destory_(this);
-        }
-        else {
-            boost::checked_delete(this);
-        }
-    }
-
-    msg_head m_head;
-    std::string m_data;
-    boost::shared_ptr<tcp_session> m_tcpss;
-    destory_t destory_;
-};
-
 
 
 class tcp_session : public boost::enable_shared_from_this<tcp_session> {
@@ -69,15 +25,18 @@ public:
     typedef boost::asio::io_service io_service;
     typedef io_service::strand strand;
     typedef iegad::tools::job_que_t<msg_t::ptr_t> que_t;
-    typedef boost::object_pool<msg_t> msg_pool_t;
 
 
-    explicit tcp_session(io_service & ios, que_t & que)
+    explicit tcp_session(io_service & ios, que_t & que, tcp_event::ptr_t event = nullptr)
         :
           sock_(ios),
           strand_(ios),
-          que_(que)
-    {}
+          que_(que),
+          event_(event) {
+        if (event_) {
+            event_->on_connected(shared_from_this());
+        }
+    }
 
 
     ~tcp_session() {
@@ -92,6 +51,9 @@ public:
 
 
     void close() {
+        if (event_) {
+            event_->on_closed(shared_from_this());
+        }
         boost::system::error_code ec;        
         sock_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
         sock_.close(ec);
@@ -141,14 +103,14 @@ private:
             this->close();
             return;
         }
-        msg->destory();
+        if (event_) {
+            event_->on_writed(shared_from_this(), msg);
+        }
     }
 
 
     msg_t::ptr_t _create_msg() {
-        return msg_pool_.construct(
-                    shared_from_this(),
-                    boost::bind(&msg_pool_t::destroy, boost::ref(msg_pool_), boost::placeholders::_1));
+        return msg_t::Create(shared_from_this());
     }
 
     void _read(msg_t::ptr_t msg) {
@@ -181,20 +143,22 @@ private:
 
 
     void _read_msg_handler(const boost::system::error_code & ec, size_t n, msg_t::ptr_t msg) {
-        if (ec || n != msg->m_head.msg_size) {
+        if (ec || n != msg->m_head.msg_size || !msg->check()) {
             this->close();
             return;
+        }
+        if (event_) {
+            event_->on_readed(shared_from_this(), msg);
         }
         que_.push(msg);
         start();
     }
 
 
-
     socket sock_;
     strand strand_;
     que_t & que_;
-    msg_pool_t msg_pool_;
+    tcp_event::ptr_t event_;
 }; // class tcp_session;
 
 

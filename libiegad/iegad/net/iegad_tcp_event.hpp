@@ -5,6 +5,8 @@
 #include <boost/function.hpp>
 #include <boost/smart_ptr.hpp>
 
+#include "net/iegad_msg.hpp"
+
 
 namespace iegad {
 namespace net {
@@ -13,19 +15,15 @@ namespace net {
 class tcp_session;
 
 
-struct tcp_event {
-private:
-    typedef boost::shared_ptr<tcp_session> tcp_session_ptr;
-
-
+class tcp_event {
 public:
     typedef boost::shared_ptr<tcp_event> ptr_t;
+    typedef boost::shared_ptr<tcp_session> tcp_session_ptr;
 
-    boost::function<void(tcp_session_ptr)> open_handler;
-    boost::function<void(tcp_session_ptr)> close_handler;
-
-    boost::function<void(tcp_session_ptr, size_t)> read_handler;
-    boost::function<void(tcp_session_ptr, size_t)> write_handler;
+    virtual void on_connected(tcp_session_ptr session) = 0;
+    virtual void on_closed(tcp_session_ptr session) = 0;
+    virtual void on_readed(tcp_session_ptr session, msg_t::ptr_t msg) = 0;
+    virtual void on_writed(tcp_session_ptr session, msg_t::ptr_t msg) = 0;
 }; // class tcp_event;
 
 
