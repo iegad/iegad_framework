@@ -8,7 +8,7 @@ SOURCES += \
     #../libiegad/test/test_rmq.cxx \
     ../libiegad/test/test_redis.cxx \
     ../libiegad/test/test_string.cxx \
-    ../libiegad/test/test_main.cpp \
+    #../libiegad/test/test_main.cpp \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \    

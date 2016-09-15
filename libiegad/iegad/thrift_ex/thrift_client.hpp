@@ -28,7 +28,7 @@ namespace thrift_ex {
 	    protoc_(nullptr),
 	    trans_(nullptr),
 	    client_(nullptr) {
-	    if (__NON_BLOCK_) {
+        if (!__NON_BLOCK_) {
             _init_thread_clnt(ipstr, port);
 	    }
 	    else {

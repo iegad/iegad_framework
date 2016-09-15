@@ -24,10 +24,11 @@
 //								2, 增加 ThreadServer 模型, 通过 重载构造函数的方式实现.
 //								3, 将 server_ 类型 由 ThreadPoolServer 替换为 TServerFramework, 为了实现多态.
 // 2016-04-19		    -- iegad		1, 去掉服务器包的概念, 改为用宏定义.
-//								2, 添加NonBlockingServer和ThreadedServer两种不同的服务器模型
-//								3, 去掉InitEnvironment静态函数
+//                                      2, 添加NonBlockingServer和ThreadedServer两种不同的服务器模型
+//                                      3, 去掉InitEnvironment静态函数
 // 2016-05-06		    -- iegad		1, 改用宏来定义服务端
 // 2016-05-11		    -- iegad		1, 改用范型与宏来定义服务端, 优点是, 可读性高, 方便代码调试
+// 2016-09-14           -- iegad        1,
 
 
 
@@ -52,18 +53,26 @@ namespace thrift_ex {
     class ProcessorCloneFactory : virtual public __SVC_IFFAC_T_ {
     // 处理机工厂模板类
     public:
-	virtual ~ProcessorCloneFactory() {}
+        typedef apache::thrift::TConnectionInfo TConnectionInfo;
+        typedef apache::thrift::transport::TSocket TSocket;
 
-	virtual __SVC_IF_T_ * getHandler(const ::apache::thrift::TConnectionInfo & connInfo) {
-        boost::shared_ptr<apache::thrift::transport::TSocket> sock =
-            boost::dynamic_pointer_cast<apache::thrift::transport::TSocket>(connInfo.transport);
-	    sock->setRecvTimeout(_APP_TIME_OUT);
-	    return new __SVC_HANDLER_T_;
-	} // virtual __SVC_IF_T_ * getHandler(const ::apache::thrift::TConnectionInfo &);
 
-	virtual void releaseHandler(__SVC_IF_T_ * handler) {
-	    delete handler;
-	} // virtual void releaseHandler(__SVC_IF_T_ *);
+        virtual ~ProcessorCloneFactory() {}
+
+
+        virtual __SVC_IF_T_ * getHandler(const TConnectionInfo & connInfo) {
+            boost::shared_ptr<TSocket> sock = boost::dynamic_pointer_cast<TSocket>(connInfo.transport);
+            sock->setRecvTimeout(_APP_TIME_OUT);
+            sock->setNoDelay(true);
+            sock->setKeepAlive(true);
+
+            return new __SVC_HANDLER_T_;
+        }
+
+
+        virtual void releaseHandler(__SVC_IF_T_ * handler) {
+            delete handler;
+        }
     }; // class ProcessorCloneFactory;
 
 
@@ -89,198 +98,235 @@ namespace thrift_ex {
     class THost {
     // thrift服务端模板类
     public:
-	// ============================
-	// @用途 : 内置类型定义
-	// ============================
-	// 并发性工具
-	typedef ::apache::thrift::concurrency::ThreadManager		ThreadManager;
-	typedef ::apache::thrift::concurrency::PlatformThreadFactory	PlatformThreadFactory;
-	typedef ::apache::thrift::transport::TBufferedTransportFactory	TBufferedTransportFactory;
-	// 服务端
-	typedef ::apache::thrift::transport::TServerSocket			TServerSocket;
-	typedef ::apache::thrift::server::TServerEventHandler			TServerEventHandler;
-	typedef ::apache::thrift::server::TServer					TServer;
-	typedef ::apache::thrift::server::TThreadedServer			TThreadedServer;
-	typedef ::apache::thrift::server::TThreadPoolServer			TThreadPoolServer;
-	typedef ::apache::thrift::server::TNonblockingServer			TNonblockingServer;
-	// 协议
-	typedef __PROTOCOL_FAC_T_							protoc_fac_t;
-	typedef ::apache::thrift::protocol::TBinaryProtocolFactory		TBinaryProtocolFactory;
-	typedef ::apache::thrift::protocol::TJSONProtocolFactory		TJSONProtocolFactory;
-	typedef ::apache::thrift::protocol::TCompactProtocolFactory	TCompactProtocolFactory;
+        // ============================
+        // @用途 : 内置类型定义
+        // ============================
+        // 并发性工具
+        typedef ::apache::thrift::concurrency::ThreadManager ThreadManager;
+        typedef ::apache::thrift::concurrency::PlatformThreadFactory PlatformThreadFactory;
+        typedef ::apache::thrift::transport::TBufferedTransportFactory TBufferedTransportFactory;
+        // 服务端
+        typedef ::apache::thrift::transport::TServerSocket TServerSocket;
+        typedef ::apache::thrift::server::TServerEventHandler TServerEventHandler;
+        typedef ::apache::thrift::server::TServer TServer;
+        typedef ::apache::thrift::server::TThreadedServer TThreadedServer;
+        typedef ::apache::thrift::server::TThreadPoolServer TThreadPoolServer;
+        typedef ::apache::thrift::server::TNonblockingServer TNonblockingServer;
+        // 协议
+        typedef __PROTOCOL_FAC_T_ protoc_fac_t;
+        typedef ::apache::thrift::protocol::TBinaryProtocolFactory TBinaryProtocolFactory;
+        typedef ::apache::thrift::protocol::TJSONProtocolFactory TJSONProtocolFactory;
+        typedef ::apache::thrift::protocol::TCompactProtocolFactory TCompactProtocolFactory;
+
+        typedef boost::shared_ptr<TServerEventHandler> TServerEventHandler_ptr;
+
+        // ============================
+        // @用途 : 构造函数
+        // @port : 端口号
+        // @eventHandler : 事件句柄
+        // @threadCount : 工作线程数/ 最大客户端连接数
+        // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
+        // ============================
+        THost(int port, TServerEventHandler_ptr eventHandler = nullptr, int threadCount = 4) :
+            port_(port),
+            threadCount_(threadCount),
+            server_(nullptr) {
+            if (!_socket_init()) {
+                throw std::logic_error("Windows socket init failed");
+            }
+            if (typeid(__SERVER_T_) == typeid(TThreadedServer)) {
+                server_ = _init_threaded_svr(eventHandler);
+            }
+            else if (typeid(__SERVER_T_) == typeid(TThreadPoolServer)) {
+                server_ = _init_threadpool_svr(eventHandler);
+            }
+            else if (typeid(__SERVER_T_) == typeid(TNonblockingServer)) {
+                server_ = _init_nonblock_svr(eventHandler);
+            }
+            else {
+                assert(false);
+            }
+        }
 
 
-	// ============================
-	// @用途 : 构造函数
-	// @port : 端口号
-	// @eventHandler : 事件句柄
-	// @threadCount : 工作线程数/ 最大客户端连接数
-	// @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
-	// ============================
-	explicit THost(int port,
-	    boost::shared_ptr<TServerEventHandler> eventHandler = nullptr,
-	    int threadCount = 4)
-	    :
-	    port_(port),
-        threadCount_(threadCount),
-	    server_(nullptr) {
-	    if (!_socket_init()) {
-            throw std::logic_error("Windows socket init failed");
-	    }
-	    if (typeid(__SERVER_T_) == typeid(TThreadedServer)) {
-            server_ = _init_threaded_svr(eventHandler);
-	    }
-	    else if (typeid(__SERVER_T_) == typeid(TThreadPoolServer)) {
-            server_ = _init_threadpool_svr(eventHandler);
-	    }
-	    else if (typeid(__SERVER_T_) == typeid(TNonblockingServer)) {
-            server_ = _init_nonblock_svr(eventHandler);
-	    }
-	}
+        // ============================
+        // @用途 : 构造函数
+        // @port : 端口号
+        // @eventHandler : 事件句柄
+        // @threadCount : 工作线程数/ 最大客户端连接数
+        // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
+        // ============================
+        THost(const std::string & host, int port, TServerEventHandler_ptr eventHandler = nullptr, int threadCount = 4) :
+            port_(port),
+            threadCount_(threadCount),
+            server_(nullptr),
+            host_(host) {
+            if (!_socket_init()) {
+                throw std::logic_error("Windows socket init failed");
+            }
+            if (!_socket_init()) {
+                throw std::logic_error("Windows socket init failed");
+            }
+            if (typeid(__SERVER_T_) == typeid(TThreadedServer)) {
+                server_ = _init_threaded_svr(eventHandler);
+            }
+            else if (typeid(__SERVER_T_) == typeid(TThreadPoolServer)) {
+                server_ = _init_threadpool_svr(eventHandler);
+            }
+            else if (typeid(__SERVER_T_) == typeid(TNonblockingServer)) {
+                server_ = _init_nonblock_svr(eventHandler);
+            }
+            else {
+                assert(false);
+            }
+        }
 
 
-	// ============================
-	// @用途 : 析构函数
-	// ============================
-	~THost() {
-	    _socket_release();
-	    server_->stop();
-	}
+        // ============================
+        // @用途 : 析构函数
+        // ============================
+        ~THost() {
+            _socket_release();
+            server_->stop();
+        }
 
 
-	// ============================
-	// @用途 : 启动服务
-	// @返回值 : void
-	// ============================
-	void Run() {
-	    iINFO << "===============================\n";
-	    iINFO << VERSION_TYPE;
-	    iINFO << "Server running : listened at 0.0.0.0 : " << port_ << std::endl;
-	    iINFO << "===============================\n\n";
-	    server_->run();
-	}
+        // ============================
+        // @用途 : 启动服务
+        // @返回值 : void
+        // ============================
+        void run() {
+            iINFO << "===============================\n";
+            iINFO << VERSION_TYPE;
+            iINFO << "Server running : listened at 0.0.0.0 : " << port_ << std::endl;
+            iINFO << "===============================\n\n";
+            server_->run();
+        }
 
 
-	// ============================
-	// @用途 : 返回 服务实现 对象指针, 以方便用户对服务端进
-	//            更多的配置.
-	// @返回值 : 当前服务器类型的指针
-	// ============================
-	boost::shared_ptr<__SERVER_T_> GetServer() {
-	    return boost::dynamic_pointer_cast<__SERVER_T_>(this->server_);
-	}
+        // ============================
+        // @用途 : 返回 服务实现 对象指针, 以方便用户对服务端进
+        //            更多的配置.
+        // @返回值 : 当前服务器类型的指针
+        // ============================
+        boost::shared_ptr<__SERVER_T_> GetServer() {
+            return boost::dynamic_pointer_cast<__SERVER_T_>(this->server_);
+        }
 
 
     private:
-	// ============================
-	// @用途 : socket资源初始化
-	// @返回值 : 初始化成功返回true, 否则返回false
-	// @PS : 只在WINDOWS平台有意义
-	// ============================
-	bool _socket_init() {
-#ifdef WIN32
-	    WSADATA wData;
-	    if (WSAStartup(0x0202, &wData) != 0) {
-		return false;
-	    }
-	    return HIBYTE(wData.wVersion) == 2 && LOBYTE(wData.wVersion) == 2;
-#endif // WIN32
-	    return true;
-	}
+        // ============================
+        // @用途 : socket资源初始化
+        // @返回值 : 初始化成功返回true, 否则返回false
+        // @PS : 只在WINDOWS平台有意义
+        // ============================
+        bool _socket_init() {
+            #ifdef WIN32
+            WSADATA wData;
+            if (WSAStartup(0x0202, &wData) != 0) {
+                return false;
+            }
+            return HIBYTE(wData.wVersion) == 2 && LOBYTE(wData.wVersion) == 2;
+            #endif // WIN32
+            return true;
+        }
 
 
-	// ============================
-	// @用途 : socket资源回收
-	// @返回值 : void
-	// @PS : 只在WINDOWS平台有意义
-	// ============================
-	void _socket_release() {
-#ifdef WIN32
-	    WSACleanup();
-#endif // WIN32
-	} // void _socket_release();
+        // ============================
+        // @用途 : socket资源回收
+        // @返回值 : void
+        // @PS : 只在WINDOWS平台有意义
+        // ============================
+        void _socket_release() {
+        #ifdef WIN32
+            WSACleanup();
+        #endif // WIN32
+        } // void _socket_release();
 
 
-	// ============================
-	// @用途 : 构造 TThreadPool 服务端 对象
-	// @eventHandler : 服务端事件句柄
-	// @返回值 : 构造成功的 TThreadPool服务端 对象
-	// ============================
-	boost::shared_ptr<TThreadPoolServer> _init_threadpool_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
-	    threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
-	    threadManager_->threadFactory(boost::shared_ptr<PlatformThreadFactory>(new PlatformThreadFactory()));
-	    threadManager_->start();
-	    boost::shared_ptr<TThreadPoolServer> serv(new TThreadPoolServer(
-		boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
-		boost::make_shared<TServerSocket>(port_),
-		boost::make_shared<TBufferedTransportFactory>(),
-		boost::make_shared<protoc_fac_t>(),
-		threadManager_));
-	    if (eventHandler != nullptr) {
-		serv->setServerEventHandler(eventHandler);
-	    }
-	    return serv;
-	}
+        // ============================
+        // @用途 : 构造 TThreadPool 服务端 对象
+        // @eventHandler : 服务端事件句柄
+        // @返回值 : 构造成功的 TThreadPool服务端 对象
+        // ============================
+        boost::shared_ptr<TThreadPoolServer> _init_threadpool_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
+            threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
+            threadManager_->threadFactory(boost::shared_ptr<PlatformThreadFactory>(new PlatformThreadFactory()));
+            threadManager_->start();
+            boost::shared_ptr<TThreadPoolServer> serv(new TThreadPoolServer(
+            boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
+            host_.empty() ? boost::make_shared<TServerSocket>(port_) : boost::make_shared<TServerSocket>(host_, port_),
+            boost::make_shared<TBufferedTransportFactory>(),
+            boost::make_shared<protoc_fac_t>(),
+            threadManager_));
+            if (eventHandler != nullptr) {
+                serv->setServerEventHandler(eventHandler);
+            }
+            return serv;
+        }
 
 
-	// ============================
-	// @用途 : 构造 TThreadedServer 服务端 对象
-	// @eventHandler : 服务端事件句柄
-	// @返回值 : 构造成功的 TThreadedServer服务端 对象
-	// ============================
-	boost::shared_ptr<TThreadedServer> _init_threaded_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
-	    boost::shared_ptr<TThreadedServer> serv(new TThreadedServer(
-		boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
-		boost::make_shared<TServerSocket>(port_),
-		boost::make_shared<TBufferedTransportFactory>(),
-		boost::make_shared<protoc_fac_t>()));
-	    serv->setConcurrentClientLimit(threadCount_);
-	    if (eventHandler != nullptr) {
-		serv->setServerEventHandler(eventHandler);
-	    }
-	    return serv;
-	}
+        // ============================
+        // @用途 : 构造 TThreadedServer 服务端 对象
+        // @eventHandler : 服务端事件句柄
+        // @返回值 : 构造成功的 TThreadedServer服务端 对象
+        // ============================
+        boost::shared_ptr<TThreadedServer> _init_threaded_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
+            boost::shared_ptr<TThreadedServer> serv(new TThreadedServer(
+            boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
+            host_.empty() ? boost::make_shared<TServerSocket>(port_) : boost::make_shared<TServerSocket>(host_, port_),
+            boost::make_shared<TBufferedTransportFactory>(),
+            boost::make_shared<protoc_fac_t>()));
+            serv->setConcurrentClientLimit(threadCount_);
+            if (eventHandler != nullptr) {
+                serv->setServerEventHandler(eventHandler);
+            }
+            return serv;
+        }
 
 
-	// ============================
-	// @用途 : 构造 TNonblockingServer 服务端 对象
-	// @eventHandler : 服务端事件句柄
-	// @返回值 : 构造成功的 TNonblockingServer服务端 对象
-	// ============================
-	boost::shared_ptr<TNonblockingServer> _init_nonblock_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
-	    threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
-	    threadManager_->threadFactory(boost::shared_ptr<PlatformThreadFactory>(new PlatformThreadFactory()));
-	    threadManager_->start();
-	    boost::shared_ptr<TNonblockingServer> serv(new TNonblockingServer(
-		boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
-		boost::make_shared<TBufferedTransportFactory>(),
-		boost::make_shared<TBufferedTransportFactory>(),
-		boost::make_shared<protoc_fac_t>(),
-		boost::make_shared<protoc_fac_t>(),
-		port_,
-		threadManager_));
-	    serv->setMaxConnections(threadCount_);
-	    if (eventHandler != nullptr) {
-		serv->setServerEventHandler(eventHandler);
-	    }
-	    return serv;
-	}
+        // ============================
+        // @用途 : 构造 TNonblockingServer 服务端 对象
+        // @eventHandler : 服务端事件句柄
+        // @返回值 : 构造成功的 TNonblockingServer服务端 对象
+        // ============================
+        boost::shared_ptr<TNonblockingServer> _init_nonblock_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
+            threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
+            threadManager_->threadFactory(boost::shared_ptr<PlatformThreadFactory>(new PlatformThreadFactory()));
+            threadManager_->start();
+            boost::shared_ptr<TNonblockingServer> serv(new TNonblockingServer(
+                boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
+                boost::make_shared<TBufferedTransportFactory>(),
+                boost::make_shared<TBufferedTransportFactory>(),
+                boost::make_shared<protoc_fac_t>(),
+                boost::make_shared<protoc_fac_t>(),
+                port_,
+                threadManager_));
 
-	// 端口号
-	int port_;
-	// 工作线程数/ 最大客户端连接数
-	int threadCount_;
-	// 内置 服务端实现的对象指针
-	boost::shared_ptr<TServer> server_;
-	// 线程管理器
-	boost::shared_ptr<::apache::thrift::concurrency::ThreadManager> threadManager_;
+            serv->setMaxConnections(threadCount_);            
+            if (eventHandler != nullptr) {
+                serv->setServerEventHandler(eventHandler);
+            }
+            return serv;
+        }
 
+        // 端口号
+        int port_;
+        // 工作线程数/ 最大客户端连接数
+        int threadCount_;
+        // 内置 服务端实现的对象指针
+        boost::shared_ptr<TServer> server_;
+        // 线程管理器
+        boost::shared_ptr<ThreadManager> threadManager_;
 
-	// ============================
-	// @用途 : 禁用
-	// ============================
-	THost(const THost &);
-	THost & operator=(const THost &);
+        //
+        std::string host_;
+
+        // ============================
+        // @用途 : 禁用
+        // ============================
+        THost(const THost &);
+        THost & operator=(const THost &);
     }; // class THost;
 
 
