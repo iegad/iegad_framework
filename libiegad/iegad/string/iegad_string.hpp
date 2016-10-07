@@ -53,7 +53,10 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
 =======
 >>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
 #include <string>
@@ -62,10 +65,13 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
+<<<<<<< HEAD
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+=======
+>>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
 
 #include "sercurity/iegad_md5.hpp"
 #include "sercurity/iegad_sha1.hpp"
@@ -894,12 +900,15 @@ public:
     // ============================
     static const std::string
 <<<<<<< HEAD
+<<<<<<< HEAD
     guid()
     {
         boost::uuids::random_generator gen;
         boost::uuids::uuid u(gen());
         return boost::uuids::to_string(u);
 =======
+=======
+>>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
     uuid()
     {
         boost::uuids::random_generator rgen;
@@ -917,6 +926,9 @@ public:
         boost::uuids::random_generator rgen;
         boost::uuids::uuid u = rgen();
         return boost::uuids::to_wstring(u);
+<<<<<<< HEAD
+>>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
+=======
 >>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
     }
 
