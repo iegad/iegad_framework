@@ -541,7 +541,7 @@ TEST(stringTest, wstringToStringAndStringToWstring)
 
 
 // 14: ============= format =============
-
+/*
 TEST(stringTest, format)
 {
     EXPECT_EQ("my name is 肖琪 and 28 years old!我是大天才",
@@ -551,13 +551,13 @@ TEST(stringTest, format)
     EXPECT_EQ("my name is iegad and iegad is clever {2}",
               string_ex::format("my name is {0} and {0} is {1} {2}", {"iegad", "clever"}));
 }
-
+*/
 
 // 15: ============= uuid =============
 
 TEST(stringTest, uuid)
 {
-    std::string src = string_ex::guid();
+    std::string src = string_ex::uuid();
     std::cout<<src<<std::endl;
 }
 
