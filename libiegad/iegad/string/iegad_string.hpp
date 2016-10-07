@@ -49,13 +49,19 @@
 //  --2016-06-05       --iegad        --1, 将string操作改为hpp文件, 并更换为class实现
 //                                                              --2, 将sha1改为非boost实现
 //  --2016-06-22        --iegad        -- 添加 ltrim & rtrim 的指定字符版本
-//  --2016-07-19        --iegad        --
+//  --2016-07-19        --iegad        -- 将uuid改回boost实现, 原因是, uuid.h在不同的平台, 需要安装uuid-dev
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -883,15 +889,35 @@ public:
 
 
     // ============================
-    // @用途 : 获取一个 36位 guid 字符串
+    // @用途 : 获取一个 36位 uuid 字符串
     // @返回值 : 一个 36 位, 小写, 中间还代有 短横杠的 guid字符串
     // ============================
     static const std::string
+<<<<<<< HEAD
     guid()
     {
         boost::uuids::random_generator gen;
         boost::uuids::uuid u(gen());
         return boost::uuids::to_string(u);
+=======
+    uuid()
+    {
+        boost::uuids::random_generator rgen;
+        boost::uuids::uuid u = rgen();
+        return boost::uuids::to_string(u);
+    }
+
+
+    // ============================
+    // @重载 : uuid => std::wstring
+    // ============================
+    static const std::wstring
+    uuid()
+    {
+        boost::uuids::random_generator rgen;
+        boost::uuids::uuid u = rgen();
+        return boost::uuids::to_wstring(u);
+>>>>>>> 7381f936ff476937e57c8ed3a8b4fdbb21f55211
     }
 
 
