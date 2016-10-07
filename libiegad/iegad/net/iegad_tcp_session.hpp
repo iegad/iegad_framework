@@ -27,7 +27,7 @@ public:
     typedef iegad::tools::job_que_t<msg_t::ptr_t> que_t;
 
 
-    explicit tcp_session(io_service & ios, que_t & que, tcp_event::ptr_t event = nullptr)
+    explicit tcp_session(io_service & ios, que_t & que, tcp_event::ptr_t event = NULL)
         :
           sock_(ios),
           strand_(ios),

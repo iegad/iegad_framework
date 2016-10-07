@@ -52,16 +52,16 @@
 //  --2016-07-19        --iegad        --
 
 
-#if (__APPLE__ || __linux__)
-#include <uuid/uuid.h>
-#endif // (__APPLE__ || __linux__)
 
 #include <string>
 #include <vector>
 #include <algorithm>
 
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 #include "sercurity/iegad_md5.hpp"
-#include "iegad_define.in.h"
 #include "sercurity/iegad_sha1.hpp"
 
 
@@ -846,15 +846,15 @@ public:
     // @src : 需要解码的字符串
     // @buff : 数据缓冲区, 输出参数
     // @buff_size : 数据长度 输入/输出参数
-    // @返回值 : 解码成功返回 数据的首地址, 否则, 返回nullptr
+    // @返回值 : 解码成功返回 数据的首地址, 否则, 返回NULL
     // ============================
     static const char *
     str_tobin(const std::string & src, char * buff, int & buff_size)
     {
         if (src.size() % 2 != 0 ||
-            buff == nullptr ||
+            buff == NULL ||
             (size_t)buff_size < src.size() / 2) {
-            return nullptr;
+            return NULL;
         }
 
         buff_size = src.size() / 2;
@@ -872,7 +872,7 @@ public:
                     cTemp = (cTemp << 4) + (cCur - 'A' + 10);
                 }
                 else {
-                    return nullptr;
+                    return NULL;
                 }
             } // for (size_t j = 0; j < 2; j++);
             buff[i] = cTemp;
@@ -887,18 +887,11 @@ public:
     // @返回值 : 一个 36 位, 小写, 中间还代有 短横杠的 guid字符串
     // ============================
     static const std::string
-    guid() {
-#if (__APPLE__ || __linux__)
-        uuid_t uuid;
-        char buff[36];
-        uuid_generate(uuid);
-        uuid_unparse(uuid, buff);
-        return std::string(buff);
-#else
-#error non uuid defined!!!
-        return "";
-#endif
-        return "";
+    guid()
+    {
+        boost::uuids::random_generator gen;
+        boost::uuids::uuid u(gen());
+        return boost::uuids::to_string(u);
     }
 
 

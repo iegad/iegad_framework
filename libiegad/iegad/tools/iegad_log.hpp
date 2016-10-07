@@ -27,6 +27,20 @@
 #define GLOG_NO_ABBREVIATED_SEVERITIES
 
 
+
+// info && error 日志保存路径
+#define	    LOG_INF_FILE      "./LOG/INFO_"
+#define		LOG_ERR_FILE      "./LOG/ERR_"
+#define     LOG_WARN_FILE     "./LOG/WARNING_"
+
+
+#ifdef WIN32
+#define	    MKDIR       "mkdir LOG"
+#else
+// 创建日志目录
+#define	    MKDIR       "mkdir -p ./LOG"
+#endif
+
 #include <string>
 #include <glog/logging.h>
 #ifdef WIN32
@@ -36,12 +50,11 @@
 #include <stdlib.h>
 #define _access access
 #endif // WIN32
-#include "iegad_define.in.h"
 #include <assert.h>
 
 
-#if (iINFO || iERR)
-#error iINFO or iERR has defined;
+#if (iINFO || iERR || iWARN)
+#error iINFO or iERR or iWARN has defined;
 #endif // iINFO 
 
 

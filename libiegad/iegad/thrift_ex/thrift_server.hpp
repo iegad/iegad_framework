@@ -127,10 +127,9 @@ namespace thrift_ex {
         // @threadCount : 工作线程数/ 最大客户端连接数
         // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
         // ============================
-        THost(int port, TServerEventHandler_ptr eventHandler = nullptr, int threadCount = 4) :
+        THost(int port, TServerEventHandler_ptr eventHandler = NULL, int threadCount = 4) :
             port_(port),
-            threadCount_(threadCount),
-            server_(nullptr) {
+            threadCount_(threadCount) {
             if (!_socket_init()) {
                 throw std::logic_error("Windows socket init failed");
             }
@@ -156,10 +155,9 @@ namespace thrift_ex {
         // @threadCount : 工作线程数/ 最大客户端连接数
         // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
         // ============================
-        THost(const std::string & host, int port, TServerEventHandler_ptr eventHandler = nullptr, int threadCount = 4) :
+        THost(const std::string & host, int port, TServerEventHandler_ptr eventHandler = NULL, int threadCount = 4) :
             port_(port),
             threadCount_(threadCount),
-            server_(nullptr),
             host_(host) {
             if (!_socket_init()) {
                 throw std::logic_error("Windows socket init failed");
@@ -196,10 +194,6 @@ namespace thrift_ex {
         // @返回值 : void
         // ============================
         void run() {
-            iINFO << "===============================\n";
-            iINFO << VERSION_TYPE;
-            iINFO << "Server running : listened at 0.0.0.0 : " << port_ << std::endl;
-            iINFO << "===============================\n\n";
             server_->run();
         }
 
@@ -259,7 +253,7 @@ namespace thrift_ex {
             boost::make_shared<TBufferedTransportFactory>(),
             boost::make_shared<protoc_fac_t>(),
             threadManager_));
-            if (eventHandler != nullptr) {
+            if (eventHandler != NULL) {
                 serv->setServerEventHandler(eventHandler);
             }
             return serv;
@@ -278,7 +272,7 @@ namespace thrift_ex {
             boost::make_shared<TBufferedTransportFactory>(),
             boost::make_shared<protoc_fac_t>()));
             serv->setConcurrentClientLimit(threadCount_);
-            if (eventHandler != nullptr) {
+            if (eventHandler != NULL) {
                 serv->setServerEventHandler(eventHandler);
             }
             return serv;
@@ -304,7 +298,7 @@ namespace thrift_ex {
                 threadManager_));
 
             serv->setMaxConnections(threadCount_);            
-            if (eventHandler != nullptr) {
+            if (eventHandler != NULL) {
                 serv->setServerEventHandler(eventHandler);
             }
             return serv;

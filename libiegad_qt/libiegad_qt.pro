@@ -5,10 +5,9 @@ CONFIG -= qt
 CONFIG += C++11
 
 SOURCES += \
-    ../libiegad/test/test_rmq.cxx \
     #../libiegad/test/test_redis.cxx \
     ../libiegad/test/test_string.cxx \
-    #../libiegad/test/test_main.cpp \
+    ../libiegad/test/test_main.cpp \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \    
@@ -19,9 +18,7 @@ SOURCES += \
     #../libiegad/test/test_thrift.cxx \
 
 HEADERS += \
-    ../libiegad/iegad/iegad_define.in.h \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
-    ../libiegad/iegad/thrift_ex/thrift_eventhandler.hpp \
     ../libiegad/iegad/thrift_ex/thrift_ex_macro.h \
     ../libiegad/iegad/thrift_ex/thrift_serializer.hpp \
     ../libiegad/iegad/thrift_ex/thrift_server.hpp \
@@ -47,8 +44,7 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_msg_type.hpp \
     ../libiegad/iegad/net/iegad_msg_ctl.hpp \
     ../libiegad/iegad/net/iegad_msg.hpp \
-    ../libiegad/iegad/rabbit_ex/iegad_rabbit_handler.hpp \
-    ../libiegad/iegad/rabbit_ex/iegad_rabbit_buffer.hpp
+    ../libiegad/iegad/sigar_ex/iegad_sigar.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -61,12 +57,10 @@ LIBS += -L/usr/local/lib -lthrift
 LIBS += -L/usr/local/lib -lthriftnb
 LIBS += -L/usr/local/lib -lglog
 LIBS += -L/usr/local/lib -lgtest
-LIBS += -L/usr/local/lib -lamqp-cpp
 LIBS += -L/usr/local/lib -lhiredis
 LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
 
 #ubuntu required
-#unix: LIBS += -pthread
-#unix: LIBS += -luuid
+LIBS += -pthread
 

@@ -24,7 +24,7 @@ public:
 
     bool
     sha_go(const std::string input, std::string * output) {
-	    if (input.empty() || output == nullptr)
+        if (input.empty() || output == NULL)
             return false;
 	    char buffer[41];
 	    _sha_init();

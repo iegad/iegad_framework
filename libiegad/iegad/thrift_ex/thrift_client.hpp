@@ -22,12 +22,7 @@ namespace thrift_ex {
     typedef __PROTOCOL_T_ protocol_t;
 
 
-	explicit TClient(const std::string & ipstr, int port)
-	    :
-	    sock_(nullptr),
-	    protoc_(nullptr),
-	    trans_(nullptr),
-	    client_(nullptr) {
+    explicit TClient(const std::string & ipstr, int port) {
         if (!__NON_BLOCK_) {
             _init_thread_clnt(ipstr, port);
 	    }
@@ -43,7 +38,7 @@ namespace thrift_ex {
 
 	bool Open() {
 	    do {
-		if (sock_ == nullptr) {
+        if (sock_ == NULL) {
 		    break;
 		}
 		if (!sock_->isOpen()) {
@@ -56,7 +51,7 @@ namespace thrift_ex {
 
 
 	void Close() {
-	    if (sock_ != nullptr && sock_->isOpen()) {
+        if (sock_ != NULL && sock_->isOpen()) {
 		sock_->close();
 	    }
 	}

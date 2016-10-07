@@ -21,10 +21,9 @@
 
 
 #include "job_queue.hpp"
-#include <thread>
-#include <condition_variable>
+#include <boost/thread.hpp>
 #include <vector>
-#include <functional>
+#include <boost/functional.hpp>
 
 
 namespace iegad {
@@ -37,8 +36,8 @@ class worker_t {
 public:
     // ============================
     // @用途 : 工作者对象 "外部工作线程句柄" 类型声明
-    // ============================
-    typedef std::function<int(T&)> wkr_handler_t;
+    // ============================    
+    typedef boost::function<int(T&)> wkr_handler_t;
 
 
     // ============================
@@ -67,6 +66,7 @@ public:
     // ============================
     void stop();
 
+
 private:
     // ============================
     // @用途 : 工作者对象 "内部工作线程"
@@ -79,7 +79,7 @@ private:
     // 外部工作线程
     wkr_handler_t wkr_handler_;
     // 内部工作线程池
-    std::vector<std::thread> thread_pool_;
+    std::vector<boost::thread> thread_pool_;
     // 任务队列缓冲区的引用
     job_que_t<T> & que_;
 
@@ -100,7 +100,7 @@ void iegad::tools::worker_t<T>::run(int n /*= 4*/)
 {
     for (int i = 0; i < n; i++) {
         thread_pool_.push_back(
-        std::thread(
+        boost::thread(
         std::bind(&worker_t::_thread_proc, this)));
     }
 }
@@ -122,7 +122,7 @@ int iegad::tools::worker_t<T>::_thread_proc()
 {
     for (;;) {
         T val;
-        if (!que_.pop(&val) || wkr_handler_ == nullptr) {
+        if (!que_.pop(&val) || wkr_handler_ == NULL) {
             break;
         }
         wkr_handler_(val);

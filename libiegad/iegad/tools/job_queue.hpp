@@ -17,9 +17,9 @@
 // =======================================
 
 
-#include <mutex>
+#include <boost/thread/mutex.hpp>
 #include <deque>
-#include <condition_variable>
+#include <boost/thread/condition_variable.hpp>
 
 
 namespace iegad {
@@ -28,7 +28,7 @@ namespace tools {
 
 template<typename T>
 class job_que_t {
-// 工作队列, 基于C++11
+// 工作队列, 基于boost
 public:
     // ============================
     // @用途 : 构造函数
@@ -82,9 +82,9 @@ public:
     // 停止标志
     bool stop_flag_;
     // 互斥量, 使在多线程操作中, 该队列的成员函数将会是线程安全的.
-    std::mutex mtx_;
+    boost::mutex mtx_;
     // 条件变量, pop调用的等态条件
-    std::condition_variable cv_;
+    boost::condition_variable cv_;
     // 内置 std::deque 对象
     std::deque<T> que_;
 
@@ -110,7 +110,7 @@ void iegad::tools::job_que_t<T>::stop()
 template<typename T>
 void iegad::tools::job_que_t<T>::push(const T & val)
 {
-    std::unique_lock<std::mutex> locker(mtx_);
+    boost::unique_lock<boost::mutex> locker(mtx_);
     if (stop_flag_) {
         return;
     }
@@ -122,7 +122,7 @@ void iegad::tools::job_que_t<T>::push(const T & val)
 template<typename T>
 bool iegad::tools::job_que_t<T>::pop(T * val)
 {
-    std::unique_lock<std::mutex> locker(mtx_);
+    boost::unique_lock<boost::mutex> locker(mtx_);
     while (!stop_flag_ && que_.empty()) {
         cv_.wait(locker);
     }
@@ -141,7 +141,7 @@ bool iegad::tools::job_que_t<T>::pop(T * val)
 template<typename T>
 bool iegad::tools::job_que_t<T>::empty()
 {
-    std::unique_lock<std::mutex> locker(mtx_);
+    boost::unique_lock<boost::mutex> locker(mtx_);
     return que_.empty();
 }
 
@@ -149,7 +149,7 @@ bool iegad::tools::job_que_t<T>::empty()
 template<typename T>
 size_t iegad::tools::job_que_t<T>::size()
 {
-    std::unique_lock<std::mutex> locker(mtx_);
+    boost::unique_lock<boost::mutex> locker(mtx_);
     return que_.size();
 }
 
