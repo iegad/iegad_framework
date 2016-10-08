@@ -24,6 +24,10 @@
 #define S43 15
 #define S44 21
 
+#ifndef WIN32
+#define _snprintf(buff, buffsize, fmt, ...) { snprintf((buff), (buffsize), (fmt), ##__VA_ARGS__); }
+#endif
+
 
 namespace iegad {
 namespace security {
