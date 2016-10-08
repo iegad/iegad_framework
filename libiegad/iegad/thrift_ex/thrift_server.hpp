@@ -33,8 +33,6 @@
 
 
 #include "thrift_ex_macro.h"
-#include "thrift_eventhandler.hpp"
-#include "tools/iegad_log.hpp"
 
 
 

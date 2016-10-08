@@ -7,8 +7,6 @@
 #include <thrift/concurrency/PlatformThreadFactory.h>
 // transport include
 #include <thrift/transport/TSocket.h>
-#include <thrift/transport/TSSLServerSocket.h>
-#include <thrift/transport/TSSLSocket.h>
 // server include
 #include <thrift/server/TThreadPoolServer.h>
 #include <thrift/server/TThreadedServer.h>
