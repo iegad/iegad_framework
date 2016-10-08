@@ -114,9 +114,7 @@ namespace thrift_ex {
         typedef __PROTOCOL_FAC_T_ protoc_fac_t;
         typedef ::apache::thrift::protocol::TBinaryProtocolFactory TBinaryProtocolFactory;
         typedef ::apache::thrift::protocol::TJSONProtocolFactory TJSONProtocolFactory;
-        typedef ::apache::thrift::protocol::TCompactProtocolFactory TCompactProtocolFactory;
-
-        typedef boost::shared_ptr<TServerEventHandler> TServerEventHandler_ptr;
+        typedef ::apache::thrift::protocol::TCompactProtocolFactory TCompactProtocolFactory;        
 
         // ============================
         // @用途 : 构造函数
@@ -125,20 +123,20 @@ namespace thrift_ex {
         // @threadCount : 工作线程数/ 最大客户端连接数
         // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
         // ============================
-        THost(int port, TServerEventHandler_ptr eventHandler = NULL, int threadCount = 4) :
+        THost(int port, int threadCount = 4) :
             port_(port),
             threadCount_(threadCount) {
             if (!_socket_init()) {
                 throw std::logic_error("Windows socket init failed");
             }
             if (typeid(__SERVER_T_) == typeid(TThreadedServer)) {
-                server_ = _init_threaded_svr(eventHandler);
+                server_ = _init_threaded_svr();
             }
             else if (typeid(__SERVER_T_) == typeid(TThreadPoolServer)) {
-                server_ = _init_threadpool_svr(eventHandler);
+                server_ = _init_threadpool_svr();
             }
             else if (typeid(__SERVER_T_) == typeid(TNonblockingServer)) {
-                server_ = _init_nonblock_svr(eventHandler);
+                server_ = _init_nonblock_svr();
             }
             else {
                 assert(false);
@@ -153,7 +151,7 @@ namespace thrift_ex {
         // @threadCount : 工作线程数/ 最大客户端连接数
         // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
         // ============================
-        THost(const std::string & host, int port, TServerEventHandler_ptr eventHandler = NULL, int threadCount = 4) :
+        THost(const std::string & host, int port, int threadCount = 4) :
             port_(port),
             threadCount_(threadCount),
             host_(host) {
@@ -164,13 +162,13 @@ namespace thrift_ex {
                 throw std::logic_error("Windows socket init failed");
             }
             if (typeid(__SERVER_T_) == typeid(TThreadedServer)) {
-                server_ = _init_threaded_svr(eventHandler);
+                server_ = _init_threaded_svr();
             }
             else if (typeid(__SERVER_T_) == typeid(TThreadPoolServer)) {
-                server_ = _init_threadpool_svr(eventHandler);
+                server_ = _init_threadpool_svr();
             }
             else if (typeid(__SERVER_T_) == typeid(TNonblockingServer)) {
-                server_ = _init_nonblock_svr(eventHandler);
+                server_ = _init_nonblock_svr();
             }
             else {
                 assert(false);
@@ -241,7 +239,7 @@ namespace thrift_ex {
         // @eventHandler : 服务端事件句柄
         // @返回值 : 构造成功的 TThreadPool服务端 对象
         // ============================
-        boost::shared_ptr<TThreadPoolServer> _init_threadpool_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
+        boost::shared_ptr<TThreadPoolServer> _init_threadpool_svr() {
             threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
             threadManager_->threadFactory(boost::shared_ptr<PlatformThreadFactory>(new PlatformThreadFactory()));
             threadManager_->start();
@@ -250,10 +248,7 @@ namespace thrift_ex {
             host_.empty() ? boost::make_shared<TServerSocket>(port_) : boost::make_shared<TServerSocket>(host_, port_),
             boost::make_shared<TBufferedTransportFactory>(),
             boost::make_shared<protoc_fac_t>(),
-            threadManager_));
-            if (eventHandler != NULL) {
-                serv->setServerEventHandler(eventHandler);
-            }
+            threadManager_));            
             return serv;
         }
 
@@ -263,16 +258,13 @@ namespace thrift_ex {
         // @eventHandler : 服务端事件句柄
         // @返回值 : 构造成功的 TThreadedServer服务端 对象
         // ============================
-        boost::shared_ptr<TThreadedServer> _init_threaded_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
+        boost::shared_ptr<TThreadedServer> _init_threaded_svr() {
             boost::shared_ptr<TThreadedServer> serv(new TThreadedServer(
             boost::make_shared<__SVC_PROCESSOR_FAC_T_>(boost::make_shared<__SVC_PROCESSOR_CLONE_FAC_T_>()),
             host_.empty() ? boost::make_shared<TServerSocket>(port_) : boost::make_shared<TServerSocket>(host_, port_),
             boost::make_shared<TBufferedTransportFactory>(),
             boost::make_shared<protoc_fac_t>()));
-            serv->setConcurrentClientLimit(threadCount_);
-            if (eventHandler != NULL) {
-                serv->setServerEventHandler(eventHandler);
-            }
+            serv->setConcurrentClientLimit(threadCount_);            
             return serv;
         }
 
@@ -282,7 +274,7 @@ namespace thrift_ex {
         // @eventHandler : 服务端事件句柄
         // @返回值 : 构造成功的 TNonblockingServer服务端 对象
         // ============================
-        boost::shared_ptr<TNonblockingServer> _init_nonblock_svr(boost::shared_ptr<TServerEventHandler> eventHandler) {
+        boost::shared_ptr<TNonblockingServer> _init_nonblock_svr() {
             threadManager_ = ThreadManager::newSimpleThreadManager(threadCount_);
             threadManager_->threadFactory(boost::shared_ptr<PlatformThreadFactory>(new PlatformThreadFactory()));
             threadManager_->start();
@@ -293,12 +285,7 @@ namespace thrift_ex {
                 boost::make_shared<protoc_fac_t>(),
                 boost::make_shared<protoc_fac_t>(),
                 port_,
-                threadManager_));
-
-            serv->setMaxConnections(threadCount_);            
-            if (eventHandler != NULL) {
-                serv->setServerEventHandler(eventHandler);
-            }
+                threadManager_));            
             return serv;
         }
 
