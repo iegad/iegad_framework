@@ -35,7 +35,7 @@ public:
                 break;
             }
 
-            res = p->func(req);
+            res = p->_func(req);
             return res;
         } while(false);
         res.__set_msg_type(MSG_ERR);
@@ -55,8 +55,7 @@ public:
                 break;
             }
 
-            p->action(req);
-            return res;
+            p->_action(req);
         } while(false);
     }
 
