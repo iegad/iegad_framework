@@ -116,6 +116,7 @@ namespace thrift_ex {
         typedef ::apache::thrift::protocol::TJSONProtocolFactory TJSONProtocolFactory;
         typedef ::apache::thrift::protocol::TCompactProtocolFactory TCompactProtocolFactory;        
 
+
         // ============================
         // @用途 : 构造函数
         // @port : 端口号

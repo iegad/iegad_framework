@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG -= app_bundle
 CONFIG -= qt
-CONFIG -= c++11
+CONFIG += c++11
 
 SOURCES += \
     #../libiegad/test/test_redis.cxx \
@@ -15,6 +15,9 @@ SOURCES += \
     ../libiegad/test/gen-cpp/testing_types.cpp \
     ../libiegad/test/gen-cpp/TimeServer.cpp \
     #../libiegad/test/test_thrift.cxx \
+    ../libiegad/iegad/rpc/iegad_rpc_constants.cpp \
+    ../libiegad/iegad/rpc/iegad_rpc_types.cpp \
+    ../libiegad/iegad/rpc/iegadService.cpp
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
@@ -43,7 +46,12 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_msg_type.hpp \
     ../libiegad/iegad/net/iegad_msg_ctl.hpp \
     ../libiegad/iegad/net/iegad_msg.hpp \
-    ../libiegad/iegad/sigar_ex/iegad_sigar.hpp
+    ../libiegad/iegad/sigar_ex/iegad_sigar.hpp \
+    ../libiegad/iegad/rpc/iegad_msg_id.h \
+    ../libiegad/iegad/rpc/iegad_rpc_constants.h \
+    ../libiegad/iegad/rpc/iegad_rpc_types.h \
+    ../libiegad/iegad/rpc/iegadService_server.skeleton.hpp \
+    ../libiegad/iegad/rpc/iegad_basic_handler.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -62,4 +70,7 @@ LIBS += -L/usr/local/lib -lboost_thread
 
 #ubuntu required
 LIBS += -pthread
+
+DISTFILES += \
+    ../libiegad/iegad/rpc/iegad_rpc.thrift
 

@@ -18,6 +18,7 @@ namespace thrift_ex {
     typedef ::apache::thrift::transport::TSocket TSocket;
     typedef ::apache::thrift::transport::TTransport TTransport;
     typedef ::apache::thrift::transport::TFramedTransport TFramedTransport;
+    typedef ::apache::thrift::transport::TBufferedTransport TBufferedTransport;
     typedef ::apache::thrift::protocol::TProtocol TProtocol;
     typedef __PROTOCOL_T_ protocol_t;
 
@@ -38,13 +39,13 @@ namespace thrift_ex {
 
 	bool Open() {
 	    do {
-        if (sock_ == NULL) {
-		    break;
-		}
-		if (!sock_->isOpen()) {
-		    sock_->open();
-		}
-		return true;
+            if (sock_ == NULL) {
+                break;
+            }
+            if (!sock_->isOpen()) {
+                sock_->open();
+            }
+            return true;
 	    } while (false);
 	    return false;
 	}
@@ -52,7 +53,7 @@ namespace thrift_ex {
 
 	void Close() {
         if (sock_ != NULL && sock_->isOpen()) {
-		sock_->close();
+            sock_->close();
 	    }
 	}
 
@@ -62,10 +63,10 @@ namespace thrift_ex {
 	}
 
 
-    private:
+private:
 	void _init_nonblocking_clnt(const std::string & ipstr, int port) {
 	    sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
-	    trans_ = boost::shared_ptr<TFramedTransport>(new TFramedTransport(sock_));
+        trans_ = boost::shared_ptr<TFramedTransport>(new TFramedTransport(sock_));
 	    protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
 	    client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
 	}
@@ -73,14 +74,15 @@ namespace thrift_ex {
 
 	void _init_thread_clnt(const std::string & ipstr, int port) {
 	    sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
-	    protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(sock_));
+        trans_ = boost::shared_ptr<TBufferedTransport>(new TBufferedTransport(sock_));
+        protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
 	    client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
 	}
 
 
 	boost::shared_ptr<TSocket> sock_;
 	boost::shared_ptr<protocol_t> protoc_;
-	boost::shared_ptr<TFramedTransport> trans_;
+    boost::shared_ptr<TTransport> trans_;
 	boost::shared_ptr<__SVC_CLIENT_T_> client_;
 
 
