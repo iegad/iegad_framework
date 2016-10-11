@@ -19,7 +19,9 @@ public:
 
 
     static bool addHandler(ptr_t p) {
+        size_t n = _hset().size();
         _hset().insert(std::make_pair(p->msgId(), p));
+        return n + 1U == _hset().size();
     }
 
 
