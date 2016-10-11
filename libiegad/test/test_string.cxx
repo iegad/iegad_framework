@@ -576,6 +576,16 @@ TEST(stringTest, pad)
 }
 
 
+TEST(stringTest, aes)
+{
+    std::string src = "肖琪是天才";
+    std::string k = "0987654321";
+    std::string enstr = string_ex::aes_encrypt(src, k);
+    std::string res = string_ex::aes_decrypt(enstr, k);
+    EXPECT_EQ(src, res);
+}
+
+
 
 
 

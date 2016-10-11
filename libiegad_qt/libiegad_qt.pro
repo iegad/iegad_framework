@@ -2,6 +2,7 @@ TEMPLATE = app
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += c++11
+CONFIG += console
 
 SOURCES += \
     #../libiegad/test/test_redis.cxx \
@@ -51,7 +52,8 @@ HEADERS += \
     ../libiegad/iegad/rpc/iegad_rpc_constants.h \
     ../libiegad/iegad/rpc/iegad_rpc_types.h \
     ../libiegad/iegad/rpc/iegadService_server.skeleton.hpp \
-    ../libiegad/iegad/rpc/iegad_basic_handler.hpp
+    ../libiegad/iegad/rpc/iegad_basic_handler.hpp \
+    ../libiegad/iegad/sercurity/iegad_aes.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -67,6 +69,8 @@ LIBS += -L/usr/local/lib -lgtest
 LIBS += -L/usr/local/lib -lhiredis
 LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
+LIBS += -lssl
+LIBS += -lcrypto
 
 #ubuntu required
 LIBS += -pthread

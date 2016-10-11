@@ -61,6 +61,7 @@
 
 #include "sercurity/iegad_md5.hpp"
 #include "sercurity/iegad_sha1.hpp"
+#include "sercurity/iegad_aes.hpp"
 
 
 
@@ -929,6 +930,21 @@ public:
         delete[]_Dest;
         return res;
     }
+
+
+    static const std::string
+    aes_encrypt(const std::string & src, const std::string & k)
+    {
+        return iegad::security::AES::encrypt(src, k);
+    }
+
+
+    static const std::string
+    aes_decrypt(const std::string & enstr, const std::string & k)
+    {
+        return iegad::security::AES::decrypt(enstr, k);
+    }
+
 
     /*
     // ============================
