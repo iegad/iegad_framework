@@ -53,7 +53,8 @@ HEADERS += \
     ../libiegad/iegad/rpc/iegad_rpc_types.h \
     ../libiegad/iegad/rpc/iegadService_server.skeleton.hpp \
     ../libiegad/iegad/rpc/iegad_basic_handler.hpp \
-    ../libiegad/iegad/sercurity/iegad_aes.hpp
+    ../libiegad/iegad/sercurity/iegad_aes.hpp \
+    ../libiegad/iegad/filesystem/iegad_filesystem.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -69,6 +70,7 @@ LIBS += -L/usr/local/lib -lgtest
 LIBS += -L/usr/local/lib -lhiredis
 LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
+LIBS += -L/usr/local/lib -lboost_filesystem
 LIBS += -lssl
 LIBS += -lcrypto
 

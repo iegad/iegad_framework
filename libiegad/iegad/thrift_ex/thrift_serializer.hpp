@@ -113,7 +113,7 @@ namespace thrift_ex {
 
 
 	template <class T>
-	bool iegad::thrift_ex::Serializer<T>::SerializeToBinary(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::Serializer<T>::SerializeToBinary(T & data, std::string * serstr, int * size)
 	{
 		using ::apache::thrift::protocol::TBinaryProtocol;
 		using ::apache::thrift::transport::TMemoryBuffer;
@@ -127,9 +127,8 @@ namespace thrift_ex {
 			*serstr = std::string((char *)p, *size);
 			return true;
 		}
-		catch (std::exception & ex) {
-			iERR<<ex.what()<<std::endl;
-		}
+        catch (std::exception &)
+        {}
 		return false;
 	}
 
@@ -149,9 +148,8 @@ namespace thrift_ex {
 			data->read(proto.get());
 			return true;
 		}
-		catch (std::exception & ex) {
-			iERR << ex.what() << std::endl;
-		}
+        catch (std::exception &)
+        {}
 		return false;
 	}
 
@@ -171,9 +169,8 @@ namespace thrift_ex {
 			*serstr = std::string((char *)p, *size);
 			return true;
 		}
-		catch (std::exception & ex) {
-			iERR << ex.what() << std::endl;
-		}
+        catch (std::exception &)
+        {}
 		return false;
 	}
 
@@ -193,9 +190,8 @@ namespace thrift_ex {
 			data->read(proto.get());
 			return true;
 		}
-		catch (std::exception & ex) {
-			iERR << ex.what() << std::endl;
-		}
+        catch (std::exception &)
+        {}
 		return false;
 	}
 
@@ -216,15 +212,14 @@ namespace thrift_ex {
 			*serstr = std::string((char *)p, *size);
 			return true;
 		}
-		catch (std::exception & ex) {
-			iERR << ex.what() << std::endl;
-		}
+        catch (std::exception &)
+        {}
 		return false;
 	}
 
 
 	template <class T>
-	bool iegad::thrift_ex::Serializer<T>::ParseFromVarint(T * data, const std::string & serstr)
+    bool iegad::thrift_ex::Serializer<T>::ParseFromVarint(T * data, const std::string & serstr)
 	{
 		using ::apache::thrift::protocol::TCompactProtocol;
 		using ::apache::thrift::protocol::TProtocol;
@@ -238,9 +233,8 @@ namespace thrift_ex {
 			data->read(proto.get());
 			return true;
 		}
-		catch (std::exception & ex) {
-			iERR << ex.what() << std::endl;
-		}
+        catch (std::exception &)
+        {}
 		return false;
 	}
 
