@@ -76,5 +76,6 @@ LIBS += -lcrypto
 LIBS += -pthread
 
 DISTFILES += \
-    ../libiegad/iegad/rpc/iegad_rpc.thrift
+    ../libiegad/iegad/rpc/iegad_rpc.thrift \
+    ../libiegad/iegad/rpc/iegad_virde.thrift
 
