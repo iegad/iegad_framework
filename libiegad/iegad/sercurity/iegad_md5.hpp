@@ -122,7 +122,7 @@ namespace security {
             return "";
             char buf[33];
             for (int i = 0; i < 16; i++)
-            snprintf(buf + i * 2, 33, "%02x", digest_[i]);
+            _snprintf(buf + i * 2, 33, "%02x", digest_[i]);
             buf[32] = 0;
             return std::string(buf);
         }

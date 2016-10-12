@@ -3,6 +3,7 @@
 #include <locale>
 #include <gtest/gtest.h>
 #include "sercurity/iegad_aes.hpp"
+#include "filesystem/iegad_filesystem.hpp"
 
 
 /*
@@ -17,35 +18,21 @@ main(int argc, char * argv[])
 
 
 
-#include <boost/filesystem.hpp>
-#include <boost/optional.hpp>
-
-
-
-const std::string
-find_file(const boost::filesystem::path & dir, const std::string & filename) {
-    boost::optional<boost::filesystem::path> res;
-
-    if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {
-        return "path is invalied";
-    }
-
-    boost::filesystem::recursive_directory_iterator end;
-    for (boost::filesystem::recursive_directory_iterator pos(dir); pos != end; pos++) {
-        if (!boost::filesystem::is_directory(*pos)
-                && pos->path().filename() == filename) {
-            res = pos->path();
-        }
-    }
-    return res ? res->string() : "File not found";
-}
-
-
-
 
 int
 main()
 {
-    std::cout<<find_file("/usr/local/bin/", "ab")<<std::endl;
+    std::cout<<iegad::filesystem::find_file("/usr/local/bin/", "ab")<<std::endl;
+
+    std::vector<iegad::filesystem::fileInfo> filist = iegad::filesystem::ls("/");
+
+    for (int i = 0, n = filist.size(); i < n; i++) {
+        std::cout<<filist[i].name<<'\t'
+                <<filist[i].used<<'\t'
+               <<filist[i].capacity<<std::endl;
+    }
+
+
+
     exit(0);
 }
