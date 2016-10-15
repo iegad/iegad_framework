@@ -54,7 +54,9 @@ HEADERS += \
     ../libiegad/iegad/rpc/iegadService_server.skeleton.hpp \
     ../libiegad/iegad/rpc/iegad_basic_handler.hpp \
     ../libiegad/iegad/sercurity/iegad_aes.hpp \
-    ../libiegad/iegad/filesystem/iegad_filesystem.hpp
+    ../libiegad/iegad/filesystem/iegad_filesystem.hpp \
+    ../libiegad/iegad/iegad_config.h \
+    ../libiegad/iegad/iegad.h
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -73,6 +75,7 @@ LIBS += -L/usr/local/lib -lboost_thread
 LIBS += -L/usr/local/lib -lboost_filesystem
 LIBS += -lssl
 LIBS += -lcrypto
+LIBS += -L/usr/local/lib -lsigar
 
 #ubuntu required
 LIBS += -pthread

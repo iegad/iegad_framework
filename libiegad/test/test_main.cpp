@@ -3,7 +3,7 @@
 #include <locale>
 #include <gtest/gtest.h>
 #include "sercurity/iegad_aes.hpp"
-#include "filesystem/iegad_filesystem.hpp"
+#include "sigar_ex/iegad_sigar.hpp"
 
 
 /*
@@ -22,17 +22,28 @@ main(int argc, char * argv[])
 int
 main()
 {
-    std::cout<<iegad::filesystem::find_file("/usr/local/bin/", "ab")<<std::endl;
-
-    std::vector<iegad::filesystem::fileInfo> filist = iegad::filesystem::ls("/");
-
-    for (int i = 0, n = filist.size(); i < n; i++) {
-        std::cout<<filist[i].name<<'\t'
-                <<filist[i].used<<'\t'
-               <<filist[i].capacity<<std::endl;
+    iegad::sigar_ex::sigar s;
+    std::vector<iegad::sigar_ex::cpu::ptr_t> cpuList = s.getCpuList();
+    for (int i = 0, n = cpuList.size(); i < n; i++) {
+        iegad::sigar_ex::cpu::ptr_t & p = cpuList[i];
+        std::cout<<p->getIdle()<<std::endl;
     }
 
+    std::vector<iegad::sigar_ex::cpuInfo::ptr_t> cpuInfoList = s.getCpuInfoList();
+    for (int i = 0, n = cpuInfoList.size(); i < n; i++) {
+        iegad::sigar_ex::cpuInfo::ptr_t & p = cpuInfoList[i];
+        std::cout<<p->getVendor()<<'\t'<<p->getModel()<<std::endl;
+    }
 
-
+    std::vector<iegad::sigar_ex::netInterfaceConfig::ptr_t> ifList = s.getNetInterfaceConfigList();
+    for (int i = 0, n = ifList.size(); i < n; i++) {
+        iegad::sigar_ex::netInterfaceConfig::ptr_t & p = ifList[i];
+        std::cout<<p->getAddress()<<'\t'
+                <<p->getBroadCast()<<'\t'
+               <<p->getAddress6()<<'\t'
+              <<p->getNetMask()<<'\t'
+             <<p->getDescription()<<'\t'
+              <<p->getHwaddr()<<std::endl;
+    }
     exit(0);
 }

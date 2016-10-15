@@ -100,14 +100,22 @@ public:
     static bool
     mkdir(const boost::filesystem::path & dir, std::string * errstr = NULL)
     {
-        boost::system::error_code ec;
-        if (boost::filesystem::exists(dir, ec) || ec) {
-            if (errstr) {
-                *errstr = ec ? ec.message() : "directory is already exists";
-            }
-            return false;
-        }
+        boost::system::error_code ec;        
         boost::filesystem::create_directory(dir, ec);
+        if (ec) {
+            if (errstr) {
+                *errstr = ec.message();
+            }
+        }
+        return !ec;
+    }
+
+
+    static bool
+    mkdir_p(const boost::filesystem::path & dir, std::string * errstr = NULL)
+    {
+        boost::system::error_code ec;
+        boost::filesystem::create_directories(dir, ec);
         if (ec) {
             if (errstr) {
                 *errstr = ec.message();
@@ -120,13 +128,7 @@ public:
     static bool
     rename(const boost::filesystem::path & fn, const std::string & newn, std::string * errstr = NULL)
     {
-        boost::system::error_code ec;
-        if (!boost::filesystem::exists(fn, ec) || ec) {
-            if (errstr) {
-                *errstr = ec ? ec.message() : "file is not exists";
-            }
-            return false;
-        }
+        boost::system::error_code ec;        
         boost::filesystem::rename(fn, newn, ec);
         if (ec) {
             if (errstr) {
@@ -135,6 +137,49 @@ public:
         }
         return !ec;
     }
+
+
+    static bool
+    cp(const boost::filesystem::path & from, const std::string & to, std::string * errstr = NULL)
+    {
+        boost::system::error_code ec;
+        boost::filesystem::copy(from, to, ec);
+        if (ec) {
+            if (errstr) {
+                *errstr = ec.message();
+            }
+        }
+        return !ec;
+    }
+
+
+    static bool
+    rm(const boost::filesystem::path & fn, std::string * errstr = NULL)
+    {
+        boost::system::error_code ec;
+        boost::filesystem::remove(fn, ec);
+        if (ec) {
+            if (errstr) {
+                *errstr = ec.message();
+            }
+        }
+        return !ec;
+    }
+
+
+    static int64_t
+    rm_rf(const boost::filesystem::path & p, std::string * errstr = NULL)
+    {
+        boost::system::error_code ec;
+        int64_t n = boost::filesystem::remove_all(p, ec);
+        if (ec) {
+            if (errstr) {
+                *errstr = ec.message();
+            }
+        }
+        return ec ? 0 : n;
+    }
+
 
 private:
     filesystem() {}
