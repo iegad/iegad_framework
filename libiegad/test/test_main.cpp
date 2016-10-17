@@ -45,5 +45,17 @@ main()
              <<p->getDescription()<<'\t'
               <<p->getHwaddr()<<std::endl;
     }
+
+
+    std::vector<iegad::sigar_ex::netConnection::ptr_t> ncList = s.getNetConnectionList(-1);
+    std::cout<<"[net connection]\n";
+    for (int i = 0, n = ncList.size(); i < n; i++) {
+        iegad::sigar_ex::netConnection::ptr_t & p = ncList[i];
+        std::cout<<p->getLocalAddress()<<'\t'<<p->getRemoteAddress()<<std::endl;
+    }
+
+    iegad::sigar_ex::sysInfo::ptr_t sysInfo = s.getSysInfo();
+    std::cout<<sysInfo->getName()<<'\t'<<sysInfo->getMachine()<<'\t'
+            <<sysInfo->getVendorVersion()<<std::endl;
     exit(0);
 }

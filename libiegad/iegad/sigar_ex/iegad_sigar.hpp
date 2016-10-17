@@ -1,4 +1,4 @@
-#ifndef __IEGAD_SIGAR__
+﻿#ifndef __IEGAD_SIGAR__
 #define __IEGAD_SIGAR__
 
 
@@ -20,7 +20,6 @@ namespace sigar_ex {
 
 
 
-//sigar_cpu_t c;
 class cpu : boost::noncopyable {
 public:
     friend class sigar;
@@ -198,7 +197,7 @@ public:
 
 
     static ptr_t Create() {
-
+        return ptr_t(new fileSystem);
     }
 
 
@@ -305,16 +304,20 @@ public:
         return n_.local_port;
     }
 
-    sigar_net_address_t getLocalAddress() const {
-        return n_.local_address;
+    const std::string getLocalAddress() const {
+        in_addr temp;
+        memcpy(&temp, &n_.local_address.addr.in, 4);
+        return inet_ntoa(temp);
     }
 
     uint32_t getRemotePort() const {
         return n_.remote_port;
     }
 
-    sigar_net_address_t getRemoteAddress() const {
-        return n_.remote_address;
+    const std::string getRemoteAddress() const {
+        in_addr temp;
+        memcpy(&temp, &n_.remote_address.addr.in, 4);
+        return inet_ntoa(temp);
     }
 
     uint32_t getUid() const {
@@ -472,6 +475,7 @@ public:
         return n_.flags;
     }
 
+
 private:
     netInterfaceConfig() {
         memset(&n_, 0, sizeof(n_));
@@ -502,9 +506,123 @@ private:
 }; // class netInterfaceStat;
 
 
+class sysInfo {
+public:
+    friend class sigar;
+    typedef boost::shared_ptr<sysInfo> ptr_t;
+
+    static ptr_t Create() {
+        return ptr_t(new sysInfo);
+    }
+
+
+    const std::string getName() const {
+        return s_.name;
+    }
+
+
+    const std::string getVersion() const {
+        return s_.version;
+    }
+
+
+    const std::string getArch() const {
+        return s_.arch;
+    }
+
+
+    const std::string getMachine() const {
+        return s_.machine;
+    }
+
+    const std::string getDescription() const {
+        return s_.description;
+    }
+
+    const std::string getPatchLevel() const {
+        return s_.patch_level;
+    }
+
+    const std::string getVendor() const {
+        return s_.vendor;
+    }
+
+    const std::string getVendorVersion() const {
+        return s_.vendor_version;
+    }
+
+    const std::string getVendorName() const {
+        return s_.vendor_name;
+    }
+
+    const std::string getVendorCodeName() const {
+        return s_.vendor_code_name;
+    }
+
+
+private:
+    sysInfo() {
+        memset(&s_, 0, sizeof(s_));
+    }
+
+
+    sigar_sys_info_t s_;
+}; // class sysInfo;
+
+
+class swap : boost::noncopyable {
+public:
+    friend class sigar;
+    typedef boost::shared_ptr<swap> ptr_t;
+
+    static ptr_t Create() {
+        return ptr_t(new swap);
+    }
+
+
+    uint64_t getTotal() const {
+        return s_.total;
+    }
+
+    uint64_t getUsed() const {
+        return s_.used;
+    }
+
+    uint64_t getFree() const {
+        return s_.free;
+    }
+
+    uint64_t getPageIn() const {
+        return s_.page_in;
+    }
+
+    uint64_t getPageOut() const {
+        return s_.page_out;
+    }
+
+private:
+    swap() {
+        memset(&s_, 0, sizeof(s_));
+    }
+
+    sigar_swap_t s_;
+}; // class swap;
+
+
 
 class sigar {
 public:
+    enum netConnFlags {
+        NETCONN_CLIENT = 0x01,
+        NETCONN_SERVER = 0x02,
+        NETCONN_TCP = 0x10,
+        NETCONN_UDP = 0x20,
+        NETCONN_RAW = 0x40,
+        NETCONN_UNIX = 0x80,
+        NETCONN_ALL = -1
+    }; // enum netConnFlags;
+
+
     explicit sigar() :
         s_(NULL) {
         BOOST_ASSERT(!sigar_open(&s_));
@@ -609,6 +727,56 @@ public:
         }
 
         return res;
+    }
+
+
+    const std::vector<netConnection::ptr_t> getNetConnectionList(int flags) {
+        std::vector<netConnection::ptr_t> res;
+        sigar_net_connection_list_t tempList;
+
+        do {
+            if (sigar_net_connection_list_get(s_, &tempList, flags)) {
+                break;
+            }
+
+            for (size_t i = 0; i < tempList.number; i++) {
+                netConnection::ptr_t p = netConnection::Create();
+                p->n_ = tempList.data[i];
+                res.push_back(p);
+            }
+        } while(false);
+        if (sigar_net_connection_list_destroy(s_, &tempList)) {
+            res.clear();
+        }
+        return res;
+    }
+
+
+    sysInfo::ptr_t getSysInfo() {
+        sysInfo::ptr_t p;
+        sigar_sys_info_t temp;
+        do {
+            if (sigar_sys_info_get(s_, &temp)) {
+                break;
+            }
+            p = sysInfo::Create();
+            p->s_ = temp;
+        } while(false);
+        return p;
+    }
+
+
+    swap::ptr_t getSwap() {
+        swap::ptr_t p;
+        sigar_swap_t temp;
+        do {
+            if (sigar_swap_get(s_, &temp)) {
+                break;
+            }
+            p = swap::Create();
+            p->s_ = temp;
+        } while(false);
+        return p;
     }
 
 
