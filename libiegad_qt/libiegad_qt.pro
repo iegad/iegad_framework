@@ -73,6 +73,7 @@ LIBS += -L/usr/local/lib -lhiredis
 LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
 LIBS += -L/usr/local/lib -lboost_filesystem
+LIBS += -L/usr/local/lib -lboost_regex
 LIBS += -lssl
 LIBS += -lcrypto
 LIBS += -L/usr/local/lib -lsigar

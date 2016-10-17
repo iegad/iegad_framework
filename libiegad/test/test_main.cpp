@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "sercurity/iegad_aes.hpp"
 #include "sigar_ex/iegad_sigar.hpp"
+#include "filesystem/iegad_filesystem.hpp"
 
 
 /*
@@ -22,6 +23,11 @@ main(int argc, char * argv[])
 int
 main()
 {
+    std::vector<std::string> res = iegad::filesystem::find_files("/usr/local/lib", "lib*");
+    for (int i = 0; i < res.size(); i++) {
+        std::cout<<res[i]<<std::endl;
+    }
+
     iegad::sigar_ex::sigar s;
     std::vector<iegad::sigar_ex::cpu::ptr_t> cpuList = s.getCpuList();
     for (int i = 0, n = cpuList.size(); i < n; i++) {

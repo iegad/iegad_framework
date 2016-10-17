@@ -5,6 +5,8 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
+#include <boost/xpressive/xpressive_dynamic.hpp>
+#include <boost/algorithm/string.hpp>
 #include <string>
 
 
@@ -56,6 +58,34 @@ public:
             }
         }
         return res ? res->string() : "File not found";
+    }
+
+
+    static const std::vector<std::string>
+    find_files(const boost::filesystem::path & dir, const std::string & filename)
+    {
+        std::vector<std::string> res;
+        static boost::xpressive::sregex_compiler rc;
+        std::string tempstr;
+
+        if (!rc[filename].regex_id()) {
+            std::string str = boost::replace_all_copy(boost::replace_all_copy(filename, ".", "\\."), "*", ".*");
+            rc[filename] = rc.compile(str);
+        }
+
+        if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {
+            return res;
+        }
+
+        boost::filesystem::recursive_directory_iterator end;
+        for (boost::filesystem::recursive_directory_iterator pos(dir); pos != end; pos++) {
+            boost::filesystem::path p = pos->path();
+            tempstr = p.filename().string();
+            if (boost::xpressive::regex_match(tempstr, rc[filename])) {
+                res.push_back(p.string());
+            }
+        }
+        return res;
     }
 
 
