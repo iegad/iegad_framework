@@ -22,55 +22,54 @@
 // =======================================
 //  --2015-10-03	    --iegad		   -- 添加 to_**(const std::string &) 这样的逆向转换函数
 //  --2015-10-06	    --iegad		   -- 1, 添加md5, sha1 加密
-//                                     -- 2, 添加base64加密, 解密
-//                                     -- 3, 添加 guid 生成函数
+//                                                 -- 2, 添加base64加密, 解密
+//                                                 -- 3, 添加 guid 生成函数
 //  --2015-10-09	    --iegad		   -- 添加 自定义加密 en_cust 函数, 解密 de_cust 函数
-//  --2015-10-13        --iegad		   -- 1, 添加format函数, 用于格式化字符串
-//                                      -- 2, 修改to_str(double/float)的精度问题
-//  --2015-10-17	        --iegad		   -- 修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
+//  --2015-10-13       --iegad		   -- 1, 添加format函数, 用于格式化字符串
+//                                                 -- 2, 修改to_str(double/float)的精度问题
+//  --2015-10-17	    --iegad		   -- 修改, 完善format 的正确性和性能, 性能有所提升, 但是可能还存在提升的可能
 //  --2015-10-20	    --iegad		   -- 1, 添加find_str 函数.
-//                                      -- 2, 添加start_with, end_with 函数.
-//                                      -- 3, 添加 remove 函数
-//                                      -- 4, 将各个 int pos 参数类型改为 unsigned int
-//                                      -- 5, 添加 substr2 函数
+//                                                 -- 2, 添加start_with, end_with 函数.
+//                                                 -- 3, 添加 remove 函数
+//                                                 -- 4, 将各个 int pos 参数类型改为 unsigned int
+//                                                 -- 5, 添加 substr2 函数
 //  --2015-10-23	    --iegad		   -- 1, 修改 trim(const std::string &) 函数名 => rtrim(...);
-//                                      -- 2, 添加 新 trim(const std::string &)
-//                                      -- 3, 添加remove2(...) 函数
+//                                                 -- 2, 添加 新 trim(const std::string &)
+//                                                 -- 3, 添加remove2(...) 函数
 //  --2015-10-25	    --iegad		   -- 1, 添加 std::string & std::wstring 间的相互转换
-//                                      -- 2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
-//                                      -- 3, 添加部分支持std::wstring 的字符串算法封装
-//  --2015-11-10         --iegad		   -- 修改 base64 编/解码 函数. 使之用于二进制数据
-//  --2015-11-10         --iegad		   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
-//  --2015-11-12         --iegad		   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
-//  --2016-03-04	    --iegad		   -- 简化 to_upr & to_lwr
-//  --2016-05-18	    --iegad		   --1, 去掉自定义加密/解密函数
-//                                      --2, 添加wstring 与 string 相互转换函数.
-//                                      --3, 添加format函数, 用来格式化字符串.
+//                                                 -- 2, UTF8 转换由原来的 STL 改为使用 boost实现, 因为, LINUX不支持 @include <codecvt>
+//                                                 -- 3, 添加部分支持std::wstring 的字符串算法封装
+//  --2015-11-10         --iegad	   -- 修改 base64 编/解码 函数. 使之用于二进制数据
+//  --2015-11-10         --iegad	   -- 测试发现 新版的 base64 编/解码 算法有BUG, 还原回最初的版本(boost实现)
+//  --2015-11-12         --iegad	   -- base64 在编/解码时, 中间可能出现'\0', 无法避免, 添加 二进制 字符串 互相转换的函数 bin_tostr/ str_tobin
+//  --2016-03-04         --iegad	   -- 简化 to_upr & to_lwr
+//  --2016-05-18	      --iegad	   --1, 去掉自定义加密/解密函数
+//                                                 --2, 添加wstring 与 string 相互转换函数.
+//                                                 --3, 添加format函数, 用来格式化字符串.
 //  --2016-06-05       --iegad        --1, 将string操作改为hpp文件, 并更换为class实现
-//                                                              --2, 将sha1改为非boost实现
-//  --2016-06-22        --iegad        -- 添加 ltrim & rtrim 的指定字符版本
-//  --2016-07-19        --iegad        -- 将uuid改回boost实现, 原因是, uuid.h在不同的平台, 需要安装uuid-dev
+//                                                 --2, 将sha1改为非boost实现
+//  --2016-06-22        --iegad       -- 添加 ltrim & rtrim 的指定字符版本
+//  --2016-07-19        --iegad       -- 将uuid改回boost实现, 原因是, uuid.h在不同的平台, 需要安装uuid-dev
+//  --2017-03-19        --iegad       -- 1, 添加 错误常量 ERR_STR, ERR_WSTR.
+//                                                 -- 2, 增强性能
+//                                                 -- 3, 将安全系列函数移出string
 
+
+#include "iegad_config.h"
 
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_io.hpp>
-
-#include "sercurity/iegad_md5.hpp"
-#include "sercurity/iegad_sha1.hpp"
-#include "sercurity/iegad_aes.hpp"
 
 
 
 namespace iegad {
-class string_ex {
-private:
-    string_ex(){}
-
+class string {
 public:
+    static const std::string ERR_STR() { return "????"; }
+    static const std::wstring ERR_WSTR() { return L"????"; }
+
+
     // ============================
     // @用途 : 将src字符串根据chs
     //		分组成为一个字符串向量
@@ -83,17 +82,29 @@ public:
     {
         int pos = 0, len = chs.length(), n = 0, index = 0;
         std::vector<std::string> res;
-        while (true) {
-            index = src.find(chs, pos);
-            if (index == -1) {
-                res.push_back(std::string(src, pos, src.length() - pos));
-                break;
-            }
-            n = index - n;
-            res.push_back(std::string(src, pos, n));
-            pos = index + len;
-            n = pos;
+
+        if (src.empty()) {
+            return res;
         }
+
+        if (chs.empty()) {
+            res.push_back(src);
+        }
+        else {
+            while (true) {
+                index = src.find(chs, pos);
+                if (index == -1) {
+                    res.push_back(std::string(src, pos, src.length() - pos));
+                    break;
+                }
+
+                n = index - n;
+                res.push_back(std::string(src, pos, n));
+                pos = index + len;
+                n = pos;
+            }
+        }
+
         return res;
     }
 
@@ -106,17 +117,28 @@ public:
     {
         int pos = 0, len = chs.length(), n = 0, index = 0;
         std::vector<std::wstring> res;
-        while (true) {
-            index = src.find(chs, pos);
-            if (index == -1) {
-                res.push_back(std::wstring(src, pos, src.length() - pos));
-                break;
-            }
-            n = index - n;
-            res.push_back(std::wstring(src, pos, n));
-            pos = index + len;
-            n = pos;
+
+        if (src.empty()) {
+            return res;
         }
+
+        if (chs.empty()) {
+            res.push_back(src);
+        }
+        else {
+            while (true) {
+                index = src.find(chs, pos);
+                if (index == -1) {
+                    res.push_back(std::wstring(src, pos, src.length() - pos));
+                    break;
+                }
+                n = index - n;
+                res.push_back(std::wstring(src, pos, n));
+                pos = index + len;
+                n = pos;
+            }
+        }
+
         return res;
     }
 
@@ -132,13 +154,19 @@ public:
     static const std::string
     substr(const std::string & src, unsigned int pos, int n = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (pos >= size) {
-            return "";
+            return ERR_STR();
         }
+
         if (n < 0 || pos + n > size) {
             n = size - pos;
         }
+
         std::string restr(src, pos, n);
         return restr;
     }
@@ -150,13 +178,19 @@ public:
     static const std::wstring
     substr(const std::wstring & src, unsigned int pos, int n = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (pos >= size) {
-            return L"";
+            return ERR_WSTR();
         }
+
         if (n < 0 || pos + n > size) {
             n = size - pos;
         }
+
         std::wstring restr(src, pos, n);
         return restr;
     }
@@ -175,10 +209,15 @@ public:
     static const std::string
     substr2(const std::string & src, unsigned int bgn, unsigned int end = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (bgn > size || bgn >= end) {
-            return "";
+            return ERR_STR();
         }
+
         end = end > size ? size : end;
         return std::string(src.begin() + bgn,
                            src.begin() + end);
@@ -191,10 +230,14 @@ public:
     static const std::wstring
     substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
         std::size_t size = src.size();
         if (bgn > size || bgn >= end) {
-            return L"";
+            return ERR_WSTR();
         }
+
         end = end > size ? size : end;
         return std::wstring(src.begin() + bgn,
                            src.begin() + end);
@@ -255,6 +298,10 @@ public:
     static const std::string
     rtrim(const std::string & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         int n = src.length() - 1;
         while (::isspace(src[n])) {
             n--;
@@ -269,6 +316,10 @@ public:
     static const std::wstring
     rtrim(const std::wstring & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         int n = src.length() - 1;
         while (::iswspace(src[n])) {
             n--;
@@ -287,6 +338,10 @@ public:
     static const std::string
     rtrim(const std::string & src, char c)
     {
+        if (src.empty() || c == '\0') {
+            return src;
+        }
+
         int n = src.length() - 1;
         while (src[n] == c) {
             n--;
@@ -303,6 +358,10 @@ public:
     static const std::wstring
     rtrim(const std::wstring & src, wchar_t c)
     {
+        if (src.empty() || c == L'\0') {
+            return src;
+        }
+
         int n = src.length() - 1;
         while (src[n] == c) {
             n--;
@@ -320,6 +379,10 @@ public:
     static const std::string
     trim(const std::string & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::string restr;
         for (int i = 0, n = src.length(); i < n; i++) {
             if (::isspace(src[i])) {
@@ -337,6 +400,10 @@ public:
     static const std::wstring
     trim(const std::wstring & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::wstring restr;
         for (int i = 0, n = src.length(); i < n; i++) {
             if (::iswspace(src[i])) {
@@ -357,6 +424,10 @@ public:
     static const std::string
     trim(const std::string & src, char chr)
     {
+        if (src.empty() || chr == '\0') {
+            return src;
+        }
+
         std::string restr;
         for (int i = 0, n = src.length(); i < n; i++) {
             if (src[i] == chr) {
@@ -373,6 +444,10 @@ public:
     static const std::wstring
     trim(const std::wstring & src, wchar_t chr)
     {
+        if (src.empty() || chr == '\0') {
+            return src;
+        }
+
         std::wstring restr;
         for (int i = 0, n = src.length(); i < n; i++) {
             if (src[i] == chr) {
@@ -392,6 +467,10 @@ public:
     static const std::string
     ltrim(const std::string & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         int rpos = 0;
         while (::isspace(src[rpos])) {
             rpos++;
@@ -406,6 +485,10 @@ public:
     static const std::wstring
     ltrim(const std::wstring & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         int rpos = 0;
         while (::iswspace(src[rpos])) {
             rpos++;
@@ -424,6 +507,10 @@ public:
     static const std::string
     ltrim(const std::string & src, char c)
     {
+        if (src.empty() || c == '\0') {
+            return src;
+        }
+
         int rpos = 0;
         while (src[rpos] == c) {
             rpos++;
@@ -439,6 +526,10 @@ public:
     static const std::wstring
     ltrim(const std::wstring & src, wchar_t c)
     {
+        if (src.empty() || c == L'\0') {
+            return src;
+        }
+
         int rpos = 0;
         while(src[rpos] == c) {
             rpos++;
@@ -506,11 +597,16 @@ public:
     static int
     first_ch(const std::string & src, char chr)
     {
+        if (src.empty() || chr == '\0') {
+            return -1;
+        }
+
         for (int i = 0, n = src.length(); i < n; i++) {
             if (src[i] == chr) {
                 return i;
             }
         }
+
         return -1;
     }
 
@@ -520,10 +616,14 @@ public:
     static int
     first_ch(const std::wstring & src, wchar_t chr)
     {
-        for (int i = 0, n = src.length(); i < n; i++) {
-        if (src[i] == chr) {
-            return i;
+        if (src.empty() || chr == L'\0') {
+            return -1;
         }
+
+        for (int i = 0, n = src.length(); i < n; i++) {
+            if (src[i] == chr) {
+                return i;
+            }
         }
         return -1;
     }
@@ -538,6 +638,10 @@ public:
     static int
     last_ch(const std::string & src, char chr)
     {
+        if (src.empty() || chr == '\0') {
+            return -1;
+        }
+
         for (int i = src.length() - 1; i >= 0; i--) {
             if (src[i] == chr) {
                 return i;
@@ -553,6 +657,10 @@ public:
     static int
     last_ch(const std::wstring & src, wchar_t chr)
     {
+        if (src.empty() || chr == L'\0') {
+            return -1;
+        }
+
         for (int i = src.length() - 1; i >= 0; i--) {
             if (src[i] == chr) {
                 return i;
@@ -575,9 +683,12 @@ public:
         if (substr.empty()) {
             return ntime == 1 ? 0 : -1;
         }
+
         int pos = 0, n = 0, index = 0;
+
         while (true) {
             pos = src.find(substr, index);
+
             if (pos == -1 || ++n == ntime) {
                 break;
             }
@@ -595,7 +706,9 @@ public:
         if (substr.empty()) {
             return ntime == 1 ? 0 : -1;
         }
+
         int pos = 0, n = 0, index = 0;
+
         while (true) {
             pos = src.find(substr, index);
             if (pos == -1 || ++n == ntime) {
@@ -662,14 +775,20 @@ public:
     // ============================
     static const std::string
     remove(const std::string & src, unsigned int pos, int n = -1)
-    {
+    {   
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (pos > size) {
             return src;
         }
+
         if (n < 0 || pos + n > size) {
             n = size - pos;
         }
+
         std::string res = src;
         return res.erase(pos, n);
     }
@@ -680,13 +799,19 @@ public:
     static const std::wstring
     remove(const std::wstring & src, unsigned int pos, int n = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (pos > size) {
             return src;
         }
+
         if (n < 0 || pos + n > size) {
             n = size - pos;
         }
+
         std::wstring res = src;
         return res.erase(pos, n);
     }
@@ -702,6 +827,10 @@ public:
     static const std::string
     remove2(const std::string & src, unsigned int bgn, unsigned int end = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (bgn > size || (std::size_t)end <= bgn) {
             return src;
@@ -718,6 +847,10 @@ public:
     static const std::wstring
     remove2(const std::wstring & src, unsigned int bgn, unsigned int end = -1)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::size_t size = src.size();
         if (bgn > size || (std::size_t)end <= bgn) {
             return src;
@@ -738,6 +871,10 @@ public:
     static const std::string
     to_upr(const std::string & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::string restr(src);
         std::transform(restr.begin(), restr.end(), restr.begin(), ::toupper);
         return restr;
@@ -749,6 +886,10 @@ public:
     static const std::wstring
     to_upr(const std::wstring & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::wstring restr(src);
         std::transform(restr.begin(), restr.end(), restr.begin(), ::towupper);
         return restr;
@@ -764,6 +905,10 @@ public:
     static const std::string
     to_lwr(const std::string & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::string restr(src);
         std::transform(restr.begin(), restr.end(), restr.begin(), ::tolower);
         return restr;
@@ -775,38 +920,13 @@ public:
     static const std::wstring
     to_lwr(const std::wstring & src)
     {
+        if (src.empty()) {
+            return src;
+        }
+
         std::wstring restr(src);
         std::transform(restr.begin(), restr.end(), restr.begin(), ::towlower);
         return restr;
-    }
-
-
-    // ============================
-    // @用途 : 将字符串 src 进行md5加密
-    // @src : 需要加密的字符串
-    // @返回值 : md5加密之后的字符串
-    // ============================
-    static const std::string
-    md5(const std::string & src)
-    {
-        iegad::security::MD5 m(src);
-        return m.hexdigest();
-    }
-
-
-    // ============================
-    // @用途 : 将字符串 src 进行sha1加密, 并将结果存放到 digest中
-    // @src : 需要加密的字符串
-    // @ser : 用来保存摘要的数组容器
-    // @返回值 : sha1加密之后的二进制数据
-    // @PS : 返回值是二进制数据而不是字符串
-    // ============================
-    static const std::string
-    sha1(const std::string & src)
-    {
-        iegad::security::SHA1 sha1;
-        std::string res;
-        return sha1.sha_go(src, &res) ? res : "";
     }
 
 
@@ -819,11 +939,15 @@ public:
     static const std::string
     bin_tostr(const char * buff, unsigned int buff_size)
     {
+        if (buff == NULL || buff_size == 0) {
+            return "";
+        }
+
         std::string res(buff_size * 2, 0);
         uint8_t temp;
 
         for (size_t i = 0; i < buff_size; i++) {
-        temp = buff[i];
+            temp = buff[i];
             for (size_t j = 0; j < 2; j++) {
                 uint8_t cCur = (temp & 0x0f);
                 if (cCur < 10) {
@@ -850,23 +974,26 @@ public:
     static const char *
     str_tobin(const std::string & src, char * buff, int & buff_size)
     {
-        if (src.size() % 2 != 0 ||
-            buff == NULL ||
-            (size_t)buff_size < src.size() / 2) {
+        if (src.empty() || buff == NULL || buff_size == 0) {
+            return NULL;
+        }
+
+        if (src.size() % 2 != 0 || buff == NULL || (size_t)buff_size < src.size() / 2) {
             return NULL;
         }
 
         buff_size = src.size() / 2;
         for (int i = 0; i < buff_size; i++) {
             uint8_t cTemp = 0;
+
             for (size_t j = 0; j < 2; j++) {
                 char cCur = src[2 * i + j];
                 if (cCur >= '0' && cCur <= '9') {
                     cTemp = (cTemp << 4) + (cCur - '0');
                 }
-                /*else if (cCur >= 'a' && cCur <= 'f') {
+                else if (cCur >= 'a' && cCur <= 'f') {
                 cTemp = (cTemp << 4) + (cCur - 'a' + 10);
-                }*/
+                }
                 else if (cCur >= 'A' && cCur <= 'F') {
                     cTemp = (cTemp << 4) + (cCur - 'A' + 10);
                 }
@@ -882,19 +1009,6 @@ public:
 
 
     // ============================
-    // @用途 : 获取一个 36位 uuid 字符串
-    // @返回值 : 一个 36 位, 小写, 中间还代有 短横杠的 guid字符串
-    // ============================
-    static const std::string
-    uuid()
-    {
-        boost::uuids::random_generator rgen;
-        boost::uuids::uuid u = rgen();
-        return boost::uuids::to_string(u);
-    }
-
-
-    // ============================
     // @用途 : 将std::wstring 转换成std::string
     // @wstr : 需要std::wstring 宽字符串
     // @返回值 : 转换后的std::string类型字符串
@@ -902,6 +1016,10 @@ public:
     static const std::string
     wstr_to_str(const std::wstring & wstr)
     {
+        if (wstr.empty()) {
+            return "";
+        }
+
         const wchar_t* _Source = wstr.c_str();
         size_t _Dsize = 2 * wstr.size() + 1;
         char *_Dest = new char[_Dsize];
@@ -921,32 +1039,23 @@ public:
     static const std::wstring
     str_to_wstr(const std::string & str)
     {
+        if (str.empty()) {
+            return L"";
+        }
+
         const char* _Source = str.c_str();
         size_t _Dsize = str.size() + 1;
         wchar_t *_Dest = new wchar_t[_Dsize];
+
         wmemset(_Dest, 0, _Dsize);
         mbstowcs(_Dest, _Source, _Dsize);
+
         std::wstring res = _Dest;
         delete[]_Dest;
         return res;
     }
 
-
-    static const std::string
-    aes_encrypt(const std::string & src, const std::string & k)
-    {
-        return iegad::security::AES::encrypt(src, k);
-    }
-
-
-    static const std::string
-    aes_decrypt(const std::string & enstr, const std::string & k)
-    {
-        return iegad::security::AES::decrypt(enstr, k);
-    }
-
-
-    /*
+#if (IEGAD_CFG_CPP11)
     // ============================
     // @用途 : 将std::string 转换成std::wstring
     // @fmt : 格式化字符串
@@ -980,10 +1089,10 @@ public:
         }
         return res;
     }
-    */
+#endif
 
 
-}; // class string_ex;
+}; // class string;
 } // namespace iegad;
 
 

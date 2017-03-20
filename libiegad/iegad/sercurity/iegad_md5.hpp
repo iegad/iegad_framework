@@ -30,7 +30,6 @@
 
 
 namespace iegad {
-namespace security {
 
 
     class MD5 {
@@ -307,7 +306,6 @@ namespace security {
     }; // class MD5;
 
 
-} // namespace security;
 } // namespace iegad;
 
 

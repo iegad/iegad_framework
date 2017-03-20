@@ -10,8 +10,6 @@
 
 
 namespace iegad {
-namespace security {
-
 
 
 class SHA1 {
@@ -211,8 +209,6 @@ private:
 }; // class SHA1;
 
 
-
-} // namespace security;
 } // namespace iegad;
 
 

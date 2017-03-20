@@ -11,10 +11,6 @@ SOURCES += \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \    
-    ../libiegad/test/gen-cpp/EchoServer.cpp \
-    ../libiegad/test/gen-cpp/testing_constants.cpp \
-    ../libiegad/test/gen-cpp/testing_types.cpp \
-    ../libiegad/test/gen-cpp/TimeServer.cpp \
     #../libiegad/test/test_thrift.cxx \
     ../libiegad/iegad/rpc/iegad_rpc_constants.cpp \
     ../libiegad/iegad/rpc/iegad_rpc_types.cpp \
@@ -56,7 +52,8 @@ HEADERS += \
     ../libiegad/iegad/sercurity/iegad_aes.hpp \
     ../libiegad/iegad/filesystem/iegad_filesystem.hpp \
     ../libiegad/iegad/iegad_config.h \
-    ../libiegad/iegad/iegad.h
+    ../libiegad/iegad/iegad.h \
+    ../libiegad/iegad/sercurity/iegad_security.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -74,14 +71,13 @@ LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
 LIBS += -L/usr/local/lib -lboost_filesystem
 LIBS += -L/usr/local/lib -lboost_regex
-LIBS += -lssl
-LIBS += -lcrypto
-LIBS += -L/usr/local/lib -lsigar
+#LIBS += -L/usr/lib         -lssl
+#LIBS += -L/usr/lib         -lcrypto
+LIBS += -L/usr/local/lib  -lsigar
 
 #ubuntu required
 LIBS += -pthread
 
 DISTFILES += \
-    ../libiegad/iegad/rpc/iegad_rpc.thrift \
-    ../libiegad/iegad/rpc/iegad_virde.thrift
+    ../libiegad/iegad/rpc/iegad_rpc.thrift
 

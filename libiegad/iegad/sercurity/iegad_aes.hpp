@@ -1,6 +1,8 @@
 #ifndef __IEGAD_AES__
 #define __IEGAD_AES__
 
+#ifdef IEGAD_OPTION_SSL
+
 
 #include <openssl/aes.h>
 #include <memory.h>
@@ -8,7 +10,6 @@
 
 
 namespace iegad {
-namespace security {
 
 
 class AES {
@@ -98,8 +99,9 @@ public:
 }; // class AES;
 
 
-} // namespace security;
 } // namespace iegad;
+
+#endif
 
 
 #endif // __IEGAD_AES__

@@ -421,7 +421,7 @@ public:
     }
 
     const std::string getHwaddr() const {
-        std::string temp = iegad::string_ex::bin_tostr((char *)n_.hwaddr.addr.mac, 8);
+        std::string temp = iegad::string::bin_tostr((char *)n_.hwaddr.addr.mac, 8);
         std::string res;
         for (int i = 0, n = temp.size(); i < n; i++) {
             res.push_back(temp[i]);
