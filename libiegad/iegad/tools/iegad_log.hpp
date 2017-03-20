@@ -29,9 +29,9 @@
 
 
 // info && error 日志保存路径
-#define	    LOG_INF_FILE      "./LOG/INFO_"
+#define	    LOG_INF_FILE        "./LOG/INFO_"
 #define		LOG_ERR_FILE      "./LOG/ERR_"
-#define     LOG_WARN_FILE     "./LOG/WARNING_"
+#define    LOG_WARN_FILE   "./LOG/WARNING_"
 
 
 #ifdef WIN32
@@ -61,7 +61,7 @@
 // 操作宏
 #define iINFO       LOG(INFO)
 #define iERR        LOG(ERROR)
-#define iWARN       LOG(WARNING)
+#define iWARN     LOG(WARNING)
 
 
 namespace iegad {
@@ -85,8 +85,8 @@ public:
         google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
         google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
         google::SetLogDestination(google::GLOG_WARNING, LOG_WARN_FILE);
-        // set log file max size 100M;
-        FLAGS_max_log_size = 100;
+        // set log file max size 20M;
+        FLAGS_max_log_size = 20;
         FLAGS_logbufsecs = 0;
         //init charset;
 

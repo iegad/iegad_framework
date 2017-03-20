@@ -68,6 +68,8 @@ class string {
 public:
     static const std::string ERR_STR() { return "????"; }
     static const std::wstring ERR_WSTR() { return L"????"; }
+    static const std::string EMPTY_STR() { return ""; }
+    static const std::wstring EMPTY_WSTR() { return L""; }
 
 
     // ============================
