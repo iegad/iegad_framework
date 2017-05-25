@@ -12,9 +12,6 @@ SOURCES += \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \    
     #../libiegad/test/test_thrift.cxx \
-    ../libiegad/iegad/rpc/iegad_rpc_constants.cpp \
-    ../libiegad/iegad/rpc/iegad_rpc_types.cpp \
-    ../libiegad/iegad/rpc/iegadService.cpp
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
@@ -25,9 +22,9 @@ HEADERS += \
     ../libiegad/iegad/tools/iegad_timer.hpp \
     ../libiegad/iegad/tools/job_queue.hpp \
     ../libiegad/iegad/tools/job_worker.hpp \
-    ../libiegad/iegad/sercurity/iegad_md5.hpp \
     ../libiegad/iegad/string/iegad_string.hpp \
     ../libiegad/iegad/sercurity/iegad_sha1.hpp \
+    ../libiegad/iegad/sercurity/iegad_md5.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_command.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_connection.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_exception.hpp \
@@ -44,11 +41,6 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_msg_ctl.hpp \
     ../libiegad/iegad/net/iegad_msg.hpp \
     ../libiegad/iegad/sigar_ex/iegad_sigar.hpp \
-    ../libiegad/iegad/rpc/iegad_msg_id.h \
-    ../libiegad/iegad/rpc/iegad_rpc_constants.h \
-    ../libiegad/iegad/rpc/iegad_rpc_types.h \
-    ../libiegad/iegad/rpc/iegadService_server.skeleton.hpp \
-    ../libiegad/iegad/rpc/iegad_basic_handler.hpp \
     ../libiegad/iegad/sercurity/iegad_aes.hpp \
     ../libiegad/iegad/filesystem/iegad_filesystem.hpp \
     ../libiegad/iegad/iegad_config.h \
@@ -71,13 +63,13 @@ LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
 LIBS += -L/usr/local/lib -lboost_filesystem
 LIBS += -L/usr/local/lib -lboost_regex
-#LIBS += -L/usr/lib         -lssl
-#LIBS += -L/usr/lib         -lcrypto
+#LIBS += -L/usr/lib        -lssl
+#LIBS += -L/usr/lib        -lcrypto
 LIBS += -L/usr/local/lib  -lsigar
 
 #ubuntu required
 LIBS += -pthread
 
-DISTFILES += \
-    ../libiegad/iegad/rpc/iegad_rpc.thrift
 
+INCLUDEPATH += $$PWD/../../../../../usr/include
+DEPENDPATH += $$PWD/../../../../../usr/include

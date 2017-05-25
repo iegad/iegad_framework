@@ -548,7 +548,7 @@ public:
     // @newstr : 用来替换的新字符串
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     replace(const std::string & src, const std::string & oldstr, const std::string & newstr)
     {
         if (oldstr.empty()) {
@@ -570,7 +570,7 @@ public:
     // ============================
     // @重载 : replace => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     replace(const std::wstring & src, const std::wstring & oldstr, const std::wstring & newstr)
     {
         if (oldstr.empty()) {
@@ -1057,7 +1057,7 @@ public:
         return res;
     }
 
-#if (IEGAD_CFG_CPP11)
+#if (IEGAD_OPTION_CPP11)
     // ============================
     // @用途 : 将std::string 转换成std::wstring
     // @fmt : 格式化字符串
@@ -1072,7 +1072,7 @@ public:
         int i = 0;
         for (auto itor = params.begin(); itor != params.end(); itor++, i++) {
             temp = std::string("{") + std::to_string(i) + "}";
-            res = iegad::string_ex::replace(res, temp, *itor);
+            res = iegad::string::replace(res, temp, *itor);
         }
         return res;
     }
@@ -1087,7 +1087,7 @@ public:
         int i = 0;
         for (auto itor = params.begin(); itor != params.end(); itor++, i++) {
             temp = std::wstring(L"{") + std::to_wstring(i) + L"}";
-            res = iegad::string_ex::replace(res, temp, *itor);
+            res = iegad::string::replace(res, temp, *itor);
         }
         return res;
     }
