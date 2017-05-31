@@ -46,7 +46,8 @@ HEADERS += \
     ../libiegad/iegad/filesystem/iegad_filesystem.hpp \
     ../libiegad/iegad/iegad_config.h \
     ../libiegad/iegad/iegad.h \
-    ../libiegad/iegad/sercurity/iegad_security.hpp
+    ../libiegad/iegad/sercurity/iegad_security.hpp \
+    ../libiegad/iegad/sercurity/iegad_base64.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \

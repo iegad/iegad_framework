@@ -575,6 +575,16 @@ TEST(stringTest, pad)
     EXPECT_EQ(L"123000", string::rpad(wsrc, 3, L'0'));
 }
 
+
+TEST(stringTest, base64)
+{
+    std::string src = "肖琪是天才";
+    std::string enstr = iegad::security::base64_encode(src);
+    std::cout<<enstr<<std::endl;
+    std::string ret = iegad::security::base64_decode(enstr);
+    EXPECT_EQ(src, ret);
+}
+
 #if (IEGAD_OPTION_SSL)
 TEST(stringTest, aes)
 {

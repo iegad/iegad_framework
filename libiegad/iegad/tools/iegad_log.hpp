@@ -9,7 +9,8 @@
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 用来记录, INFO
+// @用途 : 用于日志记录, 分为info, warnning和error.
+//        需要glog库的支持
 //
 // @PS : 因为打印日志会带来额外的系统开销, 由其是
 //	      IO操作, 所以, 只在必要时打印日志.
@@ -29,9 +30,9 @@
 
 
 // info && error 日志保存路径
-#define	    LOG_INF_FILE        "./LOG/INFO_"
-#define		LOG_ERR_FILE      "./LOG/ERR_"
-#define    LOG_WARN_FILE   "./LOG/WARNING_"
+#define	    LOG_INF_FILE    "./LOG/INFO_"
+#define		LOG_ERR_FILE    "./LOG/ERR_"
+#define     LOG_WARN_FILE   "./LOG/WARNING_"
 
 
 #ifdef WIN32
@@ -59,8 +60,8 @@
 
 
 // 操作宏
-#define iINFO       LOG(INFO)
-#define iERR        LOG(ERROR)
+#define iINFO     LOG(INFO)
+#define iERR      LOG(ERROR)
 #define iWARN     LOG(WARNING)
 
 
