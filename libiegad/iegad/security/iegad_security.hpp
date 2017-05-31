@@ -26,11 +26,11 @@
 
 #include "../iegad_config.h"
 
-#include "sercurity/iegad_aes.hpp"
-#include "sercurity/iegad_sha1.hpp"
-#include "sercurity/iegad_md5.hpp"
+#include "security/iegad_aes.hpp"
+#include "security/iegad_sha1.hpp"
+#include "security/iegad_md5.hpp"
 #include "string/iegad_string.hpp"
-#include "sercurity/iegad_base64.hpp"
+#include "security/iegad_base64.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid.hpp>

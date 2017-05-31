@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 #include "string/iegad_string.hpp"
-#include "sercurity/iegad_security.hpp"
+#include "security/iegad_security.hpp"
 #include "tools/iegad_log.hpp"
 
 using namespace iegad;
