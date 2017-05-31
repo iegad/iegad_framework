@@ -2,7 +2,7 @@
 #define __IEGAD_SECURITY__
 
 
-#include "iegad_config.h"
+#include "../iegad_config.h"
 
 #include "sercurity/iegad_aes.hpp"
 #include "sercurity/iegad_sha1.hpp"
@@ -67,14 +67,14 @@ uuid()
     return boost::uuids::to_string(u);
 }
 
-#ifdef IEGAD_OPTION_SSL
+#if (IEGAD_OPTION_SSL)
 static const std::string
 aes_encrypt(const std::string & src, const std::string & k)
 {
     if (src.empty() || k.empty()) {
-        return iegad::string::ERR_STR;
+        return iegad::string::ERR_STR();
     }
-    return iegad::security::AES::encrypt(src, k);
+    return iegad::AES::encrypt(src, k);
 }
 
 
@@ -82,12 +82,11 @@ static const std::string
 aes_decrypt(const std::string & enstr, const std::string & k)
 {
     if (enstr.empty() || k.empty()) {
-        return iegad::string::ERR_STR;
+        return iegad::string::ERR_STR();
     }
-    return iegad::security::AES::decrypt(enstr, k);
+    return iegad::AES::decrypt(enstr, k);
 }
-#endif // IEGAD_OPTION_SSL
-
+#endif // (IEGAD_OPTION_SSL)
 
 
 }; // class AES;

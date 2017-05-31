@@ -1,9 +1,10 @@
 #ifndef __IEGAD_AES__
 #define __IEGAD_AES__
 
-#ifdef IEGAD_OPTION_SSL
 
+#include "../iegad_config.h"
 
+#if (IEGAD_OPTION_SSL)
 #include <openssl/aes.h>
 #include <memory.h>
 #include <string>
@@ -20,14 +21,16 @@ public:
         std::string res;
 
         unsigned char k[AES_BLOCK_SIZE + 1] = {0};
+        std::cout<<"call in"<<std::endl;
         unsigned char ivec[AES_BLOCK_SIZE] = {0};
         AES_KEY aes_key;
 
-        int srclen=src.size(), len = 0;
+        int srclen = src.size(), len = 0;
 
         do {
             memset(&aes_key, 0, sizeof(AES_KEY));
             memcpy(k, key.c_str(), AES_BLOCK_SIZE);
+
             len = srclen % AES_BLOCK_SIZE == 0 ? srclen : ((srclen / AES_BLOCK_SIZE) + 1) * AES_BLOCK_SIZE;
 
             in_data = (char *)calloc(len + 1, sizeof(char));
@@ -47,6 +50,7 @@ public:
 
             AES_cbc_encrypt((unsigned char *)in_data, (unsigned char *)en_data,
                 len, &aes_key, ivec, AES_ENCRYPT);
+
             res = std::string(en_data, len);
         } while(false);
 
@@ -100,8 +104,6 @@ public:
 
 
 } // namespace iegad;
-
-#endif
-
+#endif // (IEGAD_OPTION_SSL)
 
 #endif // __IEGAD_AES__

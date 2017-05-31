@@ -53,9 +53,10 @@
 //  --2017-03-19        --iegad       -- 1, 添加 错误常量 ERR_STR, ERR_WSTR.
 //                                                 -- 2, 增强性能
 //                                                 -- 3, 将安全系列函数移出string
+//  --2017-05-31        --iegad       -- 修改所有函数的返回值const std::string为std::string， 这样方便作std::move操作
 
 
-#include "iegad_config.h"
+#include "../iegad_config.h"
 
 #include <string>
 #include <vector>
@@ -79,7 +80,7 @@ public:
     // @chs : 指定的字符, 可以指定多个字符
     // @返回值 : 返回分组成功的字符串向量
     // ============================
-    static const std::vector<std::string>
+    static std::vector<std::string>
     split_vct(const std::string & src, const std::string & chs)
     {
         int pos = 0, len = chs.length(), n = 0, index = 0;
@@ -114,7 +115,7 @@ public:
     // ============================
     // @重载 : split_vct => std::wstring
     // ============================
-    static const std::vector<std::wstring>
+    static std::vector<std::wstring>
     split_vct(const std::wstring & src, const std::wstring & chs)
     {
         int pos = 0, len = chs.length(), n = 0, index = 0;
@@ -153,7 +154,7 @@ public:
     // @n : 指定切割的长度
     // @返回值 : 切割后的子字符串
     // ============================
-    static const std::string
+    static std::string
     substr(const std::string & src, unsigned int pos, int n = -1)
     {
         if (src.empty()) {
@@ -177,7 +178,7 @@ public:
     // ============================
     // @重载 : substr => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     substr(const std::wstring & src, unsigned int pos, int n = -1)
     {
         if (src.empty()) {
@@ -208,7 +209,7 @@ public:
     // @PS : 不同于substr的是 substr2 使用 下标方式来切割字符串.
     //	    end 为超尾下标
     // ============================
-    static const std::string
+    static std::string
     substr2(const std::string & src, unsigned int bgn, unsigned int end = -1)
     {
         if (src.empty()) {
@@ -229,7 +230,7 @@ public:
     // ============================
     // @重载 : substr2 => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     substr2(const std::wstring & src, unsigned int bgn, unsigned int end = -1)
     {
         if (src.empty()) {
@@ -246,7 +247,14 @@ public:
     }
 
 
-    static const std::string
+    // ============================
+    // @用途 : 左侧填充字符串
+    // @src : 源字符串
+    // @len : 需要填充的数量
+    // @c : 需要填充的字符， 默认为空格.
+    // @返回值 : 填充好后的字符串
+    // ============================
+    static std::string
     lpad(const std::string & src, int len, char c = ' ')
     {
         std::string res;
@@ -258,7 +266,7 @@ public:
     }
 
 
-    static const std::wstring
+    static std::wstring
     lpad(const std::wstring & src, int len, wchar_t c = L' ')
     {
         std::wstring res;
@@ -270,7 +278,14 @@ public:
     }
 
 
-    static const std::string
+    // ============================
+    // @用途 : 右侧填充字符串
+    // @src : 源字符串
+    // @len : 需要填充的数量
+    // @c : 需要填充的字符， 默认为空格.
+    // @返回值 : 填充好后的字符串
+    // ============================
+    static std::string
     rpad(const std::string & src, int len, char c = ' ')
     {
         std::string res = src;
@@ -281,7 +296,7 @@ public:
     }
 
 
-    static const std::wstring
+    static std::wstring
     rpad(const std::wstring & src, int len, wchar_t c = L' ')
     {
         std::wstring res = src;
@@ -297,7 +312,7 @@ public:
     // @src : 源字符串
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     rtrim(const std::string & src)
     {
         if (src.empty()) {
@@ -337,7 +352,7 @@ public:
     // @chr : 指定去掉的字符
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     rtrim(const std::string & src, char c)
     {
         if (src.empty() || c == '\0') {
@@ -357,7 +372,7 @@ public:
     // ============================
     // @重载 : rtrim => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     rtrim(const std::wstring & src, wchar_t c)
     {
         if (src.empty() || c == L'\0') {
@@ -378,7 +393,7 @@ public:
     // @src : 源字符串
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     trim(const std::string & src)
     {
         if (src.empty()) {
@@ -399,7 +414,7 @@ public:
     // ============================
     // @重载 : trim => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     trim(const std::wstring & src)
     {
         if (src.empty()) {
@@ -423,7 +438,7 @@ public:
     // @chr : 指定去掉的字符
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     trim(const std::string & src, char chr)
     {
         if (src.empty() || chr == '\0') {
@@ -443,7 +458,7 @@ public:
     // ============================
     // @重载 : trim => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     trim(const std::wstring & src, wchar_t chr)
     {
         if (src.empty() || chr == '\0') {
@@ -466,7 +481,7 @@ public:
     // @src : 源字符串
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     ltrim(const std::string & src)
     {
         if (src.empty()) {
@@ -484,7 +499,7 @@ public:
     // ============================
     // @重载 : ltrim => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     ltrim(const std::wstring & src)
     {
         if (src.empty()) {
@@ -506,7 +521,7 @@ public:
     // @chr : 指定去掉的字符
     // @返回值 : 修改后的新字符串
     // ============================
-    static const std::string
+    static std::string
     ltrim(const std::string & src, char c)
     {
         if (src.empty() || c == '\0') {
@@ -525,7 +540,7 @@ public:
     // ============================
     // @重载 : ltrim => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     ltrim(const std::wstring & src, wchar_t c)
     {
         if (src.empty() || c == L'\0') {
@@ -775,7 +790,7 @@ public:
     // @n : 需要删除的长度, 默认 -1, 表示从pos 开始直到结尾的部份都将删除
     // @返回值 : 返回(删除)修改后的字符串
     // ============================
-    static const std::string
+    static std::string
     remove(const std::string & src, unsigned int pos, int n = -1)
     {   
         if (src.empty()) {
@@ -798,7 +813,7 @@ public:
     // ============================
     // @重载 : remove => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     remove(const std::wstring & src, unsigned int pos, int n = -1)
     {
         if (src.empty()) {
@@ -826,7 +841,7 @@ public:
     // @end : 需要删除结束下标, 默认 -1, 表示从src 的最后一个字符的下标
     // @返回值 : 返回(删除)修改后的字符串
     // ============================
-    static const std::string
+    static std::string
     remove2(const std::string & src, unsigned int bgn, unsigned int end = -1)
     {
         if (src.empty()) {
@@ -846,7 +861,7 @@ public:
     // ============================
     // @重载 : remove2 => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     remove2(const std::wstring & src, unsigned int bgn, unsigned int end = -1)
     {
         if (src.empty()) {
@@ -870,7 +885,7 @@ public:
     // @返回值 : 修改后的新字符串
     // @PS : 如果字源字符串中出现非ASCII字符， 请使用wstring版本
     // ============================
-    static const std::string
+    static std::string
     to_upr(const std::string & src)
     {
         if (src.empty()) {
@@ -885,7 +900,7 @@ public:
     // ============================
     // @重载 : to_upr => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     to_upr(const std::wstring & src)
     {
         if (src.empty()) {
@@ -904,7 +919,7 @@ public:
     // @返回值 : 修改后的新字符串
     // @PS : 如果字源字符串中出现非ASCII字符， 请使用wstring版本
     // ============================
-    static const std::string
+    static std::string
     to_lwr(const std::string & src)
     {
         if (src.empty()) {
@@ -919,7 +934,7 @@ public:
     // ============================
     // @重载 : to_lwr => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     to_lwr(const std::wstring & src)
     {
         if (src.empty()) {
@@ -938,7 +953,7 @@ public:
     // @buff_size : 数据长度
     // @返回值 : 编码后的字符串型式
     // ============================
-    static const std::string
+    static std::string
     bin_tostr(const char * buff, unsigned int buff_size)
     {
         if (buff == NULL || buff_size == 0) {
@@ -1015,7 +1030,7 @@ public:
     // @wstr : 需要std::wstring 宽字符串
     // @返回值 : 转换后的std::string类型字符串
     // ============================
-    static const std::string
+    static std::string
     wstr_to_str(const std::wstring & wstr)
     {
         if (wstr.empty()) {
@@ -1038,7 +1053,7 @@ public:
     // @str : 需要std::string 字符串
     // @返回值 : 转换后的std::wstring类型字符串
     // ============================
-    static const std::wstring
+    static std::wstring
     str_to_wstr(const std::string & str)
     {
         if (str.empty()) {
@@ -1065,7 +1080,7 @@ public:
     // @返回值 : 格式化后的字符串
     // @PS : 使用C#的Format格式 {0}, {1}, {2} ...
     // ============================
-    static const std::string
+    static std::string
     format(const std::string & fmt, const std::initializer_list<std::string> & params)
     {
         std::string temp, res = fmt;
@@ -1080,7 +1095,7 @@ public:
     // ============================
     // @重载 : format => std::wstring
     // ============================
-    static const std::wstring
+    static std::wstring
     format(const std::wstring & fmt, const std::initializer_list<std::wstring> & params)
     {
         std::wstring temp, res = fmt;
@@ -1091,7 +1106,7 @@ public:
         }
         return res;
     }
-#endif
+#endif // (IEGAD_OPTION_CPP11)
 
 
 }; // class string;

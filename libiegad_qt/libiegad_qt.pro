@@ -2,6 +2,7 @@ TEMPLATE = app
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += c++11
+CONFIG += X86_64
 CONFIG += console
 
 SOURCES += \
@@ -10,7 +11,7 @@ SOURCES += \
     ../libiegad/test/test_main.cpp \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
-    ../libiegad/test/test_timer.cxx \    
+    ../libiegad/test/test_timer.cxx \
     #../libiegad/test/test_thrift.cxx \
 
 HEADERS += \
@@ -49,8 +50,8 @@ HEADERS += \
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
-    ../iegad/third_party/include \
-    /usr/local/include
+    /usr/include\
+    /usr/local/include\
 
 
 
@@ -63,13 +64,10 @@ LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
 LIBS += -L/usr/local/lib -lboost_filesystem
 LIBS += -L/usr/local/lib -lboost_regex
-#LIBS += -L/usr/lib        -lssl
-#LIBS += -L/usr/lib        -lcrypto
-LIBS += -L/usr/local/lib  -lsigar
+#LIBS += -L/usr/local/lib -lssl
+#LIBS += -L/usr/local/lib -lcrypto
+LIBS += -L/usr/local/lib -lsigar
 
 #ubuntu required
-LIBS += -pthread
+#LIBS += -pthread
 
-
-INCLUDEPATH += $$PWD/../../../../../usr/include
-DEPENDPATH += $$PWD/../../../../../usr/include

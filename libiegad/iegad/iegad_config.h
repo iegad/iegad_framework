@@ -2,15 +2,12 @@
 #define __IEGAD_CONFIG__
 
 
-
-#define IEGAD_OPTION_BOOST
-#define IEGAD_OPTION_SIGAR
-#define IEGAD_OPTION_THRIFT
-#define IEGAD_OPTION_GLOG
+#define IEGAD_OPTION_BOOST  1
+#define IEGAD_OPTION_SIGAR  1
+#define IEGAD_OPTION_THRIFT 1
+#define IEGAD_OPTION_GLOG   1
 #define IEGAD_OPTION_CPP11  1
-#ifdef __linux__
-#define IEGAD_OPTION_SSL
-#endif
+#define IEGAD_OPTION_SSL    0
 
 
 

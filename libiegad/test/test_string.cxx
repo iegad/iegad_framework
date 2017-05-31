@@ -575,8 +575,7 @@ TEST(stringTest, pad)
     EXPECT_EQ(L"123000", string::rpad(wsrc, 3, L'0'));
 }
 
-
-#ifdef IEGAD_OPTION_SSL
+#if (IEGAD_OPTION_SSL)
 TEST(stringTest, aes)
 {
     std::string src = "肖琪是天才";
@@ -585,7 +584,7 @@ TEST(stringTest, aes)
     std::string res = security::aes_decrypt(enstr, k);
     EXPECT_EQ(src, res);
 }
-#endif
+#endif //(IEGAD_OPTION_SSL)
 
 
 
