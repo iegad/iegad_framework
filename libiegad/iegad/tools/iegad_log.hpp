@@ -20,8 +20,8 @@
 // =======================================
 //  日期                     修改人                                   修改说明
 // =======================================
-// 2015-12-09		    -- iegad			简化使用
-// 2016-04-11			-- iegad			添加ERROR级操作
+// 2015-12-09           -- iegad             -- 简化使用
+// 2016-04-11           -- iegad             -- 添加ERROR级操作
 
 
 // glog standard;
@@ -30,16 +30,16 @@
 
 
 // info && error 日志保存路径
-#define	    LOG_INF_FILE    "./LOG/INFO_"
-#define		LOG_ERR_FILE    "./LOG/ERR_"
+#define     LOG_INF_FILE    "./LOG/INFO_"
+#define     LOG_ERR_FILE    "./LOG/ERR_"
 #define     LOG_WARN_FILE   "./LOG/WARNING_"
 
 
 #ifdef WIN32
-#define	    MKDIR       "mkdir LOG"
+#define     MKDIR       "mkdir LOG"
 #else
 // 创建日志目录
-#define	    MKDIR       "mkdir -p ./LOG"
+#define     MKDIR       "mkdir -p ./LOG"
 #endif
 
 #include <string>

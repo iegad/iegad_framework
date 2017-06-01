@@ -111,6 +111,7 @@ public:
         return ret;
     }
 
+
 private:
     static bool _is_base64(unsigned char c)
     {

@@ -11,7 +11,6 @@
 
 
 
-
 namespace iegad {
 
 
@@ -39,7 +38,7 @@ public:
     }; // struct fileInfo;
 
 
-    static const std::string
+    static std::string
     find_file(const boost::filesystem::path & dir, const std::string & filename)
     {
         typedef boost::optional<boost::filesystem::path> rzt_t;
@@ -61,7 +60,7 @@ public:
     }
 
 
-    static const std::vector<std::string>
+    static std::vector<std::string>
     find_files(const boost::filesystem::path & dir, const std::string & filename)
     {
         std::vector<std::string> res;
@@ -89,7 +88,7 @@ public:
     }
 
 
-    static const std::vector<fileInfo>
+    static std::vector<fileInfo>
     ls (const std::string & path, std::string * errstr = NULL)
     {
         typedef boost::filesystem::recursive_directory_iterator rd_itr;

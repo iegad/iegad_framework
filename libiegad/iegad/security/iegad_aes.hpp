@@ -4,18 +4,23 @@
 
 #include "../iegad_config.h"
 
+
 #if (IEGAD_OPTION_SSL)
 #include <openssl/aes.h>
 #include <memory.h>
 #include <string>
 
 
+
 namespace iegad {
+
 
 
 class AES {
 public:
-    static const std::string encrypt(const std::string & src, const std::string & key) {
+    static std::string 
+    encrypt(const std::string & src, const std::string & key) 
+    {
         char * in_data = NULL;
         char * en_data = NULL;
         std::string res;
@@ -66,7 +71,9 @@ public:
     }
 
 
-    static const std::string decrypt(const std::string & enstr, const std::string & key) {
+    static std::string 
+    decrypt(const std::string & enstr, const std::string & key) 
+    {
         char * de_data = NULL;
         unsigned char k[AES_BLOCK_SIZE+1] = {0};
         unsigned char ivec[AES_BLOCK_SIZE] = {0};
@@ -103,7 +110,9 @@ public:
 }; // class AES;
 
 
+
 } // namespace iegad;
 #endif // (IEGAD_OPTION_SSL)
+
 
 #endif // __IEGAD_AES__

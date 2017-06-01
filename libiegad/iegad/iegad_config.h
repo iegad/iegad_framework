@@ -7,7 +7,7 @@
 #define IEGAD_OPTION_THRIFT 1
 #define IEGAD_OPTION_GLOG   1
 #define IEGAD_OPTION_CPP11  1
-#define IEGAD_OPTION_SSL    0
+#define IEGAD_OPTION_SSL    1
 
 
 

@@ -24,8 +24,8 @@ HEADERS += \
     ../libiegad/iegad/tools/job_queue.hpp \
     ../libiegad/iegad/tools/job_worker.hpp \
     ../libiegad/iegad/string/iegad_string.hpp \
-    ../libiegad/iegad/sercurity/iegad_sha1.hpp \
-    ../libiegad/iegad/sercurity/iegad_md5.hpp \
+    ../libiegad/iegad/security/iegad_sha1.hpp \
+    ../libiegad/iegad/security/iegad_md5.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_command.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_connection.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_exception.hpp \
@@ -42,12 +42,12 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_msg_ctl.hpp \
     ../libiegad/iegad/net/iegad_msg.hpp \
     ../libiegad/iegad/sigar_ex/iegad_sigar.hpp \
-    ../libiegad/iegad/sercurity/iegad_aes.hpp \
+    ../libiegad/iegad/security/iegad_aes.hpp \
     ../libiegad/iegad/filesystem/iegad_filesystem.hpp \
     ../libiegad/iegad/iegad_config.h \
     ../libiegad/iegad/iegad.h \
-    ../libiegad/iegad/sercurity/iegad_security.hpp \
-    ../libiegad/iegad/sercurity/iegad_base64.hpp
+    ../libiegad/iegad/security/iegad_security.hpp \
+    ../libiegad/iegad/security/iegad_base64.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
@@ -65,8 +65,8 @@ LIBS += -L/usr/local/lib -lboost_system
 LIBS += -L/usr/local/lib -lboost_thread
 LIBS += -L/usr/local/lib -lboost_filesystem
 LIBS += -L/usr/local/lib -lboost_regex
-#LIBS += -L/usr/local/lib -lssl
-#LIBS += -L/usr/local/lib -lcrypto
+LIBS += -L/usr/local/lib -lssl
+LIBS += -L/usr/local/lib -lcrypto
 LIBS += -L/usr/local/lib -lsigar
 
 #ubuntu required

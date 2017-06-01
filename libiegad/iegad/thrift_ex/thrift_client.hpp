@@ -11,10 +11,10 @@ namespace iegad {
 namespace thrift_ex { 
 
 
-    template <typename __SVC_CLIENT_T_, typename __PROTOCOL_T_, bool __NON_BLOCK_>
-    class TClient {
-    // thrift客户端模板类
-    public:
+template <typename __SVC_CLIENT_T_, typename __PROTOCOL_T_, bool __NON_BLOCK_>
+class TClient {
+// thrift客户端模板类
+public:
     typedef ::apache::thrift::transport::TSocket TSocket;
     typedef ::apache::thrift::transport::TTransport TTransport;
     typedef ::apache::thrift::transport::TFramedTransport TFramedTransport;
@@ -23,22 +23,25 @@ namespace thrift_ex {
     typedef __PROTOCOL_T_ protocol_t;
 
 
-    explicit TClient(const std::string & ipstr, int port) {
+    explicit TClient(const std::string & ipstr, int port) 
+    {
         if (!__NON_BLOCK_) {
             _init_thread_clnt(ipstr, port);
-	    }
-	    else {
+        }
+        else {
             _init_nonblocking_clnt(ipstr, port);
-	    }
-	    this->Open();
-	}
+        }
+        this->Open();
+    }
 
 
-	~TClient() {}
+    ~TClient() {}
 
 
-	bool Open() {
-	    do {
+    bool 
+    Open() 
+    {
+        do {
             if (sock_ == NULL) {
                 break;
             }
@@ -46,49 +49,57 @@ namespace thrift_ex {
                 sock_->open();
             }
             return true;
-	    } while (false);
-	    return false;
-	}
+        } while (false);
+        return false;
+    }
 
 
-	void Close() {
+    void 
+    Close() 
+    {
         if (sock_ != NULL && sock_->isOpen()) {
             sock_->close();
-	    }
-	}
+        }
+    }
 
 
-	boost::shared_ptr<__SVC_CLIENT_T_> imp() {
-	    return client_;
-	}
+    boost::shared_ptr<__SVC_CLIENT_T_> 
+    imp() 
+    {
+        return client_;
+    }
 
 
 private:
-	void _init_nonblocking_clnt(const std::string & ipstr, int port) {
-	    sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
+    void 
+    _init_nonblocking_clnt(const std::string & ipstr, int port) 
+    {
+        sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
         trans_ = boost::shared_ptr<TFramedTransport>(new TFramedTransport(sock_));
-	    protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
-	    client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
-	}
+        protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
+        client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
+    }
 
 
-	void _init_thread_clnt(const std::string & ipstr, int port) {
-	    sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
+    void 
+    _init_thread_clnt(const std::string & ipstr, int port) 
+    {
+        sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
         trans_ = boost::shared_ptr<TBufferedTransport>(new TBufferedTransport(sock_));
         protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
-	    client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
-	}
+        client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
+    }
 
 
-	boost::shared_ptr<TSocket> sock_;
-	boost::shared_ptr<protocol_t> protoc_;
+    boost::shared_ptr<TSocket> sock_;
+    boost::shared_ptr<protocol_t> protoc_;
     boost::shared_ptr<TTransport> trans_;
-	boost::shared_ptr<__SVC_CLIENT_T_> client_;
+    boost::shared_ptr<__SVC_CLIENT_T_> client_;
 
 
-	TClient(const TClient &);
-	TClient & operator=(TClient &);
-    }; // TClient<__PROTOCOL_T_, __SVC_CLIENT_T_>;
+    TClient(const TClient &);
+    TClient & operator=(TClient &);
+}; // TClient<__PROTOCOL_T_, __SVC_CLIENT_T_>;
 
 
 } // namespace thrift_ex;

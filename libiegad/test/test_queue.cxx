@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "tools/job_queue.hpp"
+#include <boost/ref.hpp>
 
 
 using namespace iegad::tools;
@@ -67,15 +68,15 @@ TEST(queueTesting, pushAndPop_int)
     int va1;
     EXPECT_TRUE(que.pop(&va1));
     EXPECT_EQ(10, va1);
-    /*
+
     //异步出队
-    boost::future<int> f1 = boost::async(func1, boost::ref(que));
+    std::future<int> f1 = std::async(func1, boost::ref(que));
     EXPECT_EQ(20, f1.get());
     // stop队列, 将返回错误出队值
-    boost::future<int> f2 = boost::async(func1, boost::ref(que));
+    std::future<int> f2 = std::async(func1, boost::ref(que));
     que.stop();
     EXPECT_EQ(-1, f2.get());
-    */
+
     EXPECT_TRUE(que.empty());
 }
 
@@ -96,7 +97,7 @@ TEST(queueTesting, pushAndPop_class)
     EXPECT_TRUE(que.pop(&va1));
     EXPECT_EQ(28, va1->age);
     EXPECT_EQ("肖琪", va1->name);
-    /*
+
     //异步出队
     std::future<person_ptr> f1 = std::async(func2, std::ref(que));
     person_ptr va2 = f1.get();
@@ -106,7 +107,7 @@ TEST(queueTesting, pushAndPop_class)
     std::future<person_ptr> f2 = std::async(func2, std::ref(que));
     que.stop();
     EXPECT_EQ(nullptr, f2.get());
-    */
+
     EXPECT_TRUE(que.empty());
 }
 
