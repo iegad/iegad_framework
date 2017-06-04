@@ -25,6 +25,7 @@ public:
 
     explicit TClient(const std::string & ipstr, int port) 
     {
+        assert(ipstr.size() > 0 && port > 0 && port <= 65535);
         if (!__NON_BLOCK_) {
             _init_thread_clnt(ipstr, port);
         }

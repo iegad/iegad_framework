@@ -31,12 +31,11 @@ public:
         char buffer[41];
         _sha_init();
 
-        // One times analyse 64Bytes, 512 bits.
         int nInputLen = input.size();
-        int nDealDataLen = 0;                           // the length of can-deal-data, this times;
+        int nDealDataLen = 0;
         for (int pos = 0; pos <= nInputLen; pos += 64) {
             if (nInputLen - pos >= 64) {
-                nDealDataLen = 64;                      // input-data is enough fill 64bytes,
+                nDealDataLen = 64;
                 memset(Message_Block, 0, sizeof(Message_Block));
                 memcpy(Message_Block, input.c_str() + pos, nDealDataLen);
 
@@ -45,7 +44,6 @@ public:
                 _add_data_len(0);
             }
             else {
-                // input-data isn't enough fill 64bytes,need fill 0x8000000000 and lenth of real-data.
                 nDealDataLen = nInputLen - pos;
                 memset(Message_Block, 0, sizeof(Message_Block));
                 memcpy(Message_Block, input.c_str() + pos, nDealDataLen);
@@ -55,7 +53,6 @@ public:
             }
         }
 
-        // copy result to output
         for (int i = 0; i < 5; i++) {
             sprintf(&(buffer[8 * i]), "%08x", H[i]);
         }
@@ -65,11 +62,11 @@ public:
 
 
 private:
-    unsigned int H[5];               // Message digest buffers
-    unsigned int Length_Low;         // Message length in bits
-    unsigned int Length_High;        // Message length in bits
-    unsigned char Message_Block[64]; // 512-bit message blocks
-    int Message_Block_Index;         // Index into message block array
+    unsigned int H[5];
+    unsigned int Length_Low;
+    unsigned int Length_High;
+    unsigned char Message_Block[64];
+    int Message_Block_Index;
 
 
     void
@@ -101,7 +98,6 @@ private:
     void
     _process_msg_block() 
     {
-        // Constants defined for SHA-1
         const unsigned K[] = {
             0x5A827999,
             0x6ED9EBA1,

@@ -180,6 +180,7 @@ template <typename T>
 std::chrono::time_point<std::chrono::system_clock>
 iegad::tools::timer<T>::_mk_timepoint(const std::string & timestr)
 {
+    assert(timestr.length() == 19);
     std::tm abtm;
     memset(&abtm, 0, sizeof(abtm));
     int year, mon, day, hour, min, sec;

@@ -98,6 +98,7 @@ private:
 template<typename T>
 void iegad::tools::worker_t<T>::run(int n /*= 4*/)
 {
+    assert(n > 0);
     for (int i = 0; i < n; i++) {
         thread_pool_.push_back(
         boost::thread(

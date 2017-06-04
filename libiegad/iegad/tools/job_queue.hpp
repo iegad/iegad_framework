@@ -122,6 +122,7 @@ void iegad::tools::job_que_t<T>::push(const T & val)
 template<typename T>
 bool iegad::tools::job_que_t<T>::pop(T * val)
 {
+    assert(val);
     boost::unique_lock<boost::mutex> locker(mtx_);
     while (!stop_flag_ && que_.empty()) {
         cv_.wait(locker);

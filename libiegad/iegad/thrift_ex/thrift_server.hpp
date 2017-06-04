@@ -69,7 +69,7 @@ public:
     }
 
 
-    virtual void 
+    virtual void
     releaseHandler(__SVC_IF_T_ * handler) 
     {
         delete handler;
@@ -131,6 +131,7 @@ public:
         port_(port),
         threadCount_(threadCount) 
     {
+        assert(threadCount > 0 && port > 0 && port <= 65535);
         if (!_socket_init()) {
             throw std::logic_error("Windows socket init failed");
         }
@@ -161,6 +162,8 @@ public:
         threadCount_(threadCount),
         host_(host) 
     {
+        assert(host.length() > 0 && port > 0 && port <= 65535 && threadCount > 0);
+
         if (!_socket_init()) {
             throw std::logic_error("Windows socket init failed");
         }

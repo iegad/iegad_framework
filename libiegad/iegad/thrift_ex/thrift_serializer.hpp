@@ -115,6 +115,8 @@ public:
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::SerializeToBinary(T & data, std::string * serstr, int * size)
     {
+        assert(serstr && size);
+
         using ::apache::thrift::protocol::TBinaryProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;
 
@@ -136,6 +138,8 @@ public:
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::ParseFromBinary(T * data, const std::string & serstr)
     {
+        assert(data);
+
         using ::apache::thrift::protocol::TBinaryProtocol;
         using ::apache::thrift::protocol::TProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;
@@ -157,6 +161,8 @@ public:
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::SerializeToJSONString(T & data, std::string * serstr, int * size)
     {
+        assert(serstr && size);
+
         using ::apache::thrift::protocol::TJSONProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;
         try {
@@ -177,6 +183,8 @@ public:
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::ParseFromJSONString(T * data, const std::string & serstr)
     {
+        assert(data);
+
         using ::apache::thrift::protocol::TJSONProtocol;
         using ::apache::thrift::protocol::TProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;
@@ -198,6 +206,8 @@ public:
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::SerializeToVarint(T & data, std::string * serstr, int * size)
     {
+        assert(serstr && size);
+
         using ::apache::thrift::protocol::TCompactProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;
 
@@ -219,6 +229,8 @@ public:
     template <class T>
     bool iegad::thrift_ex::Serializer<T>::ParseFromVarint(T * data, const std::string & serstr)
     {
+        assert(data);
+
         using ::apache::thrift::protocol::TCompactProtocol;
         using ::apache::thrift::protocol::TProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;

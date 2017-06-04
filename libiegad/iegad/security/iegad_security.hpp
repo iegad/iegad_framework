@@ -10,7 +10,7 @@
 //
 // ============================
 // @用途 : 安全方面函数封装，
-//        目前支持AES128, MD5, SHA1, UUID
+//        目前支持AES128, MD5, SHA1, UUID, base64
 //
 //        UUID需要boost的支持
 // ============================
@@ -21,7 +21,8 @@
 // =======================================
 // -- 2017-05-31        -- iegad           -- 1, 将返回值由const std::string 改为std::string
 //                                         -- 2, 添加base64编解码函数
-
+// -- 2017-06-04        -- iegad           -- 1, 添加注释
+//                                         -- 2, 为base64添加入参校验
 
 
 #include "../iegad_config.h"
@@ -60,11 +61,9 @@ md5(const std::string & src)
 
 
 // ============================
-// @用途 : 将字符串 src 进行sha1加密, 并将结果存放到 digest中
+// @用途 : 将字符串 src 进行sha1摘要算法
 // @src : 需要加密的字符串
-// @ser : 用来保存摘要的数组容器
-// @返回值 : sha1加密之后的二进制数据
-// @PS : 返回值是二进制数据而不是字符串
+// @返回值 : sha1加密之后的字符串
 // ============================
 static std::string
 sha1(const std::string & src)
@@ -91,7 +90,13 @@ uuid()
     return boost::uuids::to_string(u);
 }
 
-#if (IEGAD_OPTION_SSL)
+
+// ============================
+// @用途 : 将字符串 src 进行AES128加密
+// @src : 需要加密的字符串
+// @k : 加密的key
+// @返回值 : aes128加密后的字符串
+// ============================
 static const std::string
 aes_encrypt(const std::string & src, const std::string & k)
 {
@@ -102,6 +107,12 @@ aes_encrypt(const std::string & src, const std::string & k)
 }
 
 
+// ============================
+// @用途 : 将字符串 ensrc 进行AES128解密
+// @enstr : 需要解密的字符串
+// @k : 加密的key
+// @返回值 : aes128解密后的字符串
+// ============================
 static const std::string
 aes_decrypt(const std::string & enstr, const std::string & k)
 {
@@ -110,19 +121,34 @@ aes_decrypt(const std::string & enstr, const std::string & k)
     }
     return iegad::AES::decrypt(enstr, k);
 }
-#endif // (IEGAD_OPTION_SSL)
 
 
+// ============================
+// @用途 : 将字符串 src 进行base64编码
+// @src : 需要编码的字符串
+// @返回值 : base64编码后的字符串
+// ============================
 static std::string
 base64_encode(const std::string & src)
 {
+    if (src.empty()) {
+        return iegad::string::EMPTY_STR();
+    }
     return iegad::base64::encode((const unsigned char *)src.c_str(), src.size());
 }
 
 
+// ============================
+// @用途 : 将字符串 src 进行base64解码
+// @base64_str : 需要解码的字符串
+// @返回值 : base64解码后的字符串
+// ============================
 static std::string
 base64_decode(const std::string & base64_str)
 {
+    if (base64_str.empty()) {
+        return iegad::string::EMPTY_STR();
+    }
     return iegad::base64::decode(base64_str);
 }
 

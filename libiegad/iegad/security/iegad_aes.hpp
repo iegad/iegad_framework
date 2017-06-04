@@ -5,7 +5,6 @@
 #include "../iegad_config.h"
 
 
-#if (IEGAD_OPTION_SSL)
 #include <openssl/aes.h>
 #include <memory.h>
 #include <string>
@@ -26,7 +25,6 @@ public:
         std::string res;
 
         unsigned char k[AES_BLOCK_SIZE + 1] = {0};
-        std::cout<<"call in"<<std::endl;
         unsigned char ivec[AES_BLOCK_SIZE] = {0};
         AES_KEY aes_key;
 
@@ -110,9 +108,7 @@ public:
 }; // class AES;
 
 
-
 } // namespace iegad;
-#endif // (IEGAD_OPTION_SSL)
 
 
 #endif // __IEGAD_AES__
