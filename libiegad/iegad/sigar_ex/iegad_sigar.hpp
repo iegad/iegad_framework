@@ -26,48 +26,69 @@ public:
     typedef boost::shared_ptr<cpu> ptr_t;
 
 
-    static ptr_t Create() {
+    static ptr_t
+    create()
+    {
         return ptr_t(new cpu);
     }
 
-    uint64_t getIdle() const {
+    uint64_t
+    getIdle() const
+    {
         return c_.idle;
     }
 
-    uint64_t getIrq() const {
+    uint64_t
+    getIrq() const
+    {
         return c_.irq;
     }
 
-    uint64_t getNice() const {
+    uint64_t
+    getNice() const
+    {
         return c_.nice;
     }
 
-    uint64_t getSoftIrq() const {
+    uint64_t
+    getSoftIrq() const
+    {
         return c_.soft_irq;
     }
 
-    uint64_t getStolen() const {
+    uint64_t
+    getStolen() const
+    {
         return c_.stolen;
     }
 
-    uint64_t getSys() const {
+    uint64_t
+    getSys() const
+    {
         return c_.sys;
     }
 
-    uint64_t getTotal() const {
+    uint64_t
+    getTotal() const
+    {
         return c_.total;
     }
 
-    uint64_t getUser() const {
+    uint64_t
+    getUser() const
+    {
         return c_.user;
     }
 
-    uint64_t getWait() const {
+    uint64_t
+    getWait() const
+    {
         return c_.wait;
     }
 
 private:
-    cpu() {
+    cpu()
+    {
         memset(&c_, 0, sizeof(c_));
     }
 
@@ -81,41 +102,57 @@ public:
     typedef boost::shared_ptr<cpuInfo> ptr_t;
 
 
-    static ptr_t Create() {
+    static ptr_t
+    create()
+    {
         return ptr_t(new cpuInfo);
     }
 
-    uint64_t getCacheSize() const {
+    uint64_t
+    getCacheSize() const
+    {
         return c_.cache_size;
     }
 
-    uint32_t getCoresPerSocket() const {
+    uint32_t
+    getCoresPerSocket() const
+    {
         return c_.cores_per_socket;
     }
 
-    uint32_t getMhz() const {
+    uint32_t
+    getMhz() const {
         return c_.mhz;
     }
 
-    const std::string getModel() const {
+    std::string
+    getModel() const
+    {
         return c_.model;
     }
 
-    uint32_t getTotalCores() const {
+    uint32_t
+    getTotalCores() const
+    {
         return c_.total_cores;
     }
 
-    uint32_t getTotalSockets() const {
+    uint32_t
+    getTotalSockets() const
+    {
         return c_.total_sockets;
     }
 
-    const std::string getVendor() const {
+    std::string
+    getVendor() const
+    {
         return c_.vendor;
     }
 
 
 private:
-    cpuInfo() {
+    cpuInfo()
+    {
         memset(&c_, 0, sizeof(c_));
     }
 
@@ -130,57 +167,81 @@ public:
     typedef boost::shared_ptr<dirStat> ptr_t;
 
 
-    static ptr_t Create() {
+    static ptr_t create()
+    {
         return ptr_t(new dirStat);
     }
 
 
-    double getQueue() const {
+    double
+    getQueue() const
+    {
         return d_.queue;
     }
 
-    uint64_t getReadBytes() const {
+    uint64_t
+    getReadBytes() const
+    {
         return d_.read_bytes;
     }
 
-    uint64_t getReads() const {
+    uint64_t
+    getReads() const
+    {
         return d_.reads;
     }
 
-    double getServiceTime() const {
+    double
+    getServiceTime() const
+    {
         return d_.service_time;
     }
 
-    uint64_t getWriteBytes() const {
+    uint64_t
+    getWriteBytes() const
+    {
         return d_.write_bytes;
     }
 
-    uint64_t getWrites() const {
+    uint64_t
+    getWrites() const
+    {
         return d_.writes;
     }
 
-    uint64_t getReadTime() const {
+    uint64_t
+    getReadTime() const
+    {
         return d_.rtime;
     }
 
-    uint64_t getWriteTime() const {
+    uint64_t
+    getWriteTime() const
+    {
         return d_.wtime;
     }
 
-    uint64_t getTime() const {
+    uint64_t
+    getTime() const
+    {
         return d_.time;
     }
 
-    uint64_t getSnapTime() const {
+    uint64_t
+    getSnapTime() const
+    {
         return d_.snaptime;
     }
 
-    uint64_t getQueueTime() const {
+    uint64_t
+    getQueueTime() const
+    {
         return d_.qtime;
     }
 
 private:
-    dirStat() {
+    dirStat()
+    {
         memset(&d_, 0, sizeof(d_));
     }
 
@@ -196,42 +257,59 @@ public:
     typedef boost::shared_ptr<fileSystem> ptr_t;
 
 
-    static ptr_t Create() {
+    static ptr_t
+    create()
+    {
         return ptr_t(new fileSystem);
     }
 
 
-    const std::string getDirName() const {
+    std::string
+    getDirName() const
+    {
         return f_.dir_name;
     }
 
-    const std::string getDevName() const {
+    std::string
+    getDevName() const
+    {
         return f_.dev_name;
     }
 
-    const std::string getTypeName() const {
+    std::string
+    getTypeName() const
+    {
         return f_.type_name;
     }
 
-    const std::string getSysTypeName() const {
+    std::string
+    getSysTypeName() const
+    {
         return f_.sys_type_name;
     }
 
-    const std::string getOptions() const {
+    std::string
+    getOptions() const
+    {
         return f_.options;
     }
 
-    sigar_file_system_type_e getType() const {
+    sigar_file_system_type_e
+    getType() const
+    {
         return f_.type;
     }
 
-    uint64_t getFlags() const {
+    uint64_t
+    getFlags() const
+    {
         return f_.flags;
     }
 
 
 private:
-    fileSystem() {
+    fileSystem()
+    {
         memset(&f_, 0, sizeof(f_));
     }
 
@@ -246,44 +324,64 @@ public:
     typedef boost::shared_ptr<mem> ptr_t;
 
 
-    static ptr_t Create() {
+    static ptr_t
+    create()
+    {
         return ptr_t(new mem);
     }
 
-    uint64_t getRam() const {
+    uint64_t
+    getRam() const
+    {
         return m_.ram;
     }
 
-    uint64_t getTotal() const {
+    uint64_t
+    getTotal() const
+    {
         return m_.total;
     }
 
-    uint64_t getUsed() const {
+    uint64_t
+    getUsed() const
+    {
         return m_.used;
     }
 
-    uint64_t getFree() const {
+    uint64_t
+    getFree() const
+    {
         return m_.free;
     }
 
-    uint64_t getActualUsed() const {
+    uint64_t
+    getActualUsed() const
+    {
         return m_.actual_used;
     }
 
-    uint64_t getActualFree() const {
+    uint64_t
+    getActualFree() const
+    {
         return m_.actual_free;
     }
 
-    double getUsedPercent() const {
+    double
+    getUsedPercent() const
+    {
         return m_.used_percent;
     }
 
-    double getFreePercent() const {
+    double
+    getFreePercent() const
+    {
         return m_.free_percent;
     }
 
+
 private:
-    mem() {
+    mem()
+    {
         memset(&m_, 0, sizeof(m_));
     }
 
@@ -296,56 +394,79 @@ public:
     friend class sigar;
     typedef boost::shared_ptr<netConnection> ptr_t;
 
-    static ptr_t Create() {
+    static ptr_t
+    create()
+    {
         return ptr_t(new netConnection);
     }
 
-    uint32_t getLocalPort() const {
+    uint32_t
+    getLocalPort() const
+    {
         return n_.local_port;
     }
 
-    const std::string getLocalAddress() const {
+    std::string
+    getLocalAddress() const
+    {
         in_addr temp;
         memcpy(&temp, &n_.local_address.addr.in, 4);
         return inet_ntoa(temp);
     }
 
-    uint32_t getRemotePort() const {
+    uint32_t
+    getRemotePort() const
+    {
         return n_.remote_port;
     }
 
-    const std::string getRemoteAddress() const {
+    std::string
+    getRemoteAddress() const
+    {
         in_addr temp;
         memcpy(&temp, &n_.remote_address.addr.in, 4);
         return inet_ntoa(temp);
     }
 
-    uint32_t getUid() const {
+    uint32_t
+    getUid() const
+    {
         return n_.uid;
     }
 
-    uint32_t getInode() const {
+    uint32_t
+    getInode() const
+    {
         return n_.inode;
     }
 
-    int getType() const {
+    int
+    getType() const
+    {
         return n_.type;
     }
 
-    int getState() const {
+    int
+    getState() const
+    {
         return n_.state;
     }
 
-    uint32_t getSendQueue() const {
+    uint32_t
+    getSendQueue() const
+    {
         return n_.send_queue;
     }
 
-    uint32_t getReceiveQueue() const {
+    uint32_t
+    getReceiveQueue() const
+    {
         return n_.receive_queue;
     }
 
 private:
-    netConnection() {
+    netConnection()
+    {
         memset(&n_, 0, sizeof(n_));
     }
 
@@ -360,7 +481,9 @@ public:
     typedef boost::shared_ptr<netInfo> ptr_t;
 
 
-    static ptr_t Create() {
+    static ptr_t
+    create()
+    {
         return ptr_t(new netInfo);
     }
 
@@ -644,7 +767,7 @@ public:
             }
 
             for (size_t i = 0; i < tempList.number; i++) {
-                cpu::ptr_t p = cpu::Create();
+                cpu::ptr_t p = cpu::create();
                 p->c_ = tempList.data[i];
                 res.push_back(p);
             }
@@ -669,7 +792,7 @@ public:
             }
 
             for (size_t i = 0; i < tempList.number; i++) {
-                cpuInfo::ptr_t p = cpuInfo::Create();
+                cpuInfo::ptr_t p = cpuInfo::create();
                 p->c_ = tempList.data[i];
                 res.push_back(p);
             }
@@ -689,7 +812,7 @@ public:
             if (sigar_mem_get(s_, &temp)) {
                 break;
             }
-            res = mem::Create();
+            res = mem::create();
             res->m_ = temp;
         } while(false);
         return res;
@@ -740,7 +863,7 @@ public:
             }
 
             for (size_t i = 0; i < tempList.number; i++) {
-                netConnection::ptr_t p = netConnection::Create();
+                netConnection::ptr_t p = netConnection::create();
                 p->n_ = tempList.data[i];
                 res.push_back(p);
             }

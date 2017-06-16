@@ -12,7 +12,7 @@ namespace thrift_ex {
 
 
 template <typename __SVC_CLIENT_T_, typename __PROTOCOL_T_, bool __NON_BLOCK_>
-class TClient {
+class thriftClient {
 // thrift客户端模板类
 public:
     typedef ::apache::thrift::transport::TSocket TSocket;
@@ -23,7 +23,7 @@ public:
     typedef __PROTOCOL_T_ protocol_t;
 
 
-    explicit TClient(const std::string & ipstr, int port) 
+    explicit thriftClient(const std::string & ipstr, int port)
     {
         assert(ipstr.size() > 0 && port > 0 && port <= 65535);
         if (!__NON_BLOCK_) {
@@ -32,15 +32,15 @@ public:
         else {
             _init_nonblocking_clnt(ipstr, port);
         }
-        this->Open();
+        this->open();
     }
 
 
-    ~TClient() {}
+    ~thriftClient() {}
 
 
     bool 
-    Open() 
+    open()
     {
         do {
             if (sock_ == NULL) {
@@ -56,7 +56,7 @@ public:
 
 
     void 
-    Close() 
+    close()
     {
         if (sock_ != NULL && sock_->isOpen()) {
             sock_->close();
@@ -64,7 +64,7 @@ public:
     }
 
 
-    boost::shared_ptr<__SVC_CLIENT_T_> 
+    boost::shared_ptr<__SVC_CLIENT_T_>
     imp() 
     {
         return client_;
@@ -98,9 +98,9 @@ private:
     boost::shared_ptr<__SVC_CLIENT_T_> client_;
 
 
-    TClient(const TClient &);
-    TClient & operator=(TClient &);
-}; // TClient<__PROTOCOL_T_, __SVC_CLIENT_T_>;
+    thriftClient(const thriftClient &);
+    thriftClient & operator=(thriftClient &);
+}; // thriftClient<__PROTOCOL_T_, __SVC_CLIENT_T_>;
 
 
 } // namespace thrift_ex;
@@ -109,7 +109,7 @@ private:
 
 
 #define DEFINE_THRIFT_CLIENT(__class_name_, __service_name_, __protocol_, __non_block_) \
-typedef iegad::thrift_ex::TClient<XXX_Client(__service_name_), XXX_Protocol(__protocol_), __non_block_> __class_name_;
+typedef iegad::thrift_ex::thriftClient<XXX_Client(__service_name_), XXX_Protocol(__protocol_), __non_block_> __class_name_;
 
 
 

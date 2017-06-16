@@ -17,6 +17,13 @@ namespace iegad {
 
 class filesystem {
 public:
+    enum fileType {
+        DIR,
+        FILE,
+        LNK
+    }; // enum fileType;
+
+
     struct fileInfo {
         fileInfo() :
             type(-1),
@@ -28,16 +35,22 @@ public:
         {}
 
 
-        int16_t type;
-        std::string name;
-        int64_t lastWriteTime;
-        int64_t capacity;
-        int64_t free;
-        int64_t available;
-        int64_t used;
+        int16_t type;           // 类型
+        std::string name;       // 名称
+        int64_t lastWriteTime;  // 最后修改时间
+        int64_t capacity;       // 所占空间
+        int64_t free;           // 空闲
+        int64_t available;      // 实际使用空间
+        int64_t used;           // 实用空间
     }; // struct fileInfo;
 
 
+    // ============================
+    // @用途 : 在指定的dir目录下查找filename的具体位置
+    // @dir : 指定的目录
+    // @filename : 需要查找的文件名
+    // @返回值 : 成功返回filename的具体位置，否则返回错误提示
+    // ============================
     static std::string
     find_file(const boost::filesystem::path & dir, const std::string & filename)
     {
@@ -46,13 +59,13 @@ public:
         rzt_t res;
 
         if (!boost::filesystem::exists(dir) || !boost::filesystem::is_directory(dir)) {
-            return "path is invalied";
+            return "Path is invalied";
         }
 
         boost::filesystem::recursive_directory_iterator end;
         for (boost::filesystem::recursive_directory_iterator pos(dir); pos != end; pos++) {
-            if (!boost::filesystem::is_directory(*pos)
-                    && pos->path().filename() == filename) {
+            if (!boost::filesystem::is_directory(*pos) &&
+                 pos->path().filename() == filename) {
                 res = pos->path();
             }
         }
@@ -89,12 +102,13 @@ public:
 
 
     static std::vector<fileInfo>
-    ls (const std::string & path, std::string * errstr = NULL)
+    ls(const std::string & path, std::string * errstr = NULL)
     {
         typedef boost::filesystem::recursive_directory_iterator rd_itr;
         boost::system::error_code ec;
         std::vector<fileInfo> res;
         rd_itr end;
+
         for (rd_itr pos(path); pos != end; pos++) {
             fileInfo item;
             boost::filesystem::path p(*pos);
@@ -103,17 +117,18 @@ public:
                 boost::filesystem::space_info si = boost::filesystem::space(p, ec);
                 if (ec) {
                     if (errstr) {
+                        res.clear();
                         *errstr = ec.message();
                     }
                     break;
                 }
-                item.type = 0;
+                item.type = fileType::DIR;
                 item.capacity = si.capacity;
                 item.available = si.available;
                 item.free = si.free;
             }
             else {                
-                item.type = 1;
+                item.type = fileType::FILE;
                 uint64_t used = boost::filesystem::file_size(p, ec);
                 item.used = used;
             }

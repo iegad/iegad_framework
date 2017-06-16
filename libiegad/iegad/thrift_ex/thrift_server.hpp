@@ -47,14 +47,14 @@ namespace thrift_ex {
 // @__SVC_HANDLER_T_ : RPC接口实现句柄类
 // ============================
 template <typename __SVC_IFFAC_T_, typename __SVC_IF_T_, typename __SVC_HANDLER_T_>
-class ProcessorCloneFactory : virtual public __SVC_IFFAC_T_ {
+class processorCloneFactory : virtual public __SVC_IFFAC_T_ {
 // 处理机工厂模板类
 public:
     typedef apache::thrift::TConnectionInfo TConnectionInfo;
     typedef apache::thrift::transport::TSocket TSocket;
 
 
-    virtual ~ProcessorCloneFactory() {}
+    virtual ~processorCloneFactory() {}
 
 
     virtual __SVC_IF_T_ * 
@@ -96,7 +96,7 @@ template <typename __SVC_PROCESSOR_FAC_T_,
     typename __SVC_PROCESSOR_CLONE_FAC_T_,
     typename __SERVER_T_,
     typename __PROTOCOL_FAC_T_>
-class THost {
+class thriftServer {
 // thrift服务端模板类
 public:
     // ============================
@@ -127,7 +127,7 @@ public:
     // @threadCount : 工作线程数/ 最大客户端连接数
     // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
     // ============================
-    THost(int port, int threadCount = 4) :
+    thriftServer(int port, int threadCount = 4) :
         port_(port),
         threadCount_(threadCount) 
     {
@@ -157,7 +157,7 @@ public:
     // @threadCount : 工作线程数/ 最大客户端连接数
     // @PS : windows平台下, 当调用_socket_init方法失败时, 会抛出异常
     // ============================
-    THost(const std::string & host, int port, int threadCount = 4) :
+    thriftServer(const std::string & host, int port, int threadCount = 4) :
         port_(port),
         threadCount_(threadCount),
         host_(host) 
@@ -188,7 +188,7 @@ public:
     // ============================
     // @用途 : 析构函数
     // ============================
-    ~THost() 
+    ~thriftServer()
     {
         _socket_release();
         server_->stop();
@@ -211,7 +211,7 @@ public:
     // @返回值 : 当前服务器类型的指针
     // ============================
     boost::shared_ptr<__SERVER_T_> 
-    GetServer() 
+    imp()
     {
         return boost::dynamic_pointer_cast<__SERVER_T_>(this->server_);
     }
@@ -328,9 +328,9 @@ private:
     // ============================
     // @用途 : 禁用
     // ============================
-    THost(const THost &);
-    THost & operator=(const THost &);
-}; // class THost;
+    thriftServer(const thriftServer &);
+    thriftServer & operator=(const thriftServer &);
+}; // class thriftServer;
 
 
 
@@ -344,7 +344,7 @@ private:
 // @__service_name_ : 服务名称
 // ============================
 #define DEFINE_PROCESSOR_CLONE_FACTORY(__service_name_) \
-typedef ::iegad::thrift_ex::ProcessorCloneFactory<XXX_IfFactory(__service_name_), \
+typedef ::iegad::thrift_ex::processorCloneFactory<XXX_IfFactory(__service_name_), \
 XXX_If(__service_name_), \
 XXX_Handler(__service_name_)> \
 XXX_ProcessorCloneFactory(__service_name_);
@@ -365,7 +365,7 @@ XXX_ProcessorCloneFactory(__service_name_);
 // ============================
 #define DEFINE_THRIFT_SERVER(__service_name_, __server_type_, __protocol_) \
 DEFINE_PROCESSOR_CLONE_FACTORY(__service_name_) \
-typedef ::iegad::thrift_ex::THost<XXX_ProcessorFactory(__service_name_), \
+typedef ::iegad::thrift_ex::thriftServer<XXX_ProcessorFactory(__service_name_), \
 XXX_ProcessorCloneFactory(__service_name_), \
 __server_type_, \
 XXX_ProtocolFactory(__protocol_)> \

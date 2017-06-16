@@ -23,12 +23,12 @@
 //                                         -- 2, 添加base64编解码函数
 // -- 2017-06-04        -- iegad           -- 1, 添加注释
 //                                         -- 2, 为base64添加入参校验
+// -- 2017-06-16        -- iegad           -- 重写sha1算法，改用boost sha1算法
 
 
 #include "../iegad_config.h"
 
 #include "security/iegad_aes.hpp"
-#include "security/iegad_sha1.hpp"
 #include "security/iegad_md5.hpp"
 #include "string/iegad_string.hpp"
 #include "security/iegad_base64.hpp"
@@ -36,7 +36,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
-
+#include <boost/uuid/sha1.hpp>
 
 
 namespace iegad {
@@ -66,15 +66,19 @@ md5(const std::string & src)
 // @返回值 : sha1加密之后的字符串
 // ============================
 static std::string
-sha1(const std::string & src)
+sha1(const std::string & src, uint32_t *bin = NULL)
 {
-    if (src.empty()) {
-        return iegad::string::ERR_STR();
+    boost::uuids::detail::sha1 sha;
+    uint32_t dst[5];
+    sha.process_bytes(src.c_str(), src.size());
+    sha.get_digest(dst);
+    for (int i = 0; i < 5; i++) {
+        dst[i] = htonl(dst[i]);
     }
-
-    iegad::SHA1 sha1;
-    std::string res;
-    return sha1.sha_go(src, &res) ? res : iegad::string::ERR_STR();
+    if (bin) {
+        memcpy(bin, dst, sizeof(dst));
+    }
+    return iegad::string::to_lwr(iegad::string::bin_tostr((char *)dst, sizeof(dst)));
 }
 
 

@@ -12,7 +12,6 @@ SOURCES += \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \
-    #../libiegad/test/test_thrift.cxx \
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
@@ -24,7 +23,6 @@ HEADERS += \
     ../libiegad/iegad/tools/job_queue.hpp \
     ../libiegad/iegad/tools/job_worker.hpp \
     ../libiegad/iegad/string/iegad_string.hpp \
-    ../libiegad/iegad/security/iegad_sha1.hpp \
     ../libiegad/iegad/security/iegad_md5.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_command.hpp \
     ../libiegad/iegad/redis_ex/iegad_redis_connection.hpp \

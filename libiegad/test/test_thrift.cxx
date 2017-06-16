@@ -11,7 +11,6 @@
 
 #include "thrift_ex/thrift_server.hpp"
 #include "thrift_ex/thrift_client.hpp"
-#include "thrift_ex/thrift_eventhandler.hpp"
 
 
 
@@ -28,38 +27,10 @@ std::string sendMsgStr = "君不见黄河之水天上来⑵，奔流到海不复
 "主人何为言少钱⒀，径须沽取对君酌⒁。\n"
 "五花马⒂，千金裘，呼儿将出换美酒，与尔同销万古愁⒃。\n";
 
-
-// 定义服务端事件类
-DEFINE_EVENT_HANDLER(EchoEvent)
 // 定义客户端类
 DEFINE_THRIFT_CLIENT(EchoClient, EchoServer, BINARY_PROTOCOL, true)
 // 定义服务端类
 DEFINE_THRIFT_SERVER(EchoServer, THRIFT_NON_BLOCKING_SERVER, BINARY_PROTOCOL)
-
-
-DEFINE_CREATE_CONTEXT(OnCreateContext, in, out)
-{
-    iINFO << "create context\n";
-    return nullptr;
-}
-
-
-DEFINE_PRE_SERVER(OnPreServer)
-{
-    iINFO << "PreServer\n";
-}
-
-
-DEFINE_DELETE_CONTEXT(OnDeleteContext, txt, in, out)
-{
-    iINFO << "delete\n";
-}
-
-
-DEFINE_PROCESS_CONTEXT(OnProcessContext, txt, trans)
-{
-    iINFO << trans->getOrigin() << std::endl;
-}
 
 
 

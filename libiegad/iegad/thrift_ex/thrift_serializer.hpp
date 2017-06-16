@@ -22,6 +22,7 @@
 // -- 2016-04-11               -- iegad              -- 1. 增加 变长数据 序列化/反序列化
 //                                                   -- 2. 修改二进制序列化与反序列化函数名中的Array为Binary
 //                                                   -- 3. 添加错误级日志
+// -- 2017-06-04               -- iegad              -- 修改命名方式
 
 
 
@@ -40,13 +41,13 @@ namespace thrift_ex {
 
 
 template <class T>
-class Serializer {
+class serializer {
 // thrift 序列化器.
 public:
     // ============================
     // @用途 : 防止 实例化该类
     // ============================
-    virtual ~Serializer() = 0;
+    virtual ~serializer() = 0;
 
 
     // ============================
@@ -56,7 +57,7 @@ public:
     // @size : 序列化后的数据大小 : out参数
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool SerializeToBinary(T & data, std::string * serstr, int * size);
+    static bool serializeToBinary(T & data, std::string * serstr, int * size);
 
 
     // ============================
@@ -65,7 +66,7 @@ public:
     // @serstr : 用于反序列化的 字节数据
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool ParseFromBinary(T * data, const std::string & serstr);
+    static bool parseFromBinary(T * data, const std::string & serstr);
 
 
     // ============================
@@ -75,7 +76,7 @@ public:
     // @size : 序列化后的 JSON串长度 : out参数
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool SerializeToJSONString(T & data, std::string * serstr, int * size);
+    static bool serializeToJSON(T & data, std::string * serstr, int * size);
 
 
     // ============================
@@ -84,7 +85,7 @@ public:
     // @serstr : 用于反序列化的 JSON串
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool ParseFromJSONString(T * data, const std::string & serstr);
+    static bool parseFromJSON(T * data, const std::string & serstr);
 
 
     // ============================
@@ -94,7 +95,7 @@ public:
     // @size : 序列化后的 变长数据长度 : out参数
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool SerializeToVarint(T & data, std::string * serstr, int * size);
+    static bool serializeToVarint(T & data, std::string * serstr, int * size);
 
 
     // ============================
@@ -103,7 +104,7 @@ public:
     // @serstr : 用于反序列化的 变长数据
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool ParseFromVarint(T * data, const std::string & serstr);
+    static bool parseFromVarint(T * data, const std::string & serstr);
 }; // class Serializer<T>;
 
 
@@ -113,7 +114,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::Serializer<T>::SerializeToBinary(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::serializer<T>::serializeToBinary(T & data, std::string * serstr, int * size)
     {
         assert(serstr && size);
 
@@ -136,9 +137,9 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::Serializer<T>::ParseFromBinary(T * data, const std::string & serstr)
+    bool iegad::thrift_ex::serializer<T>::parseFromBinary(T * data, const std::string & serstr)
     {
-        assert(data);
+        assert(data && serstr.size() > 0);
 
         using ::apache::thrift::protocol::TBinaryProtocol;
         using ::apache::thrift::protocol::TProtocol;
@@ -159,7 +160,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::Serializer<T>::SerializeToJSONString(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::serializer<T>::serializeToJSON(T & data, std::string * serstr, int * size)
     {
         assert(serstr && size);
 
@@ -181,7 +182,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::Serializer<T>::ParseFromJSONString(T * data, const std::string & serstr)
+    bool iegad::thrift_ex::serializer<T>::parseFromJSON(T * data, const std::string & serstr)
     {
         assert(data);
 
@@ -204,7 +205,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::Serializer<T>::SerializeToVarint(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::serializer<T>::serializeToVarint(T & data, std::string * serstr, int * size)
     {
         assert(serstr && size);
 
@@ -227,7 +228,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::Serializer<T>::ParseFromVarint(T * data, const std::string & serstr)
+    bool iegad::thrift_ex::serializer<T>::parseFromVarint(T * data, const std::string & serstr)
     {
         assert(data);
 
@@ -238,7 +239,7 @@ public:
         try {
             boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
             boost::shared_ptr<TProtocol> proto(new TCompactProtocol(buff));
-            uint8_t * p = (uint8_t *)const_cast<char *>(erstr.c_str());
+            uint8_t * p = (uint8_t *)const_cast<char *>(serstr.c_str());
             buff->resetBuffer(p, serstr.size());
             data->read(proto.get());
             return true;
