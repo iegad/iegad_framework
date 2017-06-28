@@ -1105,7 +1105,7 @@ public:
         for (; itr != end; ++itr) {
             ret = true;
             if (result) {
-                result->push_back(*itr);
+                result->push_back(itr->str());
             }
         }
 
