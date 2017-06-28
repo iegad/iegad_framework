@@ -57,6 +57,8 @@
 //                                     -- 3, 将安全系列函数移出string
 //  --2017-05-31         --iegad       -- 修改所有函数的返回值const std::string为std::string，
 //                                        这样方便作std::move操作
+//  --2017-06-25         --iegad       -- 添加 头文件引用 stdlib.h 已包括wcstombs, mbstowcs
+//  --2017-06-28         --iegad       -- 添加正则表达式的封装
 
 
 #include "../iegad_config.h"
@@ -64,6 +66,10 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <stdlib.h>
+
+
+#include <boost/regex.hpp>
 
 
 
@@ -795,7 +801,7 @@ public:
     // ============================
     static std::string
     remove(const std::string & src, unsigned int pos, int n = -1)
-    {   
+    {
         if (src.empty()) {
             return src;
         }
@@ -1074,6 +1080,38 @@ public:
         delete[]_Dest;
         return res;
     }
+
+
+    // ============================
+    // @用途 : 在字符串src中使用rgx来作正则表达式的匹配
+    // @src : 源字符串
+    // @rgx : 正则表达式
+    // @result : 输出参数, 匹配到的结果
+    // @返回值 : 成功匹配返回true, 否则返回false
+    // @PS : result默认为nullptr, 表示不关心匹配的结果
+    // ============================
+    static bool
+    regex_match(const std::string &src, const std::string &rgx,
+                std::vector<std::string> *result = NULL)
+    {
+        if (src.empty() || rgx.empty()) {
+            return false;
+        }
+
+        bool ret = false;
+        boost::regex rg(rgx, boost::regex::icase);
+        boost::sregex_iterator itr(src.begin(), src.end(), rg), end;
+
+        for (; itr != end; ++itr) {
+            ret = true;
+            if (result) {
+                result->push_back(*itr);
+            }
+        }
+
+        return false;
+    }
+
 
 #if (IEGAD_OPTION_CPP11)
     // ============================
