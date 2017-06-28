@@ -302,28 +302,28 @@ TEST(stringTest, rtrim)
 TEST(stringTest, trim_1)
 {// 除去所有空字符
     std::string src1 = "hello world\n\t\r  ";
-    EXPECT_EQ("helloworld", string::trim(src1));
+    EXPECT_EQ("hello world", string::trim(src1));
     std::string src2 = "hello world\n\t\r  tt";
-    EXPECT_EQ("helloworldtt", string::trim(src2));
+    EXPECT_EQ("hello world\n\t\r  tt", string::trim(src2));
 
     std::wstring wsrc1 = L"hello world\n\t\r  ";
-    EXPECT_EQ(L"helloworld", string::trim(wsrc1));
+    EXPECT_EQ(L"hello world", string::trim(wsrc1));
     std::wstring wsrc2 = L"hello world\n\t\r  tt";
-    EXPECT_EQ(L"helloworldtt", string::trim(wsrc2));
+    EXPECT_EQ(L"hello world\n\t\r  tt", string::trim(wsrc2));
 }
 
 
 TEST(stringTest, trim_2)
 {// 除去所有指定字符
     std::string src1 = "hello world\n\t\r  ";
-    EXPECT_EQ("hello world\t\r  ", string::trim(src1, '\n'));
+    EXPECT_EQ("hello world\t\r  ", string::trim(src1, "\n"));
     std::string src2 = "hello world\n\t\r  tt";
-    EXPECT_EQ("hello world\t\r  tt", string::trim(src2, '\n'));
+    EXPECT_EQ("hello world\t\r  tt", string::trim(src2, "\n"));
 
     std::wstring wsrc1 = L"hello world\n\t\r  ";
-    EXPECT_EQ(L"hello world\t\r  ", string::trim(wsrc1, L'\n'));
+    EXPECT_EQ(L"hello world\t  ", string::trim(wsrc1, L"\n\r"));
     std::wstring wsrc2 = L"hello world\n\t\r  tt";
-    EXPECT_EQ(L"hello world\t\r  tt", string::trim(wsrc2, L'\n'));
+    EXPECT_EQ(L"hello world\t  ", string::trim(wsrc2, L"\n\rt"));
 }
 
 

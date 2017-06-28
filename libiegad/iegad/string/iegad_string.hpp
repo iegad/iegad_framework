@@ -58,7 +58,9 @@
 //  --2017-05-31         --iegad       -- 修改所有函数的返回值const std::string为std::string，
 //                                        这样方便作std::move操作
 //  --2017-06-25         --iegad       -- 添加 头文件引用 stdlib.h 已包括wcstombs, mbstowcs
-//  --2017-06-28         --iegad       -- 添加正则表达式的封装
+//  --2017-06-28         --iegad       -- 1, 添加正则表达式的封装
+//                                     -- 2, 修改trim的行为， 改为只去掉首尾的空白字符
+//                                     -- 3, 修改trim(src, chc)，使该函数可以同时去掉指定的多个字符
 
 
 #include "../iegad_config.h"
@@ -398,7 +400,7 @@ public:
 
 
     // ============================
-    // @用途 : 去掉字符串src中所有空白字符
+    // @用途 : 去掉字符串src中首尾空白字符
     // @src : 源字符串
     // @返回值 : 修改后的新字符串
     // ============================
@@ -409,14 +411,7 @@ public:
             return src;
         }
 
-        std::string restr;
-        for (int i = 0, n = src.length(); i < n; i++) {
-            if (::isspace(src[i])) {
-                continue;
-            }
-            restr.push_back(src[i]);
-        }
-        return restr;
+        return string::rtrim(string::ltrim(src));
     }
 
 
@@ -430,36 +425,36 @@ public:
             return src;
         }
 
-        std::wstring restr;
-        for (int i = 0, n = src.length(); i < n; i++) {
-            if (::iswspace(src[i])) {
-                continue;
-            }
-            restr.push_back(src[i]);
-        }
-        return restr;
+        return string::rtrim(string::ltrim(src));
     }
 
 
     // ============================
     // @用途 : 去掉字符串src中所有的指定的字符
     // @src : 源字符串
-    // @chr : 指定去掉的字符
+    // @chs : 指定去掉的字符
     // @返回值 : 修改后的新字符串
     // ============================
     static std::string
-    trim(const std::string & src, char chr)
+    trim(const std::string & src, const std::string &chs)
     {
-        if (src.empty() || chr == '\0') {
+        if (src.empty() || chs.empty()) {
             return src;
         }
 
         std::string restr;
+        bool flag = false;
         for (int i = 0, n = src.length(); i < n; i++) {
-            if (src[i] == chr) {
-                continue;
+            flag = true;
+            for (size_t j = 0, m = chs.size(); j < m; j++) {
+                if (src[i] == chs[j]) {
+                    flag = false;
+                    break;
+                }
             }
-            restr.push_back(src[i]);
+            if (flag) {
+                restr.push_back(src[i]);
+            }
         }
         return restr;
     }
@@ -468,18 +463,25 @@ public:
     // @重载 : trim => std::wstring
     // ============================
     static std::wstring
-    trim(const std::wstring & src, wchar_t chr)
+    trim(const std::wstring & src, const std::wstring &chs)
     {
-        if (src.empty() || chr == '\0') {
+        if (src.empty() || chs.empty()) {
             return src;
         }
 
         std::wstring restr;
+        bool flag = false;
         for (int i = 0, n = src.length(); i < n; i++) {
-            if (src[i] == chr) {
-                continue;
+            flag = true;
+            for (size_t j = 0, m = chs.size(); j < m; j++) {
+                if (src[i] == chs[j]) {
+                    flag = false;
+                    break;
+                }
             }
-            restr.push_back(src[i]);
+            if (flag) {
+                restr.push_back(src[i]);
+            }
         }
         return restr;
     }
@@ -1110,6 +1112,19 @@ public:
         }
 
         return ret;
+    }
+
+
+    static std::string
+    regex_replace(const std::string &src, const std::string &rgx,
+                  const std::string &replace)
+    {
+        if (src.empty() || rgx.empty()) {
+            return string::ERR_STR();
+        }
+
+        boost::regex rg(rgx, boost::regex::icase);
+        return boost::regex_replace(src, rg, replace);
     }
 
 
