@@ -4,7 +4,7 @@
 
 #include "iegad_config.h"
 #include "string/iegad_string.hpp"
-#include "sercurity/iegad_security.hpp"
+#include "security/iegad_security.hpp"
 #include "tools/iegad_log.hpp"
 #include "tools/iegad_endian.hpp"
 
