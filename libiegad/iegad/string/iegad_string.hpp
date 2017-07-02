@@ -968,7 +968,7 @@ public:
     bin_tostr(const char * buff, unsigned int buff_size)
     {
         if (buff == NULL || buff_size == 0) {
-            return "";
+            return string::EMPTY_STR();
         }
 
         std::string res(buff_size * 2, 0);
@@ -1045,7 +1045,7 @@ public:
     wstr_to_str(const std::wstring & wstr)
     {
         if (wstr.empty()) {
-            return "";
+            return string::EMPTY_STR();
         }
 
         const wchar_t* _Source = wstr.c_str();
@@ -1068,7 +1068,7 @@ public:
     str_to_wstr(const std::string & str)
     {
         if (str.empty()) {
-            return L"";
+            return string::EMPTY_WSTR();
         }
 
         const char* _Source = str.c_str();
@@ -1120,7 +1120,7 @@ public:
                   const std::string &replace)
     {
         if (src.empty() || rgx.empty()) {
-            return string::ERR_STR();
+            return string::EMPTY_STR();
         }
 
         boost::regex rg(rgx, boost::regex::icase);

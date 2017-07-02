@@ -1,4 +1,0 @@
-#ifndef DG_NAMESPACE_HPP
-#define DG_NAMESPACE_HPP
-
-#endif // DG_NAMESPACE_HPP
