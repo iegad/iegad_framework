@@ -1,6 +1,6 @@
 // ==========================================
 // @title : string 第一轮测试
-// @by : iegad, 2016-06-17
+// @by : iegad, 2017-07-04
 // ==========================================
 
 
@@ -363,11 +363,13 @@ TEST(stringTest, replace)
     EXPECT_EQ("Hello iegad, the iegad is wonderful", string::replace(src, "world", "iegad"));
     EXPECT_EQ(src, string::replace(src, "", "iegad"));
     EXPECT_EQ("Hello , the  is wonderful", string::replace(src, "world", ""));
+    EXPECT_EQ("abcd", string::replace(string::replace("(a)(((bcd))", "(", ""), ")", ""));
 
     std::wstring wsrc = L"Hello world, the world is wonderful";
     EXPECT_EQ(L"Hello iegad, the iegad is wonderful", string::replace(wsrc, L"world", L"iegad"));
     EXPECT_EQ(wsrc, string::replace(wsrc, L"", L"iegad"));
     EXPECT_EQ(L"Hello , the  is wonderful", string::replace(wsrc, L"world", L""));
+    EXPECT_EQ(L"abcd", string::replace(string::replace(L"(a)(((bcd))", L"(", L""), L")", L""));
 }
 
 
