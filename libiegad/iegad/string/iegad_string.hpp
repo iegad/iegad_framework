@@ -61,7 +61,8 @@
 //  --2017-06-28         --iegad       -- 1, 添加正则表达式的封装
 //                                     -- 2, 修改trim的行为， 改为只去掉首尾的空白字符
 //                                     -- 3, 修改trim(src, chc)，使该函数可以同时去掉指定的多个字符
-//  --2017-07-04         --iegad       -- 修改 replace函数中的bug.
+//  --2017-07-04         --iegad       -- 1, 修改 replace函数中的bug.
+//                       --iegad       -- 2, 修改 substr的bug.
 
 
 #include "../iegad_config.h"
@@ -174,7 +175,7 @@ public:
         }
 
         std::size_t size = src.size();
-        if (pos >= size) {
+        if (pos > size) {
             return ERR_STR();
         }
 
@@ -198,7 +199,7 @@ public:
         }
 
         std::size_t size = src.size();
-        if (pos >= size) {
+        if (pos > size) {
             return ERR_WSTR();
         }
 

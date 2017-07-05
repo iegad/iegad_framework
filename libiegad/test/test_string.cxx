@@ -247,6 +247,10 @@ TEST(stringTest, substr)
     EXPECT_EQ("Hello", string::substr(src, 0, 5));
     EXPECT_EQ(string::ERR_STR(), string::substr(src, -1, -101));
     EXPECT_EQ("", string::substr(src, 1, 0));
+    EXPECT_EQ("", string::substr("a", 1, 0));
+    EXPECT_EQ(string::ERR_STR(), string::substr("a", 2, 0));
+    EXPECT_EQ(string::EMPTY_STR(), string::substr("a", 1, 1));
+    EXPECT_EQ("a", string::substr("a", 0, 1));
 
     std::wstring wsrc = L"Hello world";
     EXPECT_EQ(L"world", string::substr(wsrc, 6, 5));
@@ -255,6 +259,10 @@ TEST(stringTest, substr)
     EXPECT_EQ(L"Hello", string::substr(wsrc, 0, 5));
     EXPECT_EQ(string::ERR_WSTR(), string::substr(wsrc, -1, -101));
     EXPECT_EQ(L"", string::substr(wsrc, 1, 0));
+    EXPECT_EQ(L"", string::substr(L"A", 1, 0));
+    EXPECT_EQ(string::ERR_WSTR(), string::substr(L"a", 2, 0));
+    EXPECT_EQ(string::EMPTY_WSTR(), string::substr(L"a", 1, 1));
+    EXPECT_EQ(L"a", string::substr(L"a", 0, 1));
 }
 
 
