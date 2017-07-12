@@ -15,6 +15,7 @@
 // protocol include
 #include <thrift/protocol/TJSONProtocol.h>
 #include <thrift/protocol/TCompactProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 // boost include
 #include <boost/make_shared.hpp>
 // stl include
@@ -57,7 +58,7 @@ typedef std::function<##__delegate_sign_##> __event_type_;
 #define XXX_ProcessorCloneFactory(a)    __XXX_ProcessorCloneFactory__(a)
 #define XXX_ProtocolFactory(a)          __XXX_ProtocolFactory__(a)
 #define XXX_Client(a)                   __XXX_Client__(a)
-#define XXX_Protocol(a	)               __XXX_Protocol__(a)
+#define XXX_Protocol(a)                 __XXX_Protocol__(a)
 #define XXX_Class_Member(a, b)          __XXX_Class_Member(a, b)
 
 
