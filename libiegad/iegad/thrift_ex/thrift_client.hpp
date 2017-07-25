@@ -36,14 +36,17 @@ public:
     }
 
 
-    ~thriftClient() {}
+    ~thriftClient()
+    {
+        this->close();
+    }
 
 
     bool 
     open()
     {
         do {
-            if (sock_ == NULL) {
+            if (!sock_) {
                 break;
             }
             if (!sock_->isOpen()) {
@@ -58,7 +61,7 @@ public:
     void 
     close()
     {
-        if (sock_ != NULL && sock_->isOpen()) {
+        if (sock_ && sock_->isOpen()) {
             sock_->close();
         }
     }
