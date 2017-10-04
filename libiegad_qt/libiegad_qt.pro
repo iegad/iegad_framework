@@ -45,7 +45,10 @@ HEADERS += \
     ../libiegad/iegad/iegad_config.h \
     ../libiegad/iegad/iegad.h \
     ../libiegad/iegad/security/iegad_security.hpp \
-    ../libiegad/iegad/security/iegad_base64.hpp
+    ../libiegad/iegad/security/iegad_base64.hpp \
+    ../libiegad/iegad/zmq_ex/zmq_publisher.hpp \
+    ../libiegad/iegad/net/iegad_email.hpp \
+    ../libiegad/iegad/zmq_ex/zmq_subscriber.hpp
 
 
 INCLUDEPATH += ../libiegad/iegad/ \
