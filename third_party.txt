@@ -1,0 +1,15 @@
+* thrift: 开源RPC， 依赖libevent, openssl, zlib
+* Libevent: 开源跨平台网络库
+* cppzmq: zeromq C++ 扩展
+* glog: google 日志库
+* jsoncpp: json C++库
+* libzmq: ZeroMQ库
+* pugixml: c++ xml库
+* rabbitmq-c: rabbitmq c库
+* SimpleAmqpClient: rabbitmq c++库, 依赖 rabbitmq-c
+* libvirt: 虚拟化库
+* curl: c web库
+* boost: c++ 准标准库
+* mysql++: c++ mysql库
+* soci: c++ 多数据库操作库
+* sigar: c 跨平台系统性能库

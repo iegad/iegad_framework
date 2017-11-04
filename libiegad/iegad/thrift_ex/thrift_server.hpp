@@ -129,7 +129,7 @@ public:
     // ============================
     thriftServer(int port, int threadCount = 4) :
         port_(port),
-        threadCount_(threadCount) 
+        threadCount_(threadCount)
     {
         assert(threadCount > 0 && port > 0 && port <= 65535);
         if (!_socket_init()) {
@@ -160,7 +160,7 @@ public:
     thriftServer(const std::string & host, int port, int threadCount = 4) :
         port_(port),
         threadCount_(threadCount),
-        host_(host) 
+        host_(host)
     {
         assert(host.length() > 0 && port > 0 && port <= 65535 && threadCount > 0);
 
@@ -284,7 +284,7 @@ private:
         host_.empty() ? boost::make_shared<TServerSocket>(port_) : boost::make_shared<TServerSocket>(host_, port_),
         boost::make_shared<TBufferedTransportFactory>(),
         boost::make_shared<protoc_fac_t>()));
-        serv->setConcurrentClientLimit(threadCount_);            
+        serv->setConcurrentClientLimit(threadCount_);
         return serv;
     }
 
@@ -308,7 +308,7 @@ private:
             boost::make_shared<protoc_fac_t>(),
             boost::make_shared<protoc_fac_t>(),
             port_,
-            threadManager_));            
+            threadManager_));
         return serv;
     }
 

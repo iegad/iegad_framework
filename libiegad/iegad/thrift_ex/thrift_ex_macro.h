@@ -26,16 +26,9 @@
 
 
 // 当前 thrift_ex 版本号.
-#define VERSION_TYPE "host's version 0.1.3 and thrift's version 0.10.0\n"
+#define VERSION_TYPE "host's version 0.1.4 and thrift's version 0.10.0\n"
 
 
-// ============================
-// @用途 : 事件定义宏
-// @__event_type_ : 事件类型名称
-// @__delegate_sign_ : 函数签名
-// ============================
-#define DEFINE_EVENT(__event_type_, __delegate_sign_) \
-typedef std::function<##__delegate_sign_##> __event_type_;
 
 
 // 宏实现定义
