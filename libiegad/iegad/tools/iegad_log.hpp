@@ -31,9 +31,11 @@
 
 
 // info && error 日志保存路径
-#define     LOG_INF_FILE    "./LOG/INFO_"
-#define     LOG_ERR_FILE    "./LOG/ERR_"
-#define     LOG_WARN_FILE   "./LOG/WARNING_"
+#define     LOG_INF_FILE    ("./LOG/INFO_")
+#define     LOG_ERR_FILE    ("./LOG/ERR_")
+#define     LOG_WARN_FILE   ("./LOG/WARNING_")
+#define     LOG_DEBUG_FILE  ("./LOG/DEBUG_")
+#define     LOG_FATAL_FILE  ("./LOG/FATAL_")
 
 
 #ifdef WIN32
@@ -86,9 +88,15 @@ public:
         }
         google::InitGoogleLogging(argv0);
         // set the file position;
+#ifdef __iDEBUG__
+        google::SetLogDestination(google::GLOG_INFO, LOG_DEBUG_FILE);
+#else
         google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
+#endif
         google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
         google::SetLogDestination(google::GLOG_WARNING, LOG_WARN_FILE);
+        google::SetLogDestination(google::GLOG_FATAL, LOG_FATAL_FILE);
+        google::SetLogDestination(google::GLOG_FATAL, LOG_FATAL_FILE);
         // set log file max size 20M;
         FLAGS_max_log_size = 20;
         FLAGS_logbufsecs = 0;
