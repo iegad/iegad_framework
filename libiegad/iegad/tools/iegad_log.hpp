@@ -9,7 +9,7 @@
 // @创建人 : iegad
 //
 // ============================
-// @用途 : 用于日志记录, 分为info, warnning和error.
+// @用途 : 用于本地日志记录, 分为debug, info, warnning和error, fatal
 //        需要glog库的支持
 //
 // @PS : 因为打印日志会带来额外的系统开销, 由其是
@@ -18,10 +18,11 @@
 //
 // @修改记录:
 // =======================================
-//  日期                     修改人                                   修改说明
+//  日期                     修改人               修改说明
 // =======================================
 // 2015-12-09           -- iegad             -- 简化使用
 // 2016-04-11           -- iegad             -- 添加ERROR级操作
+// 2017-11-14           -- iegad             -- 添加fatal, debug日志
 
 
 // glog standard;
@@ -60,9 +61,11 @@
 
 
 // 操作宏
+#define iDEBUG    DLOG(INFO)
 #define iINFO     LOG(INFO)
 #define iERR      LOG(ERROR)
 #define iWARN     LOG(WARNING)
+#define iFATAL    LOG(FATAL)
 
 
 namespace iegad {
