@@ -63,6 +63,7 @@
 //                                     -- 3, 修改trim(src, chc)，使该函数可以同时去掉指定的多个字符
 //  --2017-07-04         --iegad       -- 1, 修改 replace函数中的bug.
 //                       --iegad       -- 2, 修改 substr的bug.
+//  --2018-01-16         --iegad       -- 修改bin_tostr的第一个参数const char *改为 const unsigned char *.
 
 
 #include "../iegad_config.h"
@@ -965,7 +966,7 @@ public:
     // @返回值 : 编码后的字符串型式
     // ============================
     static std::string
-    bin_tostr(const char * buff, unsigned int buff_size)
+    bin_tostr(const unsigned char * buff, unsigned int buff_size)
     {
         if (buff == NULL || buff_size == 0) {
             return string::EMPTY_STR();
