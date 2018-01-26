@@ -64,9 +64,9 @@
 //  --2017-07-04         --iegad       -- 1, 修改 replace函数中的bug.
 //                       --iegad       -- 2, 修改 substr的bug.
 //  --2018-01-16         --iegad       -- 修改bin_tostr的第一个参数const char *改为 const unsigned char *.
+//  --2018-01-26         --iegad       -- 修改str_tobin的第二个参数和返回值改为无符号型
 
 
-#include "../iegad_config.h"
 
 #include <string>
 #include <vector>
@@ -1000,8 +1000,8 @@ public:
     // @buff_size : 数据长度 输入/输出参数
     // @返回值 : 解码成功返回 数据的首地址, 否则, 返回NULL
     // ============================
-    static const char *
-    str_tobin(const std::string & src, char * buff, int & buff_size)
+    static const unsigned char *
+    str_tobin(const std::string & src, unsigned char * buff, int & buff_size)
     {
         if (src.empty() || buff == NULL || buff_size == 0) {
             return NULL;

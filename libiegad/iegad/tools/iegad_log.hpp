@@ -57,7 +57,7 @@
 #include <assert.h>
 
 
-#if (iINFO || iERR || iWARN)
+#if (iINFO || iERR || iWARN || iDEBUG || iFATAL)
 #error iINFO or iERR or iWARN has defined;
 #endif // iINFO 
 
@@ -82,23 +82,18 @@ public:
     // @argv0 : main函数中的 环境变量 argv[0],
     //		表示程序当前运行路径;
     // ============================
-    explicit _LOG(const char * argv0) {
+    explicit _LOG(const char *argv0) {
         if (_access("LOG", 0) != 0) {
             assert(!system(MKDIR));
         }
         google::InitGoogleLogging(argv0);
         // set the file position;
-#ifdef __iDEBUG__
-        google::SetLogDestination(google::GLOG_INFO, LOG_DEBUG_FILE);
-#else
         google::SetLogDestination(google::GLOG_INFO, LOG_INF_FILE);
-#endif
         google::SetLogDestination(google::GLOG_ERROR, LOG_ERR_FILE);
         google::SetLogDestination(google::GLOG_WARNING, LOG_WARN_FILE);
         google::SetLogDestination(google::GLOG_FATAL, LOG_FATAL_FILE);
-        google::SetLogDestination(google::GLOG_FATAL, LOG_FATAL_FILE);
-        // set log file max size 20M;
-        FLAGS_max_log_size = 20;
+        // set log file max size 10M;
+        FLAGS_max_log_size = 10;
         FLAGS_logbufsecs = 0;
         //init charset;
 
@@ -123,6 +118,15 @@ private:
     _LOG(const _LOG &);
     _LOG & operator=(const _LOG &);
 }; // class _LOG;
+
+
+
+#undef     LOG_INF_FILE
+#undef     LOG_ERR_FILE
+#undef     LOG_WARN_FILE
+#undef     LOG_DEBUG_FILE
+#undef     LOG_FATAL_FILE
+#undef     MKDIR
 
 
 

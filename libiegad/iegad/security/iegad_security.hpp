@@ -26,12 +26,11 @@
 // -- 2017-06-16        -- iegad           -- 重写sha1算法，改用boost sha1算法
 
 
-#include "../iegad_config.h"
 
-#include "security/iegad_aes.hpp"
-#include "security/iegad_md5.hpp"
-#include "string/iegad_string.hpp"
-#include "security/iegad_base64.hpp"
+#include "iegad/security/iegad_aes.hpp"
+#include "iegad/security/iegad_md5.hpp"
+#include "iegad/string/iegad_string.hpp"
+#include "iegad/security/iegad_base64.hpp"
 
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid.hpp>
@@ -78,7 +77,7 @@ sha1(const std::string & src, uint32_t *bin = NULL)
     if (bin) {
         memcpy(bin, dst, sizeof(dst));
     }
-    return iegad::string::to_lwr(iegad::string::bin_tostr((char *)dst, sizeof(dst)));
+    return iegad::string::to_lwr(iegad::string::bin_tostr((unsigned char *)dst, sizeof(dst)));
 }
 
 

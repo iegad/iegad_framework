@@ -5,9 +5,9 @@
 
 
 #include <gtest/gtest.h>
-#include "string/iegad_string.hpp"
-#include "security/iegad_security.hpp"
-#include "tools/iegad_log.hpp"
+#include "iegad/string/iegad_string.hpp"
+#include "iegad/security/iegad_security.hpp"
+#include "iegad/tools/iegad_log.hpp"
 
 using namespace iegad;
 
@@ -530,10 +530,10 @@ TEST(stringTest, sha1)
 TEST(stringTest, bin2strAndstr2bin)
 {
     std::string src = "1234567890里面有文中";
-    std::string en_str = string::bin_tostr(src.c_str(), src.size());
+    std::string en_str = string::bin_tostr((const unsigned char *)src.c_str(), src.size());
     char buffer[1024] = {0};
     int len = 1024;
-    string::str_tobin(en_str, buffer, len);
+    string::str_tobin(en_str, (unsigned char *)buffer, len);
     EXPECT_EQ(src, std::string(buffer, len));
 }
 

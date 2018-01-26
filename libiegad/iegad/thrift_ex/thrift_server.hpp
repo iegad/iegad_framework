@@ -31,12 +31,12 @@
 
 
 
-#include "thrift_ex_macro.h"
+#include "iegad/thrift_ex/thrift_ex_macro.h"
 
 
 
 namespace iegad { 
-namespace thrift_ex { 
+namespace thrift_ex {
 
 
 

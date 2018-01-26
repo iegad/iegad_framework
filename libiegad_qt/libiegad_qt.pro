@@ -12,6 +12,7 @@ SOURCES += \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \
+    ../libiegad/test/test_tools.cxx
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
@@ -42,18 +43,19 @@ HEADERS += \
     ../libiegad/iegad/sigar_ex/iegad_sigar.hpp \
     ../libiegad/iegad/security/iegad_aes.hpp \
     ../libiegad/iegad/filesystem/iegad_filesystem.hpp \
-    ../libiegad/iegad/iegad_config.h \
-    ../libiegad/iegad/iegad.h \
     ../libiegad/iegad/security/iegad_security.hpp \
     ../libiegad/iegad/security/iegad_base64.hpp \
     ../libiegad/iegad/zmq_ex/zmq_publisher.hpp \
     ../libiegad/iegad/net/iegad_email.hpp \
-    ../libiegad/iegad/zmq_ex/zmq_subscriber.hpp
+    ../libiegad/iegad/zmq_ex/zmq_subscriber.hpp \
+    ../libiegad/iegad/tigen/iegad_tigen_base_handler.hpp \
+    ../libiegad/iegad/dai/iegad_mysql++.hpp
 
 
-INCLUDEPATH += ../libiegad/iegad/ \
+INCLUDEPATH += ../libiegad/ \
     /usr/include\
     /usr/local/include\
+    /usr/local/mysql/include
 
 
 
@@ -69,6 +71,7 @@ LIBS += -L/usr/local/lib -lboost_regex
 LIBS += -L/usr/local/lib -lssl
 LIBS += -L/usr/local/lib -lcrypto
 LIBS += -L/usr/local/lib -lsigar
+LIBS += -L/usr/local/lib -lmysqlpp -ljsoncpp
 
 #ubuntu required
 #LIBS += -pthread

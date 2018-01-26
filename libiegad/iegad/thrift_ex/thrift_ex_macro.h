@@ -22,7 +22,7 @@
 #include <iostream>
 #include <ctime>
 // iegad tools include
-#include "string/iegad_string.hpp"
+#include "iegad/string/iegad_string.hpp"
 
 
 // 当前 thrift_ex 版本号.

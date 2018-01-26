@@ -6,7 +6,7 @@
 
 
 #include <gtest/gtest.h>
-#include "tools/iegad_timer.hpp"
+#include "iegad/tools/iegad_timer.hpp"
 
 
 using namespace iegad::tools;

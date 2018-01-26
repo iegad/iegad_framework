@@ -2,9 +2,6 @@
 #define __IEGAD_AES__
 
 
-#include "../iegad_config.h"
-
-
 #include <openssl/aes.h>
 #include <stdlib.h>
 #include <string>

@@ -32,7 +32,7 @@
 #include <thrift/protocol/TCompactProtocol.h>
 
 
-#include "tools/iegad_log.hpp"
+#include "iegad/tools/iegad_log.hpp"
 
 
 

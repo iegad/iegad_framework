@@ -10,7 +10,7 @@
 #include <string>
 #include <memory>
 
-#include "tools/job_queue.hpp"
+#include "iegad/tools/job_queue.hpp"
 #include <boost/ref.hpp>
 
 

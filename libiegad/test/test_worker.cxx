@@ -8,7 +8,7 @@
 #include <string>
 #include <memory>
 #include <thread>
-#include "tools/job_worker.hpp"
+#include "iegad/tools/job_worker.hpp"
 
 using namespace iegad::tools;
 
