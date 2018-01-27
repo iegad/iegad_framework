@@ -49,14 +49,14 @@ protected:
 
 
     std::string
-    InvaliedParameters(const std::string &p)
+    invaliedParameters(const std::string &p)
     {
         return "invalied params: " + p;
     }
 
 
     std::string
-    MissingRequiredParameters(const std::string &p)
+    missingRequiredParameters(const std::string &p)
     {
         return "miss required params: " + p;
     }
