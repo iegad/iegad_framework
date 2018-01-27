@@ -11,8 +11,11 @@ namespace iegad {
 
 
 
-class MySQLDAI {
+class MySqlDAI {
 public:
+    typedef std::shared_ptr<mysqlpp::Query> dai_t;
+
+
     static std::string
     makeConnectionString(const std::string &db,
                          const std::string &host,
@@ -20,7 +23,7 @@ public:
                          const std::string &pass,
                          int port = 3306)
     {
-        Json::FastWriter wr;
+        Json::StreamWriterBuilder wr;
         Json::Value root;
 
         root["DB"] = Json::Value(db);
@@ -29,13 +32,22 @@ public:
         root["PASS"] = Json::Value(pass);
         root["PORT"] = Json::Value(port);
 
-        return wr.write(root);
+        return Json::writeString(wr, root);
     }
 
 
-    MySQLDAI(const std::string &connstr)
+    explicit
+    MySqlDAI(const std::string &connstr)
     {
         _init(connstr);
+    }
+
+
+    ~MySqlDAI()
+    {
+        if (conn_.connected()) {
+            conn_.disconnect();
+        }
     }
 
 
@@ -56,12 +68,12 @@ public:
 
 
     bool
-    get(std::shared_ptr<mysqlpp::Query> &q, std::string *errstr)
+    get(dai_t &q, std::string *errstr)
     {
         assert(errstr);
 
         try {
-            q = std::shared_ptr<mysqlpp::Query>(new mysqlpp::Query(&conn_));
+            q = dai_t(new mysqlpp::Query(&conn_));
             return true;
         }
         catch (std::exception &ex) {
@@ -96,11 +108,12 @@ private:
     void
     _init(const std::string &connstr)
     {
-        Json::Reader rd;
+        Json::CharReaderBuilder rd;
+        Json::CharReader* r = rd.newCharReader();
         Json::Value root;
         std::string errstr;
 
-        assert(rd.parse(connstr, root));
+        assert(r->parse(connstr.data(), connstr.data() + connstr.size(), &root, &errstr));
 
         db_ = root["DB"].asString();
         host_ = root["HOST"].asString();

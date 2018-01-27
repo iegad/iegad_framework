@@ -2,36 +2,7 @@
 #include <clocale>
 #include <gtest/gtest.h>
 #include <iegad/tools/iegad_log.hpp>
-#include <iegad/dai/iegad_mysql++.hpp>
-#include <iegad/tigen/iegad_tigen_base_handler.hpp>
 
-
-class MyHandler : public iegad::tigen::TigenBaseHandler<iegad::MySQLDAI> {
-public:
-    explicit MyHandler(const std::string &initstr) :
-        iegad::tigen::TigenBaseHandler<iegad::MySQLDAI>(initstr)
-    {}
-
-
-    virtual ~MyHandler() {}
-
-
-    void
-    setData()
-    {
-        std::string errstr;
-        assert(this->check(&errstr));
-        std::cout<<this->reset(&errstr)<<std::endl;
-
-        std::shared_ptr<mysqlpp::Query> q;
-        assert(this->get(q, &errstr));
-        if (q) {
-            std::cout<<"NULL\n";
-        }
-        assert(q->exec("INSERT INTO T_TEST(T_VAL) VALUES(11)"));
-    }
-
-}; // class MyHandler;
 
 
 
@@ -40,10 +11,6 @@ main(int argc, char* argv[])
 {
     std::setlocale(LC_ALL, "zh_CN.UTF-8");
     iegad::tools::_LOG((char *)argv[0]);
-
-    MyHandler handler(iegad::MySQLDAI::makeConnectionString("IEGAD_TEST", "127.0.0.1", "iegad", "1111"));
-    handler.setData();
-
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

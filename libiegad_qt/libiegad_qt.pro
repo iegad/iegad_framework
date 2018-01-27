@@ -12,7 +12,8 @@ SOURCES += \
     ../libiegad/test/test_queue.cxx \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \
-    ../libiegad/test/test_tools.cxx
+    ../libiegad/test/test_tools.cxx \
+    ../libiegad/test/test_dai.cxx
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
@@ -49,29 +50,35 @@ HEADERS += \
     ../libiegad/iegad/net/iegad_email.hpp \
     ../libiegad/iegad/zmq_ex/zmq_subscriber.hpp \
     ../libiegad/iegad/tigen/iegad_tigen_base_handler.hpp \
-    ../libiegad/iegad/dai/iegad_mysql++.hpp
+    ../libiegad/iegad/dai/iegad_mysql++.hpp \
+    ../libiegad/iegad/dai/iegad_mongo.hpp
 
 
 INCLUDEPATH += ../libiegad/ \
-    /usr/include\
-    /usr/local/include\
-    /usr/local/mysql/include
+    /usr/include \
+    /usr/local/include \
+    /usr/local/mysql/include \
+    /usr/local/include/mongocxx/v_noabi/ \
+    /usr/local/include/bsoncxx/v_noabi/ \
 
 
 
-LIBS += -L/usr/local/lib -lthrift
-LIBS += -L/usr/local/lib -lthriftnb
-LIBS += -L/usr/local/lib -lglog
-LIBS += -L/usr/local/lib -lgtest
-LIBS += -L/usr/local/lib -lhiredis
-LIBS += -L/usr/local/lib -lboost_system
-LIBS += -L/usr/local/lib -lboost_thread
-LIBS += -L/usr/local/lib -lboost_filesystem
-LIBS += -L/usr/local/lib -lboost_regex
-LIBS += -L/usr/local/lib -lssl
-LIBS += -L/usr/local/lib -lcrypto
-LIBS += -L/usr/local/lib -lsigar
-LIBS += -L/usr/local/lib -lmysqlpp -ljsoncpp
+LIBS += -L/usr/local/lib -lthrift \
+                         -lthriftnb \
+                         -lglog \
+                         -lgtest \
+                         -lhiredis \
+                         -lboost_system \
+                         -lboost_thread \
+                         -lboost_filesystem \
+                         -lboost_regex \
+                         -lssl \
+                         -lcrypto \
+                         -lsigar \
+                         -lmysqlpp \
+                         -ljsoncpp \
+                         -lbsoncxx \
+                         -lmongocxx
 
 #ubuntu required
 #LIBS += -pthread

@@ -3,7 +3,6 @@
 
 
 
-#include <memory>
 #include <string>
 
 
@@ -12,15 +11,16 @@ namespace iegad {
 namespace tigen {
 
 
+
 template<typename __DAI__>
 class TigenBaseHandler {
-public:
-    virtual ~TigenBaseHandler() {}
-
-
 protected:
     TigenBaseHandler(const std::string &initstr) :
         dai_(initstr)
+    {}
+
+
+    virtual ~TigenBaseHandler()
     {}
 
 
@@ -33,7 +33,7 @@ protected:
 
     template<typename __QUERY__>
     bool
-    get(std::shared_ptr<__QUERY__> &query, std::string *errstr)
+    get(__QUERY__ &query, std::string *errstr)
     {
          return dai_.get(query, errstr);
     }
@@ -49,6 +49,7 @@ protected:
 private:
     __DAI__ dai_;
 }; // class;
+
 
 
 } // namespace tigen;
