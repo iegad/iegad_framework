@@ -13,12 +13,13 @@ namespace iegad {
 
 class MySqlDAI {
 public:
+    typedef std::shared_ptr<mysqlpp::Connection> conn_t;
     typedef std::shared_ptr<mysqlpp::Query> dai_t;
 
 
     static std::string
-    makeConnectionString(const std::string &db,
-                         const std::string &host,
+    makeConnectionString(const std::string &host,
+                         const std::string &db,
                          const std::string &user,
                          const std::string &pass,
                          int port = 3306)
@@ -36,18 +37,77 @@ public:
     }
 
 
-    explicit
-    MySqlDAI(const std::string &connstr)
+    static conn_t
+    makeConnection(const std::string &initstr, std::string *errstr)
     {
-        _init(connstr);
+        Json::CharReaderBuilder rd;
+        Json::CharReader* r = rd.newCharReader();
+        Json::Value root;
+
+        assert(r->parse(initstr.data(), initstr.data() + initstr.size(), &root, errstr));
+
+        std::string host = root["HOST"].asString();
+        std::string db = root["DB"].asString();
+        std::string user = root["USER"].asString();
+        std::string pass = root["PASS"].asString();
+        int port = root["PORT"].asInt();
+
+        try {
+            conn_t conn(new mysqlpp::Connection);
+            conn->disconnect();
+            conn->connect(db.c_str(), host.c_str(), user.c_str(), pass.c_str(), port);
+
+            mysqlpp::Query q(conn.get());
+
+            if (q.exec("set names utf8")) {
+                return conn;
+            }
+
+            return NULL;
+        }
+        catch (std::exception &ex) {
+            *errstr = ex.what();
+        }
+
+        return NULL;
     }
 
 
-    ~MySqlDAI()
+    static int
+    executeTransaction(std::list<std::string> &sqls, mysqlpp::Connection &conn, std::string *errstr)
     {
-        if (conn_.connected()) {
-            conn_.disconnect();
+        mysqlpp::Transaction trans(conn);
+        mysqlpp::Query q(&conn);
+        bool noerr = false;
+
+        try {
+            for (auto itr = sqls.begin(); itr != sqls.end(); ++itr) {
+                noerr = q.exec(*itr);
+                if (!noerr) {
+                    break;
+                }
+            }
+            if (noerr) {
+                trans.commit();
+            }
+            else {
+                trans.rollback();
+            }
         }
+        catch (std::exception &ex) {
+            trans.rollback();
+            *errstr = ex.what();
+        }
+
+        return noerr ? 0 : -1;
+    }
+
+
+    explicit
+    MySqlDAI(conn_t conn, const std::string &initstr) :
+        conn_(conn)
+    {
+        _init(initstr);
     }
 
 
@@ -57,7 +117,7 @@ public:
         assert(errstr);
 
         try {
-            return conn_.connected();
+            return conn_->connected();
         }
         catch (std::exception &ex) {
             *errstr = ex.what();
@@ -73,7 +133,7 @@ public:
         assert(errstr);
 
         try {
-            q = dai_t(new mysqlpp::Query(&conn_));
+            q = dai_t(new mysqlpp::Query(conn_.get()));
             return true;
         }
         catch (std::exception &ex) {
@@ -88,15 +148,16 @@ public:
     reset(std::string *errstr)
     {
         try {
-            if (!conn_.connected()) {
-                conn_.disconnect();
-                conn_.connect(db_.c_str(), host_.c_str(), user_.c_str(), pass_.c_str(), port_);
+            if (conn_->connected()) {
+                conn_->disconnect();
             }
 
-            mysqlpp::Query q(&conn_);
+            conn_->connect(db_.c_str(), host_.c_str(), user_.c_str(), pass_.c_str(), port_);
+            mysqlpp::Query q(conn_.get());
+
             return q.exec("set names utf8");
         }
-        catch(std::exception &ex) {
+        catch (std::exception &ex) {
             *errstr = ex.what();
         }
 
@@ -125,12 +186,12 @@ private:
     }
 
 
+    conn_t conn_;
     int port_;
     std::string db_;
     std::string host_;
     std::string user_;
     std::string pass_;
-    mysqlpp::Connection conn_;
 }; // class MySQLDAI;
 
 

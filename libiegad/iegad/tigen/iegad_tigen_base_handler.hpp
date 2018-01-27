@@ -15,8 +15,11 @@ namespace tigen {
 template<typename __DAI__>
 class TigenBaseHandler {
 protected:
-    TigenBaseHandler(const std::string &initstr) :
-        dai_(initstr)
+    typedef typename __DAI__::conn_t conn_t;
+    typedef typename __DAI__::dai_t dai_t;
+
+    TigenBaseHandler(conn_t &conn, const std::string &initstr) :
+        dai_(conn, initstr)
     {}
 
 
@@ -31,11 +34,10 @@ protected:
     }
 
 
-    template<typename __QUERY__>
     bool
-    get(__QUERY__ &query, std::string *errstr)
+    get(dai_t &q, std::string *errstr)
     {
-         return dai_.get(query, errstr);
+         return dai_.get(q, errstr);
     }
 
 
@@ -43,6 +45,20 @@ protected:
     reset(std::string *errstr)
     {
         return dai_.reset(errstr);
+    }
+
+
+    std::string
+    InvaliedParameters(const std::string &p)
+    {
+        return "invalied params: " + p;
+    }
+
+
+    std::string
+    MissingRequiredParameters(const std::string &p)
+    {
+        return "miss required params: " + p;
     }
 
 
