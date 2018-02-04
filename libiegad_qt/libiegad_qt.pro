@@ -13,7 +13,8 @@ SOURCES += \
     ../libiegad/test/test_worker.cxx \
     ../libiegad/test/test_timer.cxx \
     ../libiegad/test/test_tools.cxx \
-    ../libiegad/test/test_dai.cxx
+    ../libiegad/test/test_dai.cxx \
+    ../libiegad/test/tcp_test.cxx
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \
@@ -51,7 +52,9 @@ HEADERS += \
     ../libiegad/iegad/zmq_ex/zmq_subscriber.hpp \
     ../libiegad/iegad/tigen/iegad_tigen_base_handler.hpp \
     ../libiegad/iegad/dai/iegad_mysql++.hpp \
-    ../libiegad/iegad/dai/iegad_mongo.hpp
+    ../libiegad/iegad/dai/iegad_mongo.hpp \
+    ../libiegad/iegad/net/tcp_server.hpp \
+    ../libiegad/iegad/net/tcp_session.hpp
 
 
 INCLUDEPATH += ../libiegad/ \
@@ -78,7 +81,8 @@ LIBS += -L/usr/local/lib -lthrift \
                          -lmysqlpp \
                          -ljsoncpp \
                          -lbsoncxx \
-                         -lmongocxx
+                         -lmongocxx \
+                         -levent
 
 #ubuntu required
 #LIBS += -pthread
