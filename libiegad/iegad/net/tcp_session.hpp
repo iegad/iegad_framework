@@ -85,20 +85,13 @@ public:
     }
 
 
-    void
-    close()
-    {
-        _release();
-    }
-
-
 private:
     void
     _release()
     {
         if (fd_ > 0) {
-            assert(!evutil_closesocket(fd_));
-            assert(!event_del(&readEv_));
+            assert(!::evutil_closesocket(fd_));
+            assert(!::event_del(&readEv_));
         }
     }
 
@@ -106,11 +99,11 @@ private:
     void
     _init()
     {
-        assert(!evutil_make_socket_nonblocking(fd_));
-        assert(!event_assign(&readEv_, svr_->base(), fd_,
+        assert(!::evutil_make_socket_nonblocking(fd_));
+        assert(!::event_assign(&readEv_, svr_->base(), fd_,
                              EV_READ | EV_PERSIST | EV_ET,
                              tcp_session::readHandler, this));
-        assert(!event_add(&readEv_, nullptr));
+        assert(!::event_add(&readEv_, nullptr));
         actime_ = ::time(nullptr);
     }
 
