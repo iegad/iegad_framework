@@ -14,7 +14,7 @@ SOURCES += \
     ../libiegad/test/test_timer.cxx \
     ../libiegad/test/test_tools.cxx \
     ../libiegad/test/test_dai.cxx \
-    ../libiegad/test/tcp_test.cxx
+    ../libiegad/test/test_tcp.cxx
 
 HEADERS += \
     ../libiegad/iegad/thrift_ex/thrift_client.hpp \

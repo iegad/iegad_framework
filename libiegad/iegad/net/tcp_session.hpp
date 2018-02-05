@@ -19,25 +19,34 @@ public:
     static void
     readHandler(int sockfd, short ev, void *arg)
     {
+        assert(arg);
+
         tcp_session *sess = (tcp_session *)arg;
-        sess->actime_ = time(nullptr);
+
         if (ev & EV_READ && ev & EV_ET && sess->sockfd() == sockfd) {
+            sess->actime_ = ::time(nullptr);
             sess->svr_->push(sess);
         }
     }
 
 
-    tcp_session(SERVER *svr) :
-        fd_(-1),
+    explicit
+    tcp_session(SERVER *svr, int sockfd = -1) :
+        fd_(sockfd),
         svr_(svr)
-    {}
+    {
+        assert(svr);
+        if (sockfd > 0) {
+            _init();
+        }
+    }
 
 
     void
     reset(int sockfd)
     {
-        fd_ = sockfd;
         _release();
+        fd_ = sockfd;
         _init();
     }
 
@@ -49,21 +58,21 @@ public:
 
 
     int
-    sockfd()
+    sockfd() const
     {
         return fd_;
     }
 
 
-    SERVER *
+    SERVER*
     server()
     {
         return svr_;
     }
 
 
-    time_t
-    activeTime()
+    const time_t &
+    activeTime() const
     {
         return actime_;
     }
@@ -72,7 +81,7 @@ public:
     struct event *
     event()
     {
-        return &event_;
+        return &readEv_;
     }
 
 
@@ -83,14 +92,13 @@ public:
     }
 
 
-
 private:
     void
     _release()
     {
         if (fd_ > 0) {
             assert(!evutil_closesocket(fd_));
-            assert(!event_del(&event_));
+            assert(!event_del(&readEv_));
         }
     }
 
@@ -99,18 +107,18 @@ private:
     _init()
     {
         assert(!evutil_make_socket_nonblocking(fd_));
-        assert(!event_assign(&event_, svr_->base(), fd_,
+        assert(!event_assign(&readEv_, svr_->base(), fd_,
                              EV_READ | EV_PERSIST | EV_ET,
                              tcp_session::readHandler, this));
-        assert(!event_add(&event_, nullptr));
-        actime_ = time(nullptr);
+        assert(!event_add(&readEv_, nullptr));
+        actime_ = ::time(nullptr);
     }
 
 
     int fd_;
     SERVER *svr_;
     time_t actime_;
-    struct event event_;
+    struct event readEv_;
 }; // class tcp_session;
 
 
