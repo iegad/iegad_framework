@@ -216,20 +216,23 @@ private:
 // ============================
 // @用途 : 多线程tcp服务端
 // @PROTOCOL : 协议类型
-// @int NTHREAD : 线程数
+// @unsigned int NTHREAD : 线程数
+// @unsigned int MAXCONN : 最大连接数
 // @PS : PROTOCOL必需实现readHandler函数,
 //       int readHandler(void *arg);
 //       arg为tcp_session指针类型
 //       成功返回0, 否则返回非0
 // ============================
-template <typename PROTOCOL, int NTHREAD = 8>
+template <typename PROTOCOL,
+          unsigned int NTHREAD = 8,
+          unsigned int MAXCONN = 1000>
 class tcp_server {
 // 多线程tcp服务端
 public:
     typedef tcp_processor<PROTOCOL> tcp_processor_t;
     typedef tcp_session<tcp_server<PROTOCOL, NTHREAD>> tcp_sess_t;
     typedef tcp_sess_t* tcp_sess_ptr;
-    typedef std::map<int, tcp_sess_ptr> tcp_map_t;
+    typedef std::map<int, tcp_sess_ptr> sess_map_t;
 
 
 
@@ -270,11 +273,17 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 构造函数
+    // @host : 触发接收事件的套接字, 这里为监听套接字
+    // @port : 触发的事件, 这里应该为EV_READ | EV_ET
+    // @expireTime : 事件附加参数, 这里为tcp_server指针
+    // @event : 服务端事件对象
+    // ============================
     explicit
-    tcp_server(const std::string &host, int port,
-               unsigned int maxConn = 1000, unsigned int expireTime = 0,
+    tcp_server(const std::string &host, int port, unsigned int expireTime = 0,
                tcp_event *event = nullptr) :
-        MAX_CONN(maxConn),
         listenfd_(_tcpBindListen(host, port)),
         curConn_(0),
         expireTime_(expireTime),
@@ -285,6 +294,10 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 析构函数
+    // ============================
     ~tcp_server()
     {
         for (auto itr = conns_.begin(); itr != conns_.end(); itr++) {
@@ -293,6 +306,11 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 获取服务端的event_base指针
+    // @返回值 : event_base指针
+    // ============================
     event_base*
     base()
     {
@@ -300,27 +318,35 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 将任务对象投递到任务队列
+    // @sess : 任务对象 => 产生读事件的连接对象
+    // @返回值 : void
+    // ============================
     void
     push(tcp_sess_ptr sess)
     {
         time_t tnow = ::time(nullptr);
-        idx_ = ++idx_ % NTHREAD;
+        poolIdx_ = ++poolIdx_ % NTHREAD;
 
         if (expireTime_ != 0 &&
             tnow - sess->activeTime() > expireTime_) {
-            if (event_) {
-                event_->onError(TE_ERR_TIMOUT, sess->sockfd());
-            }
+            _errorHandler(TE_ERR_TIMOUT, sess->sockfd());
         }
         else {
             if (event_) {
                 event_->onProcesse(sess->sockfd());
             }
-            procPool_[idx_].push(sess);
+            procPool_[poolIdx_].push(sess);
         }
     }
 
 
+    // ============================
+    // @用途 : 启动服务
+    // @返回值 : void
+    // ============================
     void
     run()
     {
@@ -328,13 +354,23 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 获取最大连接数
+    // @返回值 : 最大连接数
+    // ============================
     unsigned int
     maxConn() const
     {
-        return MAX_CONN;
+        return MAXCONN;
     }
 
 
+
+    // ============================
+    // @用途 : 获取最大连接数
+    // @返回值 : 最大连接数
+    // ============================
     unsigned int
     currentConn() const
     {
@@ -342,20 +378,36 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 获取监听套接字
+    // @返回值 : 监听套接字
+    // ============================
     int
-    sockfd() const
+    listenfd() const
     {
         return listenfd_;
     }
 
 
-    const std::map<size_t, tcp_sess_ptr> &
-    conns()
+
+    // ============================
+    // @用途 : 获取连接池
+    // @返回值 : 连接池
+    // ============================
+    const sess_map_t &
+    conns() const
     {
         return conns_;
     }
 
 
+
+    // ============================
+    // @用途 : 关闭指定的连接对象
+    // @sess : 连接对象指针
+    // @返回值 : 连接池
+    // ============================
     void
     closeSession(tcp_sess_ptr sess)
     {
@@ -369,7 +421,14 @@ public:
     }
 
 
+
 private:
+    // ============================
+    // @用途 : 建立tcp 监听套接字
+    // @host : 监听地址
+    // @port : 监听端口
+    // @返回值 : 套接字描述符
+    // ============================
     static int
     _tcpBindListen(const std::string &host, int port)
     {
@@ -401,15 +460,27 @@ private:
     }
 
 
+
+    // ============================
+    // @用途 : 服务端错误事件句柄
+    // @type : 错误类型
+    // @arg : 错误附加参数
+    // @返回值 : void
+    // ============================
     void
-    _errorHandler(int type, int errcode)
+    _errorHandler(int type, int arg)
     {
         if (event_) {
-            event_->onError(type, errcode);
+            event_->onError(type, arg);
         }
     }
 
 
+
+    // ============================
+    // @用途 : 初始化数据
+    // @返回值 : void
+    // ============================
     void
     _init()
     {
@@ -425,12 +496,18 @@ private:
     }
 
 
+
+    // ============================
+    // @用途 : 处理客户端连接
+    // @sockfd : 客户端连接套接字
+    // @返回值 : void
+    // ============================
     void
     _acceptHander(int sockfd)
     {
         tcp_sess_ptr sess = nullptr;
 
-        if (MAX_CONN > curConn_) {
+        if (MAXCONN > curConn_) {
             auto itr = conns_.find(sockfd);
 
             if (itr == conns_.end()) {
@@ -449,18 +526,25 @@ private:
     }
 
 
-    const unsigned int MAX_CONN;
 
+    // 监听套接字
     int listenfd_;
+    // 当前客户端连接
     unsigned int curConn_;
-    unsigned int idx_;
+    // 线程池索引
+    unsigned int poolIdx_;
+    // 超时时间, 单位是秒
     unsigned int expireTime_;
 
     event_base *base_;
+    // 服务端事件对象
     tcp_event *event_;
+    // 连接事件
     event acceptEv_;
+    // 线程池
     tcp_processor_t procPool_[NTHREAD];
-    tcp_map_t conns_;
+    // 客户端连接池
+    sess_map_t conns_;
 }; // class tcp_server;
 
 
