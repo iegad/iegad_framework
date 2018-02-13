@@ -22,87 +22,13 @@
 
 
 
-#include <event.h>
 #include <iegad/net/tcp_session.hpp>
 #include <iegad/tools/job_worker.hpp>
-#include <thread>
-#include <arpa/inet.h>
-#include <netinet/tcp.h>
 
 
 
 namespace iegad {
 namespace net {
-
-
-enum {
-    TE_ERR_ACCEPT,  // 接收客户端连接错误, arg: errno
-    TE_ERR_TIMOUT   // 客户端处理事件超时, arg: sockfd
-};
-
-
-
-class tcp_event {
-// tcp服务端事件
-public:
-    // ============================
-    // @用途 : 析构函数
-    // ============================
-    virtual
-    ~tcp_event()
-    {}
-
-
-
-    // ============================
-    // @用途 : 初始化事件, 当服务端启动时触发
-    // @返回值 : void
-    // ============================
-    virtual void
-    onInit() = 0;
-
-
-
-    // ============================
-    // @用途 : 连接事件, 当有客户端连接时触发
-    // @sockfd : 客户端套接字
-    // @返回值 : void
-    // ============================
-    virtual void
-    onConnected(int sockfd) = 0;
-
-
-
-    // ============================
-    // @用途 : 处理事件, 当有客户端套接字接收数据前触发
-    // @sockfd : 客户端套接字
-    // @返回值 : void
-    // ============================
-    virtual void
-    onProcesse(int sockfd) = 0;
-
-
-
-    // ============================
-    // @用途 : 关闭事件, 当有客户端套接字被关闭前触发
-    // @sockfd : 客户端套接字
-    // @返回值 : void
-    // ============================
-    virtual void
-    onClosed(int sockfd) = 0;
-
-
-
-    // ============================
-    // @用途 : 错误事件, 当有错误产生时触发
-    // @type : 错误类型
-    // @arg : 错误附加参数, 由type决定arg的函意
-    // @返回值 : void
-    // ============================
-    virtual void
-    onError(int type, int arg) = 0;
-}; // class tcp_event;
-
 
 
 
@@ -115,11 +41,11 @@ public:
 //       成功返回0, 否则返回非0
 // ============================
 template <typename PROTOCOL>
-class tcp_processor {
+class TcpProcessor {
 // 处理器, 用于处理客户端数据
 public:
-    typedef iegad::tools::job_que_t<void *> que_t;
-    typedef iegad::tools::worker_t<void *> work_t;
+    typedef iegad::tools::job_que_t<void*> que_t;
+    typedef iegad::tools::worker_t<void*> work_t;
 
 
 
@@ -129,7 +55,7 @@ public:
     // @返回值 : 成功返回0, 否则返回非0
     // ============================
     static int
-    workHandler(void *sess)
+    workHandler(void* sess)
     {
         return _getProtocol().readHandler(sess);
     }
@@ -140,8 +66,8 @@ public:
     // @用途 : 构造函数
     // ============================
     explicit
-    tcp_processor() :
-        wkr_(que_, tcp_processor::workHandler)
+    TcpProcessor() :
+        wkr_(que_, TcpProcessor::workHandler)
     {
         wkr_.run(1);
     }
@@ -151,7 +77,7 @@ public:
     // ============================
     // @用途 : 析构函数
     // ============================
-    ~tcp_processor()
+    ~TcpProcessor()
     {
         wkr_.stop();
     }
@@ -164,7 +90,7 @@ public:
     // @返回值 : void
     // ============================
     void
-    push(void *sess)
+    push(void* sess)
     {
         que_.push(sess);
     }
@@ -213,6 +139,62 @@ private:
 
 
 
+
+class TcpEventNull {
+// tcp服务端事件
+public:
+    // ============================
+    // @用途 : 初始化事件, 当服务端启动时触发
+    // @返回值 : void
+    // ============================
+    void
+    onInit() {}
+
+
+
+    // ============================
+    // @用途 : 连接事件, 当有客户端连接时触发
+    // @sockfd : 客户端套接字
+    // @返回值 : void
+    // ============================
+    void
+    onConnected(int) {}
+
+
+
+    // ============================
+    // @用途 : 处理事件, 当有客户端套接字接收数据前触发
+    // @sockfd : 客户端套接字
+    // @返回值 : void
+    // ============================
+    void
+    onProcesse(int) {}
+
+
+
+    // ============================
+    // @用途 : 关闭事件, 当有客户端套接字被关闭前触发
+    // @sockfd : 客户端套接字
+    // @返回值 : void
+    // ============================
+    void
+    onClosed(int) {}
+
+
+
+    // ============================
+    // @用途 : 错误事件, 当有错误产生时触发
+    // @type : 错误类型
+    // @arg : 错误附加参数, 由type决定arg的函意
+    // @返回值 : void
+    // ============================
+    void
+    onError(int, int, int) {}
+}; // class TcpEventNull;
+
+
+
+
 // ============================
 // @用途 : 多线程tcp服务端
 // @PROTOCOL : 协议类型
@@ -225,14 +207,24 @@ private:
 // ============================
 template <typename PROTOCOL,
           unsigned int NTHREAD = 8,
-          unsigned int MAXCONN = 1000>
-class tcp_server {
+          unsigned int MAXCONN = 1000,
+          typename TCP_EVENT = TcpEventNull,
+          typename TCP_SESSION_ARG = int>
+class TcpServer {
 // 多线程tcp服务端
 public:
-    typedef tcp_processor<PROTOCOL> tcp_processor_t;
-    typedef tcp_session<tcp_server<PROTOCOL, NTHREAD>> tcp_sess_t;
-    typedef tcp_sess_t* tcp_sess_ptr;
-    typedef std::map<int, tcp_sess_ptr> sess_map_t;
+    typedef TcpProcessor<PROTOCOL> TcpProcessor;
+    typedef TcpSession<TcpServer, TCP_SESSION_ARG> TcpSession;
+    typedef TcpSession* TcpSessionPtr;
+    typedef std::map<int, TcpSessionPtr> TcpSessionMap;
+
+
+
+    static TcpSessionPtr
+    castSession(void *arg)
+    {
+        return (TcpSessionPtr)arg;
+    }
 
 
 
@@ -248,7 +240,7 @@ public:
     {
         assert(arg);
 
-        tcp_server *svr = (tcp_server *)arg;
+        TcpServer *svr = (TcpServer *)arg;
 
         if (fd == svr->listenfd_ &&
             ev & EV_READ &&
@@ -258,13 +250,12 @@ public:
 
             for (;;) {
                 sockfd = ::accept(fd, nullptr, nullptr);
-
                 if (sockfd > 0) {
                     svr->_acceptHander(sockfd);
                 }
                 else {
                     if (errno != EAGAIN) {
-                        svr->_errorHandler(TE_ERR_ACCEPT, errno);
+                        svr->sessionErrorHandler(TcpErrorEvent::onAccept, sockfd, errno);
                     }
                     break;
                 }
@@ -282,13 +273,11 @@ public:
     // @event : 服务端事件对象
     // ============================
     explicit
-    tcp_server(const std::string &host, int port, unsigned int expireTime = 0,
-               tcp_event *event = nullptr) :
+    TcpServer(const std::string &host, int port, unsigned int expireTime = 0) :
         listenfd_(_tcpBindListen(host, port)),
         curConn_(0),
         expireTime_(expireTime),
-        base_(::event_base_new()),
-        event_(event)
+        base_(::event_base_new())
     {
         _init();
     }
@@ -298,7 +287,7 @@ public:
     // ============================
     // @用途 : 析构函数
     // ============================
-    ~tcp_server()
+    ~TcpServer()
     {
         for (auto itr = conns_.begin(); itr != conns_.end(); itr++) {
             delete itr->second;
@@ -325,19 +314,17 @@ public:
     // @返回值 : void
     // ============================
     void
-    push(tcp_sess_ptr sess)
+    push(TcpSessionPtr sess)
     {
         time_t tnow = ::time(nullptr);
         poolIdx_ = ++poolIdx_ % NTHREAD;
 
         if (expireTime_ != 0 &&
             tnow - sess->activeTime() > expireTime_) {
-            _errorHandler(TE_ERR_TIMOUT, sess->sockfd());
+            this->sessionErrorHandler(TcpErrorEvent::onProcTimeout, sess->sockfd(), 0);
         }
         else {
-            if (event_) {
-                event_->onProcesse(sess->sockfd());
-            }
+            event_.onProcesse(sess->sockfd());
             procPool_[poolIdx_].push(sess);
         }
     }
@@ -395,7 +382,7 @@ public:
     // @用途 : 获取连接池
     // @返回值 : 连接池
     // ============================
-    const sess_map_t &
+    const TcpSessionMap &
     conns() const
     {
         return conns_;
@@ -409,15 +396,25 @@ public:
     // @返回值 : 连接池
     // ============================
     void
-    closeSession(tcp_sess_ptr sess)
+    closeSession(TcpSessionPtr sess)
     {
-        if (event_) {
-            event_->onClosed(sess->sockfd());
-        }
-
-        assert(!::evutil_closesocket(sess->sockfd()));
-        assert(!::event_del(sess->event()));
+        event_.onClosed(sess->sockfd());
+        sess->release();
         curConn_--;
+    }
+
+
+
+    // ============================
+    // @用途 : 服务端错误事件句柄
+    // @type : 错误类型
+    // @arg : 错误附加参数
+    // @返回值 : void
+    // ============================
+    void
+    sessionErrorHandler(int type, int sockfd, int arg)
+    {
+        event_.onError(type, sockfd, arg);
     }
 
 
@@ -462,36 +459,18 @@ private:
 
 
     // ============================
-    // @用途 : 服务端错误事件句柄
-    // @type : 错误类型
-    // @arg : 错误附加参数
-    // @返回值 : void
-    // ============================
-    void
-    _errorHandler(int type, int arg)
-    {
-        if (event_) {
-            event_->onError(type, arg);
-        }
-    }
-
-
-
-    // ============================
     // @用途 : 初始化数据
     // @返回值 : void
     // ============================
     void
     _init()
     {
-        if (event_) {
-            event_->onInit();
-        }
+        event_.onInit();
 
         assert(base_);
         assert(!::event_assign(&acceptEv_, base_, listenfd_,
                              EV_READ | EV_PERSIST | EV_ET,
-                             tcp_server::acceptHander, this));
+                             TcpServer::acceptHander, this));
         assert(!::event_add(&acceptEv_, nullptr));
     }
 
@@ -505,13 +484,14 @@ private:
     void
     _acceptHander(int sockfd)
     {
-        tcp_sess_ptr sess = nullptr;
+        TcpSessionPtr sess = nullptr;
 
         if (MAXCONN > curConn_) {
-            auto itr = conns_.find(sockfd);
+            assert(!::evutil_make_socket_nonblocking(sockfd));
 
+            auto itr = conns_.find(sockfd);
             if (itr == conns_.end()) {
-                sess = new tcp_sess_t(this, sockfd);
+                sess = new TcpSession(this, sockfd);
                 conns_.insert(std::make_pair(sockfd, sess));
             }
             else {
@@ -538,19 +518,25 @@ private:
 
     event_base *base_;
     // 服务端事件对象
-    tcp_event *event_;
+    TCP_EVENT event_;
     // 连接事件
     event acceptEv_;
     // 线程池
-    tcp_processor_t procPool_[NTHREAD];
+    TcpProcessor procPool_[NTHREAD];
     // 客户端连接池
-    sess_map_t conns_;
+    TcpSessionMap conns_;
 }; // class tcp_server;
 
 
 
 } // namespace net;
 } // namespace iegad;
+
+
+
+#define DEFINE_TCP_SERVER(className, PROTOCOL, NTHREAD, MAX_CONNECTIONS, TCP_SERVER_EVENT, TCP_SESSION_ARG) \
+    typedef iegad::net::TcpServer<PROTOCOL, NTHREAD, MAX_CONNECTIONS, TCP_SERVER_EVENT, TCP_SESSION_ARG> className; \
+    typedef className::TcpSessionPtr TcpSessionPtr;
 
 
 

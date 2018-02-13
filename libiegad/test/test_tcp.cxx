@@ -6,30 +6,34 @@
 
 
 
-class MyProtocol {
+class EchoProtocol {
 public:
-    typedef iegad::net::tcp_server<MyProtocol> server_t;
-    typedef iegad::net::tcp_session<server_t> session_t;
-    typedef session_t* session_ptr;
+    DEFINE_TCP_SERVER(TcpServer, EchoProtocol, 8, 1000, iegad::net::TcpEventNull, int)
 
-    MyProtocol() {}
+
+
+    EchoProtocol() {}
 
 
     int
     readHandler(void *arg)
     {
-        session_ptr sess = (session_ptr)arg;
-        char buff[1200] = {0};
-        int n = read(sess->sockfd(), buff, 1200);
+        TcpSessionPtr sess = TcpServer::castSession(arg);
+        unsigned char buff[1200] = {0};
+        int n = sess->readAll(buff, 1200);
+
+        std::cout<<sess->getEndPoint()<<std::endl;
+
         if (n > 0) {
-            std::cout<<std::string(buff, n)<<std::endl;
-            n = write(sess->sockfd(), buff, n);
+            sess->write(buff, n);
+        }
+        else {
             sess->close();
         }
 
         return n;
     }
-}; // class MyProtocol;
+}; // class EchoProtocol;
 
 
 
@@ -39,9 +43,8 @@ public:
 int
 main()
 {
-    MyProtocol::server_t host("127.0.0.1", 6688);
+    EchoProtocol::TcpServer host("127.0.0.1", 6688);
     host.run();
-
     return 0;
 }
 

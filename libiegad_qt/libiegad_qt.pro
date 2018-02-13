@@ -54,7 +54,8 @@ HEADERS += \
     ../libiegad/iegad/dai/iegad_mysql++.hpp \
     ../libiegad/iegad/dai/iegad_mongo.hpp \
     ../libiegad/iegad/net/tcp_server.hpp \
-    ../libiegad/iegad/net/tcp_session.hpp
+    ../libiegad/iegad/net/tcp_session.hpp \
+    ../libiegad/iegad/net/tcp_macro.h
 
 
 INCLUDEPATH += ../libiegad/ \

@@ -41,6 +41,13 @@ protected:
     }
 
 
+    conn_t &
+    getConn()
+    {
+        return dai_.getConn();
+    }
+
+
     bool
     reset(std::string *errstr)
     {

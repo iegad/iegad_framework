@@ -127,6 +127,13 @@ public:
     }
 
 
+    conn_t &
+    getConn()
+    {
+        return conn_;
+    }
+
+
     bool
     get(dai_t &q, std::string *errstr)
     {
