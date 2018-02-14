@@ -534,6 +534,17 @@ private:
 
 
 
+
+// ============================
+// @用途 : 定义Tcp服务端
+// @className : 类名
+// @PROTOCOL : 协议的模板参数, 由用户自己定义
+// @NTHREAD : 线程数
+// @MAX_CONNECTIONS : 最大连接数
+// @TCP_SERVER_EVENT : TcpServer服务事件类型
+// @TCP_SESSION_ARG : TcpSession附加参数类型
+// @PS : 该宏尽量在RPOTOCOL中定义, 使用方式请参考test_tcp.cxx
+// ============================
 #define DEFINE_TCP_SERVER(className, PROTOCOL, NTHREAD, MAX_CONNECTIONS, TCP_SERVER_EVENT, TCP_SESSION_ARG) \
     typedef iegad::net::TcpServer<PROTOCOL, NTHREAD, MAX_CONNECTIONS, TCP_SERVER_EVENT, TCP_SESSION_ARG> className; \
     typedef className::TcpSessionPtr TcpSessionPtr;

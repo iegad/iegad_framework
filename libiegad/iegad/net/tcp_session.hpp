@@ -14,8 +14,6 @@
 // =======================================
 //  日期               修改人                     修改说明
 // =======================================
-// --2018-02-13      -- iegad               1, 为session添加模板参数, Arg_t
-//                                          2, 修改命名规则
 
 
 
@@ -36,17 +34,19 @@ namespace net {
 
 // ============================
 // @用途 : tcp连接会话
-// @SERVER : 服务端模板类
-// @PS : 该SERVER对象必需是tcp_server类型,
+// @TcpServer : 服务端模板类
+// @ARG : 附加属性模板参数,
+//        附加参数以智能指针的方式成为TcpSession的成员变量.
+// @PS : 该TcpServer对象必需是iegad::net::TcpServer类型
 //       为了只使用hpp方式编写库, 所以
 //       不能简单的前置专声明, 需要用模板
 //       编程方式.
 // ============================
-template <typename TcpServer, typename Arg>
+template <typename TcpServer, typename ARG>
 class TcpSession {
 // tcp连接会话
 public:
-    typedef boost::shared_ptr<Arg> Arg_ptr;
+    typedef boost::shared_ptr<ARG> ARG_ptr;
 
 
     // ============================
@@ -174,15 +174,24 @@ public:
 
 
 
+    // ============================
+    // @用途 : 设置附加参数
+    // @arg: 附加参数, boost::shared_ptr<ARG>
+    // @返回值 : void
+    // ============================
     void
-    setArg(Arg_ptr arg)
+    setArg(ARG_ptr arg)
     {
         arg_ = arg;
     }
 
 
 
-    Arg_ptr
+    // ============================
+    // @用途 : 获取附加参数
+    // @返回值 : 附加参数, boost::shared_ptr<ARG>
+    // ============================
+    ARG_ptr
     getArg()
     {
         return arg_;
@@ -190,6 +199,16 @@ public:
 
 
 
+    // ============================
+    // @用途 : 将所有可读数据读到buff缓冲区中
+    // @buff : 缓冲区
+    // @buffLen : 缓冲区大小
+    // @返回值 : 大于0, 为读到的数据总量,
+    //          等于0, 对端主动关闭套接字,
+    //          小于0, 读操作出现错误.
+    // @PS: 在使用该函数时，一定要根据实际
+    //      应用来确定一个够用的缓冲区.
+    // ============================
     int
     readAll(unsigned char *buff, size_t buffLen)
     {
@@ -226,8 +245,16 @@ public:
 
 
 
+    // ============================
+    // @用途 : 将指定数据读到buff缓冲区中
+    // @buff : 缓冲区
+    // @buffLen : 指定要读的数据长度, 同时也应该是缓冲区的大小.
+    // @返回值 : 大于0, 为读到的数据总量,
+    //          等于0, 对端主动关闭套接字,
+    //          小于0, 读操作出现错误.
+    // ============================
     int
-    read(unsigned char *buff, size_t buffLen)
+    read(void *buff, size_t buffLen)
     {
         assert(buff && buffLen > 0);
 
@@ -265,8 +292,15 @@ public:
 
 
 
+    // ============================
+    // @用途 : 将指定缓冲中的数据写到对端
+    // @buff : 写缓冲区
+    // @buffLen : 写缓冲区的大小.
+    // @返回值 : 大于0, 为写出的数据总量,
+    //          小于0, 写操作出现错误.
+    // ============================
     int
-    write(const unsigned char *buff, size_t buffLen)
+    write(const void *buff, size_t buffLen)
     {
         assert(buff && buffLen > 0);
 
@@ -292,6 +326,7 @@ public:
     }
 
 
+
     // ============================
     // @用途 : 释放资源
     // @返回值 : void
@@ -307,6 +342,11 @@ public:
     }
 
 
+
+    // ============================
+    // @用途 : 获取对端端点.
+    // @返回值 : 对端端点的字符串形式: 192.168.1.111:45666
+    // ============================
     std::string
     getEndPoint()
     {
@@ -355,7 +395,7 @@ private:
     // 读事件
     struct event readEv_;
     // 附加属性
-    Arg_ptr arg_;
+    ARG_ptr arg_;
 }; // class TcpSession;
 
 
