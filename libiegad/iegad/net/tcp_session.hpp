@@ -210,12 +210,12 @@ public:
     //      应用来确定一个够用的缓冲区.
     // ============================
     int
-    readAll(unsigned char *buff, size_t buffLen)
+    readAll(void *buff, size_t buffLen)
     {
         assert(buff && buffLen > 0);
 
         int ret = 0, n, nleft = buffLen;
-        unsigned char *p = buff;
+        unsigned char *p = (unsigned char *)buff;
 
         for (;;) {
             n = ::recv(fd_, p, nleft, 0);
@@ -245,6 +245,14 @@ public:
 
 
 
+    ARG_ptr
+    makeArg()
+    {
+        return ARG_ptr(new ARG);
+    }
+
+
+
     // ============================
     // @用途 : 将指定数据读到buff缓冲区中
     // @buff : 缓冲区
@@ -259,7 +267,7 @@ public:
         assert(buff && buffLen > 0);
 
         int ret = 0, n, nleft = buffLen;
-        unsigned char *p = buff;
+        unsigned char *p = (unsigned char *)buff;
 
         while(nleft > 0) {
             n = ::recv(fd_, p, nleft, 0);
@@ -305,7 +313,7 @@ public:
         assert(buff && buffLen > 0);
 
         int ret = buffLen, n, nleft = buffLen;
-        const unsigned char *p = buff;
+        const unsigned char *p = (const unsigned char *)buff;
 
         while (nleft > 0) {
             n = ::send(fd_, p, nleft, 0);
