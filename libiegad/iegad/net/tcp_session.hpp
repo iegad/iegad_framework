@@ -343,6 +343,7 @@ public:
     release()
     {
         if (fd_ > 0) {
+            arg_.reset();
             assert(!::evutil_closesocket(fd_));
             assert(!::event_del(&readEv_));
             fd_ = -1;

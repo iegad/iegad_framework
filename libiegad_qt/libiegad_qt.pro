@@ -55,7 +55,8 @@ HEADERS += \
     ../libiegad/iegad/dai/iegad_mongo.hpp \
     ../libiegad/iegad/net/tcp_server.hpp \
     ../libiegad/iegad/net/tcp_session.hpp \
-    ../libiegad/iegad/net/tcp_macro.h
+    ../libiegad/iegad/net/tcp_macro.h \
+    ../libiegad/iegad/rmq_ex/iegad_rmq_ex.hpp
 
 
 INCLUDEPATH += ../libiegad/ \
