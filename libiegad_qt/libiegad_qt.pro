@@ -56,7 +56,8 @@ HEADERS += \
     ../libiegad/iegad/net/tcp_server.hpp \
     ../libiegad/iegad/net/tcp_session.hpp \
     ../libiegad/iegad/net/tcp_macro.h \
-    ../libiegad/iegad/rmq_ex/iegad_rmq_ex.hpp
+    ../libiegad/iegad/rmq_ex/iegad_rmq_ex.hpp \
+    ../libiegad/iegad/net/tcp_client.hpp
 
 
 INCLUDEPATH += ../libiegad/ \

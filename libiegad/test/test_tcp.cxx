@@ -3,6 +3,7 @@
 
 
 #include <iegad/net/tcp_server.hpp>
+#include <iegad/net/tcp_client.hpp>
 
 
 
@@ -37,12 +38,45 @@ public:
 
 
 
+void
+readHandler(iegad::net::TcpClient *clnt)
+{
+    char buff[1024] = {0};
+    int n = clnt->readAll(buff, 1024);
+    std::cout<<std::string(buff, n)<<std::endl;
+}
+
+
+
 
 int
-main()
+main(int argc, char *argv[])
 {
-    EchoProtocol::TcpServer host("127.0.0.1", 6688);
-    host.run();
+    if (argc > 1) {
+        iegad::net::TcpClient clnt("127.0.0.1", "6688", readHandler);
+        std::cout<<clnt.getEndPoint()<<std::endl;
+        if (clnt.connect()) {
+            std::cout<<"connected failed\n";
+        }
+
+        clnt.run(iegad::net::RUN_NONBLOCK);
+
+        for (int i = 0; i < 10; i++) {
+            int n = clnt.write("Hello world", 11);
+            if (n != 11) {
+                std::cout<<"=== error ===\t"<<errno<<std::endl;
+            }
+
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+
+        clnt.stop();
+    }
+    else {
+        EchoProtocol::TcpServer host("127.0.0.1", 6688);
+        host.run();
+    }
+
     return 0;
 }
 
