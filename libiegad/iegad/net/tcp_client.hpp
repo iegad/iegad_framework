@@ -36,15 +36,6 @@ enum {
 
 
 enum {
-    STATUS_CLOSED,
-    STATUS_INITED,
-    STATUS_CONNECTING,
-    STATUS_CONNECTED
-};
-
-
-
-enum {
     RUN_BLOCK,
     RUN_NONBLOCK
 };
@@ -57,7 +48,6 @@ public:
 
 
     TcpClient(const std::string &host, const std::string &svc, readCallBack readHandler) :
-        status_(STATUS_CLOSED),
         sockfd_(0),
         base_(nullptr),
         host_(host),
@@ -81,53 +71,10 @@ public:
 
 
     int
-    status()
-    {
-        return status_;
-    }
-
-
-
-    int
-    connect()
-    {
-        int ret = ::connect(sockfd_, (sockaddr *)&saddr_, sizeof(saddr_));
-        timeval tmout = {15, 0};
-
-        if (ret) {
-            if (errno == EINPROGRESS || errno == EWOULDBLOCK) {
-                assert(!::event_assign(
-                           &event_, base_, sockfd_, EV_WRITE, TcpClient::_connectHandler, this));
-                assert(!::event_add(&event_, &tmout));
-                status_ = STATUS_CONNECTING;
-            }
-            else {
-                return -1;
-            }
-        }
-        else {
-            assert(!::event_assign(
-                       &event_, base_, sockfd_, EV_READ | EV_PERSIST | EV_ET, TcpClient::_readHandler, this));
-            assert(!::event_add(&event_, nullptr));
-            status_ = STATUS_CONNECTED;
-        }
-
-        return 0;
-    }
-
-
-
-    int
     close()
     {
-        this->stop();
-
-        if (status_ == STATUS_CONNECTED ||
-            status_ == STATUS_CONNECTING) {
-            ::event_del(&event_);
-        }
-
         if (base_) {
+            event_base_loopexit(base_, nullptr);
             event_base_free(base_);
             base_ = nullptr;
         }
@@ -136,8 +83,6 @@ public:
             ::evutil_closesocket(sockfd_);
             sockfd_ = -1;
         }
-
-        status_ = STATUS_CLOSED;
 
         return 0;
     }
@@ -150,7 +95,7 @@ public:
         int ret = ::shutdown(sockfd_, type);
 
         if (type == SHUTDOWN_BOTH) {
-            sockfd_ = -1;
+            this->close();
         }
 
         return ret;
@@ -215,6 +160,7 @@ public:
     {
         return sockfd_;
     }
+
 
 
     // ============================
@@ -340,60 +286,7 @@ public:
 
 
 
-    void
-    run(int type)
-    {
-        if (type == RUN_BLOCK) {
-            assert(!::event_base_dispatch(base_));
-        }
-        else {
-            std::thread t(std::bind(::event_base_dispatch, base_));
-            t.detach();
-        }
-    }
-
-
-
-    void
-    stop()
-    {
-        if (base_) {
-            ::event_base_loopbreak(base_);
-        }
-    }
-
-
-
 private:
-    static void
-    _connectHandler(int fd, short ev, void *arg)
-    {
-        TcpClient *this_ = (TcpClient *)arg;
-
-        if (fd == this_->sockfd() && ev & EV_WRITE) {
-
-            int err;
-            socklen_t len = sizeof(err);
-
-            assert(!::getsockopt(fd, SOL_SOCKET, SO_ERROR, &err, &len));
-            assert(!err);
-
-            assert(!::event_assign(
-                       &this_->event_, this_->base_, fd,
-                       EV_READ | EV_PERSIST | EV_ET,
-                       TcpClient::_readHandler, this_));
-
-            assert(!::event_add(&this_->event_, nullptr));
-
-            this_->status_ = STATUS_CONNECTED;
-        }
-        else {
-            assert(false);
-        }
-    }
-
-
-
     static void
     _readHandler(int fd, short ev, void *arg)
     {
@@ -422,8 +315,10 @@ private:
 
         ressave = res;
 
+        sockfd_ = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
         do {
-            if (res->ai_addr->sa_family == AF_INET) {
+            if (!::connect(sockfd_, res->ai_addr, res->ai_addrlen)) {
                 ::memcpy(&saddr_, res->ai_addr, res->ai_addrlen);
                 break;
             }
@@ -433,20 +328,21 @@ private:
 
         ::freeaddrinfo(ressave);
 
-        sockfd_ = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
         assert(sockfd_ > 0);
-        assert(!evutil_make_socket_nonblocking(sockfd_));
-
         base_ = ::event_base_new();
         assert(base_);
 
-        status_ = STATUS_INITED;
+        assert(!::event_assign(
+                   &event_, base_, sockfd_, EV_READ | EV_PERSIST | EV_ET, TcpClient::_readHandler, this));
+        assert(!::event_add(&event_, nullptr));
+        assert(!evutil_make_socket_nonblocking(sockfd_));
+
+        std::thread t(std::bind(::event_base_dispatch, base_));
+        t.detach();
     }
 
 
 
-    int status_;
     int sockfd_;
     sockaddr_in saddr_;
     event_base *base_;

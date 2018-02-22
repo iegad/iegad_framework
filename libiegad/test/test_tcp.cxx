@@ -2,6 +2,7 @@
 #define TCP_TEST_CXX
 
 
+
 #include <iegad/net/tcp_server.hpp>
 #include <iegad/net/tcp_client.hpp>
 
@@ -14,6 +15,7 @@ public:
 
 
     EchoProtocol() {}
+
 
 
     int
@@ -50,18 +52,14 @@ readHandler(iegad::net::TcpClient *clnt)
 
 
 int
-main(int argc, char *argv[])
+main(int argc, char **)
 {
     if (argc > 1) {
         iegad::net::TcpClient clnt("127.0.0.1", "6688", readHandler);
+
         std::cout<<clnt.getEndPoint()<<std::endl;
-        if (clnt.connect()) {
-            std::cout<<"connected failed\n";
-        }
 
-        clnt.run(iegad::net::RUN_NONBLOCK);
-
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             int n = clnt.write("Hello world", 11);
             if (n != 11) {
                 std::cout<<"=== error ===\t"<<errno<<std::endl;
@@ -69,8 +67,6 @@ main(int argc, char *argv[])
 
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
-
-        clnt.stop();
     }
     else {
         EchoProtocol::TcpServer host("127.0.0.1", 6688);
