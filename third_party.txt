@@ -13,6 +13,7 @@
 * mysql++: c++ mysql库
 * soci: c++ 多数据库操作库
 * sigar: c 跨平台系统性能库
+* seastart: c++ 高性能库, 可用来作高并发服务器
 
 * 开源邮箱系统: postfix
 * 开源gis解决方案: Mapserver（服务器）+QGIS（桌面软件）+PostGIS（数据库）+Openlayers(JS)/ openscale (FLex)(浏览器客户端)
