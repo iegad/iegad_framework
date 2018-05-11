@@ -11,6 +11,9 @@ namespace iegad {
 namespace thrift_ex { 
 
 
+using namespace apache::thrift;
+
+
 template <typename __SVC_CLIENT_T_, typename __PROTOCOL_T_, bool __NON_BLOCK_>
 class thriftClient {
 // thrift客户端模板类
@@ -67,7 +70,7 @@ public:
     }
 
 
-    boost::shared_ptr<__SVC_CLIENT_T_>
+    stdcxx::shared_ptr<__SVC_CLIENT_T_>
     imp() 
     {
         return client_;
@@ -78,27 +81,27 @@ private:
     void 
     _init_nonblocking_clnt(const std::string & ipstr, int port) 
     {
-        sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
-        trans_ = boost::shared_ptr<TFramedTransport>(new TFramedTransport(sock_));
-        protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
-        client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
+        sock_ = stdcxx::shared_ptr<TSocket>(new TSocket(ipstr, port));
+        trans_ = stdcxx::shared_ptr<TFramedTransport>(new TFramedTransport(sock_));
+        protoc_ = stdcxx::shared_ptr<protocol_t>(new protocol_t(trans_));
+        client_ = stdcxx::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
     }
 
 
     void 
     _init_thread_clnt(const std::string & ipstr, int port) 
     {
-        sock_ = boost::shared_ptr<TSocket>(new TSocket(ipstr, port));
-        trans_ = boost::shared_ptr<TBufferedTransport>(new TBufferedTransport(sock_));
-        protoc_ = boost::shared_ptr<protocol_t>(new protocol_t(trans_));
-        client_ = boost::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
+        sock_ = stdcxx::shared_ptr<TSocket>(new TSocket(ipstr, port));
+        trans_ = stdcxx::shared_ptr<TBufferedTransport>(new TBufferedTransport(sock_));
+        protoc_ = stdcxx::shared_ptr<protocol_t>(new protocol_t(trans_));
+        client_ = stdcxx::shared_ptr<__SVC_CLIENT_T_>(new __SVC_CLIENT_T_(protoc_));
     }
 
 
-    boost::shared_ptr<TSocket> sock_;
-    boost::shared_ptr<protocol_t> protoc_;
-    boost::shared_ptr<TTransport> trans_;
-    boost::shared_ptr<__SVC_CLIENT_T_> client_;
+    stdcxx::shared_ptr<TSocket> sock_;
+    stdcxx::shared_ptr<protocol_t> protoc_;
+    stdcxx::shared_ptr<TTransport> trans_;
+    stdcxx::shared_ptr<__SVC_CLIENT_T_> client_;
 
 
     thriftClient(const thriftClient &);

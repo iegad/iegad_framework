@@ -40,6 +40,9 @@ namespace iegad {
 namespace thrift_ex {
 
 
+using namespace apache::thrift;
+
+
 template <class T>
 class serializer {
 // thrift 序列化器.
@@ -122,8 +125,8 @@ public:
         using ::apache::thrift::transport::TMemoryBuffer;
 
         try {
-            boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
-            boost::shared_ptr<TBinaryProtocol> proto(new TBinaryProtocol(buff));
+            stdcxx::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+            stdcxx::shared_ptr<TBinaryProtocol> proto(new TBinaryProtocol(buff));
             data.write(proto.get());
             uint8_t * p;
             buff->getBuffer(&p, (uint32_t *)size);
@@ -146,8 +149,8 @@ public:
         using ::apache::thrift::transport::TMemoryBuffer;
 
         try {
-            boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
-            boost::shared_ptr<TProtocol> proto(new TBinaryProtocol(buff));
+            stdcxx::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+            stdcxx::shared_ptr<TProtocol> proto(new TBinaryProtocol(buff));
             uint8_t * p = (uint8_t *)const_cast<char *>(serstr.c_str());
             buff->resetBuffer(p, serstr.size());
             data->read(proto.get());
@@ -167,8 +170,8 @@ public:
         using ::apache::thrift::protocol::TJSONProtocol;
         using ::apache::thrift::transport::TMemoryBuffer;
         try {
-            boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
-            boost::shared_ptr<TJSONProtocol> proto(new TJSONProtocol(buff));
+            stdcxx::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+            stdcxx::shared_ptr<TJSONProtocol> proto(new TJSONProtocol(buff));
             data.write(proto.get());
             uint8_t * p;
             buff->getBuffer(&p, (uint32_t *)size);
@@ -191,8 +194,8 @@ public:
         using ::apache::thrift::transport::TMemoryBuffer;
 
         try {
-            boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
-            boost::shared_ptr<TProtocol> proto(new TJSONProtocol(buff));
+            stdcxx::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+            stdcxx::shared_ptr<TProtocol> proto(new TJSONProtocol(buff));
             uint8_t * p = (uint8_t *)const_cast<char *>(serstr.c_str());
             buff->resetBuffer(p, serstr.size());
             data->read(proto.get());
@@ -213,8 +216,8 @@ public:
         using ::apache::thrift::transport::TMemoryBuffer;
 
         try {
-            boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
-            boost::shared_ptr<TCompactProtocol> proto(new TCompactProtocol(buff));
+            stdcxx::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+            stdcxx::shared_ptr<TCompactProtocol> proto(new TCompactProtocol(buff));
             data.write(proto.get());
             uint8_t * p;
             buff->getBuffer(&p, (uint32_t *)size);
@@ -237,8 +240,8 @@ public:
         using ::apache::thrift::transport::TMemoryBuffer;
 
         try {
-            boost::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
-            boost::shared_ptr<TProtocol> proto(new TCompactProtocol(buff));
+            stdcxx::shared_ptr<TMemoryBuffer> buff(new TMemoryBuffer);
+            stdcxx::shared_ptr<TProtocol> proto(new TCompactProtocol(buff));
             uint8_t * p = (uint8_t *)const_cast<char *>(serstr.c_str());
             buff->resetBuffer(p, serstr.size());
             data->read(proto.get());

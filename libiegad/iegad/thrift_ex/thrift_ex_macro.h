@@ -5,8 +5,10 @@
 // concurrency include
 #include <thrift/concurrency/ThreadManager.h>
 #include <thrift/concurrency/PlatformThreadFactory.h>
+#include <thrift/stdcxx.h>
 // transport include
 #include <thrift/transport/TSocket.h>
+#include <thrift/transport/TNonblockingServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 // server include
 #include <thrift/server/TThreadPoolServer.h>
