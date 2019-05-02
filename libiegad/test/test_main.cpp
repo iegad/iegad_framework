@@ -4,7 +4,6 @@
 #include <iegad/tools/iegad_log.hpp>
 
 
-
 /*
 int
 main(int argc, char* argv[])

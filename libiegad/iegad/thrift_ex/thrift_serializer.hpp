@@ -60,7 +60,7 @@ public:
     // @size : 序列化后的数据大小 : out参数
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool serializeToBinary(T & data, std::string * serstr, int * size);
+    static bool serializeToBinary(const T &data, std::string *serstr, int *size);
 
 
     // ============================
@@ -69,7 +69,7 @@ public:
     // @serstr : 用于反序列化的 字节数据
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool parseFromBinary(T * data, const std::string & serstr);
+    static bool parseFromBinary(T *data, const std::string & serstr);
 
 
     // ============================
@@ -79,7 +79,7 @@ public:
     // @size : 序列化后的 JSON串长度 : out参数
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool serializeToJSON(T & data, std::string * serstr, int * size);
+    static bool serializeToJSON(const T &data, std::string *serstr, int *size);
 
 
     // ============================
@@ -88,7 +88,7 @@ public:
     // @serstr : 用于反序列化的 JSON串
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool parseFromJSON(T * data, const std::string & serstr);
+    static bool parseFromJSON(T *data, const std::string & serstr);
 
 
     // ============================
@@ -98,7 +98,7 @@ public:
     // @size : 序列化后的 变长数据长度 : out参数
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool serializeToVarint(T & data, std::string * serstr, int * size);
+    static bool serializeToVarint(const T &data, std::string *serstr, int *size);
 
 
     // ============================
@@ -107,7 +107,7 @@ public:
     // @serstr : 用于反序列化的 变长数据
     // @返回值 : 成功返回 true, 否则返回 false.
     // ============================
-    static bool parseFromVarint(T * data, const std::string & serstr);
+    static bool parseFromVarint(T *data, const std::string &serstr);
 }; // class Serializer<T>;
 
 
@@ -117,7 +117,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::serializer<T>::serializeToBinary(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::serializer<T>::serializeToBinary(const T & data, std::string * serstr, int * size)
     {
         assert(serstr && size);
 
@@ -163,7 +163,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::serializer<T>::serializeToJSON(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::serializer<T>::serializeToJSON(const T & data, std::string * serstr, int * size)
     {
         assert(serstr && size);
 
@@ -208,7 +208,7 @@ public:
 
 
     template <class T>
-    bool iegad::thrift_ex::serializer<T>::serializeToVarint(T & data, std::string * serstr, int * size)
+    bool iegad::thrift_ex::serializer<T>::serializeToVarint(const T & data, std::string * serstr, int * size)
     {
         assert(serstr && size);
 

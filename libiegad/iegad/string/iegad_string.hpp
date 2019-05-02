@@ -780,6 +780,10 @@ public:
     static bool
     end_with(const std::string & src, const std::string & substr)
     {
+        if (src.length() < substr.length()) {
+            return false;
+        }
+
         std::string str = src.substr(src.size() - substr.size(), substr.size());
         return str == substr;
     }
@@ -790,6 +794,10 @@ public:
     static bool
     end_with(const std::wstring & src, const std::wstring & substr)
     {
+        if (src.length() < substr.length()) {
+            return false;
+        }
+
         std::wstring str = src.substr(src.size() - substr.size(), substr.size());
         return str == substr;
     }
