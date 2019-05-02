@@ -1,6 +1,15 @@
 # !/bin/sh
 
 
+# ====================================
+# @用途: 
+#       生成centos6.x systemd脚本
+#
+# @作者: iegad
+# @日期: 2019-05-01
+# ====================================
+
+
 GREEN_LINE='\033[32m'
 RED_LINE='\033[31m'
 YELLOW_LINE='\033[33m'
@@ -232,29 +241,3 @@ __main__() {
 
 __main__
 _release_var
-
-
-
-# case $1 in
-#     start )
-#         $_EXECUTE_CMD -c $_CONFIG
-#         ;;
-
-#     stop )
-#         $_EXECUTE_CMD -s quit
-#         ;;
-
-#     test )
-#         $_EXECUTE_CMD -t -c $_CONFIG
-#         ;;
-
-#     reload )
-#         $_EXECUTE_CMD -s reload
-#         ;;
-
-#     * )
-#         exit 1
-#         ;;
-# esac
-
-# exit 0
