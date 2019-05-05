@@ -70,7 +70,7 @@ _del_port() {
         return 1
     fi
 
-    printf "${GREEN_LINE}端口添加成功${NONE_LINE}\n"
+    printf "${GREEN_LINE}端口删除成功${NONE_LINE}\n"
     return 0
 }
 
