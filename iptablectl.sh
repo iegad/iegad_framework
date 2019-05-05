@@ -107,7 +107,6 @@ _set_forward() {
         protocol='tcp'
     fi
 
-    local preDstPort=
     `iptables -t nat -I PREROUTING  -p $protocol -d $srcHost  --dport $srcPort -j DNAT --to $dstHost:${dstPort/":"/"-"}`
     `iptables -t nat -I POSTROUTING -p $protocol -d $dstHost --dport $dstPort -j SNAT --to $srcHost`
 
