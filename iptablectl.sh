@@ -22,6 +22,9 @@ NONE_LINE='\033[0m'
 
 
 
+# =============================
+# @释放会话级变量
+# =============================
 _release_var() {
     unset GREEN_LINE
     unset RED_LINE
@@ -31,6 +34,9 @@ _release_var() {
 
 
 
+# =============================
+# @恢复CentOS6.x默认配置
+# =============================
 _set_default() {
     local fileName='/etc/sysconfig/iptables'
 
@@ -48,12 +54,22 @@ _set_default() {
     echo '-A FORWARD -j REJECT --reject-with icmp-host-prohibited' >> $fileName
     echo 'COMMIT' >> $fileName
 
-    printf "${GREEN_LINE}恢复默认设置成功, 需重启后才能生效.${NONE_LINE}\n"
+    `service iptables restart`
+
+    if [ $? != 0 ]; then
+        printf "${RED_LINE}service iptables restart 执行失败${NONE_LINE}\n"
+        return 1
+    fi
+
+    printf "${GREEN_LINE}恢复默认设置成功.${NONE_LINE}\n"
     exit 0
 }
 
 
 
+# =============================
+# @删除NAT转发
+# =============================
 _del_forward() {
     service iptables status
 
@@ -74,6 +90,9 @@ _del_forward() {
 
 
 
+# =============================
+# @禁止外部机器ping本机
+# =============================
 _ping_off() {
     `iptables -I INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP`
     if [ $? != 0 ]; then
@@ -86,6 +105,9 @@ _ping_off() {
 
 
 
+# =============================
+# @开启外部机器ping本机
+# =============================
 _ping_on() {
     `iptables -D INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP`
     if [ $? != 0 ]; then
@@ -98,6 +120,9 @@ _ping_on() {
 
 
 
+# =============================
+# @设置NAT转发
+# =============================
 _set_forward() {
     local srcHost=''
     local srcPort=''
@@ -154,6 +179,9 @@ _set_forward() {
 
 
 
+# =============================
+# @清空所有策略
+# =============================
 _cleanup() {
     iptables -F
     iptables -X
@@ -162,6 +190,9 @@ _cleanup() {
 
 
 
+# =============================
+# @添加开放端口
+# =============================
 _add_port() {
     local port=''
     local protocol=''
@@ -198,6 +229,10 @@ _add_port() {
 }
 
 
+
+# =============================
+# @删除开放端口
+# =============================
 _del_port() {
     service iptables status
 
@@ -218,6 +253,9 @@ _del_port() {
 
 
 
+# =============================
+# @保存现有策略
+# =============================
 _save() {
     service iptables save
     if [ $? != 0 ]; then
@@ -231,6 +269,9 @@ _save() {
 
 
 
+# =============================
+# @重启iptables服务
+# =============================
 _restart() {
     service iptables restart
     if [ $? != 0 ]; then
