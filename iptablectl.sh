@@ -2,6 +2,19 @@
 
 
 
+# ==============================================
+# @用途:
+#       为iptables常用操作提供交互模式
+# 
+# @作者: iegad
+# @时间: 2019-05-05
+# ==============================================
+# @修改记录:
+#  日期                   修改人                    修改说明
+# ==============================================
+
+
+
 GREEN_LINE='\033[32m'
 RED_LINE='\033[31m'
 YELLOW_LINE='\033[33m'
@@ -45,7 +58,7 @@ _del_forward() {
     service iptables status
 
     local num=''
-    printf "\n${GREEN_LINE}请选择要要删除的序号: ${NONE_LINE}"
+    printf "${GREEN_LINE}请选择要要删除的序号: ${NONE_LINE}"
     read num
 
     `iptables -D FORWARD ${num}`
@@ -56,6 +69,30 @@ _del_forward() {
     fi
 
     printf "${GREEN_LINE}FORWARD删除成功${NONE_LINE}\n"
+    return 0
+}
+
+
+
+_ping_off() {
+    `iptables -I INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP`
+    if [ $? != 0 ]; then
+        printf "${RED_LINE}iptables -I INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP 执行失败${NONE_LINE}\n"
+        return 1
+    fi
+
+    return 0
+}
+
+
+
+_ping_on() {
+    `iptables -D INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP`
+    if [ $? != 0 ]; then
+        printf "${RED_LINE}iptables -D INPUT -p icmp --icmp-type 8 -s 0/0 -j DROP 执行失败${NONE_LINE}\n"
+        return 1
+    fi
+
     return 0
 }
 
@@ -110,6 +147,8 @@ _set_forward() {
     `iptables -t nat -I PREROUTING  -p $protocol -d $srcHost  --dport $srcPort -j DNAT --to $dstHost:${dstPort/":"/"-"}`
     `iptables -t nat -I POSTROUTING -p $protocol -d $dstHost --dport $dstPort -j SNAT --to $srcHost`
 
+    printf "${GREEN_LINE}FORWARD设置成功${NONE_LINE}\n"
+
     return 0
 }
 
@@ -117,6 +156,7 @@ _set_forward() {
 
 _cleanup() {
     iptables -F
+    iptables -X
     return 0
 }
 
@@ -205,18 +245,23 @@ _restart() {
 
 __main__() {
     printf "${GREEN_LINE}请选择操作类型:\n"
+    printf "0) 请空所有策略!!!(慎重使用);\n"
     printf "1) 添加端口;\n"
     printf "2) 删除端口;\n"
     printf "3) 恢复默认设置;\n"
     printf "4) 添加nat转发;\n"
-    printf "5) 请空所有策略!!!(慎重使用);\n"
-    printf "6) 删除FORWARD --配置转发时请先删除<x REJECT all -- 0.0.0.0/0  0.0.0.0/0 reject-with icmp-host-prohibited>否则转发无法生效\n"
+    printf "5) 删除FORWARD --配置转发时请先删除<x REJECT all -- 0.0.0.0/0  0.0.0.0/0 reject-with icmp-host-prohibited>否则转发无法生效\n"
+    printf "6) 禁用ping;\n"
+    printf "7) 开启ping;\n"
     printf "${NONE_LINE}\n"
 
     local n=''
     read n
 
     case $n in
+        0 )
+            _cleanup
+            ;;
         1 )
             _add_port
             ;;
@@ -230,13 +275,17 @@ __main__() {
             _set_forward
             ;;
         5) 
-            _cleanup
+            _del_forward
             ;;
         6)
-            _del_forward
+            _ping_off
+            ;;
+        7)
+            _ping_on
             ;;
         * )
             printf "${RED_LINE}未知的选项${NONE_LINE}\n"
+            ;;
     esac
     
     if [ $? != 0 ]; then
