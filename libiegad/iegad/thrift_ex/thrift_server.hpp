@@ -234,7 +234,13 @@ private:
     _init_nonblock_svr() 
     {
         auto processor = stdcxx::make_shared<SvcProcessorFactory>(stdcxx::make_shared<SvcProcessorCloneFactory>());
-        NonblockingServerSocketPtr socket(new NonblockingServerSocket(port_));
+        NonblockingServerSocketPtr socket;
+        if (host_.length() == 0) {
+            socket = NonblockingServerSocketPtr(new NonblockingServerSocket(port_));
+        }
+        else {
+            socket = NonblockingServerSocketPtr(new NonblockingServerSocket(host_, port_));
+        }
         PlatformThreadFactoryPtr   threadFactory(new PlatformThreadFactory);
         ProtocolFactoryPtr         protocolFactory(new ProtocolFactory());
 
