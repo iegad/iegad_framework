@@ -35,7 +35,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
-#include <boost/uuid/sha1.hpp>
+#include <boost/uuid/detail/sha1.hpp>
 
 
 namespace iegad {
