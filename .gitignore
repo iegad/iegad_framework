@@ -1,5 +1,1 @@
-iegad/iegad.sln
-*.tlog
-*.db
-iegad/x64/*
-*.dll
+iegad/*
