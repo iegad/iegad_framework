@@ -22,15 +22,13 @@ public:
 
   static sess*
   create(event_base *base, evutil_socket_t fd) {
-    // ------------------------------
-    // onRead: 读事件句柄
     static bufferevent_data_cb onRead = [](bufferevent *be, void *arg) {
       char buf[4092];
       int n = 0;
       sess *c = (sess *)arg;
 
       if (c->nleft_ == 0) {
-        n = bufferevent_read(be, &c->nleft_, sizeof(c->nleft_));
+        n = static_cast<int>(bufferevent_read(be, &c->nleft_, sizeof(c->nleft_)));
         assert(n == 4);
 
         c->nleft_ = from_big_endian(c->nleft_);
@@ -38,7 +36,7 @@ public:
       }
 
       while(1) {
-        n = bufferevent_read(be, buf, sizeof(buf));
+        n = static_cast<int>(bufferevent_read(be, buf, sizeof(buf)));
         if (n <= 0) {
           break;
         }
@@ -48,7 +46,7 @@ public:
       }
 
       if (c->nleft_ == 0) {
-        int cfd = ::bufferevent_getfd(c->bev_);
+        evutil_socket_t cfd = bufferevent_getfd(c->bev_);
         n = writen(cfd, c->data_);
         if (n <= 0) {
             std::cout<<"writen failed...\n";
@@ -58,25 +56,24 @@ public:
       }
     };
 
-    // ------------------------------
-    // onRead: 错误事件句柄
-    static bufferevent_event_cb onError = [](bufferevent*, short events, void* arg){
+
+    static bufferevent_event_cb onError = [](bufferevent*, short events, void* arg) {
       if (events & BEV_EVENT_EOF) {
         std::cout << "conn disconnected" << std::endl;
-      } else if (events & BEV_EVENT_TIMEOUT) {
+      }
+      else if (events & BEV_EVENT_TIMEOUT) {
         std::cout << "conn timeout" << std::endl;
-      } else {
+      }
+      else {
         std::cout << "conn disconnected error: " << ::evutil_gai_strerror(errno) << std::endl;
       }
 
-      sess *c = (sess*)arg;
+      sess* c = (sess*)arg;
       sess::release(c);
     };
 
-    sess *c = new sess;
-    assert(c);
+    sess *c = new sess();
     c->bev_ = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-    assert(c->bev_);
 
     bufferevent_setcb(c->bev_, onRead, nullptr, onError, c);
     bufferevent_enable(c->bev_, EV_READ|EV_PERSIST|EV_ET);

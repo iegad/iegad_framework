@@ -28,9 +28,7 @@ public:
     lfd_ = bind_listen(host, svc);
     io_thread::ptr_t w = itp_->get();
 
-    // ---------------------------
-    // onAccept: 连接事件
-    event_callback_fn onAccept = [](evutil_socket_t lfd, short events, void *arg) {
+    static event_callback_fn onAccept = [](evutil_socket_t lfd, short events, void *arg) {
 
       static int i = 0;
       if (events & EV_READ) {
@@ -58,7 +56,7 @@ public:
 
     event *ev = ::event_new(w->base(), lfd_, EV_READ|EV_PERSIST|EV_ET, onAccept, w->base());
     assert(ev);
-    assert(!::event_add(ev, nullptr));
+    assert(!event_add(ev, nullptr));
 
     itp_->wait();
     ::event_free(ev);
