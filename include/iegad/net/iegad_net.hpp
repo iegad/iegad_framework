@@ -2,16 +2,6 @@
 #define __IEGAD_NET_HPP__
 
 
-// ============ 说明 ============
-//
-// @创建日期 : 2022-02-11
-// @创建人 : iegad
-//
-// ============================
-// @用途: 跨平台网络工具函数
-// ============================
-
-
 #include <string>
 #include <memory.h>
 #include <assert.h>
@@ -23,13 +13,7 @@ namespace iegad {
 namespace net {
 
 
-extern "C" {
-
-
-  // -----------------------
-  // init 网络初始化, 非windows下总是返回0
-  // @return 成功返回0, 否则返回-1
-  int
+  inline int
   init()
   {
 #ifdef WIN32
@@ -41,10 +25,8 @@ extern "C" {
     return 0;
   }
 
-  // -----------------------
-  // is_little_endian 当前平台是否为小端序
-  // @return 当前平台为小端序时返回true, 否则返回false
-  bool
+
+  inline bool
   is_little_endian()
   {
     static const uint16_t v = 0x0102;
@@ -53,19 +35,15 @@ extern "C" {
     return ret;
   }
   
-  // -----------------------
-  // is_big_endian 当前平台是否为大端序
-  // @return 当前平台为大端序时返回true, 否则返回false
-  bool
+
+  inline bool
   is_big_endian()
   {
     return !is_little_endian();
   }
 
 
-  // -----------------------
-  // to_big_endian 将当前平台字节序转为大端序
-  uint32_t
+  inline uint32_t
   to_big_endian(uint32_t v)
   {
     static bool lit = is_little_endian();
@@ -73,9 +51,7 @@ extern "C" {
   }
 
 
-  // -----------------------
-  // from_big_endian 将大端序转换为当前平台字节序
-  uint32_t
+  inline uint32_t
    from_big_endian(uint32_t v)
   {
     static bool lit = is_little_endian();
@@ -83,9 +59,7 @@ extern "C" {
   }
 
 
-  // -----------------------
-  // to_lit_endian 将当前平台字节序转为小端序
-  uint32_t
+  inline uint32_t
   to_little_endian(uint32_t v)
   {
     static bool lit = is_little_endian();
@@ -93,9 +67,7 @@ extern "C" {
   }
   
   
-  // -----------------------
-  // from_little_endian 将小端序转换为当前平台字节序
-  uint32_t
+  inline uint32_t
   from_little_endian(uint32_t v)
   {
     static bool lit = is_little_endian();
@@ -103,20 +75,15 @@ extern "C" {
   }
 
   
-  // -----------------------
-  // head_key 获取消息头的KEY值
-  uint32_t
+  inline uint32_t
   head_key()
   {
-    static uint32_t key = to_lit_endian(0xFAFBFCFD);
+    static uint32_t key = to_little_endian(0xFAFBFCFD);
     return key;
   }
 
 
-  // -----------------------
-  // bind_listen 监听TCP地址host:svc
-  // @return: 成功返回监听套接字 大于 0的值, 否则返回 -1
-  evutil_socket_t
+  inline evutil_socket_t
   bind_listen(const char* host, const char* svc)
   {
     addrinfo hints;
@@ -155,7 +122,7 @@ extern "C" {
   }
 
 
-  int
+  inline int
   writen(evutil_socket_t fd, const std::string& data)
   {
     uint32_t dlen = static_cast<uint32_t>(data.size());
@@ -181,7 +148,6 @@ extern "C" {
 
     return 1;
   }
-} // extern "C"
 
 
 } // namespace net

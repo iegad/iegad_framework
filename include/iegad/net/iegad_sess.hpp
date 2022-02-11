@@ -6,95 +6,87 @@
 #include <memory>
 #include <event2/bufferevent.h>
 #include <iegad/net/iegad_net.hpp>
+#include <iegad/net/iegad_processor.hpp>
 
 
 namespace iegad {
 namespace net {
 
 
+class server;
+
+
 class sess {
 public:
   static void
-  release(sess *c) {
+  release(sess *c) 
+  {
     delete c;
   }
 
-
-  static sess*
-  create(event_base *base, evutil_socket_t fd) {
-    static bufferevent_data_cb onRead = [](bufferevent *be, void *arg) {
-      char buf[4092];
-      int n = 0;
-      sess *c = (sess *)arg;
-
-      if (c->nleft_ == 0) {
-        n = static_cast<int>(bufferevent_read(be, &c->nleft_, sizeof(c->nleft_)));
-        assert(n == 4);
-
-        c->nleft_ = from_big_endian(c->nleft_);
-        c->nleft_ = ~c->nleft_ ^ head_key();
-      }
-
-      while(1) {
-        n = static_cast<int>(bufferevent_read(be, buf, sizeof(buf)));
-        if (n <= 0) {
-          break;
-        }
-
-        c->data_.append(std::string(buf, n));
-        c->nleft_ -= n;
-      }
-
-      if (c->nleft_ == 0) {
-        evutil_socket_t cfd = bufferevent_getfd(c->bev_);
-        n = writen(cfd, c->data_);
-        if (n <= 0) {
-            std::cout<<"writen failed...\n";
-            return;
-        }
-        c->data_.clear();
-      }
-    };
-
-
-    static bufferevent_event_cb onError = [](bufferevent*, short events, void* arg) {
-      if (events & BEV_EVENT_EOF) {
-        std::cout << "conn disconnected" << std::endl;
-      }
-      else if (events & BEV_EVENT_TIMEOUT) {
-        std::cout << "conn timeout" << std::endl;
-      }
-      else {
-        std::cout << "conn disconnected error: " << ::evutil_gai_strerror(errno) << std::endl;
-      }
-
-      sess* c = (sess*)arg;
-      sess::release(c);
-    };
-
-    sess *c = new sess();
-    c->bev_ = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-
-    bufferevent_setcb(c->bev_, onRead, nullptr, onError, c);
-    bufferevent_enable(c->bev_, EV_READ|EV_PERSIST|EV_ET);
-
-    return c;
-  }
-
-
-  ~sess()
+  static void
+  onError(bufferevent*, short events, void* arg)
   {
-    if (bev_) {
-      bufferevent_free(bev_);
-      bev_ = nullptr;
+    std::cout << "---------------------------" << std::endl;
+
+    if (events & BEV_EVENT_EOF) {
+      std::cout << "conn disconnected" << std::endl;
     }
+    else if (events & BEV_EVENT_TIMEOUT) {
+      std::cout << "conn timeout" << std::endl;
+    }
+    else {
+      std::cout << "conn disconnected error: " << ::evutil_gai_strerror(errno) << std::endl;
+    }
+
+    sess* c = (sess*)arg;
+    sess::release(c);
   }
+
+
+  static void onRead(bufferevent* be, void* arg);
+  static sess* create(event_base* base, evutil_socket_t fd, server* svr);
+
+  virtual ~sess();
 
 
 private:
-  sess(): nleft_(0), bev_(nullptr) {}
+  sess(evutil_socket_t cfd, server *svr): svr_(svr), fd_(cfd), nleft_(0), bev_(nullptr) {}
+  
+  
+  int
+  _read()
+  {
+    char buf[4092];
+    int n = 0;
 
+    if (nleft_ == 0) {
+      n = static_cast<int>(bufferevent_read(bev_, &nleft_, sizeof(nleft_)));
+      assert(n == 4);
 
+      nleft_ = from_big_endian(nleft_);
+      nleft_ = ~nleft_ ^ head_key();
+    }
+
+    while (1) {
+      n = static_cast<int>(bufferevent_read(bev_, buf, sizeof(buf)));
+      if (n <= 0) {
+        return -1;
+      }
+
+      data_.append(std::string(buf, n));
+      nleft_ -= n;
+    }
+
+    if (nleft_ == 0) {
+      return 1;
+    }
+
+    return 0;
+  }
+    
+  server *svr_;
+  evutil_socket_t fd_;
   uint32_t nleft_;
   bufferevent *bev_;
   std::string data_;

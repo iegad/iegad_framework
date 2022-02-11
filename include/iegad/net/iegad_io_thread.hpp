@@ -1,17 +1,6 @@
 #ifndef __IEGAD_NET_IO_THREAD_HPP__
 #define __IEGAD_NET_IO_THREAD_HPP__
 
-// ============ 说明 ============
-//
-// @创建日期 : 2022-02-11
-// @创建人 : iegad
-//
-// ============================
-// @用途 : 
-//
-// @PS : std::string 为参数的 所有函数, 均不适合处理中文.
-// ============================
-
 
 #include <atomic>
 #include <memory>
